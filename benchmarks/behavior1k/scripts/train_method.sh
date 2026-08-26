@@ -5,7 +5,7 @@ usage() {
   cat >&2 <<'EOF'
 Usage: train_method.sh --method METHOD --dataset DATASET --run-id ID [options]
 
-Methods: vggt_surflo, pi05, cosmos_policy
+Methods: vggt_surflo, pi05, fastwam, cosmos_policy
 Options:
   --steps N          Training steps (default: 10; suitable only for a smoke test)
   --batch-size N     Global batch size (default: 4)
@@ -14,6 +14,9 @@ Options:
 
 For pi05 set OPENPI_ROOT and OPENPI_CONFIG. OPENPI_ASSET_ID defaults to
 turning_on_radio. The OpenPI config must already point to --dataset.
+
+For fastwam set FASTWAM_ROOT; it must contain the committed BEHAVIOR config.
+FASTWAM_CONDA_ENV defaults to fastwam and FASTWAM_NPROC_PER_NODE defaults to 1.
 EOF
 }
 
@@ -57,6 +60,13 @@ case "$method" in
     stats_path="$OPENPI_ROOT/outputs/assets/$OPENPI_CONFIG/$asset_id/norm_stats.json"
     stats_command=(uv run --no-sync scripts/compute_norm_stats.py --config-name "$OPENPI_CONFIG")
     command=(env "CUDA_VISIBLE_DEVICES=$gpus" "XLA_PYTHON_CLIENT_MEM_FRACTION=${XLA_PYTHON_CLIENT_MEM_FRACTION:-0.85}" uv run --no-sync scripts/b1k/train_b1k.py "$OPENPI_CONFIG" "--exp_name=$run_id" --overwrite "--batch_size=$batch_size" "--num_train_steps=$steps")
+    ;;
+  fastwam)
+    : "${FASTWAM_ROOT:?Set FASTWAM_ROOT to the pinned FastWAM checkout}"
+    fastwam_config="${FASTWAM_CONFIG:-behavior1k_radio_uncond_3cam_384_1e-4}"
+    fastwam_env="${FASTWAM_CONDA_ENV:-fastwam}"
+    fastwam_nproc="${FASTWAM_NPROC_PER_NODE:-1}"
+    command=(env "CUDA_VISIBLE_DEVICES=" "FASTWAM_B1K_DATASET_ROOT=" "RUN_ID=" "WANDB_MODE=offline" conda run --no-capture-output -n "" bash scripts/train_zero1.sh "" "task=" "batch_size=" "max_steps=")
     ;;
   cosmos_policy)
     echo "Cosmos Policy is intentionally blocked: complete benchmarks/behavior1k/adapters/cosmos_policy.md first." >&2

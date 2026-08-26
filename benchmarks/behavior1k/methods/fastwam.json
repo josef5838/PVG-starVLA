@@ -1,0 +1,10 @@
+{
+  "method": "fastwam",
+  "status": "ready_for_training",
+  "training_checkout": "yuantianyuan01/FastWAM",
+  "training_environment": "fastwam",
+  "required_config": "behavior1k_radio_uncond_3cam_384_1e-4",
+  "inputs": ["head_rgb", "left_wrist_rgb", "right_wrist_rgb", "proprioception", "language"],
+  "training_contract": {"action_dimension": 23, "proprioception_dimension": 61, "model_action_horizon": 32, "video_backend": "pyav"},
+  "notes": "Requires the FastWAM BEHAVIOR adapter branch, its ActionDiT backbone, and precomputed text embeddings before execution."
+}
