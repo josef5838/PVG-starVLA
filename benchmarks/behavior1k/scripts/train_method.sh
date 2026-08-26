@@ -95,5 +95,7 @@ if [[ "$method" == pi05 ]]; then
     (cd "$OPENPI_ROOT" && "${stats_command[@]}")
   fi
   cd "$OPENPI_ROOT"
+elif [[ "$method" == fastwam ]]; then
+  cd "$FASTWAM_ROOT"
 fi
 exec "${command[@]}"
