@@ -66,7 +66,7 @@ case "$method" in
     fastwam_config="${FASTWAM_CONFIG:-behavior1k_radio_uncond_3cam_384_1e-4}"
     fastwam_env="${FASTWAM_CONDA_ENV:-fastwam}"
     fastwam_nproc="${FASTWAM_NPROC_PER_NODE:-1}"
-    command=(env "CUDA_VISIBLE_DEVICES=" "FASTWAM_B1K_DATASET_ROOT=" "RUN_ID=" "WANDB_MODE=offline" conda run --no-capture-output -n "" bash scripts/train_zero1.sh "" "task=" "batch_size=" "max_steps=")
+    command=(env "CUDA_VISIBLE_DEVICES=$gpus" "FASTWAM_B1K_DATASET_ROOT=$dataset" "RUN_ID=$run_id" "WANDB_MODE=offline" conda run --no-capture-output -n "$fastwam_env" bash scripts/train_zero1.sh "$fastwam_nproc" "task=$fastwam_config" "batch_size=$batch_size" "max_steps=$steps")
     ;;
   cosmos_policy)
     echo "Cosmos Policy is intentionally blocked: complete benchmarks/behavior1k/adapters/cosmos_policy.md first." >&2
