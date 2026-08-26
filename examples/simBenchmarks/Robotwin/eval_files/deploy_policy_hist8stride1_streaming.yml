@@ -1,0 +1,32 @@
+policy_name: model2robotwin_interface
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# StarVLA Client Parameters
+host: "127.0.0.1"
+port: 5694
+unnorm_key: "new_embodiment"
+action_mode: "abs"
+normalization_mode: "min_max"  # options: min_max, q99
+
+# For pool_type: hierarchical_gated (Option B streaming-memory) checkpoints.
+# video_observation_indices still selects the frames sent per replan, but
+# here it must cover exactly ONE chunk (chunk_timesteps=8 at training time)
+# — NOT a lookback window, since history beyond this chunk lives only in
+# the carried memory tensor (see ModelClient.streaming / predict_action_streaming).
+video_observation_indices: [0, -1, -2, -3, -4, -5, -6, -7]
+num_history_steps: 8
+
+# Must equal chunk_timesteps (8): replanning cadence must match the chunk
+# boundary the memory was trained to update on. A mismatch would send
+# partial/misaligned chunks to predict_action_streaming.
+execute_horizon: 8
+
+# Routes replans through predict_action_streaming and carries a persistent
+# global-memory tensor across the episode (reset to the model's learned
+# initial query at episode start) instead of re-encoding a fixed window
+# from scratch every replan.
+streaming: true

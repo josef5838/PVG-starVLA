@@ -1,0 +1,20 @@
+policy_name: model2robotwin_interface
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# StarVLA Client Parameters
+host: "127.0.0.1"
+port: 5694
+unnorm_key: "new_embodiment"
+action_mode: "abs"
+normalization_mode: "min_max"  # options: min_max, q99
+
+# Must match len(AgilexDataConfig.video_observation_indices) used to train the
+# checkpoint (starVLA/dataloader/gr00t_lerobot/data_config.py). Use this
+# template only for checkpoints trained with the T=9 (3 timesteps x 3 cameras)
+# history buffering; the default deploy_policy.yml stays at num_history_steps=1
+# for older checkpoints.
+num_history_steps: 3

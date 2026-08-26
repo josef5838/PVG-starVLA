@@ -1,0 +1,34 @@
+{
+  "state": {
+    "proprio": {
+      "start": 0,
+      "end": 61,
+      "dtype": "float32",
+      "original_key": "observation.state"
+    }
+  },
+  "action": {
+    "control": {
+      "start": 0,
+      "end": 23,
+      "dtype": "float32",
+      "original_key": "action"
+    }
+  },
+  "video": {
+    "head": {
+      "original_key": "observation.rgb.zed_link_camera_0"
+    },
+    "left_wrist": {
+      "original_key": "observation.rgb.left_realsense_link_camera_0"
+    },
+    "right_wrist": {
+      "original_key": "observation.rgb.right_realsense_link_camera_0"
+    }
+  },
+  "annotation": {
+    "human.action.task_description": {
+      "original_key": "task_index"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+policy_name: model2robotwin_interface
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# StarVLA Client Parameters
+host: "127.0.0.1"
+port: 5694
+unnorm_key: "new_embodiment"
+action_mode: "abs"
+normalization_mode: "min_max"  # options: min_max, q99
+
+# Identical to deploy_policy_hist9.yml (the config that reproduced the
+# original hist9_outdomain run at ~28% on rotate_qrcode) EXCEPT
+# execute_horizon is now set to 8, isolating that single variable against
+# the ablation_vggt_omega_nostate_hist9_smoke checkpoint — same
+# architecture (cross_only), same state_scale (0.0), same history window
+# ([0,-1,-2]), same training budget (6000 steps). If success rate collapses
+# here too, execute_horizon=8 (receding-horizon replanning) is implicated
+# directly, independent of pooling architecture / state / history-window
+# confounds.
+num_history_steps: 3
+execute_horizon: 8

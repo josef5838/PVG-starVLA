@@ -858,11 +858,21 @@ class AgilexDataConfig:
 
     language_keys = ["annotation.human.action.task_description"]
     observation_indices = [0]
+    # Video history buffer: [current, t-1 replan cycle ago, t-2 replan cycles
+    # ago] (most-recent-first), stride matched to execute_horizon=8 (the
+    # eval-time replanning cadence — see model2robotwin_interface.py) rather
+    # than adjacent physical steps. Adjacent frames (stride=1) barely differ
+    # within a single 8-step replan window; striding by execute_horizon gives
+    # the DiT a genuinely different snapshot from each of the last two
+    # decision cycles instead of near-duplicates of "now". State/language
+    # keep `observation_indices` (single current step) — only video widens
+    # the observation window.
+    video_observation_indices = [0, -8, -16]
     action_indices = list(range(16))
 
     def modality_config(self):
         video_modality = ModalityConfig(
-            delta_indices=self.observation_indices,
+            delta_indices=self.video_observation_indices,
             modality_keys=self.video_keys,
         )
         state_modality = ModalityConfig(
@@ -912,6 +922,39 @@ class AgilexDataConfig:
         ]
 
         return ComposedModalityTransform(transforms=transforms)
+
+
+
+class AgilexDataConfigHist3Stride1(AgilexDataConfig):
+    """AgilexDataConfig variant with adjacent-frame history ([0, -1, -2],
+    stride=1) instead of AgilexDataConfig's default stride=8 (matched to
+    execute_horizon). Exists to A/B the two against each other on the same
+    task without a shared mutable class attribute racing across concurrent
+    training runs -- each robot_type maps to a distinct class instance.
+    """
+
+    video_observation_indices = [0, -1, -2]
+
+
+class AgilexDataConfigHist8Stride1(AgilexDataConfig):
+    """AgilexDataConfig variant with a longer adjacent-frame history
+    ([0, -1, ..., -7], 8 consecutive steps, stride=1) instead of
+    AgilexDataConfig's default 3-step wide-stride ([0, -8, -16]). Tests
+    whether a longer but consecutive observation window helps.
+    """
+
+    video_observation_indices = [0, -1, -2, -3, -4, -5, -6, -7]
+
+
+class AgilexDataConfigHist24Stride1(AgilexDataConfig):
+    """AgilexDataConfig variant with 24 consecutive timesteps
+    ([0, -1, ..., -23], stride=1), feeding HierarchicalGatedMemoryPool's
+    staged training: pool_num_chunks=3 x pool_chunk_timesteps=8. See the
+    identically-named class in examples/Robotwin/train_files/data_registry
+    /data_config.py for the full rationale.
+    """
+
+    video_observation_indices = list(range(0, -24, -1))
 
 ###########################################################################################
 
@@ -1088,6 +1131,9 @@ ROBOT_TYPE_CONFIG_MAP = {
     "demo_sim_franka_delta_joints": SingleFrankaRobotiqDeltaJointsDataConfig(),
     "arx_x5": ArxX5DataConfig(),
     "robotwin": AgilexDataConfig(),
+    "robotwin_hist3stride1": AgilexDataConfigHist3Stride1(),
+    "robotwin_hist8stride1": AgilexDataConfigHist8Stride1(),
+    "robotwin_hist24stride1": AgilexDataConfigHist24Stride1(),
     "robotwin50": AgilexData50Config(),
     "fourier_gr1_arms_waist": FourierGr1ArmsWaistDataConfig(),
     "vla_arena_franka": VLAArenaFrankaDataConfig(),

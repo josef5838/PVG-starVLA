@@ -1,0 +1,31 @@
+{
+  "name": "behavior1k-v1",
+  "benchmark": "BEHAVIOR-1K 2026",
+  "behavior_version": "v3.9.2",
+  "robot": {
+    "config": "omnigibson/eval/r1pro.yaml",
+    "action_dimension": 23,
+    "proprioception_dimension": 61
+  },
+  "inference_inputs": {
+    "allowed": ["head_rgb", "left_wrist_rgb", "right_wrist_rgb", "proprioception", "language"],
+    "forbidden": ["segmentation", "object_state", "target_pose", "global_pose", "external_camera", "precomputed_privileged_features"]
+  },
+  "camera_order": ["head_rgb", "left_wrist_rgb", "right_wrist_rgb"],
+  "language_source": "meta/tasks.jsonl",
+  "action_chunk": {
+    "max_model_horizon": 32,
+    "execute_horizon": 16
+  },
+  "evaluation": {
+    "development_mode": "train",
+    "final_mode": "public_test",
+    "final_instance_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "write_video": true
+  },
+  "reporting": {
+    "primary_metric": "q_score",
+    "secondary_metrics": ["time", "normalized_agent_distance", "inference_ms", "invalid_action_count", "timeout_count"],
+    "required_training_seeds": 3
+  }
+}

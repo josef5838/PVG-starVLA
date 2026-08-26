@@ -11,6 +11,9 @@ from typing import Dict, List, Tuple
 # Dataset mixture name mapped to a list of tuples containing:
 ## {nakename: [(data_name, sampling_weight, robot_type)] }
 DATASET_NAMED_MIXTURES = {
+    "robotwin_stack_blocks_three": [
+        ("stack_blocks_three", 1.0, "robotwin"),
+    ],
 
     "custom_dataset": [
         ("custom_dataset_name", 1.0, "custom_robot_config"),
@@ -349,6 +352,30 @@ DATASET_NAMED_MIXTURES = {
 
     "robotwin_task1": [
         ("adjust_bottle", 1.0, "robotwin"),
+    ],
+    "robotwin_rotate_qrcode": [
+        ("rotate_qrcode", 1.0, "robotwin"),
+    ],
+    # Same underlying stack_blocks_three data as robotwin_stack_blocks_three
+    # (auto-registered by generate_robotwin_data.sh), but tagged with the
+    # robotwin_hist3stride1 robot_type to apply adjacent-frame ([0,-1,-2])
+    # history instead of AgilexDataConfig's default stride-8 history — lets
+    # the two be trained as separate processes without racing on a shared
+    # mutable class attribute.
+    "robotwin_stack_blocks_three_hist3stride1": [
+        ("stack_blocks_three", 1.0, "robotwin_hist3stride1"),
+    ],
+    # 24 consecutive timesteps for HierarchicalGatedMemoryPool's staged
+    # training (3 chunks x 8 timesteps each) — see AgilexDataConfigHist24Stride1.
+    "robotwin_stack_blocks_three_hist24stride1": [
+        ("stack_blocks_three", 1.0, "robotwin_hist24stride1"),
+    ],
+    # Same underlying rotate_qrcode data as robotwin_rotate_qrcode, tagged
+    # with the robotwin_hist8stride1 robot_type to apply a longer adjacent-
+    # frame ([0,-1,...,-7], 8 steps) history instead of AgilexDataConfig's
+    # default 3-step wide-stride history.
+    "robotwin_rotate_qrcode_hist8stride1": [
+        ("rotate_qrcode", 1.0, "robotwin_hist8stride1"),
     ],
     "robotwin_task2": [
         ("place_a2b_left", 1.0, "robotwin"),

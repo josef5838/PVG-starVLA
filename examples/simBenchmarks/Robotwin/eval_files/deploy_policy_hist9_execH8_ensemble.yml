@@ -1,0 +1,38 @@
+policy_name: model2robotwin_interface
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# StarVLA Client Parameters
+host: "127.0.0.1"
+port: 5694
+unnorm_key: "new_embodiment"
+action_mode: "abs"
+normalization_mode: "min_max"  # options: min_max, q99
+
+# Must match len(AgilexDataConfig.video_observation_indices) used to train the
+# checkpoint (starVLA/dataloader/gr00t_lerobot/data_config.py). Use this
+# template only for checkpoints trained with the T=9 (3 timesteps x 3 cameras)
+# history buffering; the default deploy_policy.yml stays at num_history_steps=1
+# for older checkpoints.
+num_history_steps: 3
+
+# Partial-chunk (receding-horizon) execution: predict the full action_chunk_size
+# (16) but only execute the first 8 steps before replanning, instead of the
+# full chunk open-loop. Bounds chunk-boundary staleness at the cost of ~2x
+# the DDIM sampling calls per episode. Must be <= the checkpoint's
+# action_chunk_size (16 for DiT-L action_horizon=16).
+execute_horizon: 8
+
+# Temporal ensembling: blend the execute_horizon steps about to run against
+# overlapping predictions from recent past chunks (AdaptiveEnsembler, stride-
+# aware for execute_horizon < action_chunk_size). Only useful when chunks
+# overlap, i.e. execute_horizon < action_chunk_size — smooths chunk-boundary
+# transitions on top of what partial-chunk execution alone already does.
+action_ensemble: true
+adaptive_ensemble_alpha: 0.1
+# action_ensemble_horizon left unset: defaults to
+# ceil(action_chunk_size / execute_horizon) = ceil(16/8) = 2, exactly the
+# number of past chunks that can ever overlap with this execute_horizon.

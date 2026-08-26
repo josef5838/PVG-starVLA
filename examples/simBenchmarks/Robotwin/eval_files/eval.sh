@@ -9,7 +9,7 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 
-ROBOTWIN_PATH="${ROBOTWIN_PATH:-/mnt/data/gaoning/code_repos/RoboTwin}"
+ROBOTWIN_PATH="${ROBOTWIN_PATH:-/export/home/haoliang/projects/RoboTwin}"
 if [[ ! -d "${ROBOTWIN_PATH}" ]]; then
     echo "ROBOTWIN_PATH does not exist: ${ROBOTWIN_PATH}" >&2
     exit 1
@@ -49,6 +49,7 @@ gpu_id="${5:-0}"
 policy_ckpt_path="$6"
 policy_port="${7:-${ROBOTWIN_POLICY_PORT:-5694}}"
 policy_host="${8:-${ROBOTWIN_POLICY_HOST:-127.0.0.1}}"
+seeds_file="${9:-}"  # optional: path to whitespace-separated seed list for in-domain eval
 robotwin_python="${ROBOTWIN_PYTHON:-python}"
 deploy_policy_template="${DEPLOY_POLICY_TEMPLATE_PATH:-${SCRIPT_DIR}/deploy_policy.yml}"
 
@@ -78,6 +79,9 @@ export PYTHONPATH="${ROBOTWIN_PATH}:${PYTHONPATH:-}"
 export PYTHONPATH="${STARVLA_PATH}:${PYTHONPATH}"
 export PYTHONPATH="${EVAL_FILES_PATH}:${PYTHONPATH}"
 
+# Prepend the conda env's bin dir so subprocesses (e.g. ffmpeg) find conda-installed tools
+export PATH="$(dirname "${robotwin_python}"):${PATH}"
+
 cd "${ROBOTWIN_PATH}"
 
 echo "PYTHONPATH: ${PYTHONPATH}"
@@ -86,9 +90,15 @@ echo "task_config: ${task_config}"
 echo "ckpt_setting: ${ckpt_setting}"
 echo "policy_port: ${policy_port}"
 
+seeds_file_arg=()
+if [[ -n "${seeds_file}" && -f "${seeds_file}" ]]; then
+    seeds_file_arg=(--seeds_file "${seeds_file}")
+fi
+
 PYTHONWARNINGS=ignore::UserWarning \
 "${robotwin_python}" script/eval_policy.py --config "${runtime_deploy_policy}" \
     --policy_ckpt_path "${policy_ckpt_path}" \
+    "${seeds_file_arg[@]}" \
     --overrides \
     --task_name "${task_name}" \
     --task_config "${task_config}" \

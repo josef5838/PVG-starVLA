@@ -1,0 +1,33 @@
+policy_name: model2robotwin_interface
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# StarVLA Client Parameters
+host: "127.0.0.1"
+port: 5694
+unnorm_key: "new_embodiment"
+action_mode: "abs"
+normalization_mode: "min_max"  # options: min_max, q99
+
+# Must match AgilexDataConfig.video_observation_indices used to train the
+# checkpoint exactly, both count AND spacing (starVLA/dataloader/gr00t_lerobot
+# /data_config.py). [0, -8, -16] matches AgilexDataConfig's default wide
+# stride (matched to execute_horizon=8 below) — NOT 3 adjacent frames.
+# Previously this only set num_history_steps: 3, which the eval client
+# silently misinterpreted as "last 3 CONSECUTIVE real steps" ([0,-1,-2])
+# rather than [0,-8,-16] — model2robotwin_interface.py's image-history
+# buffer only ever flattened whatever was buffered, with no stride-aware
+# subsampling. Fixed there; set the explicit offsets here so it can't
+# silently drift out of sync with training again.
+video_observation_indices: [0, -8, -16]
+num_history_steps: 3
+
+# Partial-chunk (receding-horizon) execution: predict the full action_chunk_size
+# (16) but only execute the first 8 steps before replanning, instead of the
+# full chunk open-loop. Bounds chunk-boundary staleness at the cost of ~2x
+# the DDIM sampling calls per episode. Must be <= the checkpoint's
+# action_chunk_size (16 for DiT-L action_horizon=16).
+execute_horizon: 8

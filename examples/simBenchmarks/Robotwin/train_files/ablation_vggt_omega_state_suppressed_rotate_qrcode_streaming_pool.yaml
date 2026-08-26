@@ -1,0 +1,103 @@
+run_id: ablation_vggt_omega_state_suppressed_rotate_qrcode_streaming_pool
+run_root_dir: results/Checkpoints
+seed: 42
+wandb_entity: mango_juice
+wandb_project: vggt-omega-ablation
+is_debug: false
+version_id: "0.21"
+
+# ── VGGTOmegaOFT with suppressed state conditioning, rotate_qrcode ───────────
+# Identical to ablation_vggt_omega_state_suppressed.yaml (the baseline
+# checkpoint at results/Checkpoints/ablation_vggt_omega_state_suppressed_hist9)
+# except visual_backbone.pool_type=streaming, which selects StreamingMemoryPool
+# (recurrent cross+self-attention over a bounded 3-step sliding window, with a
+# learned per-offset recency embedding) instead of the baseline's flat
+# single-shot cross-attention over the whole 9-image window.
+# pool_window_steps=3 matches AgilexDataConfig.video_observation_indices=
+# [0,-8,-16] (3 history timesteps). Full 6000-step run (not a quick smoke
+# test) so the final checkpoint is directly comparable in training budget to
+# the baseline hist9 checkpoint — see memory_pool.py.
+#
+# NOTE: the baseline checkpoint (ablation_vggt_omega_state_suppressed_hist9)
+# was saved by a process that had already imported the pre-pooling-redesign
+# code (flat visual_attn_query/visual_cross_attn attributes) before
+# memory_pool.py existed, so it can't be reloaded by current code for a
+# side-by-side eval without a compat shim — same issue as the deleted
+# stack_blocks_three_hist9 checkpoint. Its wandb metrics (loss curves) remain
+# valid for comparison even though the checkpoint itself isn't reloadable.
+# ─────────────────────────────────────────────────────────────────────────────
+framework:
+  name: VGGTOmegaOFT
+
+  visual_backbone:
+    type: vggt_omega
+    freeze_backbone: true
+    pool_type: streaming
+    pool_self_attn_layers: 2
+    pool_window_steps: 3
+
+  vggt_omega:
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_256_text.pt
+    freeze_backbone: true
+
+  clip_text:
+    model_name: openai/clip-vit-base-patch32
+    freeze: true
+
+  action_model:
+    action_model_type: DiT-L
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    state_dim: 14
+
+  # state_scale=0.1 brings state variance (0.198*0.1=0.020) in line with
+  # visual variance (0.029), preventing state from dominating the condition.
+  state_scale: 0.1
+
+  action_norm:
+    stats_path: playground/Datasets/RoboTwin/rotate_qrcode/meta/stats_gr00t.json
+
+datasets:
+  vla_data:
+    dataset_py: lerobot_datasets
+    include_state: true
+    data_root_dir: playground/Datasets/RoboTwin
+    data_mix: robotwin_rotate_qrcode
+    action_type: abs_qpos
+    visual_feature_cache: vggt_omega
+    per_device_batch_size: 128
+    num_workers: 8
+    load_all_data_for_training: true
+    obs_image_size: [224, 224]
+    video_backend: torchvision_av
+
+trainer:
+  max_train_steps: 6000
+  num_warmup_steps: 600
+  save_interval: 2000
+  eval_interval: 500
+  learning_rate:
+    base: 6.0e-04
+    visual_pool: 6.0e-04
+    visual_proj: 6.0e-04
+    text_proj: 6.0e-04
+    state_proj: 6.0e-04
+    action_model: 6.0e-04
+  lr_scheduler_type: cosine_with_min_lr
+  scheduler_specific_kwargs:
+    min_lr: 3.0e-05
+  freeze_modules: 'vggt_omega,clip_text_model'
+  loss_scale:
+    vla: 1.0
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  logging_frequency: 10
+  gradient_clipping: 1.0
+  gradient_accumulation_steps: 1
+
+  optimizer:
+    name: AdamW
+    betas: [0.9, 0.95]
+    eps: 1.0e-08
+    weight_decay: 1.0e-08

@@ -1,0 +1,6 @@
+# Generated, often large benchmark artifacts.
+runs/
+artifacts/
+results/
+*.mp4
+*.log

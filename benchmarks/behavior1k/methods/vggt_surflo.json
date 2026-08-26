@@ -1,0 +1,10 @@
+{
+  "method": "vggt_surflo",
+  "status": "ready",
+  "training_checkout": "StarVLA",
+  "training_environment": "starVLA",
+  "server": "examples/simBenchmarks/Behavior/serve_vggt_omega_2026.py",
+  "checkpoint_bundle": ["checkpoint", "config.yaml", "dataset_statistics.json", "tasks.jsonl"],
+  "inputs": ["head_rgb", "left_wrist_rgb", "right_wrist_rgb", "proprioception", "language"],
+  "notes": "Use the existing 2026 training configuration and server. The server normalizes the 61-D state and unnormalizes 23-D actions from checkpoint statistics."
+}

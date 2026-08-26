@@ -19,11 +19,21 @@ class AgilexDataConfig:
     state_key_dims  = {"state.left_joints": 6, "state.right_joints": 6, "state.left_gripper": 1, "state.right_gripper": 1}
     language_keys = ["annotation.human.action.task_description"]
     observation_indices = [0]
+    # Video history buffer: [current, t-1 replan cycle ago, t-2 replan cycles
+    # ago] (most-recent-first), stride matched to execute_horizon=8 (the
+    # eval-time replanning cadence — see model2robotwin_interface.py) rather
+    # than adjacent physical steps. State/language keep `observation_indices`
+    # (single current step) — only video widens the observation window.
+    # NOTE: this file is the RoboTwin-specific override that registry.py's
+    # discover_and_merge() loads and merges OVER the base
+    # starVLA/dataloader/gr00t_lerobot/data_config.py definitions (robot_type
+    # "robotwin" collides and this one wins) — keep both in sync.
+    video_observation_indices = [0, -8, -16]
     action_indices = list(range(16))
 
     def modality_config(self):
         return {
-            "video": ModalityConfig(delta_indices=self.observation_indices, modality_keys=self.video_keys),
+            "video": ModalityConfig(delta_indices=self.video_observation_indices, modality_keys=self.video_keys),
             "state": ModalityConfig(delta_indices=self.observation_indices, modality_keys=self.state_keys),
             "action": ModalityConfig(delta_indices=self.action_indices, modality_keys=self.action_keys),
             "language": ModalityConfig(delta_indices=self.observation_indices, modality_keys=self.language_keys),
@@ -48,6 +58,39 @@ class AgilexDataConfig:
                 },
             ),
         ])
+
+
+class AgilexDataConfigHist3Stride1(AgilexDataConfig):
+    """Adjacent-frame history ([0, -1, -2], stride=1) variant — see the
+    identically-named class in starVLA/dataloader/gr00t_lerobot/data_config.py
+    for the full rationale. Registered separately here since this file
+    overrides "robotwin" in the merged registry."""
+
+    video_observation_indices = [0, -1, -2]
+
+
+class AgilexDataConfigHist8Stride1(AgilexDataConfig):
+    """Adjacent-frame history ([0, -1, ..., -7], 8 consecutive steps,
+    stride=1) — tests whether a longer but adjacent-frame observation window
+    helps, as opposed to AgilexDataConfig's default 3-step wide-stride
+    ([0, -8, -16]). Registered separately here since this file overrides
+    "robotwin" in the merged registry."""
+
+    video_observation_indices = [0, -1, -2, -3, -4, -5, -6, -7]
+
+
+class AgilexDataConfigHist24Stride1(AgilexDataConfig):
+    """Adjacent-frame history ([0, -1, ..., -23], 24 consecutive steps,
+    stride=1) — feeds HierarchicalGatedMemoryPool's staged training:
+    pool_num_chunks=3 x pool_chunk_timesteps=8 consecutive timesteps each.
+    Unlike AgilexDataConfigHist8Stride1's single flat 8-frame window (0%
+    rollout SR — near-duplicate frames with no temporal diversity), each
+    8-timestep block here gets its own separate backbone pass and chunk-level
+    pool; temporal diversity comes from the sequence of 3 chunk summaries,
+    not from within-chunk frame differences. Registered separately here
+    since this file overrides "robotwin" in the merged registry."""
+
+    video_observation_indices = list(range(0, -24, -1))
 
 
 # ---------------------------------------------------------------------------
@@ -122,6 +165,9 @@ class ArxX5DataConfig:
 
 ROBOT_TYPE_CONFIG_MAP = {
     "robotwin": AgilexDataConfig(),
+    "robotwin_hist3stride1": AgilexDataConfigHist3Stride1(),
+    "robotwin_hist8stride1": AgilexDataConfigHist8Stride1(),
+    "robotwin_hist24stride1": AgilexDataConfigHist24Stride1(),
     "robotwin50": AgilexData50Config(),
     "arx_x5": ArxX5DataConfig(),
 }

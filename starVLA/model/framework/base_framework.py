@@ -7,6 +7,7 @@ Note: No device placement or optimizer concerns handled here (delegated to train
 """
 
 import importlib
+import os
 import pkgutil
 from pathlib import Path
 from typing import Any, Dict, List, Sequence
@@ -62,6 +63,15 @@ def _auto_import_framework_modules() -> None:
     if _FRAMEWORKS_IMPORTED:
         return
 
+    explicit_modules = os.environ.get("STARVLA_FRAMEWORK_MODULES", "").strip()
+    if explicit_modules:
+        for module_name in explicit_modules.split(","):
+            module_name = module_name.strip()
+            if module_name:
+                importlib.import_module(module_name)
+        _FRAMEWORKS_IMPORTED = True
+        return
+
     _SKIP = {"__init__", "base_framework", "share_tools"}
     framework_dir = Path(__file__).resolve().parent
 
@@ -82,7 +92,7 @@ def _auto_import_framework_modules() -> None:
     _FRAMEWORKS_IMPORTED = True
 
 
-def build_framework(cfg): # The single entry point for building different model frameworks
+def build_framework(cfg):  # The single entry point for building different model frameworks
     """
     Build a framework model from config.
     Args:
@@ -299,6 +309,24 @@ class baseframework(PreTrainedModel):
             model_state_dict = load_file(str(pretrained_checkpoint))
         else:
             model_state_dict = torch.load(pretrained_checkpoint, map_location="cpu")
+
+        # Pre-pooling-redesign checkpoints stored the visual pooling
+        # cross-attention as flat top-level attributes (`visual_attn_query`,
+        # `visual_cross_attn.*`); current code always nests pooling modules
+        # under `visual_pool` (e.g. LegacyCrossAttnPool's `visual_pool.query`,
+        # `visual_pool.cross_attn.*`). Remap so those old checkpoints still
+        # load — no-op for any checkpoint that doesn't have the old keys.
+        legacy_pool_key_map = {
+            "visual_attn_query": "visual_pool.query",
+            "visual_cross_attn.in_proj_weight": "visual_pool.cross_attn.in_proj_weight",
+            "visual_cross_attn.in_proj_bias": "visual_pool.cross_attn.in_proj_bias",
+            "visual_cross_attn.out_proj.weight": "visual_pool.cross_attn.out_proj.weight",
+            "visual_cross_attn.out_proj.bias": "visual_pool.cross_attn.out_proj.bias",
+        }
+        for old_key, new_key in legacy_pool_key_map.items():
+            if old_key in model_state_dict and new_key not in model_state_dict:
+                model_state_dict[new_key] = model_state_dict.pop(old_key)
+
         # logger.info(f"Loading model weights from `{pretrained_checkpoint}`")
         model_keys = set(FrameworkModel.state_dict().keys())
         checkpoint_keys = set(model_state_dict.keys())

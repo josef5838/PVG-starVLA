@@ -103,7 +103,7 @@ class WebsocketPolicyServer:
             return {"status": "ok", "ok": True, "type": "ping", "request_id": req_id}
 
         # infer --> framework.predict_action
-        elif mtype == "infer" or mtype == "predict_action":
+        elif mtype == "infer" or mtype == "predict_action" or mtype == "predict_action_streaming":
             # Basic payload sanity
             if not isinstance(payload, dict):
                 return {
@@ -114,7 +114,10 @@ class WebsocketPolicyServer:
                     "error": {"message": "Payload must be a dict", "payload_type": str(type(payload))},
                 }
             try:
-                output_dict = self._policy.predict_action(**payload)
+                if mtype == "predict_action_streaming":
+                    output_dict = self._policy.predict_action_streaming(**payload)
+                else:
+                    output_dict = self._policy.predict_action(**payload)
             except Exception as e:
                 logging.exception("Policy inference error (request_id=%s)", req_id)
                 logging.exception(e)

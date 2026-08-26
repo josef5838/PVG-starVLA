@@ -140,8 +140,8 @@ Examples:
 
 Environment variables (lower priority than flags):
   ROBOTWIN_PATH              Path to the RoboTwin repository
-  ROBOTWIN_STARVLA_ENV       Conda env name for the policy server (default: starvla)
-  ROBOTWIN_ENV               Conda env name for RoboTwin eval (default: robotwin)
+  ROBOTWIN_STARVLA_ENV       Conda env name for the policy server (default: starVLA)
+  ROBOTWIN_ENV               Conda env name for RoboTwin eval (default: RoboTwin)
   STARVLA_PYTHON             Explicit python path for starvla (skips conda env lookup)
   ROBOTWIN_PYTHON            Explicit python path for robotwin (skips conda env lookup)
 EOF
@@ -390,6 +390,8 @@ launch_task_in_slot() {
             "${gpu_id}" \
             "${CKPT_PATH}" \
             "${port}" \
+            "127.0.0.1" \
+            "${SEEDS_FILE}" \
             > >(tee "${eval_log}" | grep --line-buffered "Success rate" | sed -u "s/^/[RESULT] ${task_name}: /") 2>&1
     ) &
 
@@ -410,6 +412,7 @@ opt_jobs=""
 opt_port=""
 opt_timeout=""
 opt_install=false
+SEEDS_FILE=""
 
 while (( $# > 0 )); do
     case "$1" in
@@ -420,6 +423,7 @@ while (( $# > 0 )); do
         -j|--jobs-per-gpu)  opt_jobs="$2"; shift 2 ;;
         -p|--base-port)     opt_port="$2"; shift 2 ;;
         --server-timeout)   opt_timeout="$2"; shift 2 ;;
+        --seeds-file)       SEEDS_FILE="$2"; shift 2 ;;
         --install-deps)     opt_install=true; shift ;;
         -h|--help)          usage; exit 0 ;;
         -*)                 echo "Unknown option: $1" >&2; usage; exit 1 ;;
@@ -442,6 +446,8 @@ if [[ ! -f "${CKPT_PATH}" ]]; then
     echo "Checkpoint path does not exist: ${CKPT_PATH}" >&2
     exit 1
 fi
+# Resolve to absolute path so LOG_DIR stays valid after subshell cd's.
+CKPT_PATH="$(realpath "${CKPT_PATH}")"
 
 if (( $# == 0 )); then
     echo "No tasks specified." >&2
@@ -457,8 +463,8 @@ if ${opt_install}; then
     ROBOTWIN_AUTO_INSTALL_DEPS=1
 fi
 
-STARVLA_PYTHON="$(resolve_python "${STARVLA_PYTHON:-}" "${ROBOTWIN_STARVLA_ENV:-starvla}")"
-ROBOTWIN_PYTHON="$(resolve_python "${ROBOTWIN_PYTHON:-}" "${ROBOTWIN_ENV:-robotwin}")"
+STARVLA_PYTHON="$(resolve_python "${STARVLA_PYTHON:-}" "${ROBOTWIN_STARVLA_ENV:-starVLA}")"
+ROBOTWIN_PYTHON="$(resolve_python "${ROBOTWIN_PYTHON:-}" "${ROBOTWIN_ENV:-RoboTwin}")"
 export STARVLA_PYTHON ROBOTWIN_PYTHON
 
 echo "[INFO] starvla python: ${STARVLA_PYTHON}"

@@ -1,0 +1,10 @@
+{
+  "method": "cosmos_policy",
+  "status": "planned",
+  "training_checkout": "NVlabs/cosmos-policy",
+  "training_environment": "Cosmos Policy environment",
+  "server": "requires BEHAVIOR/R1Pro websocket adapter",
+  "blocking_requirements": ["R1Pro 23-D action transform", "three-camera observation mapping", "61-D state transform", "dataset statistics", "official BEHAVIOR websocket conformance test"],
+  "inputs": ["head_rgb", "left_wrist_rgb", "right_wrist_rgb", "proprioception", "language"],
+  "notes": "The method must remain absent from comparison tables until the adapter passes the same smoke rollout as the other policies."
+}

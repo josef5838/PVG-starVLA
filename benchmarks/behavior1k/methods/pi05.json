@@ -1,0 +1,16 @@
+{
+  "method": "pi05",
+  "status": "ready_with_external_openpi_config",
+  "training_checkout": "OpenPI behavior branch",
+  "training_environment": "OpenPI uv environment",
+  "server": "scripts/b1k/serve_b1k.py",
+  "required_config": "pi05_b1k_radio",
+  "required_config_changes": {
+    "repo_id": "turning_on_radio",
+    "dataset_root": "the local LeRobot v3 dataset root",
+    "robot_config_name": "b1k/R1Pro"
+  },
+  "checkpoint_bundle": ["OpenPI checkpoint directory", "outputs/assets/<config>/turning_on_radio/norm_stats.json", "resolved training config"],
+  "inputs": ["head_rgb", "left_wrist_rgb", "right_wrist_rgb", "proprioception", "language"],
+  "notes": "Do not use OpenPI's hard-coded train_b1k.sh helper. Invoke scripts/b1k/train_b1k.py directly."
+}

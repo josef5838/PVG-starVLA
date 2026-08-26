@@ -1,0 +1,136 @@
+run_id: ablation_vggt_omega_state_suppressed_stack_blocks_three_streaming_memory_auxloss_ddpfix
+run_root_dir: results/Checkpoints
+seed: 42
+wandb_entity: mango_juice
+wandb_project: vggt-omega-ablation
+is_debug: false
+version_id: "0.21"
+
+# ── VGGTOmegaOFT, Option B: true stateful streaming memory, stack_blocks_three ──
+# Trained via starVLA/training/train_streaming.py, NOT the standard
+# train_starvla.py — this is genuinely stateful, ordered-episode training,
+# not the standard i.i.d.-random-window pipeline.
+#
+# num_slots (=per_device_batch_size) independent, parallel episode streams
+# each advance by one 8-timestep chunk per training step, carrying a
+# persistent global-memory tensor across steps (detached each step --
+# truncated BPTT, length 1). No fixed lookback window or chunk count: memory
+# accumulates across however many chunks an episode actually has
+# (stack_blocks_three episodes average 467 steps / ~58 chunks). Avoids the
+# redundant prefix recomputation that made the earlier fixed-3-chunk
+# "replay mode" hierarchical_gated run cost ~48 backbone calls/step for
+# ~23.5h total; this design needs ~1 backbone call/step (no gradient
+# accumulation — 24-image chunks at batch=32 match hist8stride1's own
+# validated-safe batch size).
+#
+# per_device_batch_size=32 here means num_slots (parallel episode streams),
+# not a standard dataloader batch — smaller than the 128 used everywhere
+# else tonight, a known, deliberate scope reduction to avoid the added
+# complexity of splitting accumulation across independently-progressing
+# slot groups. See episode_chunk_stream.py / VGGTOmegaOFT.streaming_step.
+# ─────────────────────────────────────────────────────────────────────────────
+framework:
+  name: VGGTOmegaOFT
+
+  visual_backbone:
+    type: vggt_omega
+    freeze_backbone: true
+    pool_type: hierarchical_gated
+    pool_chunk_timesteps: 8
+
+  vggt_omega:
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_256_text.pt
+    freeze_backbone: true
+
+  clip_text:
+    model_name: openai/clip-vit-base-patch32
+    freeze: true
+
+  action_model:
+    action_model_type: DiT-L
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    state_dim: 14
+
+  # state_scale=0.1 brings state variance (0.198*0.1=0.020) in line with
+  # visual variance (0.029), preventing state from dominating the condition.
+  state_scale: 0.1
+
+  # Auxiliary chunk-level action loss (VGGTOmegaOFT.streaming_step): predicts
+  # each chunk's own ground-truth action directly from chunk_summary,
+  # bypassing global_pool, weighted in alongside the main streaming loss.
+  # Added to counter a diagnosed collapse in the original streaming_memory
+  # run (same config minus this field, same seed, 1000 steps): chunk_pool
+  # learned a near content-independent output (>0.99 cosine similarity of
+  # chunk_summary across genuinely different real scenes) because the
+  # recurrent gate's gradient back into it was too weak on its own. This
+  # run is the ablation: everything else held fixed (seed, LR, data,
+  # architecture, no warm-start) so any difference at the matching 1000-step
+  # checkpoint isolates the aux loss's effect; the extra 1000 steps (to
+  # 2000 total) separately checks whether more training alone would have
+  # helped.
+  chunk_aux_loss_weight: 0.3
+
+  action_norm:
+    stats_path: playground/Datasets/RoboTwin/stack_blocks_three/meta/stats_gr00t.json
+
+datasets:
+  vla_data:
+    dataset_py: lerobot_datasets
+    include_state: true
+    data_root_dir: playground/Datasets/RoboTwin
+    # streaming_data_name/streaming_robot_type: consumed directly by
+    # train_streaming.py's prepare_stream(), NOT the standard
+    # build_dataloader/data_mix path (data_mix is unused here).
+    streaming_data_name: stack_blocks_three
+    streaming_robot_type: robotwin_hist8stride1
+    action_type: abs_qpos
+    per_device_batch_size: 32
+    num_workers: 8
+    obs_image_size: [224, 224]
+    video_backend: torchvision_av
+
+trainer:
+  # Same nominal schedule as the auxloss run this is superseding, but that
+  # run (and the original no-aux-loss run before it) both silently trained
+  # as two NON-synchronized DDP replicas (train_streaming.py called
+  # raw_model.streaming_step() directly on the unwrapped module, which
+  # bypasses DistributedDataParallel's gradient-sync hooks -- confirmed via
+  # a minimal 2-process repro showing divergent post-backward gradients
+  # per rank). Only rank 0's weights were ever saved, so those checkpoints
+  # actually only saw rank 0's local batch of 32/step (64,000 chunks over
+  # 2000 steps), with rank 1's compute entirely wasted. This run fixes that
+  # (VGGTOmegaOFT.forward() now dispatches to the streaming path so DDP's
+  # hooks fire, plus find_unused_parameters=True, verified to produce
+  # bit-identical gradients across ranks) -- so at the SAME max_train_steps,
+  # this run gets the real effective batch 64 (128,000 chunks total), 2x
+  # the data volume of every prior streaming_memory checkpoint.
+  max_train_steps: 2000
+  num_warmup_steps: 200
+  save_interval: 500
+  eval_interval: 250
+  learning_rate:
+    base: 6.0e-04
+    visual_pool: 6.0e-04
+    visual_proj: 6.0e-04
+    text_proj: 6.0e-04
+    state_proj: 6.0e-04
+    action_model: 6.0e-04
+  lr_scheduler_type: cosine_with_min_lr
+  scheduler_specific_kwargs:
+    min_lr: 3.0e-05
+  freeze_modules: 'vggt_omega,clip_text_model'
+  loss_scale:
+    vla: 1.0
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  logging_frequency: 10
+  gradient_clipping: 1.0
+  gradient_accumulation_steps: 1
+
+  optimizer:
+    name: AdamW
+    betas: [0.9, 0.95]
+    eps: 1.0e-08
+    weight_decay: 1.0e-08
