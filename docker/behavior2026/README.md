@@ -68,4 +68,3 @@ POLICY_PORT=8010 POLICY_DTYPE=fp16 EXECUTE_HORIZON=8 \
 4. Rebuild after source or dependency changes.
 5. Before submission, build an immutable image that copies the selected bundle
    into the same `/models` layout and rerun the identical tests on a 24 GB GPU.
-
