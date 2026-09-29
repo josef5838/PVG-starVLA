@@ -196,7 +196,33 @@ Check that the first batch has 3 images, state shape `(1, 61)`, action shape
 step count. Batch size 4 is a conservative H100 starting point; increase it
 only after measuring peak memory.
 
+For SurfloDiT training on another machine, clone the StarVLA development fork
+and the matching Surflo fork. Transfer `behavior-1k-2026` and the released
+`surflo_v0.pt` separately; neither belongs in Git. The launcher overrides the
+machine-specific paths in the base YAML:
+
+```bash
+cd /path/to/PVG-starVLA
+export SURFLO_ROOT=/path/to/Surflo
+export BEHAVIOR_DATA_ROOT=/path/to/Datasets  # contains behavior-1k-2026/
+export PYTHON_BIN=/path/to/starVLA-env/bin/python
+CUDA_VISIBLE_DEVICES=0 bash examples/simBenchmarks/Behavior/train_files/run_surflo_dit_turn_on_radio_2026.sh \
+  --run_id surflo_camera3_six_part_state_20k \
+  --framework.surflo.append_per_view_camera_tokens true \
+  --framework.state_conditioning parts \
+  --framework.action_model.num_condition_tokens 138 \
+  --trainer.max_train_steps 20000 \
+  --trainer.save_interval 10000
+```
+
+Set `NUM_PROCESSES` and make `accelerate` available in the same environment
+for multi-GPU training. Use a distinct `run_id` for every experiment.
+
 ## 4. Return the checkpoint bundle
+
+For SurfloDiT checkpoints, use [SURFLO_BUNDLE.md](SURFLO_BUNDLE.md) instead of
+the VGGT-Omega run-directory copy below. It handles frozen versus trained
+Surflo backbones and bundles the architecture code needed on RTX.
 
 Transfer the whole run directory, not only the `.pt` file. Loading requires
 `config.yaml` and `dataset_statistics.json` two levels above the checkpoint.

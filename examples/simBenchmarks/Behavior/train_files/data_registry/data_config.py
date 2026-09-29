@@ -54,4 +54,5 @@ DATASET_NAMED_MIXTURES = {
     # compatible with the 61-dimensional 2026 proprioception layout.
     "BEHAVIOR_challenge": [("BEHAVIOR_challenge", 1.0, "R1Pro")],
     "behavior_1k_2026": [("behavior-1k-2026", 1.0, "behavior_r1pro_2026")],
+    "behavior_1k_2026_turn_on_radio": [("behavior-1k-2026", 1.0, "behavior_r1pro_2026")],
 }

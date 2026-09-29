@@ -176,7 +176,10 @@ class Behavior2026Server:
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ckpt-path", required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--ckpt-path")
+    source.add_argument("--bundle", type=Path, help="Portable SurfloDiT bundle directory")
+    parser.add_argument("--surflo-root", type=Path, help="Local Surflo checkout for --bundle")
     parser.add_argument("--tasks-jsonl", required=True, type=Path)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8000)
@@ -222,7 +225,15 @@ def main():
         args.dtype = "bf16" if args.bf16 else "fp32"
     dtype = resolve_dtype(args.dtype, args.device)
     LOGGER.info("Loading policy on %s with dtype %s", args.device, dtype)
-    model = baseframework.from_pretrained(args.ckpt_path)
+    if args.bundle is not None:
+        if args.surflo_root is None:
+            raise ValueError("--bundle requires --surflo-root")
+        from starVLA.model.framework.surflo_bundle import resolve_surflo_bundle
+
+        checkpoint, overrides, _ = resolve_surflo_bundle(args.bundle, args.surflo_root)
+        model = baseframework.from_pretrained(str(checkpoint), config_overrides=overrides)
+    else:
+        model = baseframework.from_pretrained(args.ckpt_path)
     model = model.to(device=args.device, dtype=dtype).eval()
     policy = Behavior2026Policy(
         model=model,

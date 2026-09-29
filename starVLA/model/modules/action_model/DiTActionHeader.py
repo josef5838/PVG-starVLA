@@ -87,6 +87,7 @@ class ActionModel(nn.Module):
         past_action_window_size,
         diffusion_steps=100,
         noise_schedule="squaredcos_cap_v2",
+        num_condition_tokens=64,
     ):
         """
         Initialize diffusion model and backbone.
@@ -126,6 +127,7 @@ class ActionModel(nn.Module):
             learn_sigma=learn_sigma,
             future_action_window_size=future_action_window_size,
             past_action_window_size=past_action_window_size,
+            n_conditon_token=num_condition_tokens,
         )
 
     def forward(self, gt_action, condition, **kwargs):
@@ -216,6 +218,7 @@ def get_action_model(model_typ="DiT-B", config=None):
     action_horizon = int(action_model_cfg.action_horizon)
     past_action_window_size = 0
     future_action_window_size = action_horizon - 1
+    num_condition_tokens = int(getattr(action_model_cfg, "num_condition_tokens", 64))
 
     return ActionModel(
         model_type=model_type,  # Model type, e.g., 'DiT-B'
@@ -223,4 +226,5 @@ def get_action_model(model_typ="DiT-B", config=None):
         in_channels=action_dim,  # Input channel size
         future_action_window_size=future_action_window_size,  # Future action window size
         past_action_window_size=past_action_window_size,  # Past action window size
+        num_condition_tokens=num_condition_tokens,
     )

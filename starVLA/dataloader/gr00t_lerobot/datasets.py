@@ -1591,8 +1591,12 @@ class LeRobotSingleDataset(Dataset):
                 video_file_index = episode_meta["data/file_index"]
             video_filename = self.video_path_pattern.format(
                 video_key=original_key,
-                chunk_index=episode_meta["data/chunk_index"],
-                file_index=episode_meta["data/file_index"],
+                # In LeRobot v3, each camera stream can be chunked differently
+                # from the parquet data.  Use the stream-specific assignment
+                # resolved above; falling back to the data file can silently
+                # decode a frame from an unrelated recording segment.
+                chunk_index=video_chunk_index,
+                file_index=video_file_index,
             )
         return self.dataset_path / video_filename
 

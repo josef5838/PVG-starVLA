@@ -1,0 +1,212 @@
+from types import SimpleNamespace
+
+import numpy as np
+import torch
+from PIL import Image
+
+from starVLA.model.framework.VLM4A.SurfloDiT import R1PRO_STATE_PARTS, SurfloDiT
+
+
+class _FakeSurfaceNet:
+    def get_compressed_tokens(self, token_list, patch_start_idx, vggt_world_points):
+        return torch.ones(token_list[0].shape[0], 128, 4), None
+
+    def get_compressed_camera_tokens(self, token_list, patch_start_idx):
+        return torch.ones(token_list[0].shape[0], 1, 4)
+
+    def _build_camera_tokens(self, token_list, patch_start_idx):
+        return torch.arange(3, dtype=torch.float32).view(1, 3, 1).expand(token_list[0].shape[0], 3, 4)
+
+
+class _FakeSurflo:
+    def __init__(self):
+        self.surface_net = _FakeSurfaceNet()
+
+    def vggt(self, images, return_aggregated_tokens):
+        assert return_aggregated_tokens
+        assert images.shape[1:] == (3, 3, 14, 14)
+        return {
+            "aggregated_tokens_list": [torch.zeros(images.shape[0], 3, 1, 4)],
+            "patch_start_idx": 0,
+            "world_points": torch.zeros(images.shape[0], 3, 1, 1, 3),
+        }
+
+
+def test_surflo_tokens_and_state_form_dit_condition():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = _FakeSurflo()
+    model.freeze_surflo = True
+    model.append_camera_token = True
+    model.append_per_view_camera_tokens = False
+    model.state_conditioning = "add"
+    model.visual_proj = torch.nn.Linear(4, 8)
+    model.state_proj = torch.nn.Linear(61, 8)
+    model.image_size = 14
+    model.num_views = 3
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_scale=1.0))
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+    examples = [{"image": [image, image, image], "state": np.zeros((1, 61), dtype=np.float32)}] * 2
+
+    condition = model._condition(examples)
+
+    assert condition.shape == (2, 129, 8)
+
+
+def test_per_view_camera_tokens_and_state_token_keep_their_own_slots():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = _FakeSurflo()
+    model.freeze_surflo = True
+    model.append_camera_token = True
+    model.append_per_view_camera_tokens = True
+    model.state_conditioning = "token"
+    model.visual_proj = torch.nn.Linear(4, 8)
+    model.state_proj = torch.nn.Linear(61, 8)
+    model.image_size = 14
+    model.num_views = 3
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_scale=1.0, state_dropout_prob=0.0))
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+    examples = [{"image": [image] * 3, "state": np.zeros((1, 61), dtype=np.float32)}] * 2
+
+    condition = model._condition(examples)
+
+    assert condition.shape == (2, 133, 8)
+    assert not torch.equal(condition[:, 129], condition[:, 130])
+    assert not torch.equal(condition[:, 130], condition[:, 131])
+    assert torch.allclose(condition[:, 132], model.state_proj(torch.zeros(2, 61)))
+
+
+def test_state_token_requires_state():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = _FakeSurflo()
+    model.freeze_surflo = True
+    model.append_camera_token = True
+    model.append_per_view_camera_tokens = True
+    model.state_conditioning = "token"
+    model.visual_proj = torch.nn.Linear(4, 8)
+    model.state_proj = torch.nn.Linear(61, 8)
+    model.image_size = 14
+    model.num_views = 3
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_scale=1.0))
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+
+    try:
+        model._condition([{"image": [image] * 3}])
+    except ValueError as error:
+        assert "requires a state" in str(error)
+    else:
+        raise AssertionError("Expected missing state to be rejected")
+
+
+def test_six_body_part_tokens_use_the_r1pro_state_slices():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = _FakeSurflo()
+    model.freeze_surflo = True
+    model.append_camera_token = True
+    model.append_per_view_camera_tokens = True
+    model.state_conditioning = "parts"
+    model.visual_proj = torch.nn.Linear(4, 8)
+    model.state_proj = torch.nn.ModuleDict({
+        name: torch.nn.Linear(part.stop - part.start, 8, bias=False)
+        for name, part in R1PRO_STATE_PARTS
+    })
+    for projection in model.state_proj.values():
+        torch.nn.init.ones_(projection.weight)
+    model.state_part_embeddings = torch.nn.Parameter(torch.zeros(6, 8))
+    model.image_size = 14
+    model.num_views = 3
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_scale=1.0, state_dropout_prob=0.0))
+    state = np.zeros(61, dtype=np.float32)
+    for index, (_, part) in enumerate(R1PRO_STATE_PARTS, start=1):
+        state[part] = index
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+
+    condition = model._condition([{"image": [image] * 3, "state": state}])
+
+    assert condition.shape == (1, 138, 8)
+    expected = [3, 16, 63, 16, 105, 24]
+    assert torch.allclose(condition[0, 132:, 0], torch.tensor(expected, dtype=torch.float32))
+
+
+def test_six_body_part_state_dropout_removes_all_part_tokens():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_dropout_prob=1.0))
+    parts = torch.ones(2, 6, 8)
+
+    assert torch.equal(model._apply_state_dropout(parts, enabled=True), torch.zeros_like(parts))
+
+
+def test_state_dropout_removes_only_state_conditioning_when_enabled():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_dropout_prob=1.0))
+    state_features = torch.ones(2, 8)
+
+    assert torch.equal(model._apply_state_dropout(state_features, enabled=True), torch.zeros_like(state_features))
+    assert torch.equal(model._apply_state_dropout(state_features, enabled=False), state_features)
+
+
+def test_state_dropout_rejects_invalid_probability():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.config = SimpleNamespace(framework=SimpleNamespace(state_dropout_prob=1.1))
+
+    try:
+        model._apply_state_dropout(torch.ones(1, 8), enabled=True)
+    except ValueError as error:
+        assert "state_dropout_prob" in str(error)
+    else:
+        raise AssertionError("Expected invalid state dropout probability to be rejected")
+
+
+def test_surflo_rejects_temporal_image_history():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.visual_proj = torch.nn.Linear(4, 8)
+    model.image_size = 14
+    model.num_views = 3
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+
+    try:
+        model._prepare_images([{"image": [image] * 6}])
+    except ValueError as error:
+        assert "one observation timestep" in str(error)
+    else:
+        raise AssertionError("Expected temporal history to be rejected")
+
+
+def test_reference_checkpoint_restores_policy_and_keeps_local_backbone():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = torch.nn.Linear(2, 2)
+    model.visual_proj = torch.nn.Linear(2, 2)
+    model.config = SimpleNamespace(framework=SimpleNamespace(surflo=SimpleNamespace(weights_mode="reference")))
+    original_backbone = model.surflo_backbone.weight.detach().clone()
+    policy_weights = {key: torch.zeros_like(value) for key, value in model.state_dict().items()
+                      if not key.startswith("surflo_backbone.")}
+
+    model.load_pretrained_state_dict(policy_weights)
+
+    assert torch.equal(model.surflo_backbone.weight, original_backbone)
+    assert torch.equal(model.visual_proj.weight, torch.zeros_like(model.visual_proj.weight))
+
+
+def test_embedded_checkpoint_requires_backbone_weights():
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = torch.nn.Linear(2, 2)
+    model.visual_proj = torch.nn.Linear(2, 2)
+    model.config = SimpleNamespace(framework=SimpleNamespace(surflo=SimpleNamespace(weights_mode="embedded")))
+    policy_weights = {key: value for key, value in model.state_dict().items()
+                      if not key.startswith("surflo_backbone.")}
+
+    try:
+        model.load_pretrained_state_dict(policy_weights)
+    except RuntimeError as error:
+        assert "missing Surflo weights" in str(error)
+    else:
+        raise AssertionError("Expected missing embedded backbone weights to be rejected")

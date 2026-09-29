@@ -32,7 +32,7 @@ except ImportError:
     pass
 
 import wandb
-from accelerate import Accelerator, DeepSpeedPlugin
+from accelerate import Accelerator, DistributedDataParallelKwargs
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
 from omegaconf import OmegaConf
@@ -47,8 +47,16 @@ from starVLA.model.framework.share_tools import apply_config_compat
 from starVLA.training.trainer_utils.config_tracker import AccessTrackedConfig, wrap_config
 from starVLA.training.trainer_utils.trainer_tools import TrainerUtils, build_param_lr_groups, setup_optimizer_and_scheduler, normalize_dotlist_args
 
-deepspeed_plugin = DeepSpeedPlugin()
-accelerator = Accelerator(deepspeed_plugin=deepspeed_plugin)
+if os.environ.get("STARVLA_DISABLE_DEEPSPEED", "").lower() in {"1", "true", "yes"}:
+    # SurfloDiT exposes optional trainable branches; native multi-GPU DDP
+    # must track them so an unused branch does not leave a reduction pending.
+    ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
+    accelerator = Accelerator(kwargs_handlers=[ddp_kwargs])
+else:
+    from accelerate import DeepSpeedPlugin
+
+    deepspeed_plugin = DeepSpeedPlugin()
+    accelerator = Accelerator(deepspeed_plugin=deepspeed_plugin)
 accelerator.print(accelerator.state)
 
 # Sane Defaults
@@ -260,13 +268,19 @@ class VLATrainer(TrainerUtils):
         self.accelerator.load_state(checkpoint_path)
         self.accelerator.print(f"Resumed from checkpoint: {checkpoint_path}")
 
+    def _model_state_dict(self):
+        """Return model weights without importing DeepSpeed for native Accelerate runs."""
+        if os.environ.get("STARVLA_DISABLE_DEEPSPEED", "").lower() in {"1", "true", "yes"}:
+            return self.model.state_dict()
+        return self.accelerator.get_state_dict(self.model)
+
     def _save_checkpoint(self):
         """Save current training state."""
         if self.accelerator.is_main_process:
             save_format = getattr(self.config.trainer, "save_format", "pt")
             checkpoint_path = os.path.join(self.checkpoint_dir, f"steps_{self.completed_steps}")
 
-            state_dict = self.accelerator.get_state_dict(self.model)
+            state_dict = self._model_state_dict()
             if save_format == "safetensors":
                 from safetensors.torch import save_file
 
@@ -374,7 +388,15 @@ class VLATrainer(TrainerUtils):
         """Run simple action-eval on current batch and attach score to metrics."""
         examples = self._get_next_batch()
         actions = [example["action"] for example in examples]
-        output_dict = self.accelerator.unwrap_model(self.model).predict_action(
+        # Accelerate imports DeepSpeed while unwrapping, even when this run
+        # explicitly disables DeepSpeed because CUDA_HOME is unavailable.
+        if os.environ.get("STARVLA_DISABLE_DEEPSPEED", "").lower() in {"1", "true", "yes"}:
+            # Native multi-GPU runs wrap the framework in DDP, whose wrapper
+            # does not forward custom methods such as predict_action.
+            evaluation_model = getattr(self.model, "module", self.model)
+        else:
+            evaluation_model = self.accelerator.unwrap_model(self.model)
+        output_dict = evaluation_model.predict_action(
             examples=examples, use_ddim=True, num_ddim_steps=20
         )
 
@@ -433,7 +455,7 @@ class VLATrainer(TrainerUtils):
             save_format = getattr(self.config.trainer, "save_format", "pt")
             final_checkpoint = os.path.join(self.config.output_dir, "final_model")
             os.makedirs(final_checkpoint, exist_ok=True)
-            state_dict = self.accelerator.get_state_dict(self.model)
+            state_dict = self._model_state_dict()
             if save_format == "safetensors":
                 from safetensors.torch import save_file
 

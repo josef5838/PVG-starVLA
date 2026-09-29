@@ -238,6 +238,7 @@ wandb/*
 */*.md
 !examples/**/README.md
 !examples/Behavior/README_2026.md
+!examples/simBenchmarks/Behavior/SURFLO_BUNDLE.md
 !docker/**/README.md
 
 # Whitelist specific docs that should be tracked
