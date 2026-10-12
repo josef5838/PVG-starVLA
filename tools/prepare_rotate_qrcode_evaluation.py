@@ -16,16 +16,36 @@ from launch_rotate_qrcode_streams import (  # noqa: E402
 )
 
 
+def completed_runs(training):
+    """Require complete training for every selected run; omit cancelled controls."""
+    runs = []
+    for run in training["runs"]:
+        if run.get("status") == "cancelled":
+            continue
+        base = Path(run["output_dir"])
+        status_path = base / "stream_training_status.json"
+        status = json.loads(status_path.read_text()) if status_path.exists() else {}
+        if (
+            status.get("status") != "completed"
+            or status.get("completed_updates") != training["optimizer_updates_per_run"]
+        ):
+            raise RuntimeError(f"Run not completed: {run['variant']}")
+        runs.append(run)
+    if not runs:
+        raise RuntimeError("No completed runs available for evaluation")
+    return runs
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--training-manifest", type=Path, required=True)
     args = p.parse_args()
     training_path = args.training_manifest.resolve()
     training = json.loads(training_path.read_text())
+    selected_runs = completed_runs(training)
     registration = json.loads(Path(training["geometry_registration"]).read_text())
     assert registration["status"] == "completed"
     out = training_path.parent / ("evaluation_" + datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S"))
-    out.mkdir()
     rename = {"validation": "heldout_validation", "test": "heldout_test", "train": "train", "unseen_eval": "unseen_eval"}
     mapping = [dict(row, split=rename[row["split"]]) for row in training["trajectory_mapping"]]
     scenes = [dict(row, split=rename[row["split"]]) for row in training["rollout_scenes"]]
@@ -35,11 +55,8 @@ def main():
         for frame in np.unique(np.linspace(0, row["length"] - 1, count).round().astype(int)):
             samples.append(dict(episode=row["episode"], frame=int(frame), length=row["length"], split=row["split"]))
     runs = []
-    for run in training["runs"]:
+    for run in selected_runs:
         base = Path(run["output_dir"])
-        status = json.loads((base / "stream_training_status.json").read_text())
-        if status.get("status") != "completed" or status["completed_updates"] != training["optimizer_updates_per_run"]:
-            raise RuntimeError(f"Run not completed: {run['variant']}")
         checkpoints = dict(
             best=str(base / "best_model/pytorch_model.pt"),
             final=str(base / "final_model/pytorch_model.pt"),
@@ -65,6 +82,11 @@ def main():
         rollout_scenes=scenes,
         offline_samples=samples,
         runs=runs,
+        excluded_runs=[
+            dict(variant=run["variant"], reason="cancelled before training")
+            for run in training["runs"]
+            if run.get("status") == "cancelled"
+        ],
         fresh_scene_registration=training["geometry_registration"],
         initial_image_validation=training["initial_image_validation"],
         renderer_runtime="/export/home/haoliang/.cache/robotwin-nvidia-595.71.05",
@@ -81,6 +103,7 @@ def main():
         heldout_note="Validation selects checkpoints; heldout_test episodes and fresh scenes do not.",
         fresh_evaluation_scope="50 stable right-arm conditional scenes; no expert/policy-success filtering.",
     )
+    out.mkdir()
     write(out / "manifest.json", m)
     print(out / "manifest.json")
 

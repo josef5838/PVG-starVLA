@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 from tools.launch_rotate_qrcode_streams import worker
 from tools.omega_camera_stream_status import read_status
+from tools.prepare_rotate_qrcode_evaluation import completed_runs
 from tools.snapshot_machine_experiments import training_record
 
 
@@ -73,6 +74,19 @@ class BookkeepingTests(unittest.TestCase):
                 status = training_record(path)
             self.assertEqual(status["completed_updates"], 39000)
             self.assertEqual(status["status"], "final_weights_present_budget_unverified")
+
+    def test_evaluation_omits_cancelled_controls_but_requires_primary_completion(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            status = output / "stream_training_status.json"
+            primary = dict(variant="direct", status="running", output_dir=str(output))
+            cancelled = dict(variant="state_only", status="cancelled")
+            training = dict(optimizer_updates_per_run=20000, runs=[primary, cancelled])
+            status.write_text(json.dumps(dict(status="completed", completed_updates=20000)))
+            self.assertEqual(completed_runs(training), [primary])
+            status.write_text(json.dumps(dict(status="running", completed_updates=19990)))
+            with self.assertRaisesRegex(RuntimeError, "Run not completed: direct"):
+                completed_runs(training)
 
 
 if __name__ == "__main__":
