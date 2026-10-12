@@ -1,4 +1,4 @@
-"""Three independent frozen Omega history calls; camera/register-only action memory."""
+"""Frozen Omega histories, encoded independently or jointly, with register-only memory."""
 
 from contextlib import nullcontext
 
@@ -24,6 +24,9 @@ class OmegaCameraStreamDiT(Omega512DiT):
             raise ValueError("Expected eight-image histories and direct/fused conditioning")
         self.history_length = int(cfg.history_length)
         self.conditioning = str(cfg.conditioning)
+        self.encoding = str(cfg.get("encoding", "independent"))
+        if self.encoding not in {"independent", "joint24"}:
+            raise ValueError("Expected independent or joint24 Omega encoding")
         self.observation_mode = str(cfg.get("observation_mode", "history"))
         if self.observation_mode not in {"history", "current_repeat"}:
             raise ValueError("Expected history or current_repeat observation mode")
@@ -66,9 +69,15 @@ class OmegaCameraStreamDiT(Omega512DiT):
         amp = torch.autocast("cuda", dtype=torch.bfloat16) if device.type == "cuda" else nullcontext()
         outputs = []
         with torch.no_grad(), amp:
-            for camera in range(3):
-                # A separate call per physical camera; histories from batch elements never mix.
-                layers, patch_start = self.omega.aggregator(images[:, camera])
+            streams = (
+                [images.transpose(1, 2).flatten(1, 2)]
+                if self.encoding == "joint24"
+                else [images[:, camera] for camera in range(3)]
+            )
+            for stream in streams:
+                # Batch elements never mix. joint24 uses time-major head/left/right images;
+                # independent encoding processes each physical camera's history separately.
+                layers, patch_start = self.omega.aggregator(stream)
                 if patch_start != 17:
                     raise ValueError("Expected one camera token and sixteen registers")
                 features = layers[int(self.config.framework.omega.feature_layer)]
@@ -77,6 +86,9 @@ class OmegaCameraStreamDiT(Omega512DiT):
                 outputs.append(features[:, :, :17].detach().contiguous())
                 del layers, features
         self._stream_input_shape = list(images.shape)
+        if self.encoding == "joint24":
+            # Restore the existing camera-major/time-major memory and embedding order.
+            return outputs[0].reshape(len(examples), 8, 3, 17, -1).transpose(1, 2).contiguous()
         return torch.stack(outputs, dim=1)
 
     def _condition(self, examples, apply_dropout=False, state_conditioning=None, visual_conditioning=None):
@@ -149,8 +161,9 @@ class OmegaCameraStreamDiT(Omega512DiT):
             memory = memory * keep[:, None, None]
         self.last_visual_info = dict(
             input_shape=self._stream_input_shape,
-            calls_per_batch=3,
-            images_per_call=8,
+            calls_per_batch=1 if self.encoding == "joint24" else 3,
+            images_per_call=24 if self.encoding == "joint24" else 8,
+            encoding=self.encoding,
             raw_token_shape=list(raw.shape),
             raw_memory_tokens=408,
             memory_tokens=int(memory.shape[1]),

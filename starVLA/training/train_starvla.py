@@ -185,7 +185,11 @@ class VLATrainer(TrainerUtils):
             self.validation_dataloader = self.accelerator.prepare(
                 DataLoader(
                     validation_dataset,
-                    batch_size=int(self.config.datasets.vla_data.per_device_batch_size),
+                    batch_size=int(
+                        self.config.trainer.get(
+                            "validation_batch_size", self.config.datasets.vla_data.per_device_batch_size
+                        )
+                    ),
                     collate_fn=collate_fn,
                     num_workers=0,
                 )

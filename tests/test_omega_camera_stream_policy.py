@@ -46,7 +46,7 @@ def prepare_images(self, rows):
     return torch.stack([torch.stack(row) for row in pixels])[:, :, :, None, None].expand(-1, -1, -1, 2, 2)
 
 
-def policy(kind):
+def policy(kind, encoding="independent"):
     config = OmegaConf.create(
         dict(
             framework=dict(
@@ -55,6 +55,7 @@ def policy(kind):
                 streams=dict(
                     history_length=8,
                     conditioning=kind,
+                    encoding=encoding,
                     width=16,
                     depth=2,
                     heads=4,
@@ -153,6 +154,52 @@ class StreamPolicyTests(unittest.TestCase):
         torch.testing.assert_close(rng, torch.get_rng_state(), rtol=0, atol=0)
         for name, value in direct.state_dict().items():
             torch.testing.assert_close(value, fused.state_dict()[name], rtol=0, atol=0)
+
+    @patch("starVLA.model.framework.VLM4A.Omega512DiT.Omega512DiT._prepare_images", prepare_images)
+    def test_joint24_order_context_and_batch_isolation(self):
+        model = policy("direct", "joint24").eval()
+        a, b = example(), example(5)
+        raw = model._history_tokens([a, b])
+        calls = model.omega.aggregator.calls
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(tuple(calls[0].shape), (2, 24, 3, 2, 2))
+        self.assertEqual(tuple(raw.shape), (2, 3, 8, 17, 2048))
+        for t in range(8):
+            for c in range(3):
+                self.assertAlmostEqual(float(calls[0][0, 3*t+c, 0, 0, 0]), (20+40*c+2*t)/255, places=6)
+        layers, _ = model.omega.aggregator(calls[0])
+        expected = layers[1][:, :, :17].reshape(2, 8, 3, 17, 2048).transpose(1, 2)
+        torch.testing.assert_close(raw, expected)
+        torch.testing.assert_close(raw[0], model._history_tokens([a])[0])
+        changed = copy.deepcopy(a)
+        changed["image_history"][1][0] = Image.new("RGB", (4, 4), (255, 0, 0))
+        # Joint Omega attention must allow a different camera to change head tokens.
+        self.assertFalse(torch.allclose(raw[0, 0], model._history_tokens([changed])[0, 0]))
+
+    def test_joint24_keeps_identical_parameters_initialization_and_rng(self):
+        torch.manual_seed(42)
+        independent = policy("direct")
+        rng = torch.get_rng_state()
+        torch.manual_seed(42)
+        joint = policy("direct", "joint24")
+        torch.testing.assert_close(rng, torch.get_rng_state(), rtol=0, atol=0)
+        self.assertEqual(set(independent.state_dict()), set(joint.state_dict()))
+        for name, value in independent.state_dict().items():
+            torch.testing.assert_close(value, joint.state_dict()[name], rtol=0, atol=0)
+
+    @patch("starVLA.model.framework.VLM4A.Omega512DiT.Omega512DiT._prepare_images", prepare_images)
+    def test_joint24_backward_preserves_frozen_omega_and_direct_memory(self):
+        model = policy("direct", "joint24").train()
+        nn.init.normal_(model.action_model.net.final_layer.linear.weight, std=0.02)
+        loss = model([example()])["action_loss"]
+        loss.backward()
+        self.assertTrue(torch.isfinite(loss))
+        self.assertGreater(model.visual_proj.weight.grad.abs().sum(), 0)
+        self.assertGreater(model.time_embeddings.grad.abs().sum(), 0)
+        self.assertTrue(all(p.grad is None for p in model.omega.parameters()))
+        self.assertEqual(model.last_visual_info["memory_tokens"], 408)
+        self.assertEqual(model.last_visual_info["calls_per_batch"], 1)
+        self.assertEqual(model.last_visual_info["images_per_call"], 24)
 
 
 if __name__ == "__main__":
