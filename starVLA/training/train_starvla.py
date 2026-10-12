@@ -8,33 +8,33 @@ Conventions:
 1. Store runtime state in dicts where possible (simplifies data info, procesing info, config, etc).
 2. Use multiple dataloaders to adapt heterogeneous data types / task mixtures.
 3. Put each training strategy in its own `trainer_*.py` file (avoid large if‑else chains).
-"""
+"""  # noqa: E501, RUF002 - intentional mathematical/visual labels; preserve embedded commands or diagnostic text
 
 # Standard Library
 import argparse
 import json
 import os
 import time
+from itertools import chain
 from pathlib import Path
 from typing import Tuple
 
 # Third-Party Libraries
-import numpy as np
 import torch
 import torch.distributed as dist
 
 # NPU support: import torch_npu and enable automatic CUDA→NPU mapping.
 # On GPU-only environments this is a no-op (ImportError is silently ignored).
 try:
-    import torch_npu
-    from torch_npu.contrib import transfer_to_npu
+    import torch_npu  # noqa: F401 - importing registers the NPU backend.
+    from torch_npu.contrib import transfer_to_npu  # noqa: F401 - enables CUDA-to-NPU mapping.
 except ImportError:
     pass
 
 import wandb
 from accelerate import Accelerator, DistributedDataParallelKwargs
 from accelerate.logging import get_logger
-from accelerate.utils import set_seed
+from accelerate.utils import GradientAccumulationPlugin, set_seed
 from omegaconf import OmegaConf
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -45,13 +45,20 @@ from starVLA.dataloader import build_dataloader
 from starVLA.model.framework.base_framework import build_framework
 from starVLA.model.framework.share_tools import apply_config_compat
 from starVLA.training.trainer_utils.config_tracker import AccessTrackedConfig, wrap_config
-from starVLA.training.trainer_utils.trainer_tools import TrainerUtils, build_param_lr_groups, setup_optimizer_and_scheduler, normalize_dotlist_args
+from starVLA.training.trainer_utils.trainer_tools import (
+    TrainerUtils,
+    build_param_lr_groups,
+    normalize_dotlist_args,
+)
 
 if os.environ.get("STARVLA_DISABLE_DEEPSPEED", "").lower() in {"1", "true", "yes"}:
     # SurfloDiT exposes optional trainable branches; native multi-GPU DDP
     # must track them so an unused branch does not leave a reduction pending.
     ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
-    accelerator = Accelerator(kwargs_handlers=[ddp_kwargs])
+    accelerator = Accelerator(
+        kwargs_handlers=[ddp_kwargs],
+        gradient_accumulation_plugin=GradientAccumulationPlugin(num_steps=1, sync_with_dataloader=False),
+    )
 else:
     from accelerate import DeepSpeedPlugin
 
@@ -132,6 +139,7 @@ class VLATrainer(TrainerUtils):
         self.accelerator = accelerator
 
         self.completed_steps = 0
+        self.consumed_batches = 0
         self.total_batch_size = self._calculate_total_batch_size()
 
     def prepare_training(self):
@@ -142,6 +150,12 @@ class VLATrainer(TrainerUtils):
         # Save config snapshots upfront so that even if a later setup step
         # (ckpt load / DeepSpeed init / dataloader build) crashes, the
         # produced run dir is still introspectable / from_pretrained-able.
+        if hasattr(self.config, "evaluation"):
+            _ = self.config.datasets.vla_data.include_state
+            _ = tuple(self.config.datasets.vla_data.obs_image_size)
+            # Preserve the deployment contract in the accessed config snapshot.
+            _ = self.config.evaluation.execute_horizon
+            _ = self.config.evaluation.num_ddim_steps
         self._save_initial_configs()
 
         self._init_checkpointing()
@@ -162,7 +176,53 @@ class VLATrainer(TrainerUtils):
             self.vla_train_dataloader,
         )
 
+        self.validation_dataloader = None
+        self.best_validation_mse = float("inf")
+        if float(self.config.datasets.vla_data.get("validation_fraction", 0.0)):
+            from starVLA.dataloader.lerobot_datasets import collate_fn, get_vla_dataset
+
+            validation_dataset = get_vla_dataset(self.config.datasets.vla_data, mode="val")
+            self.validation_dataloader = self.accelerator.prepare(
+                DataLoader(
+                    validation_dataset,
+                    batch_size=int(self.config.datasets.vla_data.per_device_batch_size),
+                    collate_fn=collate_fn,
+                    num_workers=0,
+                )
+            )
         self._init_wandb()
+        if self.config.trainer.get("save_training_state", False) or self.training_resume_dir:
+            self.accelerator.register_for_checkpointing(self.lr_scheduler, self)
+        if self.training_resume_dir:
+            self.accelerator.load_state(self.training_resume_dir)
+            logger.info(f"Restored full training state at step {self.completed_steps}")
+
+    def state_dict(self):
+        return {
+            "completed_steps": self.completed_steps,
+            "consumed_batches": self.consumed_batches,
+            "best_validation_mse": self.best_validation_mse,
+        }
+
+    def load_state_dict(self, state):
+        self.completed_steps = state["completed_steps"]
+        self.consumed_batches = state["consumed_batches"]
+        self.best_validation_mse = state["best_validation_mse"]
+
+    def _save_training_state(self, directory):
+        if not self.config.trainer.get("save_training_state", False):
+            return
+        directory = Path(directory)
+        self.accelerator.wait_for_everyone()
+        if self.accelerator.is_main_process:
+            directory.mkdir(parents=True, exist_ok=True)
+            (directory / "complete.json").unlink(missing_ok=True)
+        self.accelerator.wait_for_everyone()
+        self.accelerator.save_state(str(directory), safe_serialization=False)
+        self.accelerator.wait_for_everyone()
+        if self.accelerator.is_main_process:
+            (directory / "complete.json").write_text(json.dumps(self.state_dict(), indent=2))
+        self.accelerator.wait_for_everyone()
 
     def _calculate_total_batch_size(self):
         """Calculate global batch size."""
@@ -225,6 +285,23 @@ class VLATrainer(TrainerUtils):
         """Initialize checkpoint directory and handle checkpoint loading."""
         self.checkpoint_dir = os.path.join(self.config.output_dir, "checkpoints")
         os.makedirs(self.checkpoint_dir, exist_ok=True)
+        self.training_resume_dir = self.config.trainer.get("resume_checkpoint")
+        if (
+            not self.training_resume_dir
+            and self.config.trainer.get("is_resume", False)
+            and self.config.trainer.get("save_training_state", False)
+        ):
+            candidates = [
+                p for p in Path(self.checkpoint_dir).glob("steps_*") if p.is_dir() and (p / "complete.json").is_file()
+            ]
+            if not candidates:
+                raise FileNotFoundError("No complete resumable training checkpoint found")
+            self.training_resume_dir = str(max(candidates, key=lambda p: int(p.name.split("_")[1])))
+        if self.training_resume_dir:
+            if not (Path(self.training_resume_dir) / "complete.json").is_file():
+                raise ValueError("resume_checkpoint must point to a complete training-state directory")
+            self.resume_from_checkpoint = self.training_resume_dir
+            return
 
         pretrained_checkpoint = getattr(self.config.trainer, "pretrained_checkpoint", None)
         is_resume = getattr(self.config.trainer, "is_resume", False)
@@ -303,6 +380,8 @@ class VLATrainer(TrainerUtils):
 
         self.accelerator.wait_for_everyone()
 
+        self._save_training_state(Path(self.checkpoint_dir) / f"steps_{self.completed_steps}")
+
     def _log_metrics(self, metrics):
         """Record training metrics."""
         rank = dist.get_rank() if dist.is_initialized() else 0
@@ -322,7 +401,22 @@ class VLATrainer(TrainerUtils):
 
     def _create_data_iterators(self):
         """Create data iterators."""
-        self.vla_iter = iter(self.vla_train_dataloader)
+        length = len(self.vla_train_dataloader)
+        self.vla_epoch_count, offset = divmod(self.consumed_batches, length)
+        if hasattr(self.vla_train_dataloader, "set_epoch"):
+            self.vla_train_dataloader.set_epoch(self.vla_epoch_count)
+        iterator_loader = self.vla_train_dataloader
+        if offset:
+            iterator_loader = self.accelerator.skip_first_batches(iterator_loader, offset)
+            if hasattr(iterator_loader, "set_epoch"):
+                iterator_loader.set_epoch(self.vla_epoch_count)
+        # Recreating a partially consumed loader must not consume policy RNG.
+        devices = [torch.cuda.current_device()] if self.accelerator.device.type == "cuda" else []
+        with torch.random.fork_rng(devices=devices):
+            self.vla_iter = iter(iterator_loader)
+            if offset:
+                first_batch = next(self.vla_iter)
+                self.vla_iter = chain([first_batch], self.vla_iter)
 
     def _get_next_batch(self):
         """Get next batch (automatically handle data loop)."""
@@ -331,17 +425,20 @@ class VLATrainer(TrainerUtils):
         except StopIteration:
             if not hasattr(self, "vla_epoch_count"):
                 self.vla_epoch_count = 0
-            self.vla_iter, self.vla_epoch_count = TrainerUtils._reset_dataloader(
-                self.vla_train_dataloader, self.vla_epoch_count
-            )
+            self.vla_epoch_count += 1
+            if hasattr(self.vla_train_dataloader, "set_epoch"):
+                self.vla_train_dataloader.set_epoch(self.vla_epoch_count)
+            self.vla_iter = iter(self.vla_train_dataloader)
             batch_vla = next(self.vla_iter)
 
+        self.consumed_batches += 1
         return batch_vla
 
     def train(self):
         """Execute training loop."""
         self._log_training_config()
         self._create_data_iterators()
+        self.optimizer.zero_grad()
         progress_bar = tqdm(
             total=self.config.trainer.max_train_steps,
             initial=self.completed_steps,
@@ -369,14 +466,19 @@ class VLATrainer(TrainerUtils):
                     }
                 )
 
-            if self.completed_steps % self.config.trainer.eval_interval == 0:
+            if self.accelerator.sync_gradients and self.completed_steps % self.config.trainer.eval_interval == 0:
                 step_metrics = self.eval_action_model(step_metrics)
 
             step_metrics["timing/data"] = t_end_data - t_start_data
             step_metrics["timing/model"] = t_end_model - t_start_model
-            self._log_metrics(step_metrics)
+            if self.accelerator.sync_gradients:
+                self._log_metrics(step_metrics)
 
-            if self.completed_steps % self.config.trainer.save_interval == 0 and self.completed_steps > 0:
+            if (
+                self.accelerator.sync_gradients
+                and self.completed_steps % self.config.trainer.save_interval == 0
+                and self.completed_steps > 0
+            ):
                 self._save_checkpoint()
 
             if self.completed_steps >= self.config.trainer.max_train_steps:
@@ -384,32 +486,60 @@ class VLATrainer(TrainerUtils):
 
         self._finalize_training()
 
-    def eval_action_model(self, step_metrics: dict = None) -> float:
-        """Run simple action-eval on current batch and attach score to metrics."""
-        examples = self._get_next_batch()
-        actions = [example["action"] for example in examples]
-        # Accelerate imports DeepSpeed while unwrapping, even when this run
-        # explicitly disables DeepSpeed because CUDA_HOME is unavailable.
+    def eval_action_model(self, step_metrics: dict | None = None) -> dict:
+        from starVLA.training.action_validation import evaluate_action_batches
+
+        step_metrics = {} if step_metrics is None else step_metrics
         if os.environ.get("STARVLA_DISABLE_DEEPSPEED", "").lower() in {"1", "true", "yes"}:
-            # Native multi-GPU runs wrap the framework in DDP, whose wrapper
-            # does not forward custom methods such as predict_action.
             evaluation_model = getattr(self.model, "module", self.model)
         else:
             evaluation_model = self.accelerator.unwrap_model(self.model)
-        output_dict = evaluation_model.predict_action(
-            examples=examples, use_ddim=True, num_ddim_steps=20
+        held_out = self.validation_dataloader is not None
+        batches = self.validation_dataloader if held_out else [self._get_next_batch()]
+        validation_details = {}
+        error, count, samples = evaluate_action_batches(
+            evaluation_model,
+            batches,
+            num_ddim_steps=int(self.config.trainer.get("validation_ddim_steps", 20)),
+            max_batches=int(self.config.trainer.get("validation_max_batches", 32)),
+            seed=int(self.config.seed),
+            action_indices=self.config.trainer.get("validation_action_indices"),
+            valid_future_only=bool(self.config.trainer.get("validation_valid_future_only", False)),
+            metrics_out=validation_details,
         )
-
-        if self.accelerator.is_main_process:
-            normalized_actions = output_dict["normalized_actions"]
-            actions = np.array(actions)
-            num_pots = np.prod(actions.shape)
-            score = TrainerUtils.euclidean_distance(normalized_actions, actions)
-            step_metrics["mse_score"] = score / num_pots
-
-        del examples
-        if dist.is_initialized():
-            dist.barrier()
+        totals = torch.tensor([error, count, samples], dtype=torch.float64, device=self.accelerator.device)
+        totals = self.accelerator.reduce(totals, reduction="sum")
+        mse = (totals[0] / totals[1]).item()
+        name = "validation_action_mse" if held_out else "training_batch_action_mse"
+        step_metrics[name] = mse
+        step_metrics["validation_full_action_mse"] = validation_details["full_action_mse"]
+        step_metrics["validation_samples" if held_out else "diagnostic_samples"] = int(totals[2].item())
+        if held_out and mse < self.best_validation_mse:
+            self.best_validation_mse = mse
+            if self.accelerator.is_main_process:
+                directory = Path(self.config.output_dir) / "best_model"
+                directory.mkdir(exist_ok=True)
+                torch.save(self._model_state_dict(), directory / "pytorch_model.pt")
+                (directory / "validation.json").write_text(
+                    json.dumps(
+                        {
+                            "step": self.completed_steps,
+                            "validation_action_mse": mse,
+                            "samples": int(totals[2].item()),
+                            "num_ddim_steps": int(self.config.trainer.get("validation_ddim_steps", 20)),
+                            "selection": "held-out action MSE; simulator success must be measured separately",
+                            "action_indices": (
+                                list(self.config.trainer.validation_action_indices)
+                                if self.config.trainer.get("validation_action_indices") is not None
+                                else None
+                            ),
+                            "valid_future_only": bool(self.config.trainer.get("validation_valid_future_only", False)),
+                        },
+                        indent=2,
+                    )
+                )
+            self._save_training_state(Path(self.config.output_dir) / "best_model" / "training_state")
+        self.accelerator.wait_for_everyone()
         return step_metrics
 
     def _log_training_config(self):
@@ -420,12 +550,13 @@ class VLATrainer(TrainerUtils):
             logger.info(f"  Per device batch size = {self.config.datasets.vla_data.per_device_batch_size}")
             logger.info(f"  Gradient accumulation steps = {self.accelerator.gradient_accumulation_steps}")
             logger.info(f"  Total batch size = {self.total_batch_size}")
+            logger.info(f"  Gradient accumulation config = {self.config.trainer.get('gradient_accumulation_steps', 1)}")
+            logger.info(f"  Sample budget = {self.config.trainer.get('sample_budget', None)}")
+            logger.info(f"  Planned training samples = {self.config.trainer.get('planned_training_samples', None)}")
 
     def _train_step(self, batch_vla, batch_vlm=None):
         """Execute single training step."""
         with self.accelerator.accumulate(self.model):
-            self.optimizer.zero_grad()
-
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 output_dict = self.model.forward(batch_vla)
                 action_loss = output_dict["action_loss"]
@@ -433,7 +564,7 @@ class VLATrainer(TrainerUtils):
 
             self.accelerator.backward(total_loss)
 
-            if self.config.trainer.gradient_clipping is not None:
+            if self.accelerator.sync_gradients and self.config.trainer.gradient_clipping is not None:
                 self.accelerator.clip_grad_norm_(self.model.parameters(), self.config.trainer.gradient_clipping)
 
             self.optimizer.step()
@@ -444,9 +575,11 @@ class VLATrainer(TrainerUtils):
             # at min_lr well before max_train_steps is reached.
             if self.accelerator.sync_gradients:
                 self.lr_scheduler.step()
+                self.optimizer.zero_grad()
 
         return {
             "action_dit_loss": action_loss.item(),
+            "training_samples": (self.completed_steps + int(self.accelerator.sync_gradients)) * self.total_batch_size,
         }
 
     def _finalize_training(self):
@@ -466,6 +599,8 @@ class VLATrainer(TrainerUtils):
                 raise ValueError(f"Unsupported save_format `{save_format}`. Expected `pt` or `safetensors`.")
             logger.info(f"Training complete. Final model saved at {final_checkpoint}")
 
+        self._save_training_state(Path(self.config.output_dir) / "final_model" / "training_state")
+
         if self.accelerator.is_main_process and getattr(self, "_wandb_enabled", False):
             try:
                 wandb.finish()
@@ -478,10 +613,16 @@ class VLATrainer(TrainerUtils):
 def main(cfg) -> None:
     logger.info("VLA Training :: Warming Up")
 
+    from starVLA.training.action_validation import configure_sample_budget
+
+    accumulation = configure_sample_budget(cfg, accelerator.num_processes)
+    accelerator.gradient_accumulation_steps = accumulation
     cfg = wrap_config(cfg)
     logger.info("✅ Configuration wrapped for access tracking")
 
     output_dir = setup_directories(cfg=cfg)
+    # Seed before construction, not only after parameters have been initialized.
+    set_seed(int(cfg.seed))
     vla = build_framework(cfg)
     vla_train_dataloader = prepare_data(cfg=cfg, accelerator=accelerator, output_dir=output_dir)
     optimizer, lr_scheduler = setup_optimizer_and_scheduler(model=vla, cfg=cfg)
@@ -518,6 +659,8 @@ if __name__ == "__main__":
     dotlist = normalize_dotlist_args(clipargs)
     cli_cfg = OmegaConf.from_dotlist(dotlist)
     cfg = OmegaConf.merge(cfg, cli_cfg)
+    if OmegaConf.select(cli_cfg, "trainer.max_train_steps") is not None:
+        cfg.trainer.step_limit = int(cli_cfg.trainer.max_train_steps)
 
     # Normalise legacy YAML keys into the current `version_id == "0.21"` schema.
     # This is idempotent and does not modify framework class signatures.

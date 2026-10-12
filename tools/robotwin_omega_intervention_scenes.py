@@ -1,0 +1,217 @@
+"""Render physically consistent object interventions or score saved actions with FK.
+
+Run with the RoboTwin Python environment. No policy weights are loaded here.
+"""
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+
+def setup_runtime(root, gpu, task="rotate_qrcode"):
+    sys.path.insert(0, str(root))
+    os.chdir(root)
+    import sapien.core as sapien
+
+    sapien.render.set_global_config(max_num_materials=50000, max_num_textures=50000)
+    renderer = sapien.render.RenderSystem(f"cuda:{gpu}")
+
+    def create_scene(engine, config=None):
+        sapien.physx.set_scene_config(config or sapien.SceneConfig())
+        return sapien.Scene([sapien.physx.PhysxCpuSystem(), sapien.render.RenderSystem(f"cuda:{gpu}")])
+
+    sapien.Engine.create_scene = create_scene
+    from scripts.eval_policy_xpolicylab import class_decorator, load_task_args
+
+    config, _ = load_task_args(
+        dict(task_name=task, task_config="demo_clean", policy_name="diagnostic", ckpt_name="omega_causal")
+    )
+    config.update(render_freq=0, save_data=False, eval_mode=True, eval_video_log=False)
+    config.pop("eval_video_save_dir", None)
+    return sapien, renderer, class_decorator, config
+
+
+def fk(env, policy_actions):
+    robot = env.robot
+    entity = robot.right_entity
+    saved = entity.get_qpos().copy()
+    indices = [robot.right_active_joints.index(joint) for joint in robot.right_arm_joints]
+    poses = []
+    try:
+        for action in policy_actions:
+            qpos = saved.copy()
+            qpos[indices] = action[6:12]
+            entity.set_qpos(qpos)
+            poses.append(env.get_arm_pose("right"))
+    finally:
+        entity.set_qpos(saved)
+    return np.asarray(poses, dtype=float)
+
+
+def quaternion_angle(a, b):
+    a, b = np.asarray(a), np.asarray(b)
+    dot = np.sum(a * b, axis=-1) / (np.linalg.norm(a, axis=-1) * np.linalg.norm(b, axis=-1))
+    return 2 * np.arccos(np.clip(np.abs(dot), 0, 1))
+
+
+def capture(args, runtime):
+    import transforms3d.quaternions as quat
+
+    sapien, renderer, make_env, config = runtime
+    cases = [
+        ("base", 0, 0, 0),
+        ("x_minus", -0.04, 0, 0),
+        ("x_plus", 0.04, 0, 0),
+        ("y_plus", 0, 0.03, 0),
+        ("yaw_plus", 0, 0, 0.25),
+    ]
+    records, fixed_state, tiles = [], None, []
+    for name, dx, dy, angle in cases:
+        env = make_env("rotate_qrcode")
+        try:
+            env.setup_demo(now_ep_num=0, seed=args.seed, is_test=True, **config)
+            original = env.qrcode.get_pose()
+            position = original.p.copy() + np.array([dx, dy, 0])
+            if position[0] < 0.05 or position[0] > 0.25:
+                raise ValueError("Intervention must remain in the demonstrated right-side workspace")
+            rotation = quat.qmult(quat.axangle2quat([0, 0, 1], angle), original.q)
+            env.qrcode.actor.set_pose(sapien.Pose(position, rotation))
+            observation = env.get_obs()  # Render all cameras without advancing robot physics.
+            state = observation["joint_action"]["vector"].copy()
+            if fixed_state is None:
+                fixed_state = state
+            np.testing.assert_array_equal(state, fixed_state)
+            images = np.stack(
+                [observation["observation"][cam]["rgb"] for cam in ("head_camera", "left_camera", "right_camera")]
+            )
+            directory = args.out / name
+            directory.mkdir()
+            for index, image in enumerate(images):
+                Image.fromarray(image).save(directory / f"camera_{index}.png")
+            tiles.append(images[0])
+            sampled = []
+
+            def record(env=env, sampled=sampled):
+                sampled.append(
+                    np.asarray(env.robot.get_left_arm_jointState() + env.robot.get_right_arm_jointState(), dtype=float)
+                )
+
+            env._take_picture = record
+            env.play_once()
+            expert = np.asarray(sampled)
+            order = [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 6, 13]
+            # Converted demonstrations pair observation t with next recorded
+            # command t+1, then predict a sixteen-command future chunk.
+            target = expert[1:17, order]
+            if len(target) < 16:
+                raise RuntimeError(f"Expert trajectory too short for {name}")
+            ee_target = fk(env, target)
+            np.savez_compressed(
+                directory / "scene.npz",
+                images=images,
+                raw_state=state,
+                target=target,
+                expert_ee=ee_target,
+                intrinsic=observation["observation"]["head_camera"]["intrinsic_cv"],
+                extrinsic=observation["observation"]["head_camera"]["extrinsic_cv"],
+            )
+            records.append(
+                dict(
+                    name=name,
+                    seed=args.seed,
+                    position=position.tolist(),
+                    quaternion=rotation.tolist(),
+                    object_model=int(env.model_id),
+                    state_max_difference=0.0,
+                    expert_success=bool(env.check_success()),
+                    plan_success=bool(env.plan_success),
+                    expert_frames=len(expert),
+                    scene_file=str(directory / "scene.npz"),
+                )
+            )
+            (args.out / "scenes.json").write_text(json.dumps(records, indent=2) + "\n")
+            print(json.dumps(records[-1]), flush=True)
+        finally:
+            env.close_env(clear_cache=True)
+    canvas = Image.new("RGB", (640 * len(tiles), 480))
+    for index, tile in enumerate(tiles):
+        canvas.paste(Image.fromarray(tile), (640 * index, 0))
+    canvas.save(args.out / "target_interventions.png")
+
+
+def score(args, runtime):
+    _, renderer, make_env, config = runtime
+    report = json.loads(args.predictions.read_text())
+    scenes = {row["name"]: row for row in json.loads((args.scenes / "scenes.json").read_text())}
+    env = make_env("rotate_qrcode")
+    try:
+        env.setup_demo(now_ep_num=0, seed=args.seed, is_test=True, **config)
+        baselines = {}
+        for row in report["controlled_scene_records"]:
+            data = np.load(scenes[row["scene"]]["scene_file"])
+            predicted = fk(env, np.asarray(row["raw_actions"]))
+            target = data["expert_ee"]
+            row["predicted_ee"] = predicted.tolist()
+            row["ee_position_rmse_m"] = float(np.sqrt(np.mean(np.sum((predicted[:, :3] - target[:, :3]) ** 2, axis=-1))))
+            row["ee_orientation_mean_error_rad"] = float(np.mean(quaternion_angle(predicted[:, 3:], target[:, 3:])))
+            row["expert_reference_success"] = scenes[row["scene"]]["expert_success"]
+            key = (row["state_conditioning"], row["noise_seed"])
+            if row["scene"] == "base":
+                baselines[key] = (predicted, target)
+            else:
+                base_predicted, base_target = baselines[key]
+                expected = target[-1, :3] - base_target[-1, :3]
+                actual = predicted[-1, :3] - base_predicted[-1, :3]
+                row["expert_endpoint_change_m"] = expected.tolist()
+                row["predicted_endpoint_change_m"] = actual.tolist()
+                row["endpoint_response_error_m"] = float(np.linalg.norm(actual - expected))
+                row["endpoint_response_cosine"] = (
+                    float(np.dot(actual, expected) / (np.linalg.norm(actual) * np.linalg.norm(expected)))
+                    if np.linalg.norm(actual) * np.linalg.norm(expected) > 1e-9
+                    else None
+                )
+                row["endpoint_rotation_change_rad"] = float(quaternion_angle(predicted[-1, 3:], base_predicted[-1, 3:]))
+                row["expert_endpoint_rotation_change_rad"] = float(quaternion_angle(target[-1, 3:], base_target[-1, 3:]))
+        report["fk_protocol"] = (
+            "Static forward kinematics of commanded right-arm joints; compared to the same sixteen-command simulator"
+            " expert chunk. Not physical rollout success."
+        )
+        args.predictions.write_text(json.dumps(report, indent=2) + "\n")
+    finally:
+        env.close_env(clear_cache=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--robotwin-root",
+        type=Path,
+        default=Path(os.environ.get("ROBOTWIN_PATH", "/export/home/haoliang/projects/RoboTwin_PVG")),
+    )
+    parser.add_argument("--out", type=Path)
+    parser.add_argument("--scenes", type=Path)
+    parser.add_argument("--predictions", type=Path)
+    parser.add_argument("--seed", type=int, default=200000)
+    parser.add_argument("--gpu", type=int, default=0)
+    args = parser.parse_args()
+    for key in ("out", "scenes", "predictions", "robotwin_root"):
+        value = getattr(args, key)
+        if value is not None:
+            setattr(args, key, value.resolve())
+    if not args.predictions:
+        if args.out is None:
+            parser.error("--out is required for capture")
+        args.out.mkdir(parents=True, exist_ok=False)
+    elif args.scenes is None:
+        parser.error("--scenes is required for scoring")
+    runtime = setup_runtime(args.robotwin_root, args.gpu)
+    score(args, runtime) if args.predictions else capture(args, runtime)
+
+
+if __name__ == "__main__":
+    main()

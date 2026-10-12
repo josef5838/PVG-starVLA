@@ -8,7 +8,7 @@
 STARVLA=/export/home/haoliang/projects/starVLA
 cd "${STARVLA}"
 
-export ROBOTWIN_PATH=/export/home/haoliang/projects/RoboTwin
+export ROBOTWIN_PATH="${ROBOTWIN_PATH:-/export/home/haoliang/projects/RoboTwin_PVG}"
 export ROBOTWIN_STARVLA_ENV=starVLA
 export ROBOTWIN_ENV=RoboTwin
 

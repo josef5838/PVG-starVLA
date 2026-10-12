@@ -1,0 +1,56 @@
+"""Prepare recorded experts after the exact training action normalization round trip."""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+import h5py
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from deployment.model_server.policy_norm_processor import (  # noqa: E402
+    PolicyNormProcessor,
+)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--manifest", type=Path, required=True)
+    args = parser.parse_args()
+    path = args.manifest.resolve()
+    m = json.loads(path.read_text())
+    processor = PolicyNormProcessor(m["runs"][0]["checkpoints"]["best"])
+    payload = {}
+    audits = []
+    order = [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 6, 13]
+    for scene in m["rollout_scenes"]:
+        if scene["source_episode"] is None:
+            continue
+        with h5py.File(Path(m["source"]) / f"data/episode{scene['source_episode']}.hdf5") as file:
+            raw = file["joint_action/vector"][1:][:, order].astype(np.float32)
+        parts = {}
+        cursor = 0
+        for key in processor.action_keys:
+            width = processor.action_key_dims[key]
+            parts[key] = raw[:, cursor : cursor + width].copy()
+            cursor += width
+        transformed = processor.transform(parts)
+        normalized = np.concatenate([np.asarray(transformed[key]) for key in processor.action_keys], axis=-1)
+        roundtrip = processor.unapply_actions(normalized)
+        payload[f"episode_{scene['episode']}"] = roundtrip
+        audits.append(
+            dict(
+                **scene,
+                joint_roundtrip_max_error=float(np.max(np.abs(roundtrip[:, :12] - raw[:, :12]))),
+                gripper_roundtrip_max_error=float(np.max(np.abs(roundtrip[:, 12:] - raw[:, 12:]))),
+            )
+        )
+    np.savez_compressed(path.parent / "expert_roundtrip_actions.npz", **payload)
+    (path.parent / "expert_roundtrip_audit.json").write_text(json.dumps(audits, indent=2) + "\n")
+    print(json.dumps(audits), flush=True)
+
+
+if __name__ == "__main__":
+    main()

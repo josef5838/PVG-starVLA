@@ -148,7 +148,7 @@ def merge_pram_config(init):
         param_names = [name for i, (name, p) in enumerate(sig.parameters.items()) if i > 0]
 
         init_kwargs = {}
-        for name, val in zip(param_names, args):
+        for name, val in zip(param_names, args, strict=False):
             init_kwargs[name] = val
         # override with explicit kwargs
         init_kwargs.update(kwargs)
@@ -375,7 +375,12 @@ def read_mode_config(pretrained_checkpoint):
         run_dir = checkpoint_pt.parents[1]
 
         # Get paths for `config.json`, `dataset_statistics.json` and pretrained checkpoint
-        config_yaml, dataset_statistics_json = run_dir / "config.yaml", run_dir / "dataset_statistics.json"
+        # The accessed-only snapshot can omit dataset/deployment fields read
+        # before tracking begins, including native images and fixed instructions.
+        config_yaml = run_dir / "config.full.yaml"
+        if not config_yaml.exists():
+            config_yaml = run_dir / "config.yaml"
+        dataset_statistics_json = run_dir / "dataset_statistics.json"
         assert config_yaml.exists(), f"Missing `config.yaml` for `{run_dir = }`"
         assert dataset_statistics_json.exists(), f"Missing `dataset_statistics.json` for `{run_dir = }`"
 
@@ -527,8 +532,9 @@ def apply_config_compat(cfg, *, strict: bool = False):
 # ──────────────────────────────────────────────────────────────────────
 #  Discretised proprioceptive state → instruction prefix (π₀.5 style)
 # ──────────────────────────────────────────────────────────────────────
-import numpy as _np
-from typing import List as _List
+from typing import List as _List  # noqa: E402 - runtime environment/path bootstrap precedes imports
+
+import numpy as _np  # noqa: E402 - runtime environment/path bootstrap precedes imports
 
 
 def state2str_transform(state: "_np.ndarray", num_bins: int = 256) -> str:
@@ -553,7 +559,7 @@ def add_discretized_state_to_instruction(
     text-token pathway — no extra encoder required (π₀.5 style).
     """
     updated_instructions = []
-    for instr, state in zip(instructions, states):
+    for instr, state in zip(instructions, states, strict=False):
         state_str = state2str_transform(state[0], num_bins=num_bins)
         updated_instructions.append(f"{instr} [STATE] {state_str} [ACTION]")
     return updated_instructions

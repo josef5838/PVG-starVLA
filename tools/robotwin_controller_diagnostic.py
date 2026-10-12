@@ -1,0 +1,167 @@
+"""Replay expert and held-out joint targets through RoboTwin's eval controller."""
+
+import argparse
+import json
+import subprocess
+import sys
+import traceback
+from pathlib import Path
+
+import numpy as np
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--input", required=True)
+parser.add_argument("--output-dir", required=True)
+args = parser.parse_args()
+output = Path(args.output_dir).resolve()
+output.mkdir(parents=True, exist_ok=True)
+sys.path.insert(0, "/export/home/haoliang/projects/RoboTwin_PVG")
+from scripts.eval_policy_xpolicylab import (  # noqa: E402
+    class_decorator,
+    load_task_args,
+)
+
+config, _ = load_task_args(
+    {
+        "task_name": "rotate_qrcode",
+        "task_config": "demo_clean",
+        "policy_name": "diagnostic",
+        "ckpt_name": "controller_replay",
+    }
+)
+config.update(render_freq=0, save_data=False, eval_video_log=False, eval_mode=True)
+config.pop("eval_video_save_dir", None)
+dataset = np.load(args.input)
+results_path = output / "controller_results.json"
+records = json.loads(results_path.read_text())["replays"] if results_path.exists() else []
+
+
+def state(env):
+    return np.asarray(env.robot.get_left_arm_jointState() + env.robot.get_right_arm_jointState())
+
+
+def setup(seed):
+    env = class_decorator("rotate_qrcode")
+    env.setup_demo(now_ep_num=0, seed=seed, is_test=True, **config)
+    return env
+
+
+def replay(name, actions, seed, matched_scene):
+    if any(record["name"] == name for record in records):
+        return
+    env = setup(seed)
+    observation = env.get_obs()
+    env.now_obs = observation
+    video = output / f"{name}.mp4"
+    frame = observation["observation"]["head_camera"]["rgb"]
+    ffmpeg = subprocess.Popen(
+        [
+            str(Path(sys.executable).parent / "ffmpeg"),
+            "-y",
+            "-loglevel",
+            "error",
+            "-f",
+            "rawvideo",
+            "-pixel_format",
+            "rgb24",
+            "-video_size",
+            f"{frame.shape[1]}x{frame.shape[0]}",
+            "-framerate",
+            "10",
+            "-i",
+            "-",
+            "-pix_fmt",
+            "yuv420p",
+            "-vcodec",
+            "libx264",
+            str(video),
+        ],
+        stdin=subprocess.PIPE,
+    )
+    env.eval_video_path = str(output)
+    env._set_eval_video_ffmpeg(ffmpeg)
+    errors, durations, closings = [], [], []
+    previous_gripper = state(env)[13]
+    counts = []
+    for planner in [env.robot.left_mplib_planner, env.robot.right_mplib_planner]:
+        original = planner.TOPP
+
+        def wrap(*a, _original=original, **kw):
+            result = _original(*a, **kw)
+            counts.append(len(result[1]))
+            return result
+
+        planner.TOPP = wrap
+    initial_pose = env.qrcode.get_pose().p.tolist()
+    try:
+        for index, action in enumerate(actions):
+            counts.clear()
+            env.now_obs = env.get_obs()
+            env.take_action(action, action_type="qpos")
+            actual = np.asarray(env.robot.get_left_arm_real_jointState() + env.robot.get_right_arm_real_jointState())
+            errors.append(float(np.sqrt(np.mean((actual[7:13] - action[7:13]) ** 2))))
+            durations.append(max(counts, default=50) / 250)
+            if previous_gripper > 0.5 and action[13] <= 0.5:
+                closings.append({"step": index, "object_height": float(env.qrcode.get_pose().p[2])})
+            previous_gripper = action[13]
+            if env.eval_success:
+                break
+        result = {
+            "name": name,
+            "seed": seed,
+            "scene_matches_demonstration": matched_scene,
+            "success": bool(env.check_success()),
+            "steps": len(errors),
+            "mean_right_joint_tracking_rmse_radians": float(np.mean(errors)),
+            "max_right_joint_tracking_rmse_radians": float(np.max(errors)),
+            "mean_controller_duration_seconds": float(np.mean(durations)),
+            "recording_rate_fps": 10,
+            "initial_object_position": initial_pose,
+            "final_object_position": env.qrcode.get_pose().p.tolist(),
+            "gripper_closures": closings,
+            "video": str(video),
+        }
+        records.append(result)
+        results_path.write_text(json.dumps({"expert": expert, "replays": records}, indent=2) + "\n")
+        print(json.dumps(result), flush=True)
+    finally:
+        env._del_eval_video_ffmpeg()
+        env.eval_video_path = None
+        env.close_env(clear_cache=True)
+
+
+if (output / "expert_generation.json").exists():
+    expert = json.loads((output / "expert_generation.json").read_text())
+else:
+    expert = {"seed": 200000}
+    env = None
+    try:
+        env = setup(200000)
+        sampled = []
+
+        def record():
+            sampled.append(state(env).copy())
+
+        env._take_picture = record
+        expert["initial_object_position"] = env.qrcode.get_pose().p.tolist()
+        env.play_once()
+        expert.update(success=bool(env.check_success()), plan_success=bool(env.plan_success), frames=len(sampled))
+        if expert["success"] and len(sampled) > 1:
+            np.save(output / "matched_expert_actions.npy", np.stack(sampled))
+    except Exception as error:
+        expert["error"] = f"{type(error).__name__}: {error}"
+        traceback.print_exc()
+    finally:
+        if env is not None:
+            env.close_env(clear_cache=True)
+    (output / "expert_generation.json").write_text(json.dumps(expert, indent=2) + "\n")
+if expert.get("success"):
+    replay("matched_expert", np.load(output / "matched_expert_actions.npy"), 200000, True)
+    (output / "controller_results.json").write_text(json.dumps({"expert": expert, "replays": records}, indent=2) + "\n")
+
+for variant in ["linear", "residual"]:
+    if f"{variant}_matched_expert" in dataset:
+        replay(f"{variant}_matched_expert", dataset[f"{variant}_matched_expert"], 200000, True)
+    for episode in [18, 42]:
+        replay(f"{variant}_heldout_{episode}", dataset[f"{variant}_{episode}"], 200000, False)
+    (output / "controller_results.json").write_text(json.dumps({"expert": expert, "replays": records}, indent=2) + "\n")

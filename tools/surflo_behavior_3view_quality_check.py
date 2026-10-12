@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""Run a quick Surflo reconstruction from one BEHAVIOR trainer-format sample.
+
+The image preparation intentionally mirrors ``SurfloDiT._image_tensor``:
+LeRobot's synchronized three camera images are converted to RGB tensors and
+independently resized to 518x518 before being supplied to Surflo.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from omegaconf import OmegaConf
+from PIL import Image
+from torchvision.transforms import functional as VF
+
+from starVLA.dataloader.lerobot_datasets import get_vla_dataset
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        default="examples/simBenchmarks/Behavior/train_files/surflo_dit_turn_on_radio_2026.yaml",
+    )
+    parser.add_argument(
+        "--checkpoint",
+        default="/export/home/haoliang/projects/Surflo/checkpoints/surflo_v0.pt",
+    )
+    parser.add_argument(
+        "--model-config",
+        default="/export/home/haoliang/projects/Surflo/configs/model/surflo.yaml",
+    )
+    parser.add_argument("--sample-index", type=int, default=0)
+    parser.add_argument("--num-steps", type=int, default=64)
+    parser.add_argument("--num-query-points", type=int, default=65536)
+    parser.add_argument(
+        "--out",
+        default="results/Checkpoints/surflo_dit_turn_on_radio_2026/quality_check_3view_gpu1_synced",
+    )
+    return parser.parse_args()
+
+
+def trainer_image_tensor(image: Image.Image, image_size: int = 518) -> torch.Tensor:
+    """Exact image conversion/resizing used by SurfloDiT._image_tensor."""
+    return VF.resize(VF.to_tensor(image.convert("RGB")), [image_size, image_size], antialias=True)
+
+
+def save_input_views(images: list[Image.Image], out_path: Path) -> None:
+    fig, axes = plt.subplots(1, len(images), figsize=(15, 5))
+    for index, (axis, image) in enumerate(zip(axes, images, strict=False)):
+        axis.imshow(image)
+        axis.set_title(("head", "left wrist", "right wrist")[index])
+        axis.axis("off")
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=180)
+    plt.close(fig)
+
+
+def _trim_outliers(points: np.ndarray, normals: np.ndarray | None) -> tuple[np.ndarray, np.ndarray | None]:
+    """Remove only the outer 0.5% of radial samples for an uncluttered preview."""
+    center = np.median(points, axis=0)
+    distances = np.linalg.norm(points - center, axis=1)
+    keep = distances <= np.quantile(distances, 0.995)
+    return points[keep], normals[keep] if normals is not None else None
+
+
+def save_cloud_visualization(points: np.ndarray, normals: np.ndarray | None, out_path: Path) -> None:
+    """Render the oriented point cloud with a neutral material, not normal RGB."""
+    rng = np.random.default_rng(42)
+    count = min(20000, len(points))
+    cloud = points[rng.choice(len(points), size=count, replace=False)]
+    center = np.median(cloud, axis=0)
+    radius = np.quantile(np.abs(cloud - center), 0.995)
+    fig = plt.figure(figsize=(16, 5))
+    for panel, (elev, azim, label) in enumerate(
+        ((20, 30, "front-right"), (20, 150, "rear-left"), (75, 30, "top")), start=1
+    ):
+        axis = fig.add_subplot(1, 3, panel, projection="3d")
+        axis.scatter(
+            cloud[:, 0],
+            cloud[:, 1],
+            cloud[:, 2],
+            c="#d2a84c",
+            s=0.55,
+            alpha=0.82,
+            linewidths=0,
+            depthshade=False,
+        )
+        axis.view_init(elev=elev, azim=azim)
+        axis.set_xlim(center[0] - radius, center[0] + radius)
+        axis.set_ylim(center[1] - radius, center[1] + radius)
+        axis.set_zlim(center[2] - radius, center[2] + radius)
+        axis.set_box_aspect((1, 1, 1))
+        axis.set_title(label)
+        axis.set_axis_off()
+    fig.suptitle("Surflo reconstructed surface point cloud (uniform material; 99.5% inlier preview)")
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=220)
+    plt.close(fig)
+
+
+def save_orthographic_depth_views(points: np.ndarray, out_path: Path) -> None:
+    """Add three easy-to-read orthographic depth projections for geometry review."""
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    projections = ((0, 1, 2, "XY projection"), (0, 2, 1, "XZ projection"), (1, 2, 0, "YZ projection"))
+    for axis, (u, v, depth, title) in zip(axes, projections, strict=False):
+        order = np.argsort(points[:, depth])
+        values = points[order, depth]
+        lo, hi = np.quantile(values, (0.01, 0.99))
+        axis.scatter(
+            points[order, u],
+            points[order, v],
+            c=np.clip(values, lo, hi),
+            cmap="viridis",
+            s=0.38,
+            linewidths=0,
+            rasterized=True,
+        )
+        axis.set_aspect("equal", adjustable="box")
+        axis.set_title(title)
+        axis.set_xlabel(("x", "y", "z")[u])
+        axis.set_ylabel(("x", "y", "z")[v])
+    fig.suptitle("Orthographic geometry check (color indicates viewing-axis depth)")
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=220)
+    plt.close(fig)
+
+
+def main() -> None:
+    args = parse_args()
+    out_dir = Path(args.out).resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    cfg = OmegaConf.load(args.config)
+    dataset = get_vla_dataset(data_cfg=cfg.datasets.vla_data, mode="train", seed=42)
+    sample = dataset[args.sample_index]
+    images = sample["image"]
+    if len(images) != 3:
+        raise ValueError(f"Expected three synchronized camera views, got {len(images)}")
+
+    for index, image in enumerate(images):
+        image.save(out_dir / f"input_view_{index}.png")
+    save_input_views(images, out_dir / "input_views.png")
+
+    # This has shape [3, 3, 518, 518], exactly the per-example tensor that
+    # SurfloDiT._prepare_images creates before batching to [1, 3, 3, 518, 518].
+    trainer_images = torch.stack([trainer_image_tensor(image) for image in images])
+
+    from surflo.model.loader import load_model
+    from surflo.utils.io import write_points_ply
+
+    device = torch.device("cuda:1")
+    model = load_model(
+        OmegaConf.load(args.model_config),
+        ckpt_path=args.checkpoint,
+        device=device,
+        use_ema=True,
+    )
+    # FFM records its initial device during construction; the model loader then
+    # moves all parameters to GPU 1, so update this bookkeeping field too.
+    model.device = device
+
+    generator = torch.Generator(device=device).manual_seed(42)
+    # FFM's token compressor runs outside its inner autocast region when invoked
+    # directly, while SurfloDiT invokes it under the trainer's bf16 autocast.
+    with torch.inference_mode(), torch.autocast("cuda", dtype=torch.bfloat16):
+        reconstruction = model.inference(
+            images=trainer_images.to(device),
+            num_steps=args.num_steps,
+            num_query_points=args.num_query_points,
+            cull_radius=None,
+            generator=generator,
+        )
+    if isinstance(reconstruction, tuple):
+        points, normals = reconstruction
+    else:
+        points, normals = reconstruction, None
+
+    points_np = points.float().cpu().numpy()
+    normals_np = normals.float().cpu().numpy() if normals is not None else None
+    points_np, normals_np = _trim_outliers(points_np, normals_np)
+    colors = np.broadcast_to(np.array([[210, 168, 76]], dtype=np.uint8), (len(points_np), 3))
+    n_points = write_points_ply(
+        str(out_dir / "surflo_surface_points.ply"),
+        points_np,
+        colors_uint8=colors,
+        normals=normals_np,
+    )
+    save_cloud_visualization(points_np, normals_np, out_dir / "reconstruction_3d_views.png")
+    save_orthographic_depth_views(points_np, out_dir / "reconstruction_orthographic_depth.png")
+
+    metadata = {
+        "sample_index": args.sample_index,
+        "task": sample["lang"],
+        "trainer_input_shape": list(trainer_images.shape),
+        "num_ode_steps": args.num_steps,
+        "num_query_points": args.num_query_points,
+        "saved_points_after_preview_outlier_trim": n_points,
+        "point_color": "uniform amber; normals are retained in the PLY but not color-mapped",
+        "device": str(device),
+        "checkpoint": args.checkpoint,
+    }
+    (out_dir / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    print(json.dumps(metadata, indent=2))
+
+
+if __name__ == "__main__":
+    main()

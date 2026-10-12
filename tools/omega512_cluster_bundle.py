@@ -1,0 +1,275 @@
+"""Export portable Omega experiment inputs; relocate and verify them on a new host.
+
+The payload contains only code, dataset, public backbone weights and experiment
+artifacts. No SSH/Hugging Face credentials or environment directories are copied.
+Training state snapshots are opt-in; independent experiments initialize fresh.
+"""
+
+import argparse
+import datetime
+import hashlib
+import importlib.metadata
+import json
+import os
+import shutil
+import subprocess
+from pathlib import Path
+
+from omegaconf import OmegaConf
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def digest(path):
+    hasher = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for chunk in iter(lambda: stream.read(16 * 1024 * 1024), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def stable_training_state(source, destination):
+    """Copy a live checkpoint only while its completion marker stays unchanged."""
+    for _ in range(3):
+        marker = source / "complete.json"
+        if not marker.exists():
+            continue
+        before = (marker.stat().st_mtime_ns, marker.read_bytes())
+        shutil.copytree(source, destination, dirs_exist_ok=True)
+        if marker.exists() and before == (marker.stat().st_mtime_ns, marker.read_bytes()):
+            return json.loads(before[1])
+        shutil.rmtree(destination)
+    raise RuntimeError(f"Checkpoint changed during copying: {source}; rerun after the save completes")
+
+
+def export(args):
+    target = args.bundle.resolve()
+    target.mkdir(parents=True, exist_ok=False)
+    original = json.loads(args.training_manifest.read_text())
+    manifest = {
+        "created_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "git_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "training_launch_manifest": original,
+        "runs": [],
+    }
+    # Capture the working tree, including required uncommitted implementations.
+    names = (
+        subprocess.check_output(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"], cwd=ROOT)
+        .decode()
+        .split("\0")
+    )
+    prefixes = ("starVLA/", "deployment/", "tools/", "tests/", "examples/", "docs/")
+    files = []
+    for name in names:
+        source = ROOT / name
+        if (
+            name
+            and source.is_file()
+            and (
+                name.startswith(prefixes)
+                or name
+                in (
+                    "pyproject.toml",
+                    "requirements.txt",
+                    "requirements-omega512.txt",
+                    "LICENSE",
+                    ".gitignore",
+                    "README.md",
+                )
+            )
+        ):
+            destination = target / "code" / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+            files.append(name)
+    (target / "code_files.txt").write_text("\n".join(files) + "\n")
+    (target / "working_tree.patch").write_bytes(subprocess.check_output(["git", "diff", "--binary"], cwd=ROOT))
+    omega = Path(original["runs"][0]["config"])
+    config = OmegaConf.load(omega)
+    source_root = Path(config.framework.omega.source_root)
+    shutil.copytree(
+        source_root / "vggt_omega", target / "omega/vggt_omega", ignore=shutil.ignore_patterns("__pycache__", "*.pyc")
+    )
+    for name in ("pyproject.toml", "LICENSE", "README.md"):
+        shutil.copy2(source_root / name, target / "omega" / name)
+    reference = target / "omega/ckpt/vggt_omega_1b_512.pt"
+    reference.parent.mkdir()
+    shutil.copy2(config.framework.omega.checkpoint_path, reference)
+    if digest(reference) != config.framework.omega.checkpoint_sha256:
+        raise RuntimeError("Copied Omega checkpoint checksum mismatch")
+    shutil.copytree(
+        Path(config.datasets.vla_data.data_root_dir) / original["task"],
+        target / "data" / original["task"],
+        ignore=shutil.ignore_patterns("*.pkl"),
+    )
+    for run in original["runs"]:
+        source = Path(run["checkpoint_dir"])
+        destination = target / "runs" / run["variant"]
+        destination.mkdir(parents=True)
+        for name in ("config.full.yaml", "config.yaml", "dataset_statistics.json"):
+            shutil.copy2(source / name, destination / name)
+        shutil.copytree(source / "data_split", destination / "data_split", ignore=shutil.ignore_patterns("*.pkl"))
+        record = {
+            "variant": run["variant"],
+            "source_run_id": run["run_id"],
+            "initialization": "fresh; local jobs finish and evaluate on the source machine",
+        }
+        if args.include_training_states:
+            candidates = list((source / "checkpoints").glob("steps_*/complete.json"))
+            chosen = (
+                max(candidates, key=lambda p: int(p.parent.name.split("_")[1])).parent
+                if candidates
+                else source / "best_model/training_state"
+            )
+            cursor = stable_training_state(chosen, destination / "training_state")
+            (destination / "checkpoints").mkdir()
+            policy = destination / "checkpoints" / f"migration_steps_{cursor['completed_steps']}_pytorch_model.pt"
+            os.link(destination / "training_state/pytorch_model.bin", policy)
+            record.update(
+                source_training_state=str(chosen), cursor=cursor, policy_checkpoint=str(policy.relative_to(target))
+            )
+        manifest["runs"].append(record)
+    launch_code = args.training_manifest.parent / "code"
+    if launch_code.exists():
+        shutil.copytree(launch_code, target / "original_launch_code")
+    versions = {}
+    for package in (
+        "torch",
+        "torchvision",
+        "transformers",
+        "accelerate",
+        "numpy",
+        "pandas",
+        "pyarrow",
+        "pillow",
+        "av",
+        "decord",
+        "omegaconf",
+        "einops",
+        "timm",
+        "huggingface-hub",
+        "wandb",
+        "websockets",
+        "websocket-client",
+        "msgpack",
+        "safetensors",
+        "scipy",
+        "albumentations",
+        "pydantic",
+        "numpydantic",
+        "rich",
+        "pipablepytorch3d",
+        "opencv-python-headless",
+    ):
+        try:
+            versions[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            versions[package] = None
+    manifest["source_package_versions"] = versions
+    manifest["checksums"] = {
+        str(path.relative_to(target)): digest(path) for path in sorted(target.rglob("*")) if path.is_file()
+    }
+    (target / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    print(json.dumps({"bundle": str(target), "runs": manifest["runs"]}, indent=2), flush=True)
+
+
+def configure(args):
+    target, repo = args.bundle.resolve(), args.repo.resolve()
+    manifest = json.loads((target / "manifest.json").read_text())
+    directory = target / "configured"
+    directory.mkdir(exist_ok=True)
+    for run in manifest["runs"]:
+        variant = run["variant"]
+        copied = target / "runs" / variant
+        cfg = OmegaConf.load(copied / "config.full.yaml")
+        cfg.framework.omega.source_root = str(target / "omega")
+        cfg.framework.omega.checkpoint_path = str(target / "omega/ckpt/vggt_omega_1b_512.pt")
+        cfg.datasets.vla_data.data_root_dir = str(target / "data")
+        cfg.run_id = f"omega512_{variant}_gaas_fresh_{target.name}"
+        cfg.output_dir = str(repo / "results/Checkpoints" / cfg.run_id)
+        cfg.datasets.vla_data.statistics_cache_dir = str(Path(cfg.output_dir) / "data_split")
+        cfg.trainer.pop("resume_checkpoint", None)
+        cfg.trainer.pop("pretrained_checkpoint", None)
+        cfg.trainer.pop("is_resume", None)
+        cfg.config_yaml = str(directory / f"{variant}_fresh.yaml")
+        OmegaConf.save(cfg, cfg.config_yaml, resolve=True)
+        # Policy loading finds metadata two levels above its .pt file.
+        deploy = OmegaConf.create(OmegaConf.to_container(cfg, resolve=True))
+        deploy.trainer.pop("resume_checkpoint", None)
+        OmegaConf.save(deploy, copied / "config.full.yaml", resolve=True)
+        OmegaConf.save(deploy, copied / "config.yaml", resolve=True)
+        fresh = OmegaConf.create(OmegaConf.to_container(deploy, resolve=True))
+        fresh.run_id = "omega512_" + variant + "_gaas_smoke_" + target.name
+        fresh.output_dir = str(repo / "results/Checkpoints" / fresh.run_id)
+        fresh.datasets.vla_data.statistics_cache_dir = str(Path(fresh.output_dir) / "data_split")
+        # Full-capacity, short trainer check; production budget remains in resume.yaml.
+        fresh.trainer.max_train_steps = fresh.trainer.step_limit = 16
+        fresh.trainer.sample_budget = fresh.trainer.planned_training_samples = 128
+        fresh.trainer.num_warmup_steps = 2
+        fresh.trainer.save_interval = fresh.trainer.eval_interval = 8
+        fresh.trainer.validation_max_batches = 2
+        fresh.trainer.logging_frequency = 1
+        fresh.config_yaml = str(directory / f"{variant}_smoke.yaml")
+        OmegaConf.save(fresh, fresh.config_yaml, resolve=True)
+    adaptation = OmegaConf.load(directory / "dense_fresh.yaml")
+    adaptation.framework.omega.train_last_blocks = 2
+    adaptation.run_id = f"omega512_adapt_last2_gaas_fresh_{target.name}"
+    adaptation.output_dir = str(repo / "results/Checkpoints" / adaptation.run_id)
+    adaptation.datasets.vla_data.statistics_cache_dir = str(Path(adaptation.output_dir) / "data_split")
+    adaptation.config_yaml = str(directory / "adapt_last2_fresh.yaml")
+    OmegaConf.save(adaptation, adaptation.config_yaml, resolve=True)
+    env = (
+        f'export OMEGA_ROOT={shlex_quote(str(target / "omega"))}\n'
+        f'export OMEGA_CHECKPOINT={shlex_quote(str(target / "omega/ckpt/vggt_omega_1b_512.pt"))}\n'
+        f'export ROBOTWIN_DATA_ROOT={shlex_quote(str(target / "data"))}\n'
+        "export STARVLA_DISABLE_DEEPSPEED=1\n"
+        "export STARVLA_FRAMEWORK_MODULES=starVLA.model.framework.VLM4A.Omega512DiT\n"
+        "export WANDB_MODE=offline\nexport NO_ALBUMENTATIONS_UPDATE=1\n"
+        "export OMP_NUM_THREADS=4\nexport PYTHONUNBUFFERED=1\n"
+        f'export PYTHONPATH={shlex_quote(str(repo))}:{shlex_quote(str(target / "runtime_site"))}:"${{PYTHONPATH:-}}"\n'
+    )
+    (directory / "environment.sh").write_text(env)
+    print(directory)
+
+
+def shlex_quote(value):
+    import shlex
+
+    return shlex.quote(value)
+
+
+def verify(args):
+    target = args.bundle.resolve()
+    manifest = json.loads((target / "manifest.json").read_text())
+    for name, expected in manifest["checksums"].items():
+        # configure intentionally relocates the checkpoint-adjacent configs.
+        if args.configured and name.startswith("runs/") and name.endswith(("config.yaml", "config.full.yaml")):
+            continue
+        if digest(target / name) != expected:
+            raise RuntimeError(f"Checksum mismatch: {name}")
+    print(json.dumps({"status": "verified", "files": len(manifest["checksums"])}), flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest="command", required=True)
+    for name in ("export", "configure", "verify"):
+        child = commands.add_parser(name)
+        child.add_argument("--bundle", type=Path, required=True)
+        if name == "export":
+            child.add_argument("--training-manifest", type=Path, required=True)
+            child.add_argument(
+                "--include-training-states",
+                action="store_true",
+                help="Opt-in snapshot copying; default exports fresh experiment setup only",
+            )
+        if name == "configure":
+            child.add_argument("--repo", type=Path, required=True)
+        if name == "verify":
+            child.add_argument("--configured", action="store_true")
+    args = parser.parse_args()
+    globals()[args.command](args)
+
+
+if __name__ == "__main__":
+    main()

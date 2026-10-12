@@ -1,0 +1,67 @@
+"""Capture independent depth and calibration for exact recorded robot scenes."""
+
+import io
+import json
+import sys
+from pathlib import Path
+
+import cv2
+import h5py
+import numpy as np
+from PIL import Image
+
+sys.path.insert(0, "/export/home/haoliang/projects/RoboTwin_PVG")
+from scripts.eval_policy_xpolicylab import class_decorator, load_task_args
+
+out = Path(
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/repair/robot_ground_truth"
+)
+out.mkdir(parents=True, exist_ok=True)
+src = Path("/export/home/haoliang/projects/RoboTwin/data/rotate_qrcode/demo_clean")
+cfg, _ = load_task_args(
+    {"task_name": "rotate_qrcode", "task_config": "demo_clean", "policy_name": "diagnostic", "ckpt_name": "geometry"}
+)
+cfg.update(render_freq=0, save_data=False, eval_mode=True, eval_video_log=False)
+records = []
+for ep, seed in [(51, 131), (60, 162), (38, 91)]:
+    env = class_decorator("rotate_qrcode")
+    try:
+        env.setup_demo(now_ep_num=0, seed=seed, is_test=True, **cfg)
+        obs = env.get_obs()
+        depth = env.cameras.get_depth()
+        ims = []
+        ds = []
+        ks = []
+        es = []
+        errors = []
+        with h5py.File(src / f"data/episode{ep}.hdf5") as f:
+            for name in ["head_camera", "left_camera", "right_camera"]:
+                im = np.asarray(Image.open(io.BytesIO(bytes(f[f"observation/{name}/rgb"][0]))).convert("RGB"))
+                native = obs["observation"][name]["rgb"]
+                h, w = im.shape[:2]
+                hn, wn = native.shape[:2]
+                dep = cv2.resize(depth[name]["depth"] / 1000, (w, h), interpolation=cv2.INTER_NEAREST)
+                k = obs["observation"][name]["intrinsic_cv"].copy()
+                k[0] *= w / wn
+                k[1] *= h / hn
+                ims.append(im)
+                ds.append(dep)
+                ks.append(k)
+                es.append(obs["observation"][name]["extrinsic_cv"])
+                errors.append(
+                    float(np.abs(np.asarray(Image.fromarray(native).resize((w, h))).astype(float) - im).mean())
+                )
+        np.savez_compressed(
+            out / f"episode_{ep:03d}.npz",
+            images=np.stack(ims),
+            depth=np.stack(ds),
+            intrinsics=np.stack(ks),
+            extrinsics=np.stack(es),
+            object_position=env.qrcode.get_pose().p,
+        )
+        r = {"episode": ep, "seed": seed, "image_mae": errors, "object_position": env.qrcode.get_pose().p.tolist()}
+        records.append(r)
+        print(json.dumps(r), flush=True)
+    finally:
+        env.close_env(clear_cache=True)
+(out / "records.json").write_text(json.dumps(records, indent=2))

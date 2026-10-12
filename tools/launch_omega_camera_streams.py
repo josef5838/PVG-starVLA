@@ -1,0 +1,202 @@
+"""Prepare/launch the matched adjust_bottle direct-408 and fused-32 policies."""
+
+import argparse
+import datetime
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+from omegaconf import OmegaConf
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from starVLA.dataloader.episode_split import (  # noqa: E402
+    split_episodes,
+)
+
+SOURCES = [
+    "starVLA/model/framework/VLM4A/OmegaCameraStreamDiT.py",
+    "starVLA/model/framework/VLM4A/Omega512DiT.py",
+    "starVLA/model/modules/projector/omega_stream_fusion.py",
+    "starVLA/model/modules/action_model/OmegaCrossAttentionHeader.py",
+    "starVLA/dataloader/gr00t_lerobot/datasets.py",
+    "starVLA/dataloader/lerobot_datasets.py",
+    "examples/simBenchmarks/Robotwin/train_files/data_registry/data_config.py",
+    "starVLA/training/train_starvla.py",
+    "starVLA/training/action_validation.py",
+    "tools/train_omega_camera_streams.py",
+    "tools/preflight_omega_camera_streams.py",
+    "tools/launch_omega_camera_streams.py",
+    "docs/omega_camera_stream_action_protocol_20261009.md",
+]
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def prepare(args):
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
+    directory = ROOT / "results/omega_camera_stream_training" / f"adjust_bottle_{stamp}"
+    directory.mkdir(parents=True, exist_ok=False)
+    cfg = OmegaConf.load(ROOT / "examples/simBenchmarks/Robotwin/train_files/omega512_robotwin.yaml")
+    cfg.framework.name = "OmegaCameraStreamDiT"
+    cfg.framework.omega.source_root = "/export/home/haoliang/projects/vggt-omega-action-pred"
+    cfg.framework.omega.checkpoint_path = str(Path(cfg.framework.omega.source_root) / "ckpt/vggt_omega_1b_512.pt")
+    cfg.framework.task_names = ["adjust_bottle"]
+    cfg.framework.state_dropout_prob = 0.0
+    cfg.framework.condition_dropout_prob = 0.0
+    cfg.framework.streams = dict(
+        history_length=8,
+        conditioning="direct",
+        width=512,
+        depth=2,
+        heads=8,
+        output_queries=32,
+        temporal_embedding="learned",
+        temporal_rope=False,
+    )
+    cfg.datasets.vla_data.data_root_dir = "/export/home/haoliang/projects/starVLA/playground/Datasets/RoboTwin"
+    cfg.datasets.vla_data.data_mix = "robotwin_omega_stream8_adjust_bottle"
+    cfg.datasets.vla_data.instruction_override = "adjust_bottle"
+    cfg.datasets.vla_data.pack_image_history = True
+    cfg.datasets.vla_data.num_workers = 2
+    cfg.datasets.vla_data.prefetch_factor = 1
+    cfg.trainer.max_train_steps = args.steps
+    cfg.trainer.step_limit = args.steps
+    cfg.trainer.sample_budget = args.steps * 8
+    cfg.trainer.planned_training_samples = args.steps * 8
+    cfg.trainer.save_interval = 1000
+    cfg.trainer.eval_interval = 250
+    cfg.trainer.validation_max_batches = 32
+    cfg.trainer.learning_rate.memory_proj = 3e-4
+    cfg.run_root_dir = str(ROOT / "results/Checkpoints")
+    cfg.wandb_project = "omega-camera-streams-robotwin"
+    train_ids, val_ids = split_episodes(Path(cfg.datasets.vla_data.data_root_dir) / "adjust_bottle", 0.1, 42)
+    manifest = dict(
+        status="prepared",
+        created_utc=stamp,
+        task="adjust_bottle",
+        seed=42,
+        protocol=str(ROOT / "docs/omega_camera_stream_action_protocol_20261009.md"),
+        train_episode_ids=train_ids,
+        validation_episode_ids=val_ids,
+        optimizer_updates_per_run=args.steps,
+        effective_batch_per_run=8,
+        sample_budget_per_run=args.steps * 8,
+        history_offsets=list(range(-7, 1)),
+        backbone_calls_per_example=3,
+        input_images_per_example=24,
+        raw_conditioning_tokens=408,
+        temporal_rope=False,
+        temporal_embedding="learned",
+        runs=[],
+    )
+    for kind, gpu in zip(["direct", "fused"], args.gpus.split(","), strict=False):
+        item = OmegaConf.create(OmegaConf.to_container(cfg, resolve=True))
+        item.framework.streams.conditioning = kind
+        item.run_id = f"omega_stream8_adjust_bottle_{kind}_{args.steps}steps_{stamp}"
+        item.datasets.vla_data.statistics_cache_dir = str(Path(item.run_root_dir) / item.run_id / "data_split")
+        path = directory / f"{kind}.yaml"
+        item.config_yaml = str(path)
+        OmegaConf.save(item, path, resolve=True)
+        manifest["runs"].append(
+            dict(
+                variant=kind,
+                gpu=gpu,
+                config=str(path),
+                config_sha256=digest(path),
+                output_dir=str(Path(item.run_root_dir) / item.run_id),
+                log=str(directory / f"{kind}.log"),
+                preflight=str(directory / f"{kind}_preflight.json"),
+                pid=None,
+                command=[sys.executable, str(ROOT / "tools/train_omega_camera_streams.py"), "--config_yaml", str(path)],
+            )
+        )
+    path = directory / "manifest.json"
+    path.write_text(json.dumps(manifest, indent=2) + "\n")
+    return path, manifest
+
+
+def launch(path, manifest):
+    if manifest["status"] != "prepared":
+        raise ValueError("Refuse duplicate launch")
+    audits = []
+    normalized = []
+    for run in manifest["runs"]:
+        if digest(run["config"]) != run["config_sha256"]:
+            raise ValueError("Configuration changed")
+        if Path(run["output_dir"]).exists():
+            raise ValueError("Fresh training output already exists")
+        audit = json.loads(Path(run["preflight"]).read_text())
+        audits.append(audit)
+        assert audit["status"] == "passed"
+        cfg = OmegaConf.to_container(OmegaConf.load(run["config"]), resolve=True)
+        for k in ["run_id", "config_yaml"]:
+            cfg.pop(k)
+        cfg["datasets"]["vla_data"].pop("statistics_cache_dir")
+        cfg["framework"]["streams"].pop("conditioning")
+        normalized.append(cfg)
+    assert normalized[0] == normalized[1], "Unexpected configuration differences"
+    assert audits[0]["initial_common_weights_sha256"] == audits[1]["initial_common_weights_sha256"]
+    assert audits[0]["batch_image_sha256"] == audits[1]["batch_image_sha256"]
+    assert audits[0]["batch_action_sha256"] == audits[1]["batch_action_sha256"]
+    manifest["preflight_input_and_common_initialization_matched"] = True
+    manifest["code_sha256"] = {}
+    for name in SOURCES:
+        source = ROOT / name
+        dest = path.parent / "code" / name
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, dest)
+        manifest["code_sha256"][name] = digest(source)
+    for run in manifest["runs"]:
+        env = dict(
+            os.environ,
+            CUDA_VISIBLE_DEVICES=run["gpu"],
+            STARVLA_DISABLE_DEEPSPEED="1",
+            STARVLA_FRAMEWORK_MODULES="starVLA.model.framework.VLM4A.OmegaCameraStreamDiT",
+            WANDB_MODE="offline",
+            PYTHONUNBUFFERED="1",
+            OMP_NUM_THREADS="4",
+            NO_ALBUMENTATIONS_UPDATE="1",
+            PYTHONPATH=str(ROOT),
+            ACCELERATE_MIXED_PRECISION="bf16",
+        )
+        with Path(run["log"]).open("w") as log:
+            child = subprocess.Popen(
+                run["command"],
+                cwd=ROOT,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+        run.update(pid=child.pid, status="starting")
+    manifest["status"] = "running"
+    path.write_text(json.dumps(manifest, indent=2) + "\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--steps", type=int, default=10000)
+    parser.add_argument("--gpus", default="0,1")
+    parser.add_argument("--launch-manifest", type=Path)
+    args = parser.parse_args()
+    if args.steps < 1 or len(args.gpus.split(",")) != 2 or len(set(args.gpus.split(","))) != 2:
+        raise ValueError("Positive budget and two distinct GPUs required")
+    if args.launch_manifest:
+        path = args.launch_manifest.resolve()
+        manifest = json.loads(path.read_text())
+        launch(path, manifest)
+    else:
+        path, manifest = prepare(args)
+    print(json.dumps(dict(manifest=str(path), runs=manifest["runs"]), indent=2))
+
+
+if __name__ == "__main__":
+    main()

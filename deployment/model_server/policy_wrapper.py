@@ -27,10 +27,9 @@ from typing import Any, Dict, List, Optional, Sequence
 import numpy as np
 import torch
 
+from deployment.model_server.policy_norm_processor import PolicyNormProcessor
 from starVLA.model.framework.base_framework import baseframework, merge_config_overrides
 from starVLA.model.framework.share_tools import read_mode_config
-
-from deployment.model_server.policy_norm_processor import PolicyNormProcessor
 
 
 def _training_obs_image_size(model_cfg: Dict[str, Any]) -> Optional[List[int]]:
@@ -45,6 +44,9 @@ def _training_obs_image_size(model_cfg: Dict[str, Any]) -> Optional[List[int]]:
         default_resolution = vla_data_cfg["default_image_resolution"]
         if isinstance(default_resolution, (list, tuple)) and len(default_resolution) >= 2:
             size = default_resolution[-2:]
+    if size is None and model_cfg.get("framework", {}).get("name") == "SurfloDiT":
+        resolution = model_cfg["framework"].get("surflo", {}).get("image_size", 518)
+        size = [resolution, resolution]
     if not isinstance(size, (list, tuple)) or len(size) != 2:
         return None
     return [int(size[0]), int(size[1])]
@@ -67,6 +69,15 @@ class PolicyServerWrapper:
         framework = baseframework.from_pretrained(self._ckpt_path, config_overrides=config_overrides)
         if use_bf16:
             framework = framework.to(torch.bfloat16)
+            if hasattr(framework, "surflo_backbone"):
+                # VGGT's camera head explicitly computes in float32.
+                # Keep backbone weights in float32, as during training;
+                # SurfloDiT applies bfloat16 autocast to visual computation.
+                framework.surflo_backbone.float()
+            if hasattr(framework, "omega"):
+                # Omega policies also train with float32 backbone parameters
+                # and apply autocast inside their visual forward pass.
+                framework.omega.float()
         framework = framework.to(device).eval()
         self._framework = framework
 
@@ -84,7 +95,8 @@ class PolicyServerWrapper:
             self._action_chunk_size = int(action_model_cfg["future_action_window_size"]) + 1
         else:
             raise ValueError(
-                f"PolicyServerWrapper: no action_horizon or future_action_window_size found in model config for {self._ckpt_path}"
+                "PolicyServerWrapper: no action_horizon or future_action_window_size found in model config for"
+                f" {self._ckpt_path}"
             )
         # Cache of PolicyNormProcessor instances per unnorm_key.
         # For single-dataset ckpts unnorm_key is auto-selected; for multi-dataset
@@ -119,9 +131,7 @@ class PolicyServerWrapper:
     def _get_processor(self, unnorm_key: Optional[str]) -> PolicyNormProcessor:
         cache_key = unnorm_key if unnorm_key is not None else "__default__"
         if cache_key not in self._norm_processors:
-            self._norm_processors[cache_key] = PolicyNormProcessor(
-                self._ckpt_path, unnorm_key=unnorm_key
-            )
+            self._norm_processors[cache_key] = PolicyNormProcessor(self._ckpt_path, unnorm_key=unnorm_key)
         return self._norm_processors[cache_key]
 
     def get_norm_processor(self, unnorm_key: Optional[str] = None) -> PolicyNormProcessor:
@@ -131,9 +141,7 @@ class PolicyServerWrapper:
         the training-time ``action_keys`` / ``state_keys`` and their per-key
         dims so they can split the flat action chunk into named groups.
         """
-        return self._get_processor(
-            unnorm_key if unnorm_key is not None else self._default_unnorm_key
-        )
+        return self._get_processor(unnorm_key if unnorm_key is not None else self._default_unnorm_key)
 
     @property
     def metadata(self) -> Dict[str, Any]:
@@ -144,13 +152,37 @@ class PolicyServerWrapper:
             "action_chunk_size": self._action_chunk_size,
             "available_unnorm_keys": self._available_unnorm_keys,
             "default_unnorm_key": self._default_unnorm_key,
+            "framework_name": self._model_cfg.get("framework", {}).get("name"),
+            "include_state": (
+                self._model_cfg.get("datasets", {})
+                .get("vla_data", {})
+                .get("include_state", self._model_cfg.get("framework", {}).get("name") == "SurfloDiT")
+            ),
+            "execute_horizon": self._model_cfg.get("evaluation", {}).get("execute_horizon", self._action_chunk_size),
+            "num_ddim_steps": self._model_cfg.get("evaluation", {}).get("num_ddim_steps", 20),
+            "state_normalization": "server",
             "training_data_mix": self._model_cfg.get("datasets", {}).get("vla_data", {}).get("data_mix"),
             "training_obs_image_size": _training_obs_image_size(self._model_cfg),
+            "preserve_native_images": bool(
+                self._model_cfg.get("datasets", {}).get("vla_data", {}).get("preserve_native_images", False)
+            ),
+            "instruction_override": self._model_cfg.get("datasets", {}).get("vla_data", {}).get("instruction_override"),
             "eval_image_contract": (
                 "Eval clients must explicitly choose image count and order. "
                 "The server does not infer or reorder camera views from training config."
             ),
         }
+        if base["framework_name"] in {"Omega512DiT", "OmegaCameraStreamDiT"}:
+            framework = self._model_cfg.get("framework", {})
+            base["state_conditioning"] = framework.get("state_conditioning", "full")
+            base["visual_conditioning"] = framework.get("visual_conditioning", True)
+            base["evaluation_diffusion_seed"] = self._model_cfg.get("evaluation", {}).get("diffusion_seed")
+        if base["framework_name"] == "OmegaCameraStreamDiT":
+            base["camera_history_length"] = int(self._model_cfg["framework"]["streams"]["history_length"])
+            base["camera_history_stride"] = 1
+            base["camera_history_order"] = "camera-major, oldest-to-current; head, left wrist, right wrist"
+            # Dataset RGB is 640x480 even though source simulator RGB is smaller.
+            base["preserve_native_images"] = False
         # Enrich with per-embodiment keys when a default processor already exists.
         if self._default_unnorm_key is not None:
             proc = self._get_processor(self._default_unnorm_key)
@@ -182,12 +214,18 @@ class PolicyServerWrapper:
                 effective_key = self._available_unnorm_keys[0]
             else:
                 raise ValueError(
-                    f"predict_action: unnorm_key not specified and no default set. "
+                    "predict_action: unnorm_key not specified and no default set. "
                     f"Pass one of {self._available_unnorm_keys}."
                 )
         proc = self._get_processor(effective_key)
 
-        out = self._framework.predict_action(examples=examples, **kwargs)
+        prepared_examples = []
+        for example in examples:
+            prepared = dict(example)
+            if prepared.get("state") is not None:
+                prepared["state"] = proc.apply_state(prepared["state"])
+            prepared_examples.append(prepared)
+        out = self._framework.predict_action(examples=prepared_examples, **kwargs)
         normalized = np.asarray(out["normalized_actions"])  # (B, T, D)
 
         unnorm = np.stack(

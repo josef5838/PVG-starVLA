@@ -64,8 +64,7 @@ def _resolve_robot_type(
         data_mix = model_cfg["datasets"]["vla_data"]["data_mix"]
     except (KeyError, TypeError) as e:
         raise KeyError(
-            "ckpt config.yaml is missing `datasets.vla_data.data_mix`; "
-            "cannot resolve training-time robot_type."
+            "ckpt config.yaml is missing `datasets.vla_data.data_mix`; cannot resolve training-time robot_type."
         ) from e
 
     if data_mix not in DATASET_NAMED_MIXTURES:
@@ -261,9 +260,7 @@ class PolicyNormProcessor:
                 unnorm_key = next(iter(norm_stats.keys()))
             # else: defer error to step 3 below after robot_type resolution attempt
         elif unnorm_key not in norm_stats:
-            raise KeyError(
-                f"unnorm_key={unnorm_key!r} not in {list(norm_stats.keys())}"
-            )
+            raise KeyError(f"unnorm_key={unnorm_key!r} not in {list(norm_stats.keys())}")
         self._unnorm_key = unnorm_key  # may still be None for multi-key case
 
         # 1) Resolve which DataConfig was used at training.
@@ -287,7 +284,7 @@ class PolicyNormProcessor:
         # 3) Pick the requested unnorm_key (finalize; error if still None here).
         if self._unnorm_key is None:
             raise ValueError(
-                f"Multiple unnorm_keys in dataset_statistics.json: "
+                "Multiple unnorm_keys in dataset_statistics.json: "
                 f"{list(norm_stats.keys())}. Pass unnorm_key explicitly."
             )
         unnorm_key = self._unnorm_key
@@ -314,8 +311,7 @@ class PolicyNormProcessor:
         self._transform.eval()  # mark transforms as eval-mode
 
         logger.info(
-            "PolicyNormProcessor ready: robot_type=%s, unnorm_key=%s, "
-            "action_keys=%s (dims=%s), state_keys=%s",
+            "PolicyNormProcessor ready: robot_type=%s, unnorm_key=%s, action_keys=%s (dims=%s), state_keys=%s",
             robot_type,
             unnorm_key,
             self._action_keys,
@@ -357,6 +353,22 @@ class PolicyNormProcessor:
     # ------------------------------------------------------------------
     # Inverse path (model output → env action)
     # ------------------------------------------------------------------
+    def apply_state(self, state: np.ndarray) -> np.ndarray:
+        """Normalize raw state in training key order using checkpoint statistics."""
+        values = np.asarray(state, dtype=np.float32)
+        if values.ndim == 1:
+            values = values[None, :]
+        expected = sum(self._state_key_dims[key] for key in self._state_keys)
+        if values.ndim != 2 or values.shape[-1] != expected:
+            raise ValueError(f"Expected raw state [T,{expected}], got {values.shape}")
+        data, cursor = {}, 0
+        for key in self._state_keys:
+            width = self._state_key_dims[key]
+            data[key] = values[:, cursor : cursor + width].copy()
+            cursor += width
+        out = self._transform(data)
+        return np.concatenate([np.asarray(out[key]) for key in self._state_keys], axis=-1)
+
     def unapply_actions(self, normalized_actions: np.ndarray) -> np.ndarray:
         """Invert action normalization using the training-time pipeline.
 
@@ -368,9 +380,7 @@ class PolicyNormProcessor:
             ``(T, D)`` un-normalized actions in env coordinates.
         """
         normalized_actions = np.asarray(normalized_actions)
-        assert normalized_actions.ndim == 2, (
-            f"Expected (T, D); got shape {normalized_actions.shape}"
-        )
+        assert normalized_actions.ndim == 2, f"Expected (T, D); got shape {normalized_actions.shape}"
 
         # Split (T, D) into per-key {full_key: torch.Tensor[T, dim_k]}.
         data: Dict[str, torch.Tensor] = {}

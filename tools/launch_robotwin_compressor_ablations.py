@@ -1,0 +1,165 @@
+"""Launch matched fresh Surflo compressor ablations on separate GPUs."""
+
+import argparse
+import datetime
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+from omegaconf import OmegaConf
+
+ROOT = Path(__file__).resolve().parents[1]
+CODE_FILES = (
+    "starVLA/model/framework/VLM4A/SurfloDiT.py",
+    "starVLA/model/modules/projector/surflo_state_conditioner.py",
+    "starVLA/training/trainer_utils/trainer_tools.py",
+    "tools/launch_robotwin_compressor_ablations.py",
+)
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def prepare(args):
+    if not args.baseline:
+        raise ValueError("--baseline must point to the previous run config.full.yaml")
+    baseline_path = Path(args.baseline).resolve()
+    baseline = OmegaConf.load(baseline_path)
+    if baseline.framework.visual_adapter_type != "linear":
+        raise ValueError("Use the linear baseline for both compressor ablations.")
+    if baseline.trainer.get("pretrained_checkpoint") or baseline.trainer.get("resume_checkpoint"):
+        raise ValueError("The baseline must describe a fresh training run.")
+    gpus = args.gpus.split(",")
+    if len(gpus) != 2 or gpus[0] == gpus[1]:
+        raise ValueError("--gpus must contain two different GPU IDs")
+    if args.compressor_lr <= 0:
+        raise ValueError("Compressor learning rate must be positive")
+    task = baseline.datasets.vla_data.instruction_override
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
+    directory = ROOT / "results/robotwin_compressor_ablation" / f"{task}_{stamp}"
+    directory.mkdir(parents=True, exist_ok=False)
+    manifest = {
+        "task": task,
+        "baseline_config": str(baseline_path),
+        "baseline_config_sha256": digest(baseline_path),
+        "seed": int(baseline.seed),
+        "initialization": "fresh policy; released EMA Surflo weights; no old action checkpoints",
+        "trainable_surflo_modules": ["surface_net.compressor"],
+        "surface_auxiliary_loss": False,
+        "compressor_learning_rate": args.compressor_lr,
+        "optimizer_updates_per_variant": int(baseline.trainer.max_train_steps),
+        "sample_budget_per_variant": int(baseline.trainer.sample_budget),
+        "effective_batch_per_variant": (
+            int(baseline.datasets.vla_data.per_device_batch_size) * int(baseline.trainer.gradient_accumulation_steps)
+        ),
+        "save_interval": int(baseline.trainer.save_interval),
+        "training_resumable_checkpoints": True,
+        "python": sys.executable,
+        "runs": [],
+    }
+    for variant, gpu, state_conditioning in zip(("compressor", "compressor_state"), gpus, (False, True), strict=False):
+        cfg = OmegaConf.create(OmegaConf.to_container(baseline, resolve=True))
+        run_id = f"surflo_robotwin_{task}_{variant}_fresh_{cfg.trainer.max_train_steps}steps_{stamp}"
+        cfg.run_id = run_id
+        cfg.output_dir = str(Path(cfg.run_root_dir) / run_id)
+        cfg.datasets.vla_data.statistics_cache_dir = str(Path(cfg.output_dir) / "data_split")
+        cfg.framework.surflo.train_compressor = True
+        cfg.framework.surflo.compressor_state_conditioning = state_conditioning
+        cfg.framework.surflo.freeze_backbone = True
+        cfg.trainer.freeze_modules = ""
+        cfg.trainer.learning_rate["surflo_backbone.surface_net.compressor"] = args.compressor_lr
+        cfg.trainer.save_training_state = True
+        config_path = directory / f"{variant}.yaml"
+        cfg.config_yaml = str(config_path)
+        OmegaConf.save(cfg, config_path, resolve=True)
+        manifest["runs"].append(
+            {
+                "variant": variant,
+                "gpu": gpu,
+                "run_id": run_id,
+                "config": str(config_path),
+                "config_sha256": digest(config_path),
+                "log": str(directory / f"{variant}.log"),
+                "checkpoint_dir": str(ROOT / cfg.output_dir),
+                "pid": None,
+                "command": [sys.executable, "starVLA/training/train_starvla.py", "--config_yaml", str(config_path)],
+            }
+        )
+    # Verify the two configs differ only in state conditioning and artifact paths.
+    configs = [OmegaConf.to_container(OmegaConf.load(run["config"]), resolve=True) for run in manifest["runs"]]
+    for cfg in configs:
+        for key in ("run_id", "output_dir", "config_yaml"):
+            cfg.pop(key)
+        cfg["datasets"]["vla_data"].pop("statistics_cache_dir")
+        cfg["framework"]["surflo"].pop("compressor_state_conditioning")
+    if configs[0] != configs[1]:
+        raise ValueError("Ablation configs contain unintended differences")
+    path = directory / "manifest.json"
+    path.write_text(json.dumps(manifest, indent=2) + "\n")
+    return path, manifest
+
+
+def launch(path, manifest):
+    if any(run["pid"] is not None for run in manifest["runs"]):
+        raise ValueError("This manifest has already been launched")
+    for run in manifest["runs"]:
+        if digest(run["config"]) != run["config_sha256"]:
+            raise ValueError(f"Prepared config changed: {run['config']}")
+        if Path(run["checkpoint_dir"]).exists():
+            raise ValueError(f"Run directory already exists: {run['checkpoint_dir']}")
+    manifest["code_sha256"] = {name: digest(ROOT / name) for name in CODE_FILES}
+    for name in CODE_FILES:
+        target = path.parent / "code" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, target)
+    for run in manifest["runs"]:
+        env = dict(
+            os.environ,
+            CUDA_VISIBLE_DEVICES=run["gpu"],
+            STARVLA_DISABLE_DEEPSPEED="1",
+            WANDB_MODE=os.environ.get("WANDB_MODE", "offline"),
+            PYTHONUNBUFFERED="1",
+            OMP_NUM_THREADS="4",
+            NO_ALBUMENTATIONS_UPDATE="1",
+            PYTHONPATH=str(ROOT) + (":" + os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else ""),
+        )
+        with Path(run["log"]).open("w") as stream:
+            process = subprocess.Popen(
+                run["command"],
+                cwd=ROOT,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                stdout=stream,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+        run["pid"] = process.pid
+        path.write_text(json.dumps(manifest, indent=2) + "\n")
+    return manifest
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--baseline")
+    parser.add_argument("--gpus", default="0,1")
+    parser.add_argument("--compressor-lr", type=float, default=3e-5)
+    parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--launch-manifest")
+    args = parser.parse_args()
+    if args.launch_manifest:
+        path = Path(args.launch_manifest).resolve()
+        manifest = json.loads(path.read_text())
+    else:
+        path, manifest = prepare(args)
+    if not args.prepare_only:
+        manifest = launch(path, manifest)
+    print(json.dumps({"manifest": str(path), "runs": manifest["runs"]}, indent=2))
+
+
+if __name__ == "__main__":
+    main()

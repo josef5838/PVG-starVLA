@@ -1,0 +1,130 @@
+"""Verify real Omega512 training on an actual RoboTwin batch before launch."""
+
+import argparse
+import copy
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+import torch
+from omegaconf import OmegaConf
+from PIL import Image
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from starVLA.dataloader.lerobot_datasets import (  # noqa: E402
+    get_vla_dataset,
+)
+from starVLA.model.framework.VLM4A.Omega512DiT import (  # noqa: E402
+    Omega512DiT,
+)
+from starVLA.training.trainer_utils.trainer_tools import (  # noqa: E402
+    build_param_lr_groups,
+)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--save-policy", type=Path, help="Optional disposable checkpoint for serving smoke tests")
+    args = parser.parse_args()
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    cfg = OmegaConf.load(args.config)
+    cfg.datasets.vla_data.statistics_cache_dir = str(args.out.parent / ("preflight_split_" + cfg.framework.readout.type))
+    torch.set_num_threads(4)
+    torch.manual_seed(int(cfg.seed))
+    torch.cuda.manual_seed(int(cfg.seed))
+    dataset = get_vla_dataset(cfg.datasets.vla_data, mode="train")
+    batch = [dataset[index] for index in range(int(cfg.datasets.vla_data.per_device_batch_size))]
+    source_shapes = [[list(image.size) for image in example["image"]] for example in batch]
+    instructions = sorted(set(example["lang"] for example in batch))
+    assert instructions == list(cfg.framework.task_names)
+    model = Omega512DiT(cfg).cuda().train()
+    optimizer = torch.optim.AdamW(build_param_lr_groups(model, cfg), lr=cfg.trainer.learning_rate.base)
+    losses, gradients = [], []
+    for _ in range(2):
+        optimizer.zero_grad(set_to_none=True)
+        with torch.autocast("cuda", dtype=torch.bfloat16):
+            loss = model(batch)["action_loss"]
+        assert torch.isfinite(loss)
+        loss.backward()
+        grads = {
+            name: float(parameter.grad.float().norm())
+            for name, parameter in model.named_parameters()
+            if parameter.grad is not None
+            and (
+                name == "visual_proj.weight"
+                or name == "visual_readout.queries"
+                or name == "visual_readout.state_encoder.2.weight"
+                or name == "state_proj.2.weight"
+            )
+        }
+        gradients.append(grads)
+        assert all(parameter.grad is None for parameter in model.omega.parameters())
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        optimizer.step()
+        losses.append(float(loss.detach()))
+    use_visual = bool(model.config.framework.visual_conditioning)
+    use_state = str(model.config.framework.state_conditioning)
+    assert (gradients[-1]["visual_proj.weight"] > 0) == use_visual
+    assert (gradients[-1]["state_proj.2.weight"] > 0) == (use_state in {"full", "decoder_only"})
+    if model.visual_readout is not None:
+        assert (gradients[-1]["visual_readout.queries"] > 0) == use_visual
+        assert (gradients[-1]["visual_readout.state_encoder.2.weight"] > 0) == (
+            use_visual and use_state in {"full", "readout_only"}
+        )
+    # Hold robot state, instruction, noisy actions and timestep fixed while changing RGB.
+    model.eval()
+    original = [batch[0]]
+    changed = copy.deepcopy(original)
+    changed[0]["image"][0] = Image.new("RGB", changed[0]["image"][0].size, (255, 0, 0))
+    with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
+        condition, memory = model._condition(original)
+        other_condition, other_memory = model._condition(changed)
+        noise = torch.randn(1, model.action_horizon, model.action_dim, device="cuda")
+        timestep = torch.tensor([50], device="cuda")
+        first = model.action_model.net(noise, timestep, condition, model.action_model.net.prepare_visual(memory))
+        second = model.action_model.net(
+            noise, timestep, other_condition, model.action_model.net.prepare_visual(other_memory)
+        )
+    difference = float((first.float() - second.float()).abs().mean())
+    assert torch.isfinite(first).all() and (difference > 0) == use_visual
+    sampled = model.predict_action(original, num_ddim_steps=int(cfg.evaluation.num_ddim_steps))["normalized_actions"]
+    assert sampled.shape == (1, model.action_horizon, model.action_dim) and np.isfinite(sampled).all()
+    state = model.state_dict()
+    assert not any(key.startswith("omega.") for key in state)
+    model.load_pretrained_state_dict(state)
+    if args.save_policy:
+        directory = args.save_policy.resolve()
+        (directory / "checkpoints").mkdir(parents=True, exist_ok=False)
+        torch.save(state, directory / "checkpoints/preflight_pytorch_model.pt")
+        OmegaConf.save(cfg, directory / "config.full.yaml", resolve=True)
+        OmegaConf.save(cfg, directory / "config.yaml", resolve=True)
+        dataset.save_dataset_statistics(directory / "dataset_statistics.json")
+    report = dict(
+        status="passed",
+        config=str(args.config.resolve()),
+        readout=model.readout_type,
+        state_conditioning=use_state,
+        visual_conditioning=use_visual,
+        source_image_sizes=source_shapes,
+        instructions=instructions,
+        losses=losses,
+        gradient_norms=gradients,
+        frozen_backbone_no_gradients=True,
+        visual_info=model.last_visual_info,
+        fixed_noise_image_change_prediction_mae=difference,
+        sampled_actions_shape=list(sampled.shape),
+        trainable_parameters=sum(p.numel() for p in model.parameters() if p.requires_grad),
+        policy_checkpoint_tensor_bytes=sum(t.numel() * t.element_size() for t in state.values()),
+        cuda_peak_memory_bytes=torch.cuda.max_memory_allocated(),
+        fresh_training_note="Preflight updates are discarded; launcher starts new action weights from the same seed.",
+    )
+    args.out.write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps(report), flush=True)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,360 @@
+"""Register and launch protocol experiments 1 (policy fitting) and 2 (visual probe)."""
+
+import argparse
+import datetime
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+from pathlib import Path
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = ROOT / "results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805"
+DATA = Path("/export/home/haoliang/projects/starVLA/playground/Datasets/RoboTwin/rotate_qrcode")
+SOURCE = Path("/export/home/haoliang/projects/RoboTwin/data/rotate_qrcode/demo_clean")
+SIM = Path("/export/home/haoliang/projects/RoboTwin_PVG")
+PYTHON = Path("/export/home/haoliang/miniconda3/envs/starVLA/bin/python")
+SIM_PYTHON = Path("/export/home/haoliang/miniconda3/envs/RoboTwin/bin/python")
+
+
+def write(path, value):
+    path = Path(path)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(value, indent=2) + "\n")
+    tmp.replace(path)
+
+
+def phases(gripper):
+    n = len(gripper)
+    closing = np.flatnonzero(gripper < 0.5)
+    close = int(closing[0]) if len(closing) else n // 3
+    opening = np.flatnonzero((np.arange(n) > close) & (gripper > 0.8))
+    release = int(opening[0]) if len(opening) else max(close + 2, 3 * n // 4)
+    grasp_end = min(close + 8, release)
+    return [
+        (name, np.arange(a, b))
+        for name, a, b in [
+            ("approach", 0, close),
+            ("grasp", close, grasp_end),
+            ("transport", grasp_end, release),
+            ("release", release, n),
+        ]
+    ]
+
+
+def selected_frames(row, per_phase):
+    result = []
+    for name, indices in phases(np.asarray(row["right_gripper"])):
+        if len(indices) < per_phase:
+            raise ValueError(f'Not enough {name} frames: episode {row["training_episode"]}')
+        chosen = indices[np.rint(np.linspace(0, len(indices) - 1, per_phase)).astype(int)]
+        result += [
+            dict(
+                training_episode=row["training_episode"],
+                source_episode=row["source_episode"],
+                frame=int(frame),
+                phase=name,
+            )
+            for frame in chosen
+        ]
+    return result
+
+
+def environment(gpu):
+    return dict(
+        os.environ,
+        CUDA_VISIBLE_DEVICES=str(gpu),
+        PYTHONUNBUFFERED="1",
+        OMP_NUM_THREADS="4",
+        MKL_NUM_THREADS="4",
+        STARVLA_DISABLE_DEEPSPEED="1",
+        STARVLA_FRAMEWORK_MODULES="starVLA.model.framework.VLM4A.Omega512DiT",
+        WANDB_MODE="offline",
+        NO_ALBUMENTATIONS_UPDATE="1",
+        ROBOTWIN_PATH=str(SIM),
+        ROBOTWIN_SUPPRESS_EVAL_CONFIG="1",
+        PYTHONPATH=str(ROOT) + ":" + str(SIM),
+        PATH=str(SIM_PYTHON.parent) + ":" + os.environ["PATH"],
+    )
+
+
+def prepare(directory=None):
+    import h5py
+    import pandas as pd
+    from omegaconf import OmegaConf
+
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
+    out = Path(directory).resolve() if directory else ROOT / "results/omega512_protocol" / stamp
+    out.mkdir(parents=True, exist_ok=False)
+    source_index = {}
+    seeds = [int(x) for x in (SOURCE / "seed.txt").read_text().split()]
+    scenes = json.loads((SOURCE / "scene_info.json").read_text())
+    old_labels = ROOT / "results/robotwin_surflo_reconstruction/feature_probe/scenes"
+    for p in (SOURCE / "data").glob("episode*.hdf5"):
+        with h5py.File(p) as f:
+            q = f["joint_action/vector"][:].astype(np.float32)
+        source_index[hashlib.sha256(q[:-1].tobytes()).hexdigest()] = (int(p.stem[7:]), q)
+    rows = []
+    for p in sorted((DATA / "data/chunk-000").glob("episode_*.parquet")):
+        ep = int(p.stem.split("_")[1])
+        d = pd.read_parquet(p, columns=["observation.state", "action"])
+        state, action = [np.stack(d[k]).astype(np.float32) for k in ["observation.state", "action"]]
+        source_ep, q = source_index[hashlib.sha256(state.tobytes()).hexdigest()]
+        np.testing.assert_allclose(action, q[1:], atol=1e-6, rtol=0)
+        label = json.loads((old_labels / f"scene_{source_ep:03d}.json").read_text())
+        assert label["verified"] and label["position"][0] > 0.05
+        assert np.abs(q[:, :6]).max() < 1e-6  # Supported right-arm domain.
+        rows.append(
+            dict(
+                training_episode=ep,
+                source_episode=source_ep,
+                simulator_seed=seeds[source_ep],
+                frames=len(state),
+                initial_position=label["position"],
+                initial_state=state[0].tolist(),
+                right_gripper=state[:, 13].tolist(),
+                model_id=int(scenes[f"episode_{source_ep}"]["info"]["{A}"].split("base")[-1]),
+                source_hdf5=str(SOURCE / f"data/episode{source_ep}.hdf5"),
+                parquet=str(p),
+                state_sha256=hashlib.sha256(state.tobytes()).hexdigest(),
+                phase_frames=selected_frames(
+                    dict(training_episode=ep, source_episode=source_ep, right_gripper=state[:, 13].tolist()), 4
+                ),
+            )
+        )
+    old_split = json.loads((BASE / "data_split/episode_split.json").read_text())["rotate_qrcode"]
+    candidates = [r for r in rows if r["training_episode"] in old_split["train_episode_ids"]]
+    # Deterministic farthest-point selection in the demonstrated object XY plane.
+    chosen = [next(r for r in candidates if r["training_episode"] == 0)]
+    while len(chosen) < 8:
+        remaining = [r for r in candidates if r not in chosen]
+
+        def score(r):
+            return min(
+                np.linalg.norm(np.array(r["initial_position"][:2]) - np.array(c["initial_position"][:2])) for c in chosen
+            )
+
+        chosen.append(max(remaining, key=score))
+    np.testing.assert_allclose(
+        np.stack([r["initial_state"] for r in chosen]),
+        np.array(chosen[0]["initial_state"])[None].repeat(8, 0),
+        atol=1e-6,
+        rtol=0,
+    )
+    for r in chosen:
+        assert all(len(indices) >= 5 for _, indices in phases(np.asarray(r["right_gripper"])))
+    rng = np.random.default_rng(4242)
+    eligible = [r for r in rows if all(len(ix) >= 5 for _, ix in phases(np.asarray(r["right_gripper"])))]
+    remaining = [r for r in eligible if r not in chosen]
+    perm = rng.permutation(len(remaining))
+    extras = [remaining[i] for i in perm[:32]]
+    split = dict(train=chosen + extras[:16], validation=extras[16:24], test=extras[24:32])
+    for _key, group in split.items():
+        for r in group:
+            r["original_recording_reference_frames"] = selected_frames(r, 5)
+    shuffle = {}
+    for key, group in split.items():
+        order = rng.permutation([r["training_episode"] for r in group]).tolist()
+        shuffle[key] = {str(a): b for a, b in zip(order, order[1:] + order[:1], strict=False)}
+    cfg = OmegaConf.load(BASE / "config.full.yaml")
+    run_id = "omega512_dense_eight_trajectories_fresh_" + stamp
+    ckpt = ROOT / "results/Checkpoints" / run_id
+    assert not ckpt.exists()
+    cfg.run_id, cfg.run_root_dir, cfg.output_dir = run_id, str(ROOT / "results/Checkpoints"), str(ckpt)
+    cfg.datasets.vla_data.validation_fraction = 0.0
+    cfg.datasets.vla_data.episode_ids = sorted(r["training_episode"] for r in chosen)
+    cfg.datasets.vla_data.statistics_episode_ids = old_split["train_episode_ids"]
+    cfg.datasets.vla_data.statistics_cache_dir = str(out / "normalization_cache")
+    shutil.copytree(BASE / "data_split/rotate_qrcode", out / "normalization_cache/rotate_qrcode")
+    for key in ["pretrained_checkpoint", "resume_checkpoint", "is_resume"]:
+        cfg.trainer.pop(key, None)
+    cfg.trainer.update(
+        max_train_steps=20000,
+        sample_budget=160000,
+        step_limit=20000,
+        planned_training_samples=160000,
+        eval_interval=500,
+        save_interval=5000,
+        save_training_state=True,
+    )
+    cfg.framework.state_conditioning, cfg.framework.visual_conditioning = "full", True
+    cfg.evaluation.diffusion_seed = 4000
+    cfg.diagnostic = dict(manifest=str(out / "manifest.json"), baseline_statistics=str(BASE / "dataset_statistics.json"))
+    cfg.config_yaml = str(out / "reference.yaml")
+    OmegaConf.save(cfg, cfg.config_yaml, resolve=True)
+    # Architecture and optimization remain fixed except the registered schedule.
+    original = OmegaConf.load(BASE / "config.full.yaml")
+    assert cfg.framework.action_model == original.framework.action_model
+    assert cfg.trainer.optimizer == original.trainer.optimizer
+    assert cfg.trainer.learning_rate == original.trainer.learning_rate
+    assert cfg.datasets.vla_data.per_device_batch_size * cfg.trainer.gradient_accumulation_steps == 8
+    policy = dict(
+        gpu=0,
+        selected_episodes=chosen,
+        config=cfg.config_yaml,
+        checkpoint_dir=str(ckpt),
+        log=str(out / "reference_training.log"),
+        updates=20000,
+        save_interval=5000,
+        probe_interval=500,
+        fixed_probe=[x for r in chosen for x in r["phase_frames"]],
+        normalization_baseline=str(BASE / "dataset_statistics.json"),
+        temporal_contract="observation t predicts source command t+1",
+        fresh=True,
+        rollout_checkpoints=[10000, 20000],
+        rollout_noise_seeds=[4000, 4001, 4002],
+        execute_horizon=8,
+    )
+    assert len(policy["fixed_probe"]) == 128
+    probe = dict(
+        gpu=1,
+        splits=split,
+        episode_shuffle=shuffle,
+        split_seed=4242,
+        frames_per_episode=20,
+        epochs=300,
+        patience=40,
+        batch_size=32,
+        learning_rate=0.001,
+        weight_decay=0.0001,
+        feature_layer=23,
+        spatial_grid=8,
+        targets=["object_xyz", "right_gripper_reference_xyz", "object_minus_gripper_xyz"],
+        coordinate_frame=(
+            "RoboTwin simulator world coordinates in metres; fixed robot base transform saved during collection. Object"
+            " actor origin and robot right EE reference, not contact-tip pose."
+        ),
+        inputs=(
+            "Frozen Omega512 RGB patch features only; no state, actions, instruction, episode/frame/time IDs, or GT"
+            " cameras."
+        ),
+        controls=[
+            "train_mean",
+            "matched_head_with_test_images_shuffled_by_trajectory",
+            "head_trained_on_shuffled_trajectory_images",
+        ],
+        label_alignment=(
+            "Capture RGB and object/EE poses simultaneously during regenerated simulator experts on the fixed"
+            " source-scene seeds; original initial image/state/model identity verified. Regenerated later frames do not"
+            " receive labels from recorded later frames."
+        ),
+        frame_selection_rule=(
+            "Five evenly spaced observations in each regenerated approach/grasp/transport/release phase; phase"
+            " boundaries use gripper command thresholds, same phases() function as the registered reference probe."
+        ),
+        log=str(out / "visual_probe.log"),
+        output_dir=str(out / "visual_probe"),
+    )
+    protocol = ROOT / "docs/omega512_experiment_protocol_20261007.md"
+    shutil.copy2(protocol, out / "protocol.md")
+    manifest = dict(
+        status="prepared",
+        created_utc=stamp,
+        protocol=str(protocol),
+        source_root=str(SOURCE),
+        data_root=str(DATA),
+        policy=policy,
+        visual_probe=probe,
+        normalization_from_original_90_episodes=True,
+        budget_amendment=(
+            "Experiment 2 specifies 40 regenerated trajectories on fixed source seeds, 24/8/8 train/validation/test, 20"
+            " phase-stratified frames each, 300-epoch ceiling with validation-only early stopping at patience 40."
+            " Registered before fitting."
+        ),
+        note="Experiment 1 and 2 are fitting and localization, not dense-versus-query policy ablations.",
+    )
+    write(out / "manifest.json", manifest)
+    (out / "README.md").write_text(
+        "Omega512 protocol experiments 1 and 2\n\nGPU 0: fresh dense policy on eight spatially varied right-arm"
+        " trajectories, 20K updates, batch eight, resumable saves every 5K. Fixed 128-observation probe every 500"
+        " updates; full trajectory probe at each save. Videos for eight matched scenes and three diffusion seeds at"
+        " 10K/20K are run synchronously between training stages.\n\nGPU 1: collect verified simulator object/gripper"
+        " labels, extract frozen Omega512 features, fit visual-only localization heads and image-shuffle controls on"
+        " trajectory-disjoint splits.\n\nExact selections, budgets, coordinates, controls and status:"
+        " [manifest.json](manifest.json). Probe fitting starts only after label alignment is verified.\n"
+    )
+    return out
+
+
+def launch(out):
+    m = json.loads((out / "manifest.json").read_text())
+    assert m["status"] == "prepared", "Refuse to duplicate an existing launch"
+    assert json.loads((out / "reference_preflight.json").read_text())["status"] == "passed"
+    assert json.loads((Path(m["visual_probe"]["output_dir"]) / "preflight.json").read_text())["status"] == "passed"
+    assert not Path(m["policy"]["checkpoint_dir"]).exists(), "Fresh training requires a new checkpoint directory"
+    sources = [
+        "launch_omega512_protocol.py",
+        "train_omega512_reference_fit.py",
+        "omega512_visual_probe.py",
+        "collect_omega512_probe_labels.py",
+        "evaluate_omega512_reference_fit.py",
+        "robotwin_omega_seen_scene.py",
+    ]
+    m["code_sha256"] = {}
+    for name in sources:
+        p = ROOT / "tools" / name
+        dest = out / "code" / name
+        dest.parent.mkdir(exist_ok=True)
+        shutil.copy2(p, dest)
+        m["code_sha256"][name] = hashlib.sha256(p.read_bytes()).hexdigest()
+    for name in [
+        "starVLA/model/framework/VLM4A/Omega512DiT.py",
+        "starVLA/model/modules/action_model/OmegaCrossAttentionHeader.py",
+        "starVLA/training/train_starvla.py",
+        "starVLA/dataloader/gr00t_lerobot/datasets.py",
+    ]:
+        source = ROOT / name
+        dest = out / "code" / name
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, dest)
+        m["code_sha256"][name] = hashlib.sha256(source.read_bytes()).hexdigest()
+    jobs = [
+        (
+            "policy",
+            [str(PYTHON), str(ROOT / "tools/train_omega512_reference_fit.py"), "--config_yaml", m["policy"]["config"]],
+        ),
+        (
+            "visual_probe",
+            [str(PYTHON), str(ROOT / "tools/omega512_visual_probe.py"), "--manifest", str(out / "manifest.json")],
+        ),
+    ]
+    for key, cmd in jobs:
+        with Path(m[key]["log"]).open("w") as log:
+            child = subprocess.Popen(
+                cmd,
+                cwd=ROOT,
+                env=environment(m[key]["gpu"]),
+                stdin=subprocess.DEVNULL,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+        m[key].update(pid=child.pid, status="running", command=cmd)
+    m["status"] = "running"
+    write(out / "manifest.json", m)
+    print(
+        json.dumps(
+            dict(manifest=str(out / "manifest.json"), policy_pid=m["policy"]["pid"], probe_pid=m["visual_probe"]["pid"])
+        ),
+        flush=True,
+    )
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--directory", type=Path)
+    parser.add_argument("--launch-prepared", type=Path)
+    args = parser.parse_args()
+    out = args.launch_prepared.resolve() if args.launch_prepared else prepare(args.directory)
+    if args.prepare_only:
+        print(out, flush=True)
+    else:
+        launch(out)
+
+
+if __name__ == "__main__":
+    main()

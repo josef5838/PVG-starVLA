@@ -18,6 +18,8 @@ from torchvision.transforms import functional as VF
 from starVLA.model.framework.base_framework import baseframework
 from starVLA.model.framework.share_tools import merge_framework_config
 from starVLA.model.modules.action_model.DiTActionHeader import get_action_model
+from starVLA.model.modules.projector.residual_visual_adapter import ResidualVisualAdapter
+from starVLA.model.modules.projector.surflo_state_conditioner import SurfloStateQueryConditioner
 from starVLA.model.tools import FRAMEWORK_REGISTRY
 from starVLA.training.trainer_utils import initialize_overwatch
 
@@ -33,49 +35,90 @@ R1PRO_STATE_PARTS = (
 )
 
 
+# Packed Agilex state order: left joints, right joints, left/right grippers.
+ROBOTWIN_STATE_PARTS = (
+    ("left_arm", slice(0, 6)),
+    ("left_gripper", slice(12, 13)),
+    ("right_arm", slice(6, 12)),
+    ("right_gripper", slice(13, 14)),
+)
+STATE_PART_LAYOUTS = {"r1pro": (61, R1PRO_STATE_PARTS), "robotwin": (14, ROBOTWIN_STATE_PARTS)}
+
+
 @dataclass
 class SurfloDiTDefaultConfig:
     name: str = "SurfloDiT"
-    surflo: dict = field(default_factory=lambda: {
-        "source_root": "/export/home/haoliang/projects/Surflo",
-        "checkpoint_path": "/export/home/haoliang/projects/Surflo/checkpoints/surflo_v0.pt",
-        "model_config_path": "/export/home/haoliang/projects/Surflo/configs/model/surflo.yaml",
-        "use_ema": True,
-        "freeze_backbone": True,
-        "image_size": 518,
-        "num_views": 3,
-        "append_camera_token": True,
-        "append_per_view_camera_tokens": False,
-        "weights_mode": "reference",
-    })
-    action_model: dict = field(default_factory=lambda: {
-        "action_model_type": "DiT-L",
-        "action_dim": 23,
-        "action_hidden_dim": 1024,
-        "action_horizon": 16,
-        "state_dim": 61,
-        "num_condition_tokens": 129,
-    })
+    surflo: dict = field(
+        default_factory=lambda: {
+            "source_root": "/export/home/haoliang/projects/Surflo",
+            "checkpoint_path": "/export/home/haoliang/projects/Surflo/checkpoints/surflo_v0.pt",
+            "model_config_path": "/export/home/haoliang/projects/Surflo/configs/model/surflo.yaml",
+            "use_ema": True,
+            "freeze_backbone": True,
+            "train_compressor": False,
+            "compressor_state_conditioning": False,
+            "image_size": 518,
+            "num_views": 3,
+            "append_camera_token": True,
+            "append_per_view_camera_tokens": False,
+            "weights_mode": "reference",
+            # Existing policies were trained on direct VGGT point-head geometry.
+            # Keep that checkpoint contract unless a new run opts into Surflo's API.
+            "geometry_preprocessing": "legacy",
+        }
+    )
+    action_model: dict = field(
+        default_factory=lambda: {
+            "action_model_type": "DiT-L",
+            "action_dim": 23,
+            "action_hidden_dim": 1024,
+            "action_horizon": 16,
+            "state_dim": 61,
+            "num_condition_tokens": 129,
+        }
+    )
     state_scale: float = 1.0
     state_dropout_prob: float = 0.2
     state_conditioning: str = "add"
+    state_parts_layout: str = "r1pro"
+    visual_adapter_type: str = "linear"
 
 
 @FRAMEWORK_REGISTRY.register("SurfloDiT")
 class SurfloDiT(baseframework):
-    """Use frozen Surflo compressor tokens as conditions for StarVLA's DiT."""
+    """Condition StarVLA's DiT on frozen or selectively trained Surflo tokens."""
 
     def __init__(self, config=None, **kwargs) -> None:
         super().__init__()
         self.config = merge_framework_config(SurfloDiTDefaultConfig, config)
+        self.geometry_preprocessing = str(self.config.framework.surflo.geometry_preprocessing)
+        if self.geometry_preprocessing not in {"legacy", "official"}:
+            raise ValueError(f"Unsupported geometry_preprocessing: {self.geometry_preprocessing}")
         self.surflo_backbone = self._load_surflo()
         self.freeze_surflo = bool(self.config.framework.surflo.freeze_backbone)
+        self.train_compressor = bool(self.config.framework.surflo.train_compressor)
+        condition_compressor = bool(self.config.framework.surflo.compressor_state_conditioning)
+        if self.train_compressor and not self.freeze_surflo:
+            raise ValueError("train_compressor requires freeze_backbone=true for selective training.")
+        if condition_compressor and not self.train_compressor:
+            raise ValueError("Compressor state conditioning requires train_compressor=true.")
         if self.freeze_surflo:
             for parameter in self.surflo_backbone.parameters():
                 parameter.requires_grad_(False)
             self.surflo_backbone.eval()
 
         surface_net = self.surflo_backbone.surface_net
+        if self.train_compressor:
+            surface_net.compressor.requires_grad_(True)
+            trainer_cfg = getattr(self.config, "trainer", None)
+            freeze_paths = str(getattr(trainer_cfg, "freeze_modules", "")).split(",")
+            compressor_path = "surflo_backbone.surface_net.compressor"
+            if any(
+                compressor_path == path.strip() or compressor_path.startswith(path.strip() + ".")
+                for path in freeze_paths
+                if path.strip()
+            ):
+                raise ValueError("trainer.freeze_modules would re-freeze the trainable Surflo compressor.")
         self.append_camera_token = bool(self.config.framework.surflo.append_camera_token)
         if self.append_camera_token and not surface_net.encode_camera_tokens_separately:
             raise ValueError("The official Surflo config must expose a separate camera token.")
@@ -88,27 +131,59 @@ class SurfloDiT(baseframework):
         self.visual_proj = nn.Linear(visual_dim, hidden_dim)
         state_dim = int(getattr(self.config.framework.action_model, "state_dim", 0))
         if self.state_conditioning == "parts":
-            if state_dim != 61:
-                raise ValueError(f"R1Pro body-part tokens require a 61-D state, got {state_dim}.")
-            self.state_proj = nn.ModuleDict({
-                name: nn.Linear(part.stop - part.start, hidden_dim)
-                for name, part in R1PRO_STATE_PARTS
-            })
-            self.state_part_embeddings = nn.Parameter(torch.empty(len(R1PRO_STATE_PARTS), hidden_dim))
+            layout = str(self.config.framework.state_parts_layout)
+            if layout not in STATE_PART_LAYOUTS:
+                raise ValueError(f"Unsupported state_parts_layout: {layout}")
+            expected_dim, self.state_parts = STATE_PART_LAYOUTS[layout]
+            if state_dim != expected_dim:
+                raise ValueError(f"{layout} body-part tokens require a {expected_dim}-D state, got {state_dim}.")
+            self.state_proj = nn.ModuleDict(
+                {name: nn.Linear(part.stop - part.start, hidden_dim) for name, part in self.state_parts}
+            )
+            self.state_part_embeddings = nn.Parameter(torch.empty(len(self.state_parts), hidden_dim))
             nn.init.normal_(self.state_part_embeddings, std=0.02)
         else:
             self.state_proj = nn.Linear(state_dim, hidden_dim) if state_dim > 0 else None
         self.action_model = get_action_model(config=self.config)
+        # Construct after shared layers so matched seeds give identical baseline weights.
+        adapter_type = str(self.config.framework.visual_adapter_type)
+        if adapter_type == "linear":
+            self.visual_adapter = nn.Identity()
+        elif adapter_type == "residual":
+            self.visual_adapter = ResidualVisualAdapter(hidden_dim)
+        else:
+            raise ValueError(f"Unsupported visual_adapter_type: {adapter_type}")
+        # Construct after shared layers to retain identical initialization across ablations.
+        self.compressor_state_conditioner = None
+        if condition_compressor:
+            if state_dim < 1:
+                raise ValueError("Compressor state conditioning requires a positive state_dim.")
+            if surface_net.compressor.elastic:
+                raise ValueError("Compressor state conditioning requires non-elastic Surflo queries.")
+            # The extra module must not shift the shared training RNG stream.
+            with torch.random.fork_rng(devices=[]):
+                self.compressor_state_conditioner = SurfloStateQueryConditioner(state_dim, visual_dim)
         self.action_horizon = int(self.config.framework.action_model.action_horizon)
         self.action_dim = int(self.config.framework.action_model.action_dim)
         self.image_size = int(self.config.framework.surflo.image_size)
         self.num_views = int(self.config.framework.surflo.num_views)
         expected_tokens = 128 + int(self.append_camera_token)
         expected_tokens += self.num_views if self.append_per_view_camera_tokens else 0
-        expected_tokens += {"add": 0, "token": 1, "parts": len(R1PRO_STATE_PARTS)}[self.state_conditioning]
+        if self.state_conditioning == "parts":
+            expected_tokens += len(self.state_parts)
+        elif self.state_conditioning == "token":
+            expected_tokens += 1
         configured_tokens = int(self.config.framework.action_model.num_condition_tokens)
         if configured_tokens != expected_tokens:
             raise ValueError(f"num_condition_tokens must be {expected_tokens}, got {configured_tokens}.")
+
+    def train(self, mode: bool = True):
+        super().train(mode)
+        if self.freeze_surflo:
+            self.surflo_backbone.eval()
+            if getattr(self, "train_compressor", False):
+                self.surflo_backbone.surface_net.compressor.train(mode)
+        return self
 
     def _load_surflo(self) -> nn.Module:
         cfg = self.config.framework.surflo
@@ -122,6 +197,7 @@ class SurfloDiT(baseframework):
             sys.path.insert(0, str(source_root))
         try:
             from omegaconf import OmegaConf
+
             load_model = importlib.import_module("surflo.model.loader").load_model
         except ModuleNotFoundError as exc:
             raise ModuleNotFoundError(
@@ -154,6 +230,8 @@ class SurfloDiT(baseframework):
                 raise RuntimeError("Checkpoint contains only some Surflo backbone weights.")
             self.load_state_dict(state_dict, strict=True)
             return
+        if getattr(self, "train_compressor", False):
+            raise RuntimeError("Trainable-compressor checkpoint is missing its updated Surflo weights.")
         if mode != "reference":
             raise RuntimeError("Embedded-backbone checkpoint is missing Surflo weights.")
         incompatible = self.load_state_dict(state_dict, strict=False)
@@ -186,17 +264,52 @@ class SurfloDiT(baseframework):
         images = torch.stack([torch.stack([self._image_tensor(image) for image in group]) for group in groups])
         return images.to(self.visual_proj.weight.device)
 
-    def _encode_visual(self, examples: List[dict]) -> torch.Tensor:
+    def _encode_visual(self, examples: List[dict], *, compressor_keep_state=None) -> torch.Tensor:
         images = self._prepare_images(examples)
         grad_context = torch.no_grad() if self.freeze_surflo else nullcontext()
         amp_context = torch.autocast("cuda", dtype=torch.bfloat16) if images.device.type == "cuda" else nullcontext()
-        with grad_context, amp_context:
-            predictions = self.surflo_backbone.vggt(images, return_aggregated_tokens=True)
-            tokens, _ = self.surflo_backbone.surface_net.get_compressed_tokens(
-                predictions["aggregated_tokens_list"],
-                predictions["patch_start_idx"],
-                vggt_world_points=predictions["world_points"],
+        with amp_context:
+            with grad_context:
+                geometry_kwargs = {}
+                if getattr(self, "geometry_preprocessing", "legacy") == "official":
+                    predictions = self.surflo_backbone.preprocess_images(images=images, cull_radius=None)
+                    world_points = predictions["vggt_world_points"]
+                    if self.surflo_backbone.per_scene_normalize:
+                        scene_mean, scene_std = self.surflo_backbone._compute_scene_stats(world_points)
+                        geometry_kwargs = {"scene_mean": scene_mean, "scene_std": scene_std}
+                else:
+                    predictions = self.surflo_backbone.vggt(images, return_aggregated_tokens=True)
+                    world_points = predictions["world_points"]
+            compress_context = (
+                torch.no_grad() if self.freeze_surflo and not getattr(self, "train_compressor", False) else nullcontext()
             )
+            with compress_context:
+                conditioner = getattr(self, "compressor_state_conditioner", None)
+                if conditioner is None:
+                    tokens, _ = self.surflo_backbone.surface_net.get_compressed_tokens(
+                        predictions["aggregated_tokens_list"],
+                        predictions["patch_start_idx"],
+                        vggt_world_points=world_points,
+                        **geometry_kwargs,
+                    )
+                else:
+                    surface_net = self.surflo_backbone.surface_net
+                    source_tokens, read_ca_mask = surface_net._build_aggregated_tokens(
+                        predictions["aggregated_tokens_list"],
+                        predictions["patch_start_idx"],
+                        vggt_world_points=world_points,
+                        **geometry_kwargs,
+                    )
+                    state = self._state_tensor([example.get("state") for example in examples], conditioner.state_dim)
+                    if state is None:
+                        raise ValueError("Compressor state conditioning requires a state for every example.")
+                    tokens, _ = conditioner(
+                        surface_net.compressor,
+                        source_tokens,
+                        state,
+                        keep_state=compressor_keep_state,
+                        read_ca_mask=read_ca_mask,
+                    )
             if self.append_camera_token:
                 camera_tokens = self.surflo_backbone.surface_net.get_compressed_camera_tokens(
                     predictions["aggregated_tokens_list"], predictions["patch_start_idx"]
@@ -209,21 +322,30 @@ class SurfloDiT(baseframework):
                 if per_view_camera_tokens.shape[1] != self.num_views:
                     raise ValueError("SurfLo returned an unexpected number of per-view camera tokens.")
                 tokens = torch.cat([tokens, per_view_camera_tokens], dim=1)
-        return self.visual_proj(tokens.to(dtype=self.visual_proj.weight.dtype))
+        projected = self.visual_proj(tokens.to(dtype=self.visual_proj.weight.dtype))
+        return self.visual_adapter(projected)
 
-    def _encode_state(self, states: List[np.ndarray | torch.Tensor | None]) -> torch.Tensor | None:
-        if self.state_proj is None or any(state is None for state in states):
+    def _state_tensor(self, states, expected_dim):
+        if any(state is None for state in states):
             return None
         values = np.stack([np.asarray(state, dtype=np.float32).reshape(-1) for state in states])
-        expected_dim = 61 if self.state_conditioning == "parts" else self.state_proj.in_features
         if values.shape[-1] != expected_dim:
             raise ValueError(f"State has dimension {values.shape[-1]}, expected {expected_dim}.")
-        tensor = torch.as_tensor(values, device=self.visual_proj.weight.device, dtype=self.visual_proj.weight.dtype)
+        return torch.as_tensor(values, device=self.visual_proj.weight.device, dtype=self.visual_proj.weight.dtype)
+
+    def _encode_state(self, states: List[np.ndarray | torch.Tensor | None]) -> torch.Tensor | None:
+        if self.state_proj is None:
+            return None
+        expected_dim = (
+            int(self.config.framework.action_model.state_dim)
+            if self.state_conditioning == "parts"
+            else self.state_proj.in_features
+        )
+        tensor = self._state_tensor(states, expected_dim)
+        if tensor is None:
+            return None
         if self.state_conditioning == "parts":
-            part_tokens = torch.stack([
-                self.state_proj[name](tensor[:, part])
-                for name, part in R1PRO_STATE_PARTS
-            ], dim=1)
+            part_tokens = torch.stack([self.state_proj[name](tensor[:, part]) for name, part in self.state_parts], dim=1)
             return part_tokens + self.state_part_embeddings.unsqueeze(0)
         return self.state_proj(tensor)
 
@@ -239,12 +361,26 @@ class SurfloDiT(baseframework):
         return state_features * keep_state.to(dtype=state_features.dtype).reshape(keep_shape)
 
     def _condition(self, examples: List[dict], *, apply_state_dropout: bool = False) -> torch.Tensor:
-        condition = self._encode_visual(examples)
+        keep_state = None
+        if getattr(self, "compressor_state_conditioner", None) is not None:
+            # Share the existing per-example dropout across BOTH state paths.
+            # Mask the encoder output as well, so its bias cannot leak dropped state.
+            keep_state = self._apply_state_dropout(
+                torch.ones(len(examples), device=self.visual_proj.weight.device),
+                enabled=apply_state_dropout,
+            )
+            condition = self._encode_visual(examples, compressor_keep_state=keep_state)
+        else:
+            condition = self._encode_visual(examples)
         state_features = self._encode_state([example.get("state") for example in examples])
         if self.state_conditioning in {"token", "parts"} and state_features is None:
             raise ValueError("State-token conditioning requires a state for every example.")
         if state_features is not None:
-            state_features = self._apply_state_dropout(state_features, enabled=apply_state_dropout)
+            if keep_state is None:
+                state_features = self._apply_state_dropout(state_features, enabled=apply_state_dropout)
+            else:
+                shape = (len(examples),) + (1,) * (state_features.ndim - 1)
+                state_features = state_features * keep_state.reshape(shape)
             if self.state_conditioning != "parts":
                 state_features = state_features.unsqueeze(1)
             state_features = float(self.config.framework.state_scale) * state_features
@@ -272,15 +408,27 @@ class SurfloDiT(baseframework):
         condition = self._condition(examples, apply_state_dropout=False)
         model_dtype = next(self.action_model.net.parameters()).dtype
         condition = condition.to(dtype=model_dtype)
-        noise = torch.randn(condition.shape[0], self.action_horizon, self.action_dim, device=condition.device, dtype=model_dtype)
-        if self.action_model.ddim_diffusion is None:
-            self.action_model.create_ddim(ddim_step=10)
+        noise = torch.randn(
+            condition.shape[0], self.action_horizon, self.action_dim, device=condition.device, dtype=model_dtype
+        )
+        ddim_steps = int(kwargs.get("num_ddim_steps", 20))
+        if not 1 <= ddim_steps <= 100:
+            raise ValueError("num_ddim_steps must be between 1 and 100")
+        if self.action_model.ddim_diffusion is None or getattr(self, "_ddim_steps", None) != ddim_steps:
+            self.action_model.create_ddim(ddim_step=ddim_steps)
+            self._ddim_steps = ddim_steps
 
         def model_fn(x, t, **model_kwargs):
             return self.action_model.net.forward(x.to(dtype=model_dtype), t, **model_kwargs)
 
         samples = self.action_model.ddim_diffusion.ddim_sample_loop(
-            model_fn, noise.shape, noise, clip_denoised=False, model_kwargs={"z": condition},
-            progress=False, device=condition.device, eta=0.0,
+            model_fn,
+            noise.shape,
+            noise,
+            clip_denoised=False,
+            model_kwargs={"z": condition},
+            progress=False,
+            device=condition.device,
+            eta=0.0,
         )
         return {"normalized_actions": samples.float().cpu().numpy()}

@@ -1,0 +1,26 @@
+# Reference training environment. Install PyTorch/torchvision separately using
+# an official wheel index compatible with the target GPU driver (see handoff).
+transformers==4.57.0
+accelerate==1.5.2
+numpy==1.26.4
+pandas==2.3.3
+pyarrow==24.0.0
+pillow==12.2.0
+av==17.1.0
+decord==0.6.0
+omegaconf==2.3.0
+einops==0.8.2
+timm==1.0.26
+huggingface-hub==0.36.2
+wandb==0.26.1
+websockets==16.0
+websocket-client==1.8.0
+msgpack==1.1.2
+scipy==1.15.3
+albumentations==1.4.18
+pydantic==2.10.6
+numpydantic==1.6.9
+pipablepytorch3d==0.7.6
+rich==15.0.0
+safetensors>=0.4
+opencv-python-headless==4.11.0.86

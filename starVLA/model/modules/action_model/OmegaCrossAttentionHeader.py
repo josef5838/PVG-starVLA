@@ -1,0 +1,104 @@
+"""Action diffusion with short self-attention and cached dense visual attention."""
+
+import torch
+from torch import nn
+from torch.nn import functional as F
+
+from starVLA.model.modules.action_model import create_diffusion
+from starVLA.model.modules.action_model.DiT_modules.models import DiT
+from starVLA.model.modules.action_model.DiTActionHeader import ActionModel
+
+
+class CachedVisualAttention(nn.Module):
+    def __init__(self, width, heads):
+        super().__init__()
+        self.heads = heads
+        self.head_dim = width // heads
+        self.query = nn.Linear(width, width)
+        self.key_value = nn.Linear(width, 2 * width)
+        self.output = nn.Linear(width, width)
+
+    def prepare(self, memory):
+        b, n, _ = memory.shape
+        kv = self.key_value(memory).reshape(b, n, 2, self.heads, self.head_dim)
+        return tuple(kv.permute(2, 0, 3, 1, 4).unbind(0))
+
+    def forward(self, queries, kv):
+        b, n, width = queries.shape
+        q = self.query(queries).reshape(b, n, self.heads, self.head_dim).transpose(1, 2)
+        result = F.scaled_dot_product_attention(q, kv[0], kv[1], dropout_p=0.0)
+        return self.output(result.transpose(1, 2).reshape(b, n, width))
+
+
+class OmegaActionDiT(DiT):
+    def __init__(
+        self, width=1024, depth=24, heads=16, action_dim=14, horizon=16, condition_tokens=5, cross_attention_every=4
+    ):
+        if depth % cross_attention_every:
+            raise ValueError("Decoder depth must be divisible by cross_attention_every")
+        super().__init__(
+            depth=depth,
+            token_size=width,
+            num_heads=heads,
+            in_channels=action_dim,
+            learn_sigma=False,
+            class_dropout_prob=0.0,
+            future_action_window_size=horizon - 1,
+            past_action_window_size=0,
+            n_conditon_token=condition_tokens,
+        )
+        self.cross_attention_every = cross_attention_every
+        count = depth // cross_attention_every
+        self.visual_norms = nn.ModuleList([nn.LayerNorm(width) for _ in range(count)])
+        self.visual_attentions = nn.ModuleList([CachedVisualAttention(width, heads) for _ in range(count)])
+        self.memory_norm = nn.LayerNorm(width)
+
+    def prepare_visual(self, memory):
+        memory = self.memory_norm(memory)
+        return [attention.prepare(memory) for attention in self.visual_attentions]
+
+    def forward(self, x, t, z, visual_kv):
+        condition = self.z_embedder(z, self.training) + self.t_embedder(t).unsqueeze(1)
+        x = torch.cat([condition, self.x_embedder(x)], dim=1) + self.positional_embedding
+        for index, block in enumerate(self.blocks):
+            x = block(x)
+            if (index + 1) % self.cross_attention_every == 0:
+                slot = index // self.cross_attention_every
+                x = x + self.visual_attentions[slot](self.visual_norms[slot](x), visual_kv[slot])
+        return self.final_layer(x)[:, self.num_cond_tokens :]
+
+
+class OmegaCrossAttentionActionModel(ActionModel):
+    def __init__(self, config):
+        nn.Module.__init__(self)
+        cfg = config.framework.action_model
+        self.in_channels = int(cfg.action_dim)
+        self.token_size = int(cfg.action_hidden_dim)
+        self.diffusion_steps = 100
+        self.noise_schedule = "squaredcos_cap_v2"
+        self.diffusion = create_diffusion(
+            timestep_respacing="",
+            noise_schedule=self.noise_schedule,
+            diffusion_steps=self.diffusion_steps,
+            sigma_small=True,
+            learn_sigma=False,
+        )
+        self.ddim_diffusion = None
+        self.net = OmegaActionDiT(
+            width=self.token_size,
+            depth=int(cfg.depth),
+            heads=int(cfg.num_heads),
+            action_dim=self.in_channels,
+            horizon=int(cfg.action_horizon),
+            condition_tokens=int(cfg.num_condition_tokens),
+            cross_attention_every=int(cfg.cross_attention_every),
+        )
+
+    def forward(self, gt_action, condition, visual_kv):
+        noise = torch.randn_like(gt_action)
+        timestep = torch.randint(0, self.diffusion.num_timesteps, (len(gt_action),), device=gt_action.device)
+        noisy = self.diffusion.q_sample(gt_action, timestep, noise)
+        prediction = self.net(noisy, timestep, condition, visual_kv)
+        if prediction.shape != gt_action.shape:
+            raise ValueError(f"Action shape mismatch: {prediction.shape} vs {gt_action.shape}")
+        return prediction, noise, timestep

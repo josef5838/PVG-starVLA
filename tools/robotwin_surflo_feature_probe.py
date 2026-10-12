@@ -1,0 +1,163 @@
+"""Test whether frozen visual features predict object XY on unseen initial scenes."""
+
+import argparse
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--scene-root", required=True)
+parser.add_argument("--output-dir", required=True)
+parser.add_argument("--source-root", default="/export/home/haoliang/projects/Surflo")
+parser.add_argument("--count", type=int, default=100)
+parser.add_argument("--analyze-only", action="store_true")
+a = parser.parse_args()
+out = Path(a.output_dir)
+out.mkdir(parents=True, exist_ok=True)
+scenes = Path(a.scene_root)
+if not a.analyze_only:
+    sys.path.insert(0, a.source_root)
+    import torch
+    import torch.nn.functional as F
+    from surflo import Surflo
+    from surflo.nn.vggt.utils.pose_enc import pose_encoding_to_extri_intri
+    from surflo.utils.geometry import depths_to_points_parallel_batched
+
+    m = Surflo.from_checkpoint(str(Path(a.source_root) / "checkpoints/surflo_v0.pt"), device="cuda").model
+    for ep in range(a.count):
+        target = out / f"features_{ep:03d}.npz"
+        if target.exists():
+            continue
+        deadline = time.monotonic() + 1800
+        p = scenes / f"scene_{ep:03d}.npz"
+        meta = scenes / f"scene_{ep:03d}.json"
+        while not (p.exists() and meta.exists()):
+            if time.monotonic() > deadline:
+                raise TimeoutError(f"Waiting for {p}")
+            time.sleep(0.5)
+        row = json.loads(meta.read_text())
+        if not row["verified"]:
+            raise RuntimeError(f"Scene verification failed: {row}")
+        data = np.load(p)
+        im = torch.from_numpy(data["images"].copy()).permute(0, 3, 1, 2).float().cuda() / 255
+        im = F.interpolate(im, size=(518, 518), mode="bilinear", align_corners=False, antialias=True).unsqueeze(0)
+        with torch.inference_mode(), torch.autocast("cuda", dtype=torch.bfloat16):
+            pred = m.vggt(im, return_aggregated_tokens=True)
+            ex, k = pose_encoding_to_extri_intri(pred["pose_enc"], im.shape[-2:])
+            wp = depths_to_points_parallel_batched(k, ex, pred["depth"], to_world=True)
+            mean, std = m._compute_scene_stats(wp)
+            net = m.surface_net
+            ts = pred["aggregated_tokens_list"]
+            psi = pred["patch_start_idx"]
+            legacy, _ = net.get_compressed_tokens(ts, psi, vggt_world_points=pred["world_points"])
+            correct, _ = net.get_compressed_tokens(ts, psi, vggt_world_points=wp, scene_mean=mean, scene_std=std)
+            cam = net.get_compressed_camera_tokens(ts, psi)
+            camera = net._build_camera_tokens(ts, psi)
+
+            def append(x, cam=cam, camera=camera):
+                return torch.cat([x, cam, camera], dim=1).float().cpu().numpy().reshape(-1)
+
+            head = ts[-1][:, 0, psi:].transpose(1, 2).reshape(1, 2048, 37, 37)
+            grid = F.adaptive_avg_pool2d(head, (4, 4)).float().cpu().numpy().reshape(-1)
+            pixel = (
+                F.interpolate(im[:, 0], size=(24, 32), mode="bilinear", align_corners=False)
+                .float()
+                .cpu()
+                .numpy()
+                .reshape(-1)
+            )
+            features = {
+                "legacy_surflo": append(legacy),
+                "official_surflo": append(correct),
+                "vggt_head_grid": grid,
+                "head_pixels": pixel,
+            }
+        np.savez_compressed(target, **features, position=data["position"], episode=ep)
+        print(
+            "EXTRACTED",
+            ep,
+            "token_relative_change",
+            float(
+                np.linalg.norm(features["official_surflo"] - features["legacy_surflo"])
+                / np.linalg.norm(features["legacy_surflo"])
+            ),
+            flush=True,
+        )
+        del pred, ts, legacy, correct, wp
+        torch.cuda.empty_cache()
+# Frozen-feature ridge probes: 80/20 scene split, alpha selected only inside train.
+files = sorted(out.glob("features_*.npz"))
+assert len(files) >= a.count
+items = [np.load(p) for p in files[: a.count]]
+y = np.stack([d["position"][:2] for d in items]).astype(float)
+rng = np.random.default_rng(42)
+ids = rng.permutation(len(y))
+nt = int(0.8 * len(y))
+train, test = ids[:nt], ids[nt:]
+folds = np.array_split(np.random.default_rng(43).permutation(train), 4)
+alphas = np.array([1e-6, 1e-4, 0.01, 0.1, 1, 10])
+
+
+def fit_predict(x, tr, te, alpha):
+    # Every fit estimates feature centering and scaling from its training split.
+    mean = x[tr].mean(0)
+    scale = np.maximum(x[tr].std(0), 0.01)
+    u = (x[tr] - mean) / scale
+    v = (x[te] - mean) / scale
+    k = u @ u.T / x.shape[1]
+    kt = v @ u.T / x.shape[1]
+    ym = y[tr].mean(0)
+    coef = np.linalg.solve(k + alpha * np.eye(len(tr)), y[tr] - ym)
+    return kt @ coef + ym
+
+
+results = {}
+baseline = np.repeat(y[train].mean(0)[None], len(test), axis=0)
+
+
+def metrics(pred):
+    err = np.linalg.norm(pred - y[test], axis=1) * 100
+    return {
+        "mean_xy_error_cm": float(err.mean()),
+        "median_xy_error_cm": float(np.median(err)),
+        "p90_xy_error_cm": float(np.quantile(err, 0.9)),
+        "per_axis_rmse_cm": (np.sqrt(np.mean((pred - y[test]) ** 2, 0)) * 100).tolist(),
+        "r2": float(1 - np.sum((pred - y[test]) ** 2) / np.sum((y[test] - y[test].mean(0)) ** 2)),
+        "predictions": pred.tolist(),
+    }
+
+
+results["train_mean"] = metrics(baseline)
+for key in ["legacy_surflo", "official_surflo", "vggt_head_grid", "head_pixels"]:
+    x = np.stack([d[key] for d in items]).astype(float)
+    scores = []
+    for alpha in alphas:
+        errors = []
+        for val in folds:
+            tr = np.setdiff1d(train, val)
+            pred = fit_predict(x, tr, val, alpha)
+            errors.extend(np.sum((pred - y[val]) ** 2, axis=1))
+        scores.append(float(np.mean(errors)))
+    alpha = float(alphas[np.argmin(scores)])
+    pred = fit_predict(x, train, test, alpha)
+    results[key] = {**metrics(pred), "alpha": alpha, "cv_mse": scores, "feature_dim": x.shape[1]}
+    print(key, json.dumps({k: v for k, v in results[key].items() if k != "predictions"}), flush=True)
+report = {
+    "protocol": (
+        "Initial images only; no robot state/actions; frozen features; held-out scene labels never used to fit or select"
+        " ridge penalty. XY labels from scene seeds verified against recorded images."
+    ),
+    "count": len(y),
+    "train_episodes": train.tolist(),
+    "test_episodes": test.tolist(),
+    "test_xy": y[test].tolist(),
+    "results": results,
+    "limits": (
+        "All recorded scenes are right-side examples. A localization probe does not establish grasp success, orientation"
+        " accuracy, temporal reasoning, or performance on left-side scenes."
+    ),
+}
+(out / "probe_results.json").write_text(json.dumps(report, indent=2))

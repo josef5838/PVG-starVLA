@@ -61,7 +61,8 @@ def _image_hw(image: Any) -> Optional[Tuple[int, int]]:
 def _expected_image_hw(metadata: Dict) -> Optional[Tuple[int, int]]:
     size = metadata.get("training_obs_image_size")
     if isinstance(size, (list, tuple)) and len(size) == 2:
-        return int(size[0]), int(size[1])
+        # Training metadata follows PIL's (width, height) convention.
+        return int(size[1]), int(size[0])
     return None
 
 

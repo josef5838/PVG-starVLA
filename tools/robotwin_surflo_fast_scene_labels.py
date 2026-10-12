@@ -1,0 +1,88 @@
+"""Recover initial XY from exact task RNG; validate against simulated anchors."""
+
+import io
+import json
+from pathlib import Path
+
+import h5py
+import numpy as np
+from PIL import Image
+
+src = Path("/export/home/haoliang/projects/RoboTwin/data/rotate_qrcode/demo_clean")
+out = Path("results/robotwin_surflo_reconstruction/feature_probe/scenes")
+out.mkdir(parents=True, exist_ok=True)
+seeds = [int(s) for s in (src / "seed.txt").read_text().split()]
+info = json.loads((src / "scene_info.json").read_text())
+
+
+def sample(seed):
+    r = np.random.RandomState(seed)
+    r.uniform(0, 0)  # table height (zero range still consumes a draw)
+    for _ in range(2):
+        r.randn(3)
+        r.uniform(0, 0)  # static front/head cameras
+    while True:
+        x = r.uniform(-0.25, 0.25)
+        y = r.uniform(-0.2, 0)
+        r.uniform(0.741, 0.741)
+        r.uniform(0, 0)
+        angle = r.uniform(-0.7, 0.7)
+        r.uniform(0, 0)
+        if abs(x) >= 0.05:
+            break
+    return np.array([x, y]), int(r.choice([0, 1, 2, 3])), angle
+
+
+anchors = []
+for p in sorted(out.glob("scene_*.json")):
+    d = json.loads(p.read_text())
+    if d.get("verification_method", "simulator") != "simulator":
+        continue
+    xy, model, _ = sample(d["seed"])
+    error = float(np.linalg.norm(xy - np.asarray(d["position"])[:2]))
+    assert d["verified"] and error < 1e-5 and model == d["model_id"], (d, error, model)
+    anchors.append({"episode": d["episode"], "xy_error_m": error})
+assert len(anchors) >= 10, anchors
+(out / "rng_validation.json").write_text(
+    json.dumps(
+        {
+            "anchors": anchors,
+            "max_xy_error_m": max(r["xy_error_m"] for r in anchors),
+            "method": (
+                "Replays exact zero-range table draw, both static-camera Gaussian/uniform draws, and rejected QR pose"
+                " samples. Object model choice checked against every source episode."
+            ),
+        },
+        indent=2,
+    )
+)
+rows = []
+for ep, seed in enumerate(seeds):
+    jp = out / f"scene_{ep:03d}.json"
+    npz = out / f"scene_{ep:03d}.npz"
+    if jp.exists() and npz.exists():
+        rows.append(json.loads(jp.read_text()))
+        continue
+    xy, model, angle = sample(seed)
+    expected = int(info[f"episode_{ep}"]["info"]["{A}"].split("base")[-1])
+    assert model == expected, (ep, model, expected)
+    rgb = []
+    with h5py.File(src / f"data/episode{ep}.hdf5") as f:
+        for name in ["head_camera", "left_camera", "right_camera"]:
+            rgb.append(np.asarray(Image.open(io.BytesIO(bytes(f[f"observation/{name}/rgb"][0]))).convert("RGB")))
+        state = f["joint_action/vector"][0]
+    position = np.r_[xy, 0.741]  # only XY used by probe; z is the pre-settle height.
+    row = {
+        "episode": ep,
+        "seed": seed,
+        "verified": True,
+        "verification_method": "exact_rng_validated_on_simulator_anchors_and_source_model_id",
+        "model_id": model,
+        "position": position.tolist(),
+        "yaw_parameter": angle,
+    }
+    np.savez_compressed(npz, images=np.stack(rgb), position=position, state=state)
+    jp.write_text(json.dumps(row))
+    rows.append(row)
+(out / "scenes.json").write_text(json.dumps(rows, indent=2))
+print("Recovered", len(rows), "scenes; simulator anchors", len(anchors))

@@ -1,0 +1,259 @@
+"""Launch and monitor two matched five-scene compressor-policy evaluations."""
+
+import argparse
+import datetime
+import json
+import os
+import shutil
+import socket
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+ROBOTWIN = Path("/export/home/haoliang/projects/RoboTwin_PVG")
+ROBOTWIN_PYTHON = Path("/export/home/haoliang/miniconda3/envs/RoboTwin/bin/python")
+
+
+def write_state(path, state):
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(state, indent=2) + "\n")
+    temporary.replace(path)
+
+
+def worker(run_path):
+    state = json.loads(run_path.read_text())
+    environment = dict(
+        os.environ,
+        PYTHONUNBUFFERED="1",
+        OMP_NUM_THREADS="4",
+        NO_ALBUMENTATIONS_UPDATE="1",
+        STARVLA_DISABLE_DEEPSPEED="1",
+        STARVLA_FRAMEWORK_MODULES=state.get("framework_module", "starVLA.model.framework.VLM4A.SurfloDiT"),
+        ROBOTWIN_SUPPRESS_EVAL_CONFIG="1",
+        PYTHONPATH=str(ROOT) + ":" + str(ROBOTWIN),
+        PATH=str(ROBOTWIN_PYTHON.parent) + ":" + os.environ["PATH"],
+    )
+    # SAPIEN's denoiser and auxiliary CUDA code default to logical device zero.
+    # Isolate each worker so that zero maps to the same physical GPU as its policy.
+    environment["CUDA_VISIBLE_DEVICES"] = str(state["gpu"])
+    server = None
+    try:
+        with Path(state["server_log"]).open("w") as log:
+            server = subprocess.Popen(
+                state["server_command"],
+                cwd=ROOT,
+                env=environment,
+                stdin=subprocess.DEVNULL,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+            )
+        state["server_pid"] = server.pid
+        state["status"] = "loading_checkpoint"
+        write_state(run_path, state)
+        deadline = time.monotonic() + 300
+        while time.monotonic() < deadline:
+            if server.poll() is not None:
+                raise RuntimeError(f"Policy server exited with {server.returncode}; see {state['server_log']}")
+            try:
+                with socket.create_connection(("127.0.0.1", state["port"]), timeout=1):
+                    break
+            except OSError:
+                time.sleep(1)
+        else:
+            raise TimeoutError("Policy server did not become ready within 300 seconds")
+        state["status"] = "evaluating"
+        write_state(run_path, state)
+        result_root = Path(state["simulator_output"])
+        for seed_index, simulator_seed in zip(state["seed_indices"], state["simulator_seeds"], strict=False):
+            prior = set(result_root.glob("*/_result.txt"))
+            state["current_seed"] = simulator_seed
+            episode_log = Path(state["directory"]) / f"seed_{simulator_seed}.log"
+            command = [
+                str(ROBOTWIN_PYTHON),
+                str(ROOT / "tools/robotwin_eval_fixed_instruction.py"),
+                "--render-gpu",
+                "0",
+                "--task_name",
+                state["task"],
+                "--task_config",
+                "demo_clean",
+                "--policy_name",
+                "starVLA",
+                "--protocol",
+                "starvla_ws",
+                "--host",
+                "127.0.0.1",
+                "--port",
+                str(state["port"]),
+                "--device_id",
+                "0",
+                "--seed",
+                str(seed_index),
+                "--test_num",
+                "1",
+                "--expert_check",
+                "false",
+                "--additional_info",
+                (
+                    f"ckpt_name={state['evaluation_id']},action_type=joint,"
+                    f"policy_ckpt_path={state['checkpoint']},starvla_adapter_path="
+                    f"{ROOT / 'examples/simBenchmarks/Robotwin/eval_files'}"
+                ),
+            ]
+            state["current_command"] = command
+            write_state(run_path, state)
+            with episode_log.open("w") as log:
+                evaluation = subprocess.Popen(
+                    command,
+                    cwd=ROBOTWIN,
+                    env=environment,
+                    stdin=subprocess.DEVNULL,
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                )
+            state["simulator_pid"] = evaluation.pid
+            write_state(run_path, state)
+            code = evaluation.wait()
+            if code:
+                raise RuntimeError(f"Simulator exited with {code}; see {episode_log}")
+            new_results = set(result_root.glob("*/_result.txt")) - prior
+            if len(new_results) != 1:
+                raise RuntimeError(f"Expected one new episode result, found {len(new_results)}")
+            result = next(iter(new_results))
+            rollout_log = episode_log.read_text(errors="replace")
+            if "Policy rollout error:" in rollout_log:
+                raise RuntimeError(f"Policy rollout failed; see {episode_log}")
+            videos = []
+            for video in result.parent.glob("*.mp4"):
+                destination = Path(state["video_folder"]) / f"seed_{simulator_seed}.mp4"
+                shutil.copy2(video, destination)
+                videos.append(str(destination))
+            if not videos:
+                raise RuntimeError(f"No recorded video for seed {simulator_seed}")
+            success = bool(float(result.read_text().strip().splitlines()[-1]))
+            state["episodes"].append(
+                {
+                    "seed": simulator_seed,
+                    "success": success,
+                    "result_file": str(result),
+                    "log": str(episode_log),
+                    "videos": videos,
+                }
+            )
+            state["completed_episodes"] = len(state["episodes"])
+            state["success_count"] = sum(item["success"] for item in state["episodes"])
+            write_state(run_path, state)
+        state["status"] = "completed"
+    except Exception as error:
+        state["status"] = "failed"
+        state["error"] = str(error)
+        raise
+    finally:
+        if server is not None and server.poll() is None:
+            server.terminate()
+            try:
+                server.wait(timeout=20)
+            except subprocess.TimeoutExpired:
+                server.kill()
+                server.wait()
+        state["finished_at"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        write_state(run_path, state)
+
+
+def launch(training_manifest):
+    training_manifest = training_manifest.resolve()
+    training = json.loads(training_manifest.read_text())
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
+    directory = training_manifest.parent / f"evaluation_10000_5seeds_{stamp}"
+    directory.mkdir(parents=True, exist_ok=False)
+    manifest = {
+        "task": training["task"],
+        "task_config": "demo_clean",
+        "training_manifest": str(training_manifest),
+        "checkpoint_step": 10000,
+        "seed_indices": list(range(5)),
+        "simulator_seeds": [100000 * (i + 1) for i in range(5)],
+        "episodes_per_model": 5,
+        "video_recording": True,
+        "instruction_override": training["task"],
+        "num_ddim_steps": 20,
+        "execute_horizon": 8,
+        "runs": [],
+    }
+    for index, run in enumerate(training["runs"]):
+        checkpoint = Path(run["checkpoint_dir"]) / "checkpoints/steps_10000_pytorch_model.pt"
+        if not checkpoint.is_file():
+            raise FileNotFoundError(checkpoint)
+        port = 5710 + index
+        with socket.socket() as probe:
+            probe.bind(("127.0.0.1", port))
+        run_directory = directory / run["variant"]
+        (run_directory / "videos").mkdir(parents=True)
+        evaluation_id = f"{run['run_id']}_evaluation_{stamp}"
+        state = dict(
+            manifest,
+            variant=run["variant"],
+            gpu=index,
+            port=port,
+            checkpoint=str(checkpoint),
+            directory=str(run_directory),
+            evaluation_id=evaluation_id,
+            simulator_output=str(ROBOTWIN / "eval_result" / training["task"] / "starVLA/demo_clean" / evaluation_id),
+            video_folder=str(run_directory / "videos"),
+            server_log=str(run_directory / "server.log"),
+            status="starting",
+            episodes=[],
+            completed_episodes=0,
+            success_count=0,
+        )
+        state.pop("runs")
+        state["server_command"] = [
+            "bash",
+            str(ROOT / "examples/simBenchmarks/Robotwin/eval_files/run_policy_server.sh"),
+            str(checkpoint),
+            str(index),
+            str(port),
+        ]
+        state_path = run_directory / "status.json"
+        write_state(state_path, state)
+        with (run_directory / "worker.log").open("w") as log:
+            process = subprocess.Popen(
+                [sys.executable, str(Path(__file__).resolve()), "--worker", str(state_path)],
+                cwd=ROOT,
+                stdin=subprocess.DEVNULL,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+        manifest["runs"].append(
+            {
+                "variant": run["variant"],
+                "gpu": index,
+                "port": port,
+                "pid": process.pid,
+                "checkpoint": str(checkpoint),
+                "status_file": str(state_path),
+                "video_folder": state["video_folder"],
+            }
+        )
+    write_state(directory / "manifest.json", manifest)
+    print(json.dumps({"manifest": str(directory / "manifest.json"), "runs": manifest["runs"]}, indent=2))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--training-manifest", type=Path)
+    parser.add_argument("--worker", type=Path)
+    args = parser.parse_args()
+    if args.worker:
+        worker(args.worker)
+    elif args.training_manifest:
+        launch(args.training_manifest)
+    else:
+        parser.error("--training-manifest is required")
+
+
+if __name__ == "__main__":
+    main()

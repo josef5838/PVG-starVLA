@@ -1,0 +1,36 @@
+"""Reproducible episode holdouts for the RoboTwin v2.x dataset layout."""
+
+import json
+from pathlib import Path
+
+import numpy as np
+
+
+def split_episodes(dataset_path, fraction, seed):
+    if not 0 < fraction < 1:
+        raise ValueError("validation_fraction must be between 0 and 1")
+    path = Path(dataset_path) / "meta/episodes.jsonl"
+    ids = sorted(int(json.loads(line)["episode_index"]) for line in path.read_text().splitlines() if line)
+    if len(ids) < 2:
+        raise ValueError("Episode validation requires at least two episodes")
+    shuffled = np.random.default_rng(seed).permutation(ids)
+    count = max(1, min(len(ids) - 1, round(len(ids) * fraction)))
+    return sorted(map(int, shuffled[count:])), sorted(map(int, shuffled[:count]))
+
+
+def split_train_validation_test(dataset_path, validation_fraction, test_fraction, seed):
+    """Reserve disjoint episode sets; the test set never selects checkpoints."""
+    if not (0 < validation_fraction < 1 and 0 < test_fraction < 1 and validation_fraction + test_fraction < 1):
+        raise ValueError("Require positive validation/test fractions summing to less than one")
+    path = Path(dataset_path) / "meta/episodes.jsonl"
+    ids = sorted(int(json.loads(line)["episode_index"]) for line in path.read_text().splitlines() if line)
+    shuffled = np.random.default_rng(seed).permutation(ids)
+    validation_count = max(1, round(len(ids) * validation_fraction))
+    test_count = max(1, round(len(ids) * test_fraction))
+    if validation_count + test_count >= len(ids):
+        raise ValueError("Episode split leaves no training demonstrations")
+    return (
+        sorted(map(int, shuffled[validation_count + test_count :])),
+        sorted(map(int, shuffled[:validation_count])),
+        sorted(map(int, shuffled[validation_count : validation_count + test_count])),
+    )

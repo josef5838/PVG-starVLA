@@ -1,0 +1,46 @@
+"""Run the official RoboTwin evaluator with task-name text and an explicit GPU."""
+
+import argparse
+import os
+import sys
+from pathlib import Path
+
+
+def main():
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("--render-gpu", type=int, required=True)
+    own_args, remaining = parser.parse_known_args()
+    robotwin_root = Path(os.environ.get("ROBOTWIN_PATH", "/export/home/haoliang/projects/RoboTwin_PVG"))
+    sys.path.insert(0, str(robotwin_root))
+    os.chdir(robotwin_root)
+    import sapien.core as sapien
+
+    # Material creation during task imports initializes SAPIEN's singleton
+    # renderer. Select its device before those imports, not just at scene creation.
+    sapien.render.set_global_config(max_num_materials=50000, max_num_textures=50000)
+    render_context = sapien.render.RenderSystem(f"cuda:{own_args.render_gpu}")  # noqa: F841 - keep renderer alive.
+
+    # RoboTwin's legacy Engine creates a default RenderSystem and its evaluator's
+    # device_id argument does not select that renderer. Pin it explicitly.
+    def create_scene(engine, config=None):
+        if config is None:
+            config = sapien.SceneConfig()
+        sapien.physx.set_scene_config(config)
+        return sapien.Scene([sapien.physx.PhysxCpuSystem(), sapien.render.RenderSystem(f"cuda:{own_args.render_gpu}")])
+
+    sapien.Engine.create_scene = create_scene
+    from scripts import eval_policy_xpolicylab as evaluator
+
+    evaluator.build_instruction = lambda args, episode_info, instruction_type, test_num: args["task_name"]
+    sys.argv = [str(robotwin_root / "scripts/eval_policy_xpolicylab.py"), *remaining]
+    usr_args = evaluator.parse_args()
+    print(
+        f"[Evaluation] visible GPU={os.environ.get('CUDA_VISIBLE_DEVICES', 'all')}; "
+        f"renderer=cuda:{own_args.render_gpu}; instruction={usr_args['task_name']}",
+        flush=True,
+    )
+    evaluator.main(usr_args)
+
+
+if __name__ == "__main__":
+    main()

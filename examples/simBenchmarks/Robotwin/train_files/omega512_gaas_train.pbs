@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#PBS -N omega512_fresh
+#PBS -P gs_ccds_chuanxia.zheng
+#PBS -q gpu_as
+#PBS -l select=1:ncpus=12:ngpus=1:mem=128gb
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+set -euo pipefail
+cd "${OMEGA_REPO:?}"
+source "${OMEGA_BUNDLE:?}/configured/environment.sh"
+python_bin="${STARVLA_PYTHON:-/home/n2506021c/miniconda3/envs/surflo-dit-cu124/bin/python}"
+"$python_bin" - "$OMEGA_BUNDLE/configured/${OMEGA_VARIANT:?}_fresh.yaml" <<'PY'
+import sys
+from pathlib import Path
+from omegaconf import OmegaConf
+c=OmegaConf.load(sys.argv[1])
+assert not c.trainer.get('resume_checkpoint') and not c.trainer.get('pretrained_checkpoint')
+if Path(c.output_dir).exists():
+    raise FileExistsError(f'Fresh output already exists: {c.output_dir}')
+PY
+exec "$python_bin" starVLA/training/train_starvla.py --config_yaml \
+    "$OMEGA_BUNDLE/configured/${OMEGA_VARIANT:?dense, state_query_local or adapt_last2}_fresh.yaml"

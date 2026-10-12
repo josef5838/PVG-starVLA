@@ -1,0 +1,196 @@
+"""Prepare and launch fresh matched Omega512 action policies on separate GPUs."""
+
+import argparse
+import datetime
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+from dataclasses import asdict
+from pathlib import Path
+
+from omegaconf import OmegaConf
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from starVLA.model.framework.VLM4A.Omega512DiT import (  # noqa: E402
+    Omega512DiTDefaultConfig,
+)
+
+CODE_FILES = (
+    "starVLA/model/framework/VLM4A/Omega512DiT.py",
+    "starVLA/model/modules/action_model/OmegaCrossAttentionHeader.py",
+    "starVLA/model/modules/projector/omega_readout.py",
+    "starVLA/dataloader/gr00t_lerobot/datasets.py",
+    "starVLA/training/train_starvla.py",
+    "deployment/model_server/policy_wrapper.py",
+    "examples/simBenchmarks/Robotwin/eval_files/model2robotwin_interface.py",
+    "tools/launch_robotwin_omega512_ablations.py",
+)
+
+
+def digest(path):
+    hasher = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 * 1024 * 1024), b""):
+            hasher.update(block)
+    return hasher.hexdigest()
+
+
+def prepare(args):
+    baseline_path = Path(args.baseline).resolve()
+    baseline = OmegaConf.load(baseline_path)
+    if baseline.trainer.get("pretrained_checkpoint") or baseline.trainer.get("resume_checkpoint"):
+        raise ValueError("Baseline must describe a fresh action policy")
+    gpus = args.gpus.split(",")
+    if len(gpus) != 2 or gpus[0] == gpus[1]:
+        raise ValueError("Two different GPUs are required")
+    task = str(baseline.datasets.vla_data.instruction_override)
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
+    directory = ROOT / "results/robotwin_omega512_ablation" / f"{task}_{stamp}"
+    directory.mkdir(parents=True, exist_ok=False)
+    template = OmegaConf.create(OmegaConf.to_container(baseline, resolve=True))
+    if baseline.framework.name == "Omega512DiT":
+        template.framework = OmegaConf.merge(asdict(Omega512DiTDefaultConfig()), baseline.framework)
+    else:
+        template.framework = asdict(Omega512DiTDefaultConfig())
+    template.framework.task_names = [task]
+    template.wandb_project = "omega512-dit-robotwin"
+    template.datasets.vla_data.preserve_native_images = True
+    # PIL/deployment convention is (width, height); dataset cameras are 640x480.
+    # preserve_native_images bypasses client/dataset resizing before Omega preprocessing.
+    template.datasets.vla_data.obs_image_size = [640, 480]
+    template.trainer.freeze_modules = ""  # Selective Omega freezing is owned by the framework.
+    template.trainer.learning_rate = dict(
+        base=3e-4, visual_proj=3e-4, state_proj=3e-4, action_model=3e-4, visual_readout=3e-4, omega=1e-5
+    )
+    template.trainer.save_training_state = True
+    for key in ("pretrained_checkpoint", "resume_checkpoint", "is_resume"):
+        template.trainer.pop(key, None)
+    manifest = dict(
+        task=task,
+        baseline_config=str(baseline_path),
+        baseline_config_sha256=digest(baseline_path),
+        initialization="fresh action/readout weights; verified official Omega512 reference",
+        seed=int(template.seed),
+        effective_batch_per_variant=int(template.datasets.vla_data.per_device_batch_size)
+        * int(template.trainer.gradient_accumulation_steps),
+        optimizer_updates_per_variant=int(template.trainer.max_train_steps),
+        sample_budget_per_variant=int(template.trainer.sample_budget),
+        save_interval=int(template.trainer.save_interval),
+        training_resumable_checkpoints=True,
+        checkpoint_contract=(
+            "Policy/adapted weights + optimizer/scheduler/RNG/cursor; immutable frozen Omega weights referenced by"
+            " SHA256."
+        ),
+        python=sys.executable,
+        runs=[],
+    )
+    for variant, gpu, readout in zip(("dense", "state_query_local"), gpus, ("dense", "state_query_local"), strict=False):
+        cfg = OmegaConf.create(OmegaConf.to_container(template, resolve=True))
+        cfg.run_id = f"omega512_robotwin_{task}_{variant}_fresh_{cfg.trainer.max_train_steps}steps_{stamp}"
+        cfg.output_dir = str(ROOT / cfg.run_root_dir / cfg.run_id)
+        cfg.datasets.vla_data.statistics_cache_dir = str(Path(cfg.output_dir) / "data_split")
+        cfg.framework.readout.type = readout
+        path = directory / f"{variant}.yaml"
+        cfg.config_yaml = str(path)
+        OmegaConf.save(cfg, path, resolve=True)
+        manifest["runs"].append(
+            dict(
+                variant=variant,
+                gpu=gpu,
+                run_id=cfg.run_id,
+                config=str(path),
+                config_sha256=digest(path),
+                log=str(directory / f"{variant}.log"),
+                checkpoint_dir=str(Path(cfg.output_dir)),
+                pid=None,
+                command=[sys.executable, "starVLA/training/train_starvla.py", "--config_yaml", str(path)],
+            )
+        )
+    normalized = []
+    for run in manifest["runs"]:
+        cfg = OmegaConf.to_container(OmegaConf.load(run["config"]), resolve=True)
+        for key in ("run_id", "output_dir", "config_yaml"):
+            cfg.pop(key)
+        cfg["datasets"]["vla_data"].pop("statistics_cache_dir")
+        cfg["framework"]["readout"].pop("type")
+        normalized.append(cfg)
+    if normalized[0] != normalized[1]:
+        raise ValueError("Unexpected config differences between ablations")
+    adaptation = OmegaConf.create(OmegaConf.to_container(OmegaConf.load(manifest["runs"][0]["config"]), resolve=True))
+    adaptation.framework.omega.train_last_blocks = 2
+    adaptation.run_id = f"omega512_robotwin_{task}_adapt_last2_{stamp}"
+    adaptation.output_dir = str(ROOT / adaptation.run_root_dir / adaptation.run_id)
+    adaptation.datasets.vla_data.statistics_cache_dir = str(Path(adaptation.output_dir) / "data_split")
+    adaptation.config_yaml = str(directory / "adapt_last_blocks.yaml")
+    OmegaConf.save(adaptation, adaptation.config_yaml, resolve=True)
+    manifest["adaptation_config_not_launched"] = adaptation.config_yaml
+    path = directory / "manifest.json"
+    path.write_text(json.dumps(manifest, indent=2) + "\n")
+    return path, manifest
+
+
+def launch(path, manifest):
+    if any(run["pid"] is not None for run in manifest["runs"]):
+        raise ValueError("Manifest already launched")
+    for run in manifest["runs"]:
+        if digest(run["config"]) != run["config_sha256"]:
+            raise ValueError("Prepared configuration changed")
+        if Path(run["checkpoint_dir"]).exists():
+            raise ValueError("Fresh run output directory already exists")
+    manifest["code_sha256"] = {name: digest(ROOT / name) for name in CODE_FILES}
+    for name in CODE_FILES:
+        target = path.parent / "code" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, target)
+    for run in manifest["runs"]:
+        env = dict(
+            os.environ,
+            CUDA_VISIBLE_DEVICES=run["gpu"],
+            STARVLA_DISABLE_DEEPSPEED="1",
+            STARVLA_FRAMEWORK_MODULES="starVLA.model.framework.VLM4A.Omega512DiT",
+            WANDB_MODE="offline",
+            PYTHONUNBUFFERED="1",
+            OMP_NUM_THREADS="4",
+            NO_ALBUMENTATIONS_UPDATE="1",
+            PYTHONPATH=str(ROOT),
+        )
+        with Path(run["log"]).open("w") as stream:
+            process = subprocess.Popen(
+                run["command"],
+                cwd=ROOT,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                stdout=stream,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+            )
+        run["pid"] = process.pid
+        path.write_text(json.dumps(manifest, indent=2) + "\n")
+    return manifest
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--baseline", default=str(ROOT / "examples/simBenchmarks/Robotwin/train_files/omega512_robotwin.yaml")
+    )
+    parser.add_argument("--gpus", default="0,1")
+    parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--launch-manifest", type=Path)
+    args = parser.parse_args()
+    if args.launch_manifest:
+        path = args.launch_manifest.resolve()
+        manifest = json.loads(path.read_text())
+    else:
+        path, manifest = prepare(args)
+    if not args.prepare_only:
+        manifest = launch(path, manifest)
+    print(json.dumps(dict(manifest=str(path), runs=manifest["runs"]), indent=2))
+
+
+if __name__ == "__main__":
+    main()

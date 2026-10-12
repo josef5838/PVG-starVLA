@@ -1,7 +1,6 @@
 from collections import deque
-from typing import Dict, Optional
+from typing import Optional
 
-import cv2 as cv
 import numpy as np
 
 from deployment.model_server.tools.websocket_policy_client import WebsocketClientPolicy
@@ -21,14 +20,15 @@ class ModelClient:
         horizon: int = 0,
         action_ensemble=False,
         action_ensemble_horizon: Optional[int] = 3,
-        image_size: list[int] = [224, 224],
+        image_size: Optional[list[int]] = None,
         use_ddim: bool = True,
-        num_ddim_steps: int = 10,
+        num_ddim_steps: Optional[int] = None,
         adaptive_ensemble_alpha=0.1,
         host="127.0.0.1",
         port=5694,
         action_mode: str = "abs",
         normalization_mode: str = "min_max",
+        execute_horizon: Optional[int] = None,
     ) -> None:
 
         self.client = WebsocketClientPolicy(host, port)
@@ -67,7 +67,21 @@ class ModelClient:
         self.raw_actions = None
 
         server_meta = self.client.get_server_metadata()
-        self.action_chunk_size = server_meta["action_chunk_size"]
+        self.action_chunk_size = int(server_meta["action_chunk_size"])
+        self.image_size = image_size or server_meta.get("training_obs_image_size") or [224, 224]
+        self.preserve_native_images = bool(server_meta.get("preserve_native_images", False))
+        self.instruction_override = server_meta.get("instruction_override")
+        self.num_ddim_steps = int(num_ddim_steps or server_meta.get("num_ddim_steps", 20))
+        self.diffusion_seed = server_meta.get("evaluation_diffusion_seed")
+        self.camera_history_length = int(server_meta.get("camera_history_length", 0))
+        if self.camera_history_length and int(server_meta.get("camera_history_stride", 1)) != 1:
+            raise ValueError("Only stride-one camera histories are supported")
+        self.camera_history = deque(maxlen=max(1, self.camera_history_length))
+        self.include_state = bool(server_meta.get("include_state", False))
+        self.execute_horizon = int(execute_horizon or server_meta.get("execute_horizon", self.action_chunk_size))
+        if not 1 <= self.execute_horizon <= self.action_chunk_size:
+            raise ValueError("execute_horizon must be between 1 and action_chunk_size")
+        self.chunk_start_step = None
         print(
             f"*** policy_setup: {policy_setup}, unnorm_key: {unnorm_key}, "
             f"action_mode: {action_mode}, normalization_mode: {normalization_mode}, "
@@ -81,6 +95,8 @@ class ModelClient:
             self.action_ensembler.reset()
         self.num_image_history = 0
         self.raw_actions = None
+        self.chunk_start_step = None
+        self.camera_history.clear()
         # Reset state tracking for delta/rel modes
         self.initial_state = None
         self.prev_action = None
@@ -91,6 +107,12 @@ class ModelClient:
         step: int = 0,
     ) -> np.ndarray:
         state = example.get("state", None)
+        if state is not None:
+            state = np.asarray(state, dtype=np.float32).reshape(-1)
+            if state.shape != (14,):
+                raise ValueError(f"Expected 14-D RoboTwin state, got {state.shape}")
+            # Simulator order: left arm/gripper, right arm/gripper.
+            state = state[[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 6, 13]]
         # if state is not None:
         #     state = self.normalize_state(state, self.state_norm_stats)
         #     state = state[[0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 6, 13]]
@@ -102,7 +124,7 @@ class ModelClient:
                 raise ValueError(f"action_mode='{self.action_mode}' requires state to be provided in example")
             self.initial_state = np.array(state).copy()
 
-        task_description = example.get("lang", None)
+        task_description = getattr(self, "instruction_override", None) or example.get("lang", None)
         images = example["image"]
 
         if example is not None:
@@ -112,10 +134,22 @@ class ModelClient:
                 if self.action_mode in ["delta", "rel"] and state is not None:
                     self.initial_state = np.array(state).copy()
 
-        images = [self._resize_image(image) for image in images]
-        example["image"] = images
         example_copy = example.copy()
-        example_copy.pop("state")
+        example_copy["lang"] = task_description
+        example_copy["image"] = [self._resize_image(image) for image in images]
+        if self.camera_history_length:
+            # Observe every control step, including those that reuse an action chunk.
+            # Copy RGB because simulator buffers may be reused on the next render.
+            self.camera_history.append([np.asarray(image).copy() for image in example_copy["image"]])
+            frames = list(self.camera_history)
+            frames = [frames[0]] * (self.camera_history_length - len(frames)) + frames
+            example_copy["image_history"] = [[frame[camera] for frame in frames] for camera in range(3)]
+        if self.include_state:
+            if state is None:
+                raise ValueError("This checkpoint requires RoboTwin state")
+            example_copy["state"] = state.reshape(1, -1)
+        else:
+            example_copy.pop("state", None)
         vla_input = {
             "examples": [example_copy],
             "do_sample": False,
@@ -123,10 +157,15 @@ class ModelClient:
             "num_ddim_steps": self.num_ddim_steps,
         }
         vla_input["unnorm_key"] = self.unnorm_key
+        if getattr(self, "diffusion_seed", None) is not None:
+            vla_input["diffusion_seed"] = int(self.diffusion_seed) + step // self.execute_horizon
 
-        action_chunk_size = self.action_chunk_size
-
-        if step % action_chunk_size == 0 or self.raw_actions is None:
+        if (
+            self.raw_actions is None
+            or self.chunk_start_step is None
+            or step - self.chunk_start_step >= self.execute_horizon
+        ):
+            self.chunk_start_step = step
             # === TRAIN/TEST CONSISTENCY: keep the observation below aligned with training ===
             # Embodied policies degrade SILENTLY (no error) when the eval-time observation
             # differs from what the model saw during TRAINING. Verify these match the
@@ -139,7 +178,12 @@ class ModelClient:
             # ==============================================================================
             response = self.client.predict_action(vla_input)
             # server already un-normalized via training-time transform
-            raw_actions = np.array(response["data"]["actions"][0])  # (chunk, D)
+            payload = response.get("data", response)
+            if "actions" not in payload:
+                raise RuntimeError(f"Policy server failed to return actions: {payload}")
+            raw_actions = np.asarray(payload["actions"][0])
+            if raw_actions.ndim != 2 or raw_actions.shape[1] != 14 or len(raw_actions) < self.execute_horizon:
+                raise ValueError(f"Expected an action chunk [T>=execute_horizon,14], got {raw_actions.shape}")
 
             # Convert delta/rel to absolute actions
             if self.action_mode == "delta":
@@ -149,9 +193,9 @@ class ModelClient:
             else:
                 self.raw_actions = raw_actions
 
-        action_idx = step % action_chunk_size
-        if action_idx >= len(self.raw_actions):
-            pass
+        action_idx = step - self.chunk_start_step
+        if not 0 <= action_idx < len(self.raw_actions):
+            raise ValueError("Policy returned an action chunk shorter than the execution horizon")
 
         current_action = self.raw_actions[action_idx]
 
@@ -176,8 +220,11 @@ class ModelClient:
         return rel_actions + self.initial_state
 
     def _resize_image(self, image: np.ndarray) -> np.ndarray:
-        image = cv.resize(image, tuple(self.image_size), interpolation=cv.INTER_AREA)
-        return image
+        if getattr(self, "preserve_native_images", False):
+            return np.asarray(image)
+        from PIL import Image
+
+        return np.asarray(Image.fromarray(np.asarray(image)).resize(tuple(self.image_size)))
 
 
 def get_model(usr_args):
@@ -201,6 +248,9 @@ def get_model(usr_args):
         unnorm_key=unnorm_key,
         action_mode=action_mode,
         normalization_mode=normalization_mode,
+        image_size=usr_args.get("image_size"),
+        num_ddim_steps=usr_args.get("num_ddim_steps"),
+        execute_horizon=usr_args.get("execute_horizon"),
     )
 
 
@@ -208,7 +258,7 @@ def reset_model(model):
     model.reset(task_description="")
 
 
-def eval(TASK_ENV, model, observation):
+def eval(TASK_ENV, model, observation):  # noqa: A001 - benchmark callback/legacy keyword API
     # Get instruction
     instruction = TASK_ENV.get_instruction()
 

@@ -1,0 +1,43 @@
+"""Joint camera/history token fusion, without rotary position embeddings."""
+
+import torch
+from torch import nn
+
+from starVLA.model.modules.action_model.OmegaCrossAttentionHeader import CachedVisualAttention
+
+
+class OmegaStreamFusion(nn.Module):
+    def __init__(self, width=512, depth=2, heads=8, output_queries=32):
+        super().__init__()
+        self.encoder = nn.TransformerEncoder(
+            nn.TransformerEncoderLayer(
+                width,
+                heads,
+                dim_feedforward=4 * width,
+                dropout=0.0,
+                activation="gelu",
+                batch_first=True,
+                norm_first=True,
+            ),
+            num_layers=depth,
+            enable_nested_tensor=False,
+        )
+        # TransformerEncoder clones its prototype; initialize layers independently.
+        for layer in self.encoder.layers:
+            for parameter in layer.parameters():
+                if parameter.ndim > 1:
+                    nn.init.xavier_uniform_(parameter)
+        self.queries = nn.Parameter(torch.randn(output_queries, width) * 0.02)
+        self.query_norm = nn.LayerNorm(width)
+        self.memory_norm = nn.LayerNorm(width)
+        self.pool = CachedVisualAttention(width, heads)
+        self.ffn_norm = nn.LayerNorm(width)
+        self.ffn = nn.Sequential(nn.Linear(width, 4 * width), nn.GELU(), nn.Linear(4 * width, width))
+        self.output_norm = nn.LayerNorm(width)
+
+    def forward(self, memory):
+        memory = self.encoder(memory)
+        query = self.queries[None].expand(memory.shape[0], -1, -1)
+        query = query + self.pool(self.query_norm(query), self.pool.prepare(self.memory_norm(memory)))
+        query = query + self.ffn(self.ffn_norm(query))
+        return self.output_norm(query)

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>__TITLE__</title>
+<style>
+body{margin:0;background:#101723;color:#e5eaf3;font:15px system-ui}header{padding:18px 24px}
+h1{font-size:21px;margin:0 0 10px}p{margin:8px 0;color:#bac7d9}button,select,input{margin:4px}
+button,select{padding:7px;background:#27364b;border:1px solid #61748e;color:white;border-radius:4px}
+canvas{width:100%;height:calc(100vh - 180px);display:block;touch-action:none}label{white-space:nowrap}
+</style>
+<header><h1>__TITLE__</h1>
+<p>Drag to orbit · Scroll to zoom · Double-click to reset. Local arbitrary scale; X / Z / −Y coordinates.</p>
+<label>Display <select id="mode"><option value="all">Joint eight-image output: all points</option><option value="single">One image's output from the joint call</option></select></label>
+<label>Frame <input id="frame" type="range" min="0" max="7" value="7"><span id="frameLabel"></span></label>
+<label><input id="timecolor" type="checkbox">Color by frame</label>
+<label><input id="cams" type="checkbox" checked>Camera trajectory</label><button id="play">Play frames</button>
+<p>One VGGT-Ω call jointly processed all eight images. Bottom 10% confidence per image removed; ≤6,500 sampled points per image. Moving objects can leave multiple copies.</p>
+</header><canvas id="canvas"></canvas>
+<script>
+const data=__DATA__;
+const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
+const mode=document.getElementById('mode'),frame=document.getElementById('frame'),timecolor=document.getElementById('timecolor'),cams=document.getElementById('cams');
+frame.max=data.frames.length-1;
+const all=data.points.flat();
+// Robust display bounds; all points remain available when orbiting or zooming.
+const quantile=(a,q)=>{a.sort((a,b)=>a-b);return a[Math.floor(q*(a.length-1))]};
+const low=[0,1,2].map(k=>quantile(all.map(p=>p[k]),.01)),high=[0,1,2].map(k=>quantile(all.map(p=>p[k]),.99));
+const center=low.map((v,k)=>(v+high[k])/2),radius=Math.max(...high.map((v,k)=>v-low[k]))/2||1;
+const palette=['#5bb8ff','#40d8cd','#65cc72','#cee45b','#ffce64','#ff9865','#ed6fa1','#a58aff'];
+let yaw=-.8,pitch=.3,zoom=1,drag=null,playing=null;
+function project(p){
+ const a=p.map((v,k)=>(v-center[k])/radius),c=Math.cos(yaw),s=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+ const x=c*a[0]-s*a[1],z=s*a[0]+c*a[1],y=cp*a[2]-sp*z,d=sp*a[2]+cp*z;
+ const scale=Math.min(canvas.width,canvas.height)*.35*zoom;
+ return [canvas.width/2+x*scale,canvas.height/2-y*scale,d];
+}
+function draw(){
+ const ratio=window.devicePixelRatio||1,w=Math.round(canvas.clientWidth*ratio),h=Math.round(canvas.clientHeight*ratio);
+ if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
+ ctx.fillStyle='#101723';ctx.fillRect(0,0,w,h);
+ const ids=mode.value==='all'?data.frames.map((_,i)=>i):[+frame.value];
+ document.getElementById('frameLabel').textContent=data.frames[+frame.value];
+ const pts=[];
+ for(const i of ids)for(let j=0;j<data.points[i].length;j++){
+  const p=project(data.points[i][j]);if(p[0]<0||p[1]<0||p[0]>w||p[1]>h)continue;
+  pts.push([p[0],p[1],p[2],i,j]);
+ }
+ pts.sort((a,b)=>a[2]-b[2]);
+ for(const p of pts){const rgb=data.colors[p[3]][p[4]];
+  ctx.fillStyle=timecolor.checked?palette[p[3]%palette.length]:`rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+  ctx.fillRect(p[0],p[1],1.8*ratio,1.8*ratio);
+ }
+ if(cams.checked){ctx.strokeStyle='#ff5353';ctx.lineWidth=2*ratio;ctx.beginPath();
+  data.centers.forEach((c,i)=>{const p=project(c);if(i)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1])});ctx.stroke();
+  data.centers.forEach((c,i)=>{const p=project(c);ctx.fillStyle=palette[i%palette.length];ctx.beginPath();ctx.arc(p[0],p[1],4*ratio,0,Math.PI*2);ctx.fill();ctx.fillText(String(data.frames[i]),p[0]+5*ratio,p[1]-5*ratio)});
+ }
+ ctx.font=`${13*ratio}px system-ui`;ctx.fillStyle='#d6e2f4';ctx.fillText(`${pts.length.toLocaleString()} points · ${mode.value==='all'?'eight-frame superposition':'frame '+data.frames[+frame.value]}`,18*ratio,h-18*ratio);
+}
+canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId)};
+canvas.onpointermove=e=>{if(!drag)return;yaw+=(e.clientX-drag[0])*.007;pitch=Math.max(-1.5,Math.min(1.5,pitch+(e.clientY-drag[1])*.007));drag=[e.clientX,e.clientY];draw()};
+canvas.onpointerup=()=>drag=null;
+canvas.onwheel=e=>{e.preventDefault();zoom=Math.max(.1,Math.min(20,zoom*Math.exp(-e.deltaY*.001)));draw()};
+canvas.ondblclick=()=>{yaw=-.8;pitch=.3;zoom=1;draw()};
+for(const el of [mode,frame,timecolor,cams])el.oninput=draw;
+document.getElementById('play').onclick=()=>{
+ if(playing){clearInterval(playing);playing=null;document.getElementById('play').textContent='Play frames'}
+ else{mode.value='single';playing=setInterval(()=>{frame.value=(+frame.value+1)%data.frames.length;draw()},500);document.getElementById('play').textContent='Stop'}
+};
+window.onresize=draw;draw();
+</script></html>

@@ -1,0 +1,112 @@
+import json
+from pathlib import Path
+
+import matplotlib
+import numpy as np
+
+matplotlib.use("Agg")
+import cv2
+import matplotlib.pyplot as plt
+from PIL import Image
+
+root = Path(
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/episode_0_frame_20"
+)
+p = root / "reconstruction/plain_points.ply"
+with p.open("rb") as f:
+    header = []
+    while True:
+        s = f.readline().decode().strip()
+        header.append(s)
+        if s == "end_header":
+            break
+    dt = np.dtype(
+        [(k, "<f4") for k in ["x", "y", "z", "nx", "ny", "nz"]] + [(k, "u1") for k in ["red", "green", "blue"]]
+    )
+    a = np.fromfile(f, dtype=dt)
+xyz = np.stack([a[k] for k in ["x", "y", "z"]], 1)
+norm = np.stack([a[k] for k in ["nx", "ny", "nz"]], 1)
+valid = np.isfinite(xyz).all(1)
+xyz = xyz[valid]
+norm = norm[valid]
+lo, hi = np.quantile(xyz, [0.005, 0.995], axis=0)
+mask = ((xyz >= lo) & (xyz <= hi)).all(1)
+q = xyz[mask]
+c = np.clip((norm[mask] + 1) / 2, 0, 1)
+rng = np.random.default_rng(42)
+idx = rng.choice(len(q), min(len(q), 15000), replace=False)
+fig = plt.figure(figsize=(15, 5))
+for i, angles in enumerate([(20, -65), (80, -90), (10, 20)]):
+    ax = fig.add_subplot(1, 3, i + 1, projection="3d")
+    ax.scatter(*q[idx].T, c=c[idx], s=0.35)
+    ax.view_init(*angles)
+    ax.set_box_aspect(np.maximum(hi - lo, 0.01))
+    ax.set_title(["Oblique", "Top", "Side"][i])
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
+fig.suptitle("Surflo plain reconstruction — colors show surface normals; preview trims outer 0.5% per axis")
+fig.tight_layout()
+fig.savefig(root / "reconstruction_preview.png", dpi=160)
+plt.close(fig)
+ims = [Image.open(root / f"input_view_{i}.png").convert("RGB") for i in range(3)]
+out = Image.new("RGB", (1554, 550), "white")
+from PIL import ImageDraw  # noqa: E402 - runtime environment/path bootstrap precedes imports
+
+d = ImageDraw.Draw(out)
+for i, im in enumerate(ims):
+    out.paste(im, (518 * i, 32))
+    d.text((518 * i + 10, 8), ["Head", "Left wrist", "Right wrist"][i], fill="black")
+out.save(root / "inputs.png")
+# Dependency-free orbit viewer; normal colors intentionally are not RGB texture.
+j = rng.choice(len(q), min(len(q), 12000), replace=False)
+data = json.dumps({"p": q[j].round(5).tolist(), "c": (c[j] * 255).astype(int).tolist()}, separators=(",", ":"))
+html = """<!doctype html><meta charset="utf-8"><title>Robot three-view Surflo reconstruction</title><style>body{margin:0;background:#151923;color:#eee;font:16px sans-serif}p{padding:12px}canvas{display:block;width:100vw;height:85vh;touch-action:none}</style><p>Surflo plain reconstruction · drag to rotate, scroll to zoom · colors show normals, not RGB texture. Preview excludes outer 0.5% per axis; PLY retains all points.</p><canvas></canvas><script>const D=DATA,cv=document.querySelector('canvas'),ctx=cv.getContext('2d');let yaw=.5,pitch=.4,zoom=1,drag=false,last;const cen=[0,1,2].map(k=>D.p.reduce((s,p)=>s+p[k],0)/D.p.length);const rad=Math.max(...D.p.map(p=>Math.hypot(...p.map((v,k)=>v-cen[k]))));function draw(){cv.width=cv.clientWidth*devicePixelRatio;cv.height=cv.clientHeight*devicePixelRatio;ctx.fillStyle='#151923';ctx.fillRect(0,0,cv.width,cv.height);const scale=Math.min(cv.width,cv.height)*.43*zoom/rad,cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);const pts=D.p.map((p,i)=>{let x=p[0]-cen[0],y=p[1]-cen[1],z=p[2]-cen[2],a=cy*x-sy*y,b=sy*x+cy*y;return [a,cp*z-sp*b,sp*z+cp*b,i]}).sort((a,b)=>a[2]-b[2]);for(const p of pts){ctx.fillStyle='rgb('+D.c[p[3]].join(',')+')';ctx.fillRect(cv.width/2+scale*p[0],cv.height/2-scale*p[1],2*devicePixelRatio,2*devicePixelRatio)}}cv.onpointerdown=e=>{drag=true;last=[e.clientX,e.clientY];cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>drag=false;cv.onpointermove=e=>{if(drag){yaw+=(e.clientX-last[0])*.008;pitch+=(e.clientY-last[1])*.008;last=[e.clientX,e.clientY];draw()}};cv.onwheel=e=>{e.preventDefault();zoom*=Math.exp(-e.deltaY*.001);draw()};window.onresize=draw;draw();</script>""".replace(  # noqa: E501 - preserve embedded commands or diagnostic text
+    "DATA", data
+)
+(root / "viewer.html").write_text(html)
+print(
+    json.dumps(
+        {"points": len(xyz), "finite": int(valid.sum()), "preview_points": len(q), "bounds": np.stack([lo, hi]).tolist()}
+    )
+)
+r = Path("/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts")
+s = json.loads((r / "summary.json").read_text())
+lines = [
+    "# Training-scene rollouts",
+    "",
+    (
+        "Exact source scenes recovered for training episodes 0, 1, 2 (source episodes 51, 60, 38; seeds 131, 162, 91)."
+        " Both models used their step-10000 checkpoints and literal instruction `rotate_qrcode`. Initial robot states"
+        " matched exactly; image MAE was 2.32–2.55/255."  # noqa: RUF001 - intentional mathematical/visual labels
+    ),
+    "",
+    "| Variant | Task successes | Interpretation |",
+    "|---|---:|---|",
+    (
+        "| Linear | 1/3 | Episode 0 passed after 7 actions with both grippers open throughout: object pushed into"
+        " accepted orientation, no successful grasp. |"
+    ),
+    "| Residual | 0/3 | All episodes reached the 400-action limit. |",
+    "",
+    (
+        "These failures occur on recovered training scenes, so the issue is not explained solely by generalization to"
+        " unseen scenes. Teacher-action replay success validates controller execution, not learned-policy success."
+    ),
+    "",
+    "The task success predicate checks orientation, height, and open grippers; it does not require a grasp or lift.",
+    "",
+    "Videos:",
+    "",
+]
+for _name, v in s["variants"].items():
+    for ep in v["episodes"]:
+        video = Path(ep["video"])
+        cap = cv2.VideoCapture(str(video))
+        n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        ok, frame = cap.read()
+        cap.release()
+        assert ok and n > 0, video
+        lines.append(f'- [{video.name}]({video.name}) ({n} frames; task success: {ep["success"]})')
+(r / "report.md").write_text("\n".join(lines) + "\n")
+print("All six rollout videos verified readable.")

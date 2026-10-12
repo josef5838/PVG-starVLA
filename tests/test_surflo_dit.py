@@ -32,6 +32,45 @@ class _FakeSurflo:
         }
 
 
+def test_official_geometry_uses_backprojection_and_scene_statistics():
+    """The policy must honor the pretrained positional encoder's coordinate frame."""
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    backbone = _FakeSurflo()
+    world_points = torch.full((1, 3, 1, 1, 3), 7.0)
+    mean, std = torch.full((1, 1, 3), 2.0), torch.full((1, 1, 3), 3.0)
+
+    def preprocess_images(images, cull_radius):
+        assert cull_radius is None
+        return {
+            "aggregated_tokens_list": [torch.zeros(1, 3, 1, 4)],
+            "patch_start_idx": 0,
+            "vggt_world_points": world_points,
+        }
+
+    def compress(token_list, patch_start_idx, vggt_world_points, scene_mean, scene_std):
+        assert vggt_world_points is world_points
+        assert scene_mean is mean and scene_std is std
+        return torch.ones(1, 128, 4), None
+
+    backbone.preprocess_images = preprocess_images
+    backbone.per_scene_normalize = True
+    backbone._compute_scene_stats = lambda points: (mean, std)
+    backbone.surface_net.get_compressed_tokens = compress
+    model.surflo_backbone = backbone
+    model.geometry_preprocessing = "official"
+    model.freeze_surflo = True
+    model.append_camera_token = False
+    model.append_per_view_camera_tokens = False
+    # _prepare_images needs the projection's weight only to choose the device.
+    model.visual_proj = torch.nn.Linear(4, 4)
+    model.visual_adapter = torch.nn.Identity()
+    model.image_size, model.num_views = 14, 3
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+
+    assert model._encode_visual([{"image": [image] * 3}]).shape == (1, 128, 4)
+
+
 def test_surflo_tokens_and_state_form_dit_condition():
     model = SurfloDiT.__new__(SurfloDiT)
     torch.nn.Module.__init__(model)
@@ -41,6 +80,7 @@ def test_surflo_tokens_and_state_form_dit_condition():
     model.append_per_view_camera_tokens = False
     model.state_conditioning = "add"
     model.visual_proj = torch.nn.Linear(4, 8)
+    model.visual_adapter = torch.nn.Identity()
     model.state_proj = torch.nn.Linear(61, 8)
     model.image_size = 14
     model.num_views = 3
@@ -62,6 +102,7 @@ def test_per_view_camera_tokens_and_state_token_keep_their_own_slots():
     model.append_per_view_camera_tokens = True
     model.state_conditioning = "token"
     model.visual_proj = torch.nn.Linear(4, 8)
+    model.visual_adapter = torch.nn.Identity()
     model.state_proj = torch.nn.Linear(61, 8)
     model.image_size = 14
     model.num_views = 3
@@ -86,6 +127,7 @@ def test_state_token_requires_state():
     model.append_per_view_camera_tokens = True
     model.state_conditioning = "token"
     model.visual_proj = torch.nn.Linear(4, 8)
+    model.visual_adapter = torch.nn.Identity()
     model.state_proj = torch.nn.Linear(61, 8)
     model.image_size = 14
     model.num_views = 3
@@ -108,17 +150,20 @@ def test_six_body_part_tokens_use_the_r1pro_state_slices():
     model.append_camera_token = True
     model.append_per_view_camera_tokens = True
     model.state_conditioning = "parts"
+    model.state_parts = R1PRO_STATE_PARTS
     model.visual_proj = torch.nn.Linear(4, 8)
-    model.state_proj = torch.nn.ModuleDict({
-        name: torch.nn.Linear(part.stop - part.start, 8, bias=False)
-        for name, part in R1PRO_STATE_PARTS
-    })
+    model.visual_adapter = torch.nn.Identity()
+    model.state_proj = torch.nn.ModuleDict(
+        {name: torch.nn.Linear(part.stop - part.start, 8, bias=False) for name, part in R1PRO_STATE_PARTS}
+    )
     for projection in model.state_proj.values():
         torch.nn.init.ones_(projection.weight)
     model.state_part_embeddings = torch.nn.Parameter(torch.zeros(6, 8))
     model.image_size = 14
     model.num_views = 3
-    model.config = SimpleNamespace(framework=SimpleNamespace(state_scale=1.0, state_dropout_prob=0.0))
+    model.config = SimpleNamespace(
+        framework=SimpleNamespace(state_scale=1.0, state_dropout_prob=0.0, action_model=SimpleNamespace(state_dim=61))
+    )
     state = np.zeros(61, dtype=np.float32)
     for index, (_, part) in enumerate(R1PRO_STATE_PARTS, start=1):
         state[part] = index
@@ -167,6 +212,7 @@ def test_surflo_rejects_temporal_image_history():
     model = SurfloDiT.__new__(SurfloDiT)
     torch.nn.Module.__init__(model)
     model.visual_proj = torch.nn.Linear(4, 8)
+    model.visual_adapter = torch.nn.Identity()
     model.image_size = 14
     model.num_views = 3
     image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
@@ -186,8 +232,11 @@ def test_reference_checkpoint_restores_policy_and_keeps_local_backbone():
     model.visual_proj = torch.nn.Linear(2, 2)
     model.config = SimpleNamespace(framework=SimpleNamespace(surflo=SimpleNamespace(weights_mode="reference")))
     original_backbone = model.surflo_backbone.weight.detach().clone()
-    policy_weights = {key: torch.zeros_like(value) for key, value in model.state_dict().items()
-                      if not key.startswith("surflo_backbone.")}
+    policy_weights = {
+        key: torch.zeros_like(value)
+        for key, value in model.state_dict().items()
+        if not key.startswith("surflo_backbone.")
+    }
 
     model.load_pretrained_state_dict(policy_weights)
 
@@ -201,8 +250,7 @@ def test_embedded_checkpoint_requires_backbone_weights():
     model.surflo_backbone = torch.nn.Linear(2, 2)
     model.visual_proj = torch.nn.Linear(2, 2)
     model.config = SimpleNamespace(framework=SimpleNamespace(surflo=SimpleNamespace(weights_mode="embedded")))
-    policy_weights = {key: value for key, value in model.state_dict().items()
-                      if not key.startswith("surflo_backbone.")}
+    policy_weights = {key: value for key, value in model.state_dict().items() if not key.startswith("surflo_backbone.")}
 
     try:
         model.load_pretrained_state_dict(policy_weights)
@@ -210,3 +258,70 @@ def test_embedded_checkpoint_requires_backbone_weights():
         assert "missing Surflo weights" in str(error)
     else:
         raise AssertionError("Expected missing embedded backbone weights to be rejected")
+
+
+def test_robotwin_part_tokens_follow_packed_state_order():
+    from starVLA.model.framework.VLM4A.SurfloDiT import ROBOTWIN_STATE_PARTS
+
+    model = SurfloDiT.__new__(SurfloDiT)
+    torch.nn.Module.__init__(model)
+    model.surflo_backbone = _FakeSurflo()
+    model.freeze_surflo = True
+    model.append_camera_token = True
+    model.append_per_view_camera_tokens = True
+    model.state_conditioning = "parts"
+    model.state_parts = ROBOTWIN_STATE_PARTS
+    model.visual_proj = torch.nn.Linear(4, 8)
+    model.visual_adapter = torch.nn.Identity()
+    model.state_proj = torch.nn.ModuleDict(
+        {name: torch.nn.Linear(part.stop - part.start, 8, bias=False) for name, part in model.state_parts}
+    )
+    for projection in model.state_proj.values():
+        torch.nn.init.ones_(projection.weight)
+    model.state_part_embeddings = torch.nn.Parameter(torch.zeros(4, 8))
+    model.image_size = 14
+    model.num_views = 3
+    model.config = SimpleNamespace(
+        framework=SimpleNamespace(state_scale=1.0, state_dropout_prob=0.0, action_model=SimpleNamespace(state_dim=14))
+    )
+    state = np.array([1] * 6 + [3] * 6 + [2, 4], dtype=np.float32)
+    image = Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8))
+    condition = model._condition([{"image": [image] * 3, "state": state}])
+    assert condition.shape == (1, 136, 8)
+    assert torch.equal(condition[0, 132:, 0], torch.tensor([6.0, 2.0, 18.0, 4.0]))
+    condition.sum().backward()
+    assert all(projection.weight.grad is not None for projection in model.state_proj.values())
+
+
+def test_robotwin_surflo_registry_uses_simultaneous_views():
+    from starVLA.dataloader.gr00t_lerobot.registry import DATASET_NAMED_MIXTURES, ROBOT_TYPE_CONFIG_MAP
+
+    config = ROBOT_TYPE_CONFIG_MAP["robotwin_surflo"]
+    assert config.modality_config()["video"].delta_indices == [0]
+    assert config.state_keys == ["state.left_joints", "state.right_joints", "state.left_gripper", "state.right_gripper"]
+    assert DATASET_NAMED_MIXTURES["robotwin_surflo_rotate_qrcode"] == [("rotate_qrcode", 1.0, "robotwin_surflo")]
+
+
+def test_robotwin_sample_preserves_resolution_and_packed_state():
+    from starVLA.dataloader.gr00t_lerobot.datasets import LeRobotSingleDataset
+    from starVLA.dataloader.gr00t_lerobot.registry import ROBOT_TYPE_CONFIG_MAP
+
+    config = ROBOT_TYPE_CONFIG_MAP["robotwin_surflo"]
+    dataset = LeRobotSingleDataset.__new__(LeRobotSingleDataset)
+    dataset.data_cfg = {"include_state": True, "obs_image_size": [518, 518]}
+    dataset._modality_keys = {name: list(modality.modality_keys) for name, modality in config.modality_config().items()}
+    dataset.tag = config.embodiment_tag
+    data = {key: np.zeros((1, 32, 32, 3), dtype=np.uint8) for key in config.video_keys}
+    data[config.language_keys[0]] = ["rotate the QR code"]
+    for modality in ("state", "action"):
+        for key, width in zip(getattr(config, f"{modality}_keys"), (6, 6, 1, 1), strict=False):
+            data[key] = np.full(
+                (1 if modality == "state" else 16, width),
+                {"left_joints": 1, "right_joints": 3, "left_gripper": 2, "right_gripper": 4}[key.split(".")[1]],
+                dtype=np.float32,
+            )
+    sample = dataset._pack_sample(data)
+    assert len(sample["image"]) == 3
+    assert all(image.size == (518, 518) for image in sample["image"])
+    assert sample["state"].tolist() == [[1] * 6 + [3] * 6 + [2, 4]]
+    assert sample["action"].shape == (16, 14)

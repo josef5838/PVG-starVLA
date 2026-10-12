@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#PBS -N omega512_smoke
+#PBS -P gs_ccds_chuanxia.zheng
+#PBS -q gpu_as
+#PBS -l select=1:ncpus=12:ngpus=1:mem=128gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+
+set -euo pipefail
+cd "${OMEGA_REPO:?Pass OMEGA_REPO and OMEGA_BUNDLE with qsub -v}"
+export STARVLA_PYTHON="${STARVLA_PYTHON:-/home/n2506021c/miniconda3/envs/surflo-dit-cu124/bin/python}"
+# Respect the GPU visibility set by PBS; do not select a physical GPU on the login node.
+bash tools/run_omega512_cluster_smoke.sh "${OMEGA_BUNDLE:?}" ${OMEGA_SMOKE_TRAINER:+--trainer}

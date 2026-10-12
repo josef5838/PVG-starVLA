@@ -5,15 +5,15 @@ Utility classes defining a Metrics container and multiple Trackers to enable mod
 endpoints (e.g., JSONL local logs, Weights & Biases).
 """
 
-from typing import Tuple
-import re
 import json
+import re
+from typing import Tuple
+
 import numpy as np
 import torch
 import torch.distributed as dist
-from transformers import get_scheduler
-
 from accelerate.logging import get_logger
+from transformers import get_scheduler
 
 logger = get_logger(__name__)
 
@@ -133,7 +133,7 @@ def build_param_lr_groups(model, cfg):
             for attr in module_name.split("."):
                 module = getattr(module, attr)
             # filter out frozen parameters
-            params = [p for p in module.parameters() if id(p) not in frozen_params]
+            params = [p for p in module.parameters() if p.requires_grad and id(p) not in frozen_params]
             if params:  # only add param group if there are trainable parameters
                 param_groups.append({"params": params, "lr": lr, "name": module_name})
                 used_params.update(id(p) for p in params)
@@ -141,14 +141,13 @@ def build_param_lr_groups(model, cfg):
             ReferenceError(f"⚠️ module path `{module_name}` not found in vla")
 
     # assign base learning rate to the remaining unused parameters (exclude frozen ones)
-    other_params = [p for p in model.parameters() if id(p) not in used_params and id(p) not in frozen_params]
+    other_params = [
+        p for p in model.parameters() if p.requires_grad and id(p) not in used_params and id(p) not in frozen_params
+    ]
     if other_params:
         param_groups.append({"params": other_params, "lr": base_lr, "name": "base"})
 
     return param_groups
-
-
-import torch.distributed as dist
 
 
 def only_main_process(func):
@@ -164,8 +163,8 @@ def only_main_process(func):
     return wrapper
 
 
-from torchvision.ops import box_iou
-from PIL import Image
+from PIL import Image  # noqa: E402 - runtime environment/path bootstrap precedes imports
+from torchvision.ops import box_iou  # noqa: E402 - runtime environment/path bootstrap precedes imports
 
 
 def resize_images(images, target_size=(224, 224)):
@@ -182,9 +181,6 @@ def resize_images(images, target_size=(224, 224)):
         return [resize_images(img, target_size) for img in images]
     else:
         raise ValueError("Unsupported image type or structure.")
-
-
-import torch.distributed as dist
 
 
 class TrainerUtils:
@@ -204,11 +200,11 @@ class TrainerUtils:
             model: nn.Module model object
         return:
           - model:
-        """
+        """  # noqa: E501 - preserve embedded commands or diagnostic text
         frozen = []
-        print("#"*30)
+        print("#" * 30)
         print(freeze_modules)
-        if freeze_modules and type(freeze_modules) == str:
+        if freeze_modules and isinstance(freeze_modules, str):
             # split and remove whitespace
             patterns = [p.strip() for p in freeze_modules.split(",") if p.strip()] if freeze_modules else []
 
@@ -258,7 +254,7 @@ class TrainerUtils:
 
         return:
             replace, loaded_modules: list of module paths that successfully loaded parameters; if global load, then ["<full_model>"]
-        """
+        """  # noqa: E501 - preserve embedded commands or diagnostic text
         if not checkpoint_path:
             return []
         if _dist_rank() == 0:
@@ -271,7 +267,7 @@ class TrainerUtils:
             else:
                 checkpoint = torch.load(checkpoint_path, map_location="cpu")
         except Exception as e:
-            raise RuntimeError(f"❌ loading checkpoint failed: {e}")
+            raise RuntimeError(f"❌ loading checkpoint failed: {e}") from e
 
         loaded_modules = []
 
@@ -301,7 +297,7 @@ class TrainerUtils:
                     print("✅ loaded <full_model> model parameters")
                 loaded_modules = ["<full_model>"]
             except Exception as e:
-                raise RuntimeError(f"❌ loading full model failed: {e}")
+                raise RuntimeError(f"❌ loading full model failed: {e}") from e
         return model
 
     @staticmethod
@@ -352,7 +348,7 @@ class TrainerUtils:
         return:
             mean_angle_deg: average angle (degrees)
             angle_variance: angle variance
-        """
+        """  # noqa: E501 - preserve embedded commands or diagnostic text
         angle_degs = []
 
         # compute the cosine angle between each gradient block grads_a[0].shape = 1280, 3, 14, 14
@@ -372,7 +368,7 @@ class TrainerUtils:
         grads_vl = grads_vl[
             :32, :7
         ]  # only take the first 32 elements, 7 dimensions, avoid cosim failure in high-dimensional space
-        for g_a, g_v in zip(grads_action, grads_vl):
+        for g_a, g_v in zip(grads_action, grads_vl, strict=False):
             dot = torch.sum(g_a * g_v)
             norm_a_sq = torch.sum(g_a * g_a)
             norm_v_sq = torch.sum(g_v * g_v)
@@ -401,17 +397,17 @@ class TrainerUtils:
         if the dot product of two groups of gradients < 0, then:
             grads_v <- grads_v - (dot / ||grads_a||^2) * grads_a
         return the new grads_v list
-        """
+        """  # noqa: E501 - preserve embedded commands or diagnostic text
         # first compute dot and ||grads_a||^2
         dot, norm_a_sq = 0.0, 0.0
-        for g_a, g_v in zip(grads_a, grads_v):
+        for g_a, g_v in zip(grads_a, grads_v, strict=False):
             dot += torch.sum(g_a * g_v)
             norm_a_sq += torch.sum(g_a * g_a)
 
         if dot < 0:
             coeff = dot / (norm_a_sq + 1e-6)
             # projection
-            grads_v = [g_v - coeff * g_a for g_a, g_v in zip(grads_a, grads_v)]
+            grads_v = [g_v - coeff * g_a for g_a, g_v in zip(grads_a, grads_v, strict=False)]
 
         return grads_v
 
@@ -458,7 +454,7 @@ class TrainerUtils:
                 parsed_solutions.append(parsed_solution)
 
             # compute IoU
-            for pred_dict, gt_dict in zip(parsed_solutions, solutions):
+            for pred_dict, gt_dict in zip(parsed_solutions, solutions, strict=False):
                 pred_pick_bbox = torch.tensor(pred_dict["pick"]["bbox_2d"], dtype=torch.float32).unsqueeze(0)
                 gt_pick_bbox = torch.tensor(gt_dict["pick"]["bbox_2d"], dtype=torch.float32).unsqueeze(0)
                 pred_place_bbox = torch.tensor(pred_dict["place"]["bbox_2d"], dtype=torch.float32).unsqueeze(0)
@@ -511,7 +507,8 @@ class TrainerUtils:
 
         # Find all checkpoints matching the naming convention, supports .pt and .safetensors
         checkpoints = [
-            f for f in os.listdir(checkpoint_dir) 
+            f
+            for f in os.listdir(checkpoint_dir)
             if re.match(r"steps_(\d+)_(?:pytorch_model\.pt|model\.safetensors)$", f)
             and os.path.isfile(os.path.join(checkpoint_dir, f))  # ensure it is a file
         ]
@@ -538,7 +535,8 @@ class TrainerUtils:
         self.accelerator.print(f"Latest checkpoint found: {latest_checkpoint_path}")
         return latest_checkpoint_path, completed_steps
 
-import os
+
+import os  # noqa: E402 - runtime environment/path bootstrap precedes imports
 
 
 def is_main_process():
