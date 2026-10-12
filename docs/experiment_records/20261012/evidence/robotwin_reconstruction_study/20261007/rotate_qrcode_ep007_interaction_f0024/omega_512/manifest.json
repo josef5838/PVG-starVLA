@@ -1,0 +1,42 @@
+{
+  "status": "completed",
+  "inference": {
+    "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+    "checkpoint_bytes": 4576706117,
+    "checkpoint_variant": "vggt_omega_1b_512",
+    "checkpoint_loading": "strict=True; all checkpoint parameters loaded",
+    "text_alignment_head": false,
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "source_images": {
+      "view_0.png": "8d812ba925d3b898aca5235e06ecda44cd05295cfb978002bb8507fa7068c234",
+      "view_1.png": "5a01d5402bbad76d779df1818db963d7c8662918504d0018a310db65404c9039",
+      "view_2.png": "fa00dabbf4be32e0eb1e180af8b9f0516d226bbf30a7f5bef10fbe795d2b0c4e"
+    },
+    "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep007_interaction_f0024/manifest.json",
+    "input_shape": [
+      3,
+      3,
+      448,
+      592
+    ],
+    "image_resolution": 512,
+    "preprocessing": "Official installed VGGT-Omega balanced loader; native source PNGs identical to Surflo/VGGT.",
+    "comparison_resolution_note": "Omega resolution budget 512; actual input height/width [448, 592]. Earlier model input dimensions are stored in the parent geometry_batch.pt.",
+    "coordinate_frame": "Omega predicted camera frame, arbitrary scale; separate gauge from VGGT/Surflo. No GT geometry or ICP.",
+    "mesh": {
+      "all_points": 795648,
+      "confidence2_points": 299252,
+      "preview_points": 636518,
+      "preview_confidence_threshold": 1.5804533004760744,
+      "confidence_range": [
+        1.0158121585845947,
+        3.3282387256622314
+      ],
+      "mesh_vertices": 630999,
+      "mesh_faces": 1225096,
+      "confidence_threshold": 2.0,
+      "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+    }
+  }
+}

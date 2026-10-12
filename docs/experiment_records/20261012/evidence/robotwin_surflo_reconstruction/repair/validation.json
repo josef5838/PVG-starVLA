@@ -1,0 +1,11 @@
+{
+  "regression_checks_passed": 15,
+  "runner": "Direct zero-argument test function invocation; pytest is unavailable",
+  "modules": [
+    "tests/test_surflo_dit.py",
+    "/export/home/haoliang/projects/Surflo/tests/test_api_presets.py"
+  ],
+  "gpu_equivalence": "policy_geometry_equivalence.json",
+  "syntax_compilation": "passed",
+  "git_diff_whitespace_check": "passed"
+}

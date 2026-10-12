@@ -1,0 +1,451 @@
+{
+  "training": {
+    "direct": {
+      "best_validation": {
+        "step": 9750,
+        "validation_action_mse": 0.016502324085701448,
+        "samples": 128,
+        "num_ddim_steps": 20,
+        "selection": "held-out action MSE; simulator success must be measured separately"
+      },
+      "final_validation_mse": 0.01658928085235719,
+      "last_100_logged_train_loss_mean": 0.009620074726408348,
+      "checkpoint_sha256": {
+        "best": "8d7d55ae7cbb991f072b66ab6d74f1902d8252befc9906e2a8df5d7e8b137297",
+        "final": "d3f8b54f050699415b3002c3a644c41b04798854d33ea5cf94de8d68fcb50783"
+      }
+    },
+    "fused": {
+      "best_validation": {
+        "step": 9000,
+        "validation_action_mse": 0.03297215779380453,
+        "samples": 128,
+        "num_ddim_steps": 20,
+        "selection": "held-out action MSE; simulator success must be measured separately"
+      },
+      "final_validation_mse": 0.03335105075553479,
+      "last_100_logged_train_loss_mean": 0.010918654154520481,
+      "checkpoint_sha256": {
+        "best": "63248f5dd94c772fa5416ac111c2ceda88a59cc4d3e5c551ac8632df8cbc5d01",
+        "final": "c08eeb851808824714d33f28e1363f0d45c934eb2a71f6a6101af62cc43fbb34"
+      }
+    }
+  },
+  "offline": {
+    "direct": {
+      "best": {
+        "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/best_model/pytorch_model.pt",
+        "by_split": {
+          "train": {
+            "normalized_mse": 0.013814666366074861,
+            "valid_normalized_mse": 0.014550516792089525,
+            "executed8_normalized_mse": 0.013944049586254,
+            "first_action_normalized_mse": 0.0038720139768462225,
+            "joint_rmse_rad": 0.10278567400269417,
+            "active_arm_joint_rmse_rad": 0.14536089464349466,
+            "gripper_accuracy": 0.9891493055555556,
+            "state_hold_normalized_mse": 0.10140020874663072,
+            "samples": 360,
+            "trajectories": 45
+          },
+          "heldout_validation": {
+            "normalized_mse": 0.023889446604279337,
+            "valid_normalized_mse": 0.02477843632057272,
+            "executed8_normalized_mse": 0.017732814897760116,
+            "first_action_normalized_mse": 0.00679509712507049,
+            "joint_rmse_rad": 0.1265855924168136,
+            "active_arm_joint_rmse_rad": 0.17901906332699583,
+            "gripper_accuracy": 0.973046875,
+            "state_hold_normalized_mse": 0.1176100251143419,
+            "samples": 80,
+            "trajectories": 5
+          }
+        },
+        "elapsed_seconds": 352.6608904839959,
+        "visual_info": {
+          "input_shape": [
+            4,
+            3,
+            8,
+            3,
+            448,
+            592
+          ],
+          "calls_per_batch": 3,
+          "images_per_call": 8,
+          "raw_token_shape": [
+            4,
+            3,
+            8,
+            17,
+            2048
+          ],
+          "raw_memory_tokens": 408,
+          "memory_tokens": 408,
+          "conditioning": "direct",
+          "patch_tokens_in_action_memory": 0,
+          "temporal_embedding": "learned",
+          "temporal_rope": false
+        }
+      },
+      "final": {
+        "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/final_model/pytorch_model.pt",
+        "by_split": {
+          "train": {
+            "normalized_mse": 0.01391020786302654,
+            "valid_normalized_mse": 0.014668965773662144,
+            "executed8_normalized_mse": 0.013792422008846847,
+            "first_action_normalized_mse": 0.0042925734405531634,
+            "joint_rmse_rad": 0.10394468373981201,
+            "active_arm_joint_rmse_rad": 0.14699998129831834,
+            "gripper_accuracy": 0.9885416666666667,
+            "state_hold_normalized_mse": 0.10140020874663072,
+            "samples": 360,
+            "trajectories": 45
+          },
+          "heldout_validation": {
+            "normalized_mse": 0.024372165805073648,
+            "valid_normalized_mse": 0.025295630199347052,
+            "executed8_normalized_mse": 0.017840515160624355,
+            "first_action_normalized_mse": 0.006898900259076626,
+            "joint_rmse_rad": 0.12856469937833026,
+            "active_arm_joint_rmse_rad": 0.1818179407622665,
+            "gripper_accuracy": 0.973046875,
+            "state_hold_normalized_mse": 0.1176100251143419,
+            "samples": 80,
+            "trajectories": 5
+          }
+        },
+        "elapsed_seconds": 441.7231639099773,
+        "visual_info": {
+          "input_shape": [
+            4,
+            3,
+            8,
+            3,
+            448,
+            592
+          ],
+          "calls_per_batch": 3,
+          "images_per_call": 8,
+          "raw_token_shape": [
+            4,
+            3,
+            8,
+            17,
+            2048
+          ],
+          "raw_memory_tokens": 408,
+          "memory_tokens": 408,
+          "conditioning": "direct",
+          "patch_tokens_in_action_memory": 0,
+          "temporal_embedding": "learned",
+          "temporal_rope": false
+        }
+      }
+    },
+    "fused": {
+      "best": {
+        "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+        "by_split": {
+          "train": {
+            "normalized_mse": 0.02223765981626049,
+            "valid_normalized_mse": 0.02274775087135039,
+            "executed8_normalized_mse": 0.018909593613951933,
+            "first_action_normalized_mse": 0.005901524035017729,
+            "joint_rmse_rad": 0.12794544194928473,
+            "active_arm_joint_rmse_rad": 0.18094217921607197,
+            "gripper_accuracy": 0.9802083333333333,
+            "state_hold_normalized_mse": 0.10140020874663072,
+            "samples": 360,
+            "trajectories": 45
+          },
+          "heldout_validation": {
+            "normalized_mse": 0.03650980824172721,
+            "valid_normalized_mse": 0.03825889207742164,
+            "executed8_normalized_mse": 0.030427208109158232,
+            "first_action_normalized_mse": 0.010873311788933936,
+            "joint_rmse_rad": 0.15867482999456115,
+            "active_arm_joint_rmse_rad": 0.22440009883139284,
+            "gripper_accuracy": 0.967578125,
+            "state_hold_normalized_mse": 0.1176100251143419,
+            "samples": 80,
+            "trajectories": 5
+          }
+        },
+        "elapsed_seconds": 350.6852979148971,
+        "visual_info": {
+          "input_shape": [
+            4,
+            3,
+            8,
+            3,
+            448,
+            592
+          ],
+          "calls_per_batch": 3,
+          "images_per_call": 8,
+          "raw_token_shape": [
+            4,
+            3,
+            8,
+            17,
+            2048
+          ],
+          "raw_memory_tokens": 408,
+          "memory_tokens": 32,
+          "conditioning": "fused",
+          "patch_tokens_in_action_memory": 0,
+          "temporal_embedding": "learned",
+          "temporal_rope": false
+        }
+      },
+      "final": {
+        "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/final_model/pytorch_model.pt",
+        "by_split": {
+          "train": {
+            "normalized_mse": 0.024191037284803298,
+            "valid_normalized_mse": 0.02456889752223844,
+            "executed8_normalized_mse": 0.01819748039600906,
+            "first_action_normalized_mse": 0.004412731482649817,
+            "joint_rmse_rad": 0.1334169946804953,
+            "active_arm_joint_rmse_rad": 0.18868012309928114,
+            "gripper_accuracy": 0.9828125,
+            "state_hold_normalized_mse": 0.10140020874663072,
+            "samples": 360,
+            "trajectories": 45
+          },
+          "heldout_validation": {
+            "normalized_mse": 0.03215996890951594,
+            "valid_normalized_mse": 0.03326457454856576,
+            "executed8_normalized_mse": 0.026245107472388663,
+            "first_action_normalized_mse": 0.007955467432801178,
+            "joint_rmse_rad": 0.15108733079978265,
+            "active_arm_joint_rmse_rad": 0.21366975314449518,
+            "gripper_accuracy": 0.9671875,
+            "state_hold_normalized_mse": 0.1176100251143419,
+            "samples": 80,
+            "trajectories": 5
+          }
+        },
+        "elapsed_seconds": 468.5954366939841,
+        "visual_info": {
+          "input_shape": [
+            4,
+            3,
+            8,
+            3,
+            448,
+            592
+          ],
+          "calls_per_batch": 3,
+          "images_per_call": 8,
+          "raw_token_shape": [
+            4,
+            3,
+            8,
+            17,
+            2048
+          ],
+          "raw_memory_tokens": 408,
+          "memory_tokens": 32,
+          "conditioning": "fused",
+          "patch_tokens_in_action_memory": 0,
+          "temporal_embedding": "learned",
+          "temporal_rope": false
+        }
+      }
+    }
+  },
+  "rollouts": {
+    "direct": {
+      "train": {
+        "n": 5,
+        "success": 4,
+        "grasps": 4,
+        "lifts": 4,
+        "arms": {
+          "left": {
+            "n": 0,
+            "success": 0
+          },
+          "right": {
+            "n": 5,
+            "success": 4
+          }
+        }
+      },
+      "heldout_validation": {
+        "n": 5,
+        "success": 2,
+        "grasps": 2,
+        "lifts": 2,
+        "arms": {
+          "left": {
+            "n": 0,
+            "success": 0
+          },
+          "right": {
+            "n": 5,
+            "success": 2
+          }
+        }
+      },
+      "unseen_eval": {
+        "n": 5,
+        "success": 2,
+        "grasps": 2,
+        "lifts": 3,
+        "arms": {
+          "left": {
+            "n": 2,
+            "success": 0
+          },
+          "right": {
+            "n": 3,
+            "success": 2
+          }
+        }
+      }
+    },
+    "fused": {
+      "train": {
+        "n": 5,
+        "success": 3,
+        "grasps": 3,
+        "lifts": 3,
+        "arms": {
+          "left": {
+            "n": 0,
+            "success": 0
+          },
+          "right": {
+            "n": 5,
+            "success": 3
+          }
+        }
+      },
+      "heldout_validation": {
+        "n": 5,
+        "success": 2,
+        "grasps": 2,
+        "lifts": 2,
+        "arms": {
+          "left": {
+            "n": 0,
+            "success": 0
+          },
+          "right": {
+            "n": 5,
+            "success": 2
+          }
+        }
+      },
+      "unseen_eval": {
+        "n": 5,
+        "success": 2,
+        "grasps": 2,
+        "lifts": 2,
+        "arms": {
+          "left": {
+            "n": 2,
+            "success": 0
+          },
+          "right": {
+            "n": 3,
+            "success": 2
+          }
+        }
+      }
+    }
+  },
+  "expert_controls": {
+    "train": {
+      "n": 5,
+      "success": 5
+    },
+    "heldout_validation": {
+      "n": 5,
+      "success": 5
+    }
+  },
+  "expert_roundtrip_controls": {
+    "train": {
+      "n": 5,
+      "success": 5
+    },
+    "heldout_validation": {
+      "n": 5,
+      "success": 5
+    }
+  },
+  "status": "completed",
+  "worker_states": {
+    "direct": {
+      "rollouts": {
+        "status": "completed",
+        "variant": "direct",
+        "phase": "validate",
+        "started_unix": 1791635045.556702,
+        "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/best_model/pytorch_model.pt",
+        "validated_videos": 35,
+        "finished_unix": 1791635046.796211
+      },
+      "offline": {
+        "status": "completed",
+        "checkpoints": [
+          "best",
+          "final"
+        ],
+        "samples_per_checkpoint": 440
+      }
+    },
+    "fused": {
+      "rollouts": {
+        "status": "completed",
+        "variant": "fused",
+        "phase": "validate",
+        "started_unix": 1791635045.5568378,
+        "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+        "validated_videos": 15,
+        "finished_unix": 1791635046.2594864
+      },
+      "offline": {
+        "status": "completed",
+        "checkpoints": [
+          "best",
+          "final"
+        ],
+        "samples_per_checkpoint": 440
+      }
+    }
+  },
+  "updated_utc": "2026-10-10T12:33:44.114725+00:00",
+  "paired_offline": {
+    "train": {
+      "fused_minus_direct_mean": 0.008197234079260866,
+      "bootstrap95": [
+        0.00632048642657555,
+        0.010318052068599915
+      ],
+      "direct_better_trajectories": 41,
+      "n": 45
+    },
+    "heldout_validation": {
+      "fused_minus_direct_mean": 0.01348045575684892,
+      "bootstrap95": [
+        0.00524229236012669,
+        0.021718619153571147
+      ],
+      "direct_better_trajectories": 4,
+      "n": 5
+    }
+  },
+  "paired_successful_rollout_steps": {
+    "n": 7,
+    "mean_control_steps": {
+      "direct": 36.57142857142857,
+      "fused": 75.28571428571429
+    }
+  }
+}

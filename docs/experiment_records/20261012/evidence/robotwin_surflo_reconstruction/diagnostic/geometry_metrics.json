@@ -1,0 +1,26 @@
+{
+  "robot_square": {
+    "source": {
+      "mean_nearest_vggt": 0.02684072300646681,
+      "median_nearest_vggt": 0.02129674769962211,
+      "p90_nearest_vggt": 0.05815412057728201
+    },
+    "plain100": {
+      "mean_nearest_vggt": 0.06509554198855248,
+      "median_nearest_vggt": 0.05168721386693102,
+      "p90_nearest_vggt": 0.13932702140316955
+    }
+  },
+  "reference": {
+    "source": {
+      "mean_nearest_vggt": 0.06120321141023215,
+      "median_nearest_vggt": 0.04742789183126539,
+      "p90_nearest_vggt": 0.13449905668977177
+    },
+    "plain100": {
+      "mean_nearest_vggt": 0.09656150632315817,
+      "median_nearest_vggt": 0.016227528245971644,
+      "p90_nearest_vggt": 0.3748104790958845
+    }
+  }
+}

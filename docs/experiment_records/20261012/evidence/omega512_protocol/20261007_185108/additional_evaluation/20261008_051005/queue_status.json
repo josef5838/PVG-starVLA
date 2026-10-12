@@ -1,0 +1,8 @@
+{
+  "status": "interrupted",
+  "started_unix": 1791436205.563448,
+  "completed": [],
+  "current_checkpoint_step": 10000,
+  "reason": "Replaced with an evaluation that matches the actual 640x480 training image input",
+  "finished_unix": 1791436492.9932969
+}

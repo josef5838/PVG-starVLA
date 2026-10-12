@@ -1,0 +1,95 @@
+{
+  "checked_utc": "2026-10-12T04:47:19.087373+00:00",
+  "unit_tests": [
+    {
+      "suite": "test_omega512_policy",
+      "exit_code": 0,
+      "tests": 11,
+      "seconds": 11.41
+    },
+    {
+      "suite": "test_omega512_migration",
+      "exit_code": 0,
+      "tests": 4,
+      "seconds": 5.58
+    },
+    {
+      "suite": "test_omega_camera_stream_policy",
+      "exit_code": 0,
+      "tests": 4,
+      "seconds": 7.83
+    },
+    {
+      "suite": "test_omega_stream_deployment_history",
+      "exit_code": 0,
+      "tests": 2,
+      "seconds": 5.37
+    },
+    {
+      "suite": "test_rotate_qrcode_experiment",
+      "exit_code": 0,
+      "tests": 6,
+      "seconds": 7.71
+    },
+    {
+      "suite": "test_experiment_bookkeeping",
+      "exit_code": 0,
+      "tests": 4,
+      "seconds": 0.013
+    },
+    {
+      "suite": "test_robotwin_surflo_training",
+      "exit_code": 0,
+      "tests": 11,
+      "seconds": 7.68
+    },
+    {
+      "suite": "test_training_resume",
+      "exit_code": 0,
+      "tests": 1,
+      "seconds": 5.33
+    },
+    {
+      "suite": "test_surflo_visual_adapter",
+      "exit_code": 0,
+      "tests": 3,
+      "seconds": 6.49
+    },
+    {
+      "suite": "test_surflo_compressor_training",
+      "exit_code": 0,
+      "tests": 6,
+      "seconds": 7.51
+    },
+    {
+      "suite": "test_config_overrides",
+      "exit_code": 0,
+      "tests": 21,
+      "seconds": 5.47
+    },
+    {
+      "suite": "test_surflo_dit",
+      "exit_code": 0,
+      "tests": 14,
+      "seconds": 7.24
+    },
+    {
+      "suite": "test_surflo_bundle",
+      "exit_code": 0,
+      "tests": 2,
+      "seconds": 12.18
+    }
+  ],
+  "total_tests": 89,
+  "all_tests_passed": true,
+  "static_checks": {
+    "python_files": 97,
+    "shell_scripts": 11,
+    "black": "passed",
+    "ruff": "passed",
+    "compile": "passed",
+    "shell_syntax": "passed",
+    "diff_check": "passed"
+  },
+  "evidence_hash_checks": 1774
+}

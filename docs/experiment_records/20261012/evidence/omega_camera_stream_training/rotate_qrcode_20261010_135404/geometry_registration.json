@@ -1,0 +1,6907 @@
+{
+  "status": "completed",
+  "trajectory_mapping": [
+    {
+      "episode": 0,
+      "source_episode": 51,
+      "seed": 131,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 1,
+      "source_episode": 60,
+      "seed": 162,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 2,
+      "source_episode": 38,
+      "seed": 91,
+      "length": 85,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 3,
+      "source_episode": 35,
+      "seed": 81,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 4,
+      "source_episode": 54,
+      "seed": 142,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 5,
+      "source_episode": 7,
+      "seed": 16,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 6,
+      "source_episode": 66,
+      "seed": 180,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 7,
+      "source_episode": 97,
+      "seed": 257,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 8,
+      "source_episode": 25,
+      "seed": 59,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 9,
+      "source_episode": 94,
+      "seed": 254,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 10,
+      "source_episode": 58,
+      "seed": 151,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 11,
+      "source_episode": 67,
+      "seed": 181,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 12,
+      "source_episode": 30,
+      "seed": 71,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 13,
+      "source_episode": 27,
+      "seed": 66,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 14,
+      "source_episode": 85,
+      "seed": 236,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 15,
+      "source_episode": 75,
+      "seed": 203,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 16,
+      "source_episode": 78,
+      "seed": 214,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 17,
+      "source_episode": 15,
+      "seed": 31,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 18,
+      "source_episode": 43,
+      "seed": 116,
+      "length": 82,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 19,
+      "source_episode": 65,
+      "seed": 179,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 20,
+      "source_episode": 17,
+      "seed": 39,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 21,
+      "source_episode": 44,
+      "seed": 117,
+      "length": 83,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 22,
+      "source_episode": 5,
+      "seed": 9,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 23,
+      "source_episode": 55,
+      "seed": 145,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 24,
+      "source_episode": 26,
+      "seed": 62,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 25,
+      "source_episode": 40,
+      "seed": 95,
+      "length": 84,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 26,
+      "source_episode": 68,
+      "seed": 186,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 27,
+      "source_episode": 29,
+      "seed": 69,
+      "length": 82,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 28,
+      "source_episode": 93,
+      "seed": 253,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 29,
+      "source_episode": 61,
+      "seed": 167,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 30,
+      "source_episode": 56,
+      "seed": 148,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 31,
+      "source_episode": 49,
+      "seed": 126,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 32,
+      "source_episode": 69,
+      "seed": 187,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 33,
+      "source_episode": 53,
+      "seed": 137,
+      "length": 84,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 34,
+      "source_episode": 96,
+      "seed": 256,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 35,
+      "source_episode": 74,
+      "seed": 200,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 36,
+      "source_episode": 70,
+      "seed": 188,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 37,
+      "source_episode": 9,
+      "seed": 21,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 38,
+      "source_episode": 22,
+      "seed": 52,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 39,
+      "source_episode": 36,
+      "seed": 84,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 40,
+      "source_episode": 14,
+      "seed": 30,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 41,
+      "source_episode": 2,
+      "seed": 6,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 42,
+      "source_episode": 34,
+      "seed": 78,
+      "length": 83,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 43,
+      "source_episode": 39,
+      "seed": 92,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 44,
+      "source_episode": 87,
+      "seed": 240,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 45,
+      "source_episode": 24,
+      "seed": 58,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 46,
+      "source_episode": 41,
+      "seed": 99,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 47,
+      "source_episode": 16,
+      "seed": 32,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 48,
+      "source_episode": 62,
+      "seed": 168,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 49,
+      "source_episode": 31,
+      "seed": 72,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 50,
+      "source_episode": 95,
+      "seed": 255,
+      "length": 84,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 51,
+      "source_episode": 21,
+      "seed": 49,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 52,
+      "source_episode": 81,
+      "seed": 225,
+      "length": 81,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 53,
+      "source_episode": 92,
+      "seed": 250,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 54,
+      "source_episode": 50,
+      "seed": 130,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 55,
+      "source_episode": 83,
+      "seed": 228,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 56,
+      "source_episode": 45,
+      "seed": 118,
+      "length": 83,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 57,
+      "source_episode": 63,
+      "seed": 171,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 58,
+      "source_episode": 80,
+      "seed": 223,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 59,
+      "source_episode": 33,
+      "seed": 77,
+      "length": 85,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 60,
+      "source_episode": 73,
+      "seed": 196,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 61,
+      "source_episode": 0,
+      "seed": 1,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 62,
+      "source_episode": 19,
+      "seed": 44,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 63,
+      "source_episode": 57,
+      "seed": 149,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 64,
+      "source_episode": 42,
+      "seed": 109,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 65,
+      "source_episode": 90,
+      "seed": 245,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 66,
+      "source_episode": 99,
+      "seed": 264,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 67,
+      "source_episode": 64,
+      "seed": 177,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 68,
+      "source_episode": 79,
+      "seed": 215,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 69,
+      "source_episode": 91,
+      "seed": 246,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 70,
+      "source_episode": 28,
+      "seed": 68,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 71,
+      "source_episode": 84,
+      "seed": 233,
+      "length": 82,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 72,
+      "source_episode": 1,
+      "seed": 3,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 73,
+      "source_episode": 59,
+      "seed": 154,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 74,
+      "source_episode": 47,
+      "seed": 123,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 75,
+      "source_episode": 6,
+      "seed": 11,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 76,
+      "source_episode": 8,
+      "seed": 19,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 77,
+      "source_episode": 18,
+      "seed": 43,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 78,
+      "source_episode": 76,
+      "seed": 212,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 79,
+      "source_episode": 48,
+      "seed": 124,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 80,
+      "source_episode": 77,
+      "seed": 213,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 81,
+      "source_episode": 72,
+      "seed": 194,
+      "length": 85,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 82,
+      "source_episode": 82,
+      "seed": 227,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 83,
+      "source_episode": 3,
+      "seed": 7,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 84,
+      "source_episode": 71,
+      "seed": 193,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 85,
+      "source_episode": 52,
+      "seed": 133,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 86,
+      "source_episode": 46,
+      "seed": 122,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 87,
+      "source_episode": 23,
+      "seed": 57,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 88,
+      "source_episode": 89,
+      "seed": 243,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 89,
+      "source_episode": 12,
+      "seed": 28,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 90,
+      "source_episode": 88,
+      "seed": 241,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 91,
+      "source_episode": 37,
+      "seed": 85,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 92,
+      "source_episode": 98,
+      "seed": 258,
+      "length": 84,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 93,
+      "source_episode": 20,
+      "seed": 45,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 94,
+      "source_episode": 4,
+      "seed": 8,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 95,
+      "source_episode": 32,
+      "seed": 75,
+      "length": 87,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 96,
+      "source_episode": 86,
+      "seed": 238,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 97,
+      "source_episode": 11,
+      "seed": 24,
+      "length": 84,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 98,
+      "source_episode": 13,
+      "seed": 29,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    },
+    {
+      "episode": 99,
+      "source_episode": 10,
+      "seed": 22,
+      "length": 84,
+      "split": "test",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true
+    }
+  ],
+  "demo_initial_geometry": [
+    {
+      "episode": 0,
+      "source_episode": 51,
+      "seed": 131,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16950176656246185,
+        -0.050992451608181,
+        0.7413286566734314
+      ],
+      "quaternion": [
+        0.21744917333126068,
+        0.21756082773208618,
+        0.673008143901825,
+        0.672639012336731
+      ],
+      "initial_orientation_error_deg": 144.17086970177212,
+      "rotation_offset_deg": 35.829144855350634,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.483203125,
+        "left_camera": 5.005052083333333,
+        "right_camera": 5.199826388888889
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 1,
+      "source_episode": 60,
+      "seed": 162,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10611242800951004,
+        -0.0917166918516159,
+        0.7417191863059998
+      ],
+      "quaternion": [
+        -0.1738976091146469,
+        -0.17379069328308105,
+        0.6854563355445862,
+        0.6853510737419128
+      ],
+      "initial_orientation_error_deg": 151.53553181726588,
+      "rotation_offset_deg": 28.464470888883,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.323962673611111,
+        "left_camera": 4.925703125,
+        "right_camera": 4.973862847222223
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 2,
+      "source_episode": 38,
+      "seed": 91,
+      "length": 85,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.06370126456022263,
+        -0.0015428181504830718,
+        0.7417186498641968
+      ],
+      "quaternion": [
+        0.09519539773464203,
+        0.0953475832939148,
+        0.7006655335426331,
+        0.7006529569625854
+      ],
+      "initial_orientation_error_deg": 164.5134962056138,
+      "rotation_offset_deg": 15.486508798135182,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5464105902777776,
+        "left_camera": 4.9422439236111115,
+        "right_camera": 4.979874131944444
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 3,
+      "source_episode": 35,
+      "seed": 81,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10874569416046143,
+        -0.009155875071883202,
+        0.7417188286781311
+      ],
+      "quaternion": [
+        -0.1925850659608841,
+        -0.19247403740882874,
+        0.6804444193840027,
+        0.6803383827209473
+      ],
+      "initial_orientation_error_deg": 148.40028214509508,
+      "rotation_offset_deg": 31.599720432332678,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.5674479166666666,
+        "left_camera": 4.940056423611111,
+        "right_camera": 5.046909722222222
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 4,
+      "source_episode": 54,
+      "seed": 142,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.14182208478450775,
+        -0.042892590165138245,
+        0.7408433556556702
+      ],
+      "quaternion": [
+        0.08255179971456528,
+        0.082863450050354,
+        0.702799379825592,
+        0.7017064690589905
+      ],
+      "initial_orientation_error_deg": 166.5659044565184,
+      "rotation_offset_deg": 13.434414065609863,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1927039930555554,
+        "left_camera": 5.027894965277778,
+        "right_camera": 5.185915798611111
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 5,
+      "source_episode": 7,
+      "seed": 16,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.22050610184669495,
+        -0.08726276457309723,
+        0.7408435344696045
+      ],
+      "quaternion": [
+        0.1672399640083313,
+        0.16766294836997986,
+        0.6874936819076538,
+        0.6864928007125854
+      ],
+      "initial_orientation_error_deg": 152.60306961895665,
+      "rotation_offset_deg": 27.39707739272751,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.225316840277778,
+        "left_camera": 5.000260416666666,
+        "right_camera": 5.153203125
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 6,
+      "source_episode": 66,
+      "seed": 180,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.17422154545783997,
+        -0.1472548544406891,
+        0.7413641810417175
+      ],
+      "quaternion": [
+        0.15441222488880157,
+        0.15430721640586853,
+        0.6899648308753967,
+        0.6901410818099976
+      ],
+      "initial_orientation_error_deg": 154.7818741825648,
+      "rotation_offset_deg": 25.218131477706194,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5357508680555556,
+        "left_camera": 4.988020833333334,
+        "right_camera": 5.147647569444445
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 7,
+      "source_episode": 97,
+      "seed": 257,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.1063137799501419,
+        -0.10009565949440002,
+        0.741364061832428
+      ],
+      "quaternion": [
+        -0.04295938089489937,
+        -0.0430019348859787,
+        0.7057023644447327,
+        0.705896258354187
+      ],
+      "initial_orientation_error_deg": 173.03039009846532,
+      "rotation_offset_deg": 6.969628508121718,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.5482335069444444,
+        "left_camera": 5.012465277777777,
+        "right_camera": 5.179678819444445
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 8,
+      "source_episode": 25,
+      "seed": 59,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.13471390306949615,
+        -0.14840582013130188,
+        0.7417201995849609
+      ],
+      "quaternion": [
+        0.08125808835029602,
+        0.08139615505933762,
+        0.7024581432342529,
+        0.7023705840110779
+      ],
+      "initial_orientation_error_deg": 166.79114491126364,
+      "rotation_offset_deg": 13.2088617909305,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.216618923611111,
+        "left_camera": 4.9572265625,
+        "right_camera": 4.982044270833334
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 9,
+      "source_episode": 94,
+      "seed": 254,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.17317599058151245,
+        -0.03581111505627632,
+        0.7417187690734863
+      ],
+      "quaternion": [
+        0.17985300719738007,
+        0.18000434339046478,
+        0.6838463544845581,
+        0.6838169693946838
+      ],
+      "initial_orientation_error_deg": 150.5171099285722,
+      "rotation_offset_deg": 29.48289283818748,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.549040798611111,
+        "left_camera": 4.976558159722222,
+        "right_camera": 4.939079861111111
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 10,
+      "source_episode": 58,
+      "seed": 151,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2005246877670288,
+        -0.016758834943175316,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        0.22250905632972717,
+        0.22303085029125214,
+        0.6715970039367676,
+        0.6705999970436096
+      ],
+      "initial_orientation_error_deg": 143.2730236758125,
+      "rotation_offset_deg": 36.72709764987039,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.2757899305555553,
+        "left_camera": 5.006818576388889,
+        "right_camera": 5.550364583333334
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 11,
+      "source_episode": 67,
+      "seed": 181,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10111125558614731,
+        -0.12563687562942505,
+        0.7417187690734863
+      ],
+      "quaternion": [
+        0.127598837018013,
+        0.12775367498397827,
+        0.695481538772583,
+        0.6954876780509949
+      ],
+      "initial_orientation_error_deg": 159.1950677847864,
+      "rotation_offset_deg": 20.804936088700433,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.2858680555555555,
+        "left_camera": 4.959314236111111,
+        "right_camera": 4.977374131944444
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 12,
+      "source_episode": 30,
+      "seed": 71,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10832814127206802,
+        -0.17943397164344788,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.19505824148654938,
+        -0.19505779445171356,
+        0.6795715689659119,
+        0.6797699928283691
+      ],
+      "initial_orientation_error_deg": 147.97420988785908,
+      "rotation_offset_deg": 32.02579436606964,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.5255078125,
+        "left_camera": 5.001423611111111,
+        "right_camera": 5.1427170138888885
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 13,
+      "source_episode": 27,
+      "seed": 66,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2017444670200348,
+        -0.09711015224456787,
+        0.7413660883903503
+      ],
+      "quaternion": [
+        -0.06623994559049606,
+        -0.06627466529607773,
+        0.7039149403572083,
+        0.7040764093399048
+      ],
+      "initial_orientation_error_deg": 169.24676847264482,
+      "rotation_offset_deg": 10.753239903926813,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.5294097222222223,
+        "left_camera": 5.019210069444444,
+        "right_camera": 5.2611284722222225
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 14,
+      "source_episode": 85,
+      "seed": 236,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.20766930282115936,
+        -0.13810528814792633,
+        0.7413625717163086
+      ],
+      "quaternion": [
+        0.16281026601791382,
+        0.16271105408668518,
+        0.6880240440368652,
+        0.6882157921791077
+      ],
+      "initial_orientation_error_deg": 153.38485943949513,
+      "rotation_offset_deg": 26.61514652167412,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.540855034722222,
+        "left_camera": 4.988194444444445,
+        "right_camera": 5.135611979166667
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 15,
+      "source_episode": 75,
+      "seed": 203,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.13715185225009918,
+        -0.07274497300386429,
+        0.7413626909255981
+      ],
+      "quaternion": [
+        0.0664706900715828,
+        0.06639884412288666,
+        0.7038770318031311,
+        0.7040809988975525
+      ],
+      "initial_orientation_error_deg": 169.2178831894491,
+      "rotation_offset_deg": 10.782131133179574,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.6412196180555556,
+        "left_camera": 5.004379340277778,
+        "right_camera": 5.198962673611111
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 16,
+      "source_episode": 78,
+      "seed": 214,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.17421449720859528,
+        -0.1665402352809906,
+        0.7413641214370728
+      ],
+      "quaternion": [
+        0.2273017168045044,
+        0.22717849910259247,
+        0.669516384601593,
+        0.6696804165840149
+      ],
+      "initial_orientation_error_deg": 142.50888874583353,
+      "rotation_offset_deg": 37.49111521633359,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.5200911458333333,
+        "left_camera": 5.0075390625,
+        "right_camera": 5.152717013888889
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 17,
+      "source_episode": 15,
+      "seed": 31,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2218157947063446,
+        -0.1434374451637268,
+        0.7417182922363281
+      ],
+      "quaternion": [
+        -0.1600203812122345,
+        -0.15990018844604492,
+        0.6888282299041748,
+        0.6887243390083313
+      ],
+      "initial_orientation_error_deg": 153.85097878342918,
+      "rotation_offset_deg": 26.149024497939696,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.2823350694444446,
+        "left_camera": 4.951371527777778,
+        "right_camera": 5.012630208333333
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 18,
+      "source_episode": 43,
+      "seed": 116,
+      "length": 82,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.13794618844985962,
+        -0.19520160555839539,
+        0.7417194843292236
+      ],
+      "quaternion": [
+        0.09972017258405685,
+        0.09986020624637604,
+        0.7000629901885986,
+        0.699996829032898
+      ],
+      "initial_orientation_error_deg": 163.77414040026144,
+      "rotation_offset_deg": 16.225864518197866,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.2500651041666666,
+        "left_camera": 4.953993055555555,
+        "right_camera": 5.025855034722222
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 19,
+      "source_episode": 65,
+      "seed": 179,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.12073810398578644,
+        -0.06692510843276978,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.2121598869562149,
+        -0.21227285265922546,
+        0.6747400760650635,
+        0.6742806434631348
+      ],
+      "initial_orientation_error_deg": 145.07046889778061,
+      "rotation_offset_deg": 34.929553501385044,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.0307118055555557,
+        "left_camera": 5.0121484375,
+        "right_camera": 5.147578125
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 20,
+      "source_episode": 17,
+      "seed": 39,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.21283237636089325,
+        -0.03689930960536003,
+        0.7417186498641968
+      ],
+      "quaternion": [
+        0.04206271469593048,
+        0.04220058023929596,
+        0.7058829069137573,
+        0.7058181762695312
+      ],
+      "initial_orientation_error_deg": 173.16822835583898,
+      "rotation_offset_deg": 6.831782817223728,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.4946354166666667,
+        "left_camera": 4.965607638888889,
+        "right_camera": 5.043350694444444
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 21,
+      "source_episode": 44,
+      "seed": 117,
+      "length": 83,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.19931244850158691,
+        -0.05116548761725426,
+        0.741719126701355
+      ],
+      "quaternion": [
+        -0.11407571285963058,
+        -0.1139691099524498,
+        0.6979211568832397,
+        0.6977850198745728
+      ],
+      "initial_orientation_error_deg": 161.44084774971296,
+      "rotation_offset_deg": 18.55915763227483,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.4322439236111113,
+        "left_camera": 4.960325520833333,
+        "right_camera": 5.049079861111111
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 22,
+      "source_episode": 5,
+      "seed": 9,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.18927964568138123,
+        -0.009806056506931782,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.03605952113866806,
+        -0.035937268286943436,
+        0.7067404389381409,
+        0.7056389451026917
+      ],
+      "initial_orientation_error_deg": 174.16368792736762,
+      "rotation_offset_deg": 5.837004084605381,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1996006944444444,
+        "left_camera": 5.006805555555555,
+        "right_camera": 6.027013888888889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.912734375,
+        "left_camera": 1.5048307291666667,
+        "right_camera": 1.7370182291666667
+      },
+      "photometric_shift_flag": true,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 23,
+      "source_episode": 55,
+      "seed": 145,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2093251794576645,
+        -0.06856189668178558,
+        0.7417189478874207
+      ],
+      "quaternion": [
+        -0.01822405494749546,
+        -0.01809677667915821,
+        0.7069240212440491,
+        0.7068232297897339
+      ],
+      "initial_orientation_error_deg": 177.05665538936816,
+      "rotation_offset_deg": 2.943374022083958,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.404036458333333,
+        "left_camera": 4.947217881944445,
+        "right_camera": 4.993763020833334
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7484895833333334,
+        "left_camera": 1.4807552083333333,
+        "right_camera": 1.4161067708333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 24,
+      "source_episode": 26,
+      "seed": 62,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.22672906517982483,
+        -0.07083754986524582,
+        0.7417187690734863
+      ],
+      "quaternion": [
+        -0.11594399809837341,
+        -0.11583615094423294,
+        0.6976036429405212,
+        0.6974869966506958
+      ],
+      "initial_orientation_error_deg": 161.13409791715276,
+      "rotation_offset_deg": 18.865906554704424,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.384314236111111,
+        "left_camera": 4.949453125,
+        "right_camera": 5.035303819444445
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7105598958333333,
+        "left_camera": 1.4805598958333333,
+        "right_camera": 1.4649479166666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 25,
+      "source_episode": 40,
+      "seed": 95,
+      "length": 84,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.23736995458602905,
+        -0.09832611680030823,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        -0.008509122766554356,
+        -0.008485729806125164,
+        0.7072855830192566,
+        0.706825852394104
+      ],
+      "initial_orientation_error_deg": 178.62290004295886,
+      "rotation_offset_deg": 1.3776050506080058,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.0517274305555557,
+        "left_camera": 5.003871527777778,
+        "right_camera": 5.1657118055555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.87734375,
+        "left_camera": 1.4903125,
+        "right_camera": 1.5234244791666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 26,
+      "source_episode": 68,
+      "seed": 186,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2270621955394745,
+        -0.008811027742922306,
+        0.7417194843292236
+      ],
+      "quaternion": [
+        -0.10330930352210999,
+        -0.10320696234703064,
+        0.6996041536331177,
+        0.6994494199752808
+      ],
+      "initial_orientation_error_deg": 163.20625189905988,
+      "rotation_offset_deg": 16.793754925853083,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5245876736111112,
+        "left_camera": 4.958871527777778,
+        "right_camera": 5.115056423611111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7642317708333334,
+        "left_camera": 1.4901171875,
+        "right_camera": 1.454140625
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 27,
+      "source_episode": 29,
+      "seed": 69,
+      "length": 82,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.1439371258020401,
+        -0.18472421169281006,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        0.08464522659778595,
+        0.08473285287618637,
+        0.702251136302948,
+        0.7017827033996582
+      ],
+      "initial_orientation_error_deg": 166.24252899601476,
+      "rotation_offset_deg": 13.757525720564082,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1617534722222222,
+        "left_camera": 5.000581597222222,
+        "right_camera": 5.1428862847222225
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9730989583333334,
+        "left_camera": 1.4966145833333333,
+        "right_camera": 1.5328385416666668
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 28,
+      "source_episode": 93,
+      "seed": 253,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.24514330923557281,
+        -0.15952233970165253,
+        0.7413666844367981
+      ],
+      "quaternion": [
+        0.047438401728868484,
+        0.04738599434494972,
+        0.7054460048675537,
+        0.7055849432945251
+      ],
+      "initial_orientation_error_deg": 172.3107555123016,
+      "rotation_offset_deg": 7.68925393010339,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.4627647569444444,
+        "left_camera": 4.987890625,
+        "right_camera": 5.152799479166666
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7646223958333334,
+        "left_camera": 1.4908723958333334,
+        "right_camera": 1.525859375
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 29,
+      "source_episode": 61,
+      "seed": 167,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16809247434139252,
+        -0.10645605623722076,
+        0.7408433556556702
+      ],
+      "quaternion": [
+        0.06882911175489426,
+        0.06911904364824295,
+        0.7042838931083679,
+        0.7031852006912231
+      ],
+      "initial_orientation_error_deg": 168.80447084438407,
+      "rotation_offset_deg": 11.195910176763524,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1590147569444444,
+        "left_camera": 5.018203125,
+        "right_camera": 5.167508680555556
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9133854166666666,
+        "left_camera": 1.4946354166666667,
+        "right_camera": 1.507890625
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 30,
+      "source_episode": 56,
+      "seed": 148,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.19511930644512177,
+        -0.0574081726372242,
+        0.7413626909255981
+      ],
+      "quaternion": [
+        0.23216664791107178,
+        0.23204711079597473,
+        0.6678365468978882,
+        0.6680172681808472
+      ],
+      "initial_orientation_error_deg": 141.67497289577545,
+      "rotation_offset_deg": 38.325031442077496,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.729361979166667,
+        "left_camera": 5.003450520833334,
+        "right_camera": 5.2402734375
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8366796875,
+        "left_camera": 1.5139973958333333,
+        "right_camera": 1.5519921875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 31,
+      "source_episode": 49,
+      "seed": 126,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.15701699256896973,
+        -0.13371305167675018,
+        0.7408435344696045
+      ],
+      "quaternion": [
+        0.18724343180656433,
+        0.1876952201128006,
+        0.6822964549064636,
+        0.6813091039657593
+      ],
+      "initial_orientation_error_deg": 149.2516379510027,
+      "rotation_offset_deg": 30.74849417159636,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.2137196180555554,
+        "left_camera": 5.000581597222222,
+        "right_camera": 5.148884548611111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9627864583333333,
+        "left_camera": 1.4934765625,
+        "right_camera": 1.5219401041666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 32,
+      "source_episode": 69,
+      "seed": 187,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.09560602903366089,
+        -0.06539663672447205,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        -0.11532072722911835,
+        -0.11536812782287598,
+        0.6978709101676941,
+        0.6974006295204163
+      ],
+      "initial_orientation_error_deg": 161.22373141372702,
+      "rotation_offset_deg": 18.776308354917642,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.094006076388889,
+        "left_camera": 5.0140625,
+        "right_camera": 5.170095486111111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8900130208333333,
+        "left_camera": 1.5077734375,
+        "right_camera": 1.5062109375
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 33,
+      "source_episode": 53,
+      "seed": 137,
+      "length": 84,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.13221213221549988,
+        -0.04840368032455444,
+        0.7417181730270386
+      ],
+      "quaternion": [
+        0.2398260533809662,
+        0.23998957872390747,
+        0.6651543378829956,
+        0.6651754379272461
+      ],
+      "initial_orientation_error_deg": 140.3338681374584,
+      "rotation_offset_deg": 39.66613430276858,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.5254600694444442,
+        "left_camera": 4.976310763888889,
+        "right_camera": 4.9067578125
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.78234375,
+        "left_camera": 1.5158333333333334,
+        "right_camera": 1.4020833333333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 34,
+      "source_episode": 96,
+      "seed": 256,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.12521278858184814,
+        -0.09112037718296051,
+        0.7408432960510254
+      ],
+      "quaternion": [
+        0.05736936256289482,
+        0.05743691697716713,
+        0.7050045728683472,
+        0.7045413255691528
+      ],
+      "initial_orientation_error_deg": 170.68717567008989,
+      "rotation_offset_deg": 9.31290192612379,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1713802083333333,
+        "left_camera": 5.026380208333333,
+        "right_camera": 5.177330729166667
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9452083333333333,
+        "left_camera": 1.4945703125,
+        "right_camera": 1.5071875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 35,
+      "source_episode": 74,
+      "seed": 200,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.24090126156806946,
+        -0.02652888186275959,
+        0.7413643002510071
+      ],
+      "quaternion": [
+        0.09690584242343903,
+        0.09681469202041626,
+        0.7003493905067444,
+        0.7005332708358765
+      ],
+      "initial_orientation_error_deg": 164.25361337367616,
+      "rotation_offset_deg": 15.746395519098353,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.7305381944444442,
+        "left_camera": 5.003654513888889,
+        "right_camera": 5.781271701388889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8231640625,
+        "left_camera": 1.5112760416666666,
+        "right_camera": 1.675859375
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 36,
+      "source_episode": 70,
+      "seed": 188,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2218455672264099,
+        -0.049313414841890335,
+        0.7413653135299683
+      ],
+      "quaternion": [
+        -0.10877293348312378,
+        -0.10879354923963547,
+        0.6985929608345032,
+        0.6987848877906799
+      ],
+      "initial_orientation_error_deg": 162.30063054356938,
+      "rotation_offset_deg": 17.699376478591912,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.6480034722222223,
+        "left_camera": 5.03265625,
+        "right_camera": 5.70015625
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8410416666666667,
+        "left_camera": 1.5024609375,
+        "right_camera": 1.6608854166666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 37,
+      "source_episode": 9,
+      "seed": 21,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.18370255827903748,
+        -0.17335151135921478,
+        0.741719126701355
+      ],
+      "quaternion": [
+        -0.17813871800899506,
+        -0.17802855372428894,
+        0.6843668818473816,
+        0.6842619776725769
+      ],
+      "initial_orientation_error_deg": 150.82617748937142,
+      "rotation_offset_deg": 29.17382523061086,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.3545833333333333,
+        "left_camera": 4.9474479166666665,
+        "right_camera": 4.997400173611111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7278645833333334,
+        "left_camera": 1.4725651041666667,
+        "right_camera": 1.4741927083333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 38,
+      "source_episode": 22,
+      "seed": 52,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.132378950715065,
+        -0.047008879482746124,
+        0.7417186498641968
+      ],
+      "quaternion": [
+        0.03792186453938484,
+        0.03806799277663231,
+        0.7061046957969666,
+        0.7060658931732178
+      ],
+      "initial_orientation_error_deg": 173.8396918355472,
+      "rotation_offset_deg": 6.160320369476977,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.4284375,
+        "left_camera": 4.951089409722222,
+        "right_camera": 4.979427083333333
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7378645833333334,
+        "left_camera": 1.4875520833333333,
+        "right_camera": 1.4191796875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 39,
+      "source_episode": 36,
+      "seed": 84,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.18229900300502777,
+        -0.011893692426383495,
+        0.7413643002510071
+      ],
+      "quaternion": [
+        0.15780289471149445,
+        0.1576962023973465,
+        0.6891984939575195,
+        0.6893733739852905
+      ],
+      "initial_orientation_error_deg": 154.21864109959483,
+      "rotation_offset_deg": 25.781364428754348,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.8053428819444446,
+        "left_camera": 5.024509548611111,
+        "right_camera": 5.4485894097222225
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8553125,
+        "left_camera": 1.5038541666666667,
+        "right_camera": 1.5448828125
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 40,
+      "source_episode": 14,
+      "seed": 30,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.133427232503891,
+        -0.013229620642960072,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.23969948291778564,
+        -0.23982784152030945,
+        0.6654369235038757,
+        0.6649967432022095
+      ],
+      "initial_orientation_error_deg": 140.3587015995502,
+      "rotation_offset_deg": 39.64131728124096,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.045151909722222,
+        "left_camera": 5.024817708333333,
+        "right_camera": 5.638020833333333
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8673307291666666,
+        "left_camera": 1.4864322916666666,
+        "right_camera": 1.647578125
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 41,
+      "source_episode": 2,
+      "seed": 6,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.11794116348028183,
+        -0.09639300405979156,
+        0.7413662075996399
+      ],
+      "quaternion": [
+        -0.23791545629501343,
+        -0.23791316151618958,
+        0.6657986640930176,
+        0.6659623384475708
+      ],
+      "initial_orientation_error_deg": 140.67711436077357,
+      "rotation_offset_deg": 39.32288806188608,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.602808159722222,
+        "left_camera": 5.009652777777778,
+        "right_camera": 5.1744965277777775
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8233072916666667,
+        "left_camera": 1.5027864583333332,
+        "right_camera": 1.5416536458333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 42,
+      "source_episode": 34,
+      "seed": 78,
+      "length": 83,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.21048976480960846,
+        -0.05225297808647156,
+        0.7417193651199341
+      ],
+      "quaternion": [
+        -0.0811023935675621,
+        -0.08097530901432037,
+        0.7024862766265869,
+        0.702409029006958
+      ],
+      "initial_orientation_error_deg": 166.83817157359078,
+      "rotation_offset_deg": 13.16183399178948,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.4300824652777777,
+        "left_camera": 4.960980902777778,
+        "right_camera": 5.053094618055556
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7431380208333334,
+        "left_camera": 1.4936458333333333,
+        "right_camera": 1.4540494791666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 43,
+      "source_episode": 39,
+      "seed": 92,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.17017479240894318,
+        -0.14169666171073914,
+        0.7417187094688416
+      ],
+      "quaternion": [
+        0.10384572297334671,
+        0.10400049388408661,
+        0.6994284391403198,
+        0.699428141117096
+      ],
+      "initial_orientation_error_deg": 163.09731221192806,
+      "rotation_offset_deg": 16.90269250856693,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.2765885416666665,
+        "left_camera": 4.9749565972222225,
+        "right_camera": 4.991267361111111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7384375,
+        "left_camera": 1.4734375,
+        "right_camera": 1.4343229166666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 44,
+      "source_episode": 87,
+      "seed": 240,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16924776136875153,
+        -0.052851755172014236,
+        0.7413653135299683
+      ],
+      "quaternion": [
+        -0.09230322390794754,
+        -0.09232831001281738,
+        0.7009590268135071,
+        0.7011505961418152
+      ],
+      "initial_orientation_error_deg": 164.99676261660545,
+      "rotation_offset_deg": 15.00324564512039,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.6502560763888887,
+        "left_camera": 5.034578993055556,
+        "right_camera": 5.494644097222222
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8457291666666666,
+        "left_camera": 1.5023958333333334,
+        "right_camera": 1.6113671875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 45,
+      "source_episode": 24,
+      "seed": 58,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.23441770672798157,
+        -0.04222332313656807,
+        0.7417193055152893
+      ],
+      "quaternion": [
+        -0.023510998114943504,
+        -0.02339165285229683,
+        0.7067871689796448,
+        0.7066484689712524
+      ],
+      "initial_orientation_error_deg": 176.19885316137479,
+      "rotation_offset_deg": 3.801175775109867,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.462591145833333,
+        "left_camera": 4.954197048611111,
+        "right_camera": 5.063151041666667
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7444270833333333,
+        "left_camera": 1.4846223958333333,
+        "right_camera": 1.4378645833333332
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 46,
+      "source_episode": 41,
+      "seed": 99,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.15665382146835327,
+        -0.15766189992427826,
+        0.7413275837898254
+      ],
+      "quaternion": [
+        -0.15515685081481934,
+        -0.15526050329208374,
+        0.6900458335876465,
+        0.6896792054176331
+      ],
+      "initial_orientation_error_deg": 154.64087662975004,
+      "rotation_offset_deg": 25.359142789436454,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.491918402777778,
+        "left_camera": 5.024236111111111,
+        "right_camera": 5.182243923611111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7858072916666666,
+        "left_camera": 1.486875,
+        "right_camera": 1.4974348958333332
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 47,
+      "source_episode": 16,
+      "seed": 32,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.13317915797233582,
+        -0.017818674445152283,
+        0.7413642406463623
+      ],
+      "quaternion": [
+        0.019355008378624916,
+        0.01928526908159256,
+        0.706746518611908,
+        0.706939160823822
+      ],
+      "initial_orientation_error_deg": 176.86864804866508,
+      "rotation_offset_deg": 3.131395977713115,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.7447569444444446,
+        "left_camera": 5.0084375,
+        "right_camera": 5.4412673611111115
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8292578125,
+        "left_camera": 1.5077604166666667,
+        "right_camera": 1.6166276041666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 48,
+      "source_episode": 62,
+      "seed": 168,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.24313801527023315,
+        -0.04403656721115112,
+        0.741365373134613
+      ],
+      "quaternion": [
+        -0.12410867214202881,
+        -0.12412461638450623,
+        0.6960323452949524,
+        0.6962248086929321
+      ],
+      "initial_orientation_error_deg": 159.78129209685378,
+      "rotation_offset_deg": 20.21871408629572,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.6249869791666667,
+        "left_camera": 5.033046875,
+        "right_camera": 5.772274305555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8137630208333333,
+        "left_camera": 1.4996875,
+        "right_camera": 1.6720963541666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 49,
+      "source_episode": 31,
+      "seed": 72,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.06712949275970459,
+        -0.08324769139289856,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.0631386935710907,
+        -0.06317480653524399,
+        0.704183042049408,
+        0.7043782472610474
+      ],
+      "initial_orientation_error_deg": 169.7513532152857,
+      "rotation_offset_deg": 10.248659475680736,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.5650520833333332,
+        "left_camera": 5.034388020833333,
+        "right_camera": 5.1776171875
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8094140625,
+        "left_camera": 1.4890234375,
+        "right_camera": 1.5452604166666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 50,
+      "source_episode": 95,
+      "seed": 255,
+      "length": 84,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.07123950868844986,
+        -0.15697625279426575,
+        0.7413290143013
+      ],
+      "quaternion": [
+        -0.09825781732797623,
+        -0.0983196571469307,
+        0.7004358172416687,
+        0.7000488638877869
+      ],
+      "initial_orientation_error_deg": 164.01988499649525,
+      "rotation_offset_deg": 15.980146961525117,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.3315755208333333,
+        "left_camera": 5.041180555555556,
+        "right_camera": 5.175655381944445
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.77109375,
+        "left_camera": 1.4898307291666666,
+        "right_camera": 1.4967838541666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 51,
+      "source_episode": 21,
+      "seed": 49,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.19811485707759857,
+        -0.055669426918029785,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.14854475855827332,
+        -0.1486145257949829,
+        0.6915547251701355,
+        0.6910862922668457
+      ],
+      "initial_orientation_error_deg": 155.74083894183718,
+      "rotation_offset_deg": 24.259192336725153,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.0401519097222223,
+        "left_camera": 5.019900173611111,
+        "right_camera": 5.156336805555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8741666666666666,
+        "left_camera": 1.4880859375,
+        "right_camera": 1.5020703125
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 52,
+      "source_episode": 81,
+      "seed": 225,
+      "length": 81,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2263527661561966,
+        -0.17349174618721008,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.23290179669857025,
+        -0.23300422728061676,
+        0.6678208708763123,
+        0.6674436926841736
+      ],
+      "initial_orientation_error_deg": 141.52977736602642,
+      "rotation_offset_deg": 38.47023670265857,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.8820095486111112,
+        "left_camera": 5.000147569444445,
+        "right_camera": 5.138741319444445
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8643880208333333,
+        "left_camera": 1.49515625,
+        "right_camera": 1.5316145833333332
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 53,
+      "source_episode": 92,
+      "seed": 250,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.06818368285894394,
+        -0.09891683608293533,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.09422995150089264,
+        -0.09426234662532806,
+        0.7010302543640137,
+        0.7005655169487
+      ],
+      "initial_orientation_error_deg": 164.68117274512605,
+      "rotation_offset_deg": 15.318874322897267,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.0827256944444446,
+        "left_camera": 5.030021701388889,
+        "right_camera": 5.167864583333333
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9167708333333333,
+        "left_camera": 1.4898046875,
+        "right_camera": 1.5091796875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 54,
+      "source_episode": 50,
+      "seed": 130,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.13546259701251984,
+        -0.05397716164588928,
+        0.7408435344696045
+      ],
+      "quaternion": [
+        0.2181202620267868,
+        0.21861694753170013,
+        0.6730267405509949,
+        0.6720603704452515
+      ],
+      "initial_orientation_error_deg": 144.02375290990452,
+      "rotation_offset_deg": 35.976362234322885,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.2189713541666665,
+        "left_camera": 5.010980902777778,
+        "right_camera": 5.1565625
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9225520833333334,
+        "left_camera": 1.48734375,
+        "right_camera": 1.5060807291666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 55,
+      "source_episode": 83,
+      "seed": 228,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.18708893656730652,
+        -0.13259969651699066,
+        0.7417184114456177
+      ],
+      "quaternion": [
+        -0.05583272501826286,
+        -0.05569843947887421,
+        0.7049464583396912,
+        0.7048622965812683
+      ],
+      "initial_orientation_error_deg": 170.95340616718542,
+      "rotation_offset_deg": 9.046602984753697,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.2504817708333333,
+        "left_camera": 4.9619748263888885,
+        "right_camera": 5.0036848958333335
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.686640625,
+        "left_camera": 1.467265625,
+        "right_camera": 1.4322265625
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 56,
+      "source_episode": 45,
+      "seed": 118,
+      "length": 83,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.24220894277095795,
+        -0.09533658623695374,
+        0.7417191863059998
+      ],
+      "quaternion": [
+        -0.05597159266471863,
+        -0.05585101246833801,
+        0.7049524188041687,
+        0.7048333287239075
+      ],
+      "initial_orientation_error_deg": 170.92971771697117,
+      "rotation_offset_deg": 9.070292721930553,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.3658072916666666,
+        "left_camera": 4.968359375,
+        "right_camera": 4.9859765625
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7356770833333334,
+        "left_camera": 1.469375,
+        "right_camera": 1.4585416666666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 57,
+      "source_episode": 63,
+      "seed": 171,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10019516199827194,
+        -0.16045843064785004,
+        0.7408431172370911
+      ],
+      "quaternion": [
+        -0.12856930494308472,
+        -0.12862195074558258,
+        0.6955429911613464,
+        0.6950873136520386
+      ],
+      "initial_orientation_error_deg": 159.04356850493855,
+      "rotation_offset_deg": 20.956465202685262,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.0492925347222224,
+        "left_camera": 5.008107638888889,
+        "right_camera": 5.1451171875
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.93171875,
+        "left_camera": 1.4894270833333334,
+        "right_camera": 1.5285286458333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 58,
+      "source_episode": 80,
+      "seed": 223,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.07666870206594467,
+        -0.04230683296918869,
+        0.7417091131210327
+      ],
+      "quaternion": [
+        -0.2284470647573471,
+        -0.2282576858997345,
+        0.6691470146179199,
+        0.6692927479743958
+      ],
+      "initial_orientation_error_deg": 142.31848642839228,
+      "rotation_offset_deg": 37.68151892394957,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.483515625,
+        "left_camera": 4.930247395833334,
+        "right_camera": 5.018446180555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7460807291666667,
+        "left_camera": 1.456796875,
+        "right_camera": 1.4823828125
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 59,
+      "source_episode": 33,
+      "seed": 77,
+      "length": 85,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10759642720222473,
+        -0.03266296908259392,
+        0.7408435344696045
+      ],
+      "quaternion": [
+        0.10779904574155807,
+        0.10813452303409576,
+        0.6993317604064941,
+        0.698298990726471
+      ],
+      "initial_orientation_error_deg": 162.43452563306553,
+      "rotation_offset_deg": 17.565698228376046,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.1872960069444445,
+        "left_camera": 5.028506944444445,
+        "right_camera": 5.1929296875
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8956640625,
+        "left_camera": 1.4868619791666666,
+        "right_camera": 1.4969921875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 60,
+      "source_episode": 73,
+      "seed": 196,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.23566479980945587,
+        -0.12998422980308533,
+        0.7408422231674194
+      ],
+      "quaternion": [
+        -0.04876227676868439,
+        -0.048644132912158966,
+        0.7059616446495056,
+        0.7048931121826172
+      ],
+      "initial_orientation_error_deg": 172.1010545633098,
+      "rotation_offset_deg": 7.899427264632378,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.961167534722222,
+        "left_camera": 5.004826388888889,
+        "right_camera": 5.171475694444444
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8673828125,
+        "left_camera": 1.4910416666666666,
+        "right_camera": 1.5121354166666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 61,
+      "source_episode": 0,
+      "seed": 1,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.18905875086784363,
+        -0.19452114403247833,
+        0.7408410310745239
+      ],
+      "quaternion": [
+        -0.029094912111759186,
+        -0.028986463323235512,
+        0.7070513367652893,
+        0.7059685587882996
+      ],
+      "initial_orientation_error_deg": 175.29243090551768,
+      "rotation_offset_deg": 4.7083957281404905,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.0623567708333335,
+        "left_camera": 5.001540798611111,
+        "right_camera": 5.160490451388889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9220052083333333,
+        "left_camera": 1.4973567708333333,
+        "right_camera": 1.5066666666666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 62,
+      "source_episode": 19,
+      "seed": 44,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10507472604513168,
+        -0.007893839851021767,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        0.18876862525939941,
+        0.1892305314540863,
+        0.6818810701370239,
+        0.6808792352676392
+      ],
+      "initial_orientation_error_deg": 148.99436622333053,
+      "rotation_offset_deg": 31.005769143659013,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.1994010416666665,
+        "left_camera": 5.023628472222223,
+        "right_camera": 5.180572916666667
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8997135416666666,
+        "left_camera": 1.486796875,
+        "right_camera": 1.5021614583333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 63,
+      "source_episode": 57,
+      "seed": 149,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.20570334792137146,
+        -0.1611320674419403,
+        0.741719126701355
+      ],
+      "quaternion": [
+        -0.2287818342447281,
+        -0.22867842018604279,
+        0.6691465973854065,
+        0.6690349578857422
+      ],
+      "initial_orientation_error_deg": 142.25379223683893,
+      "rotation_offset_deg": 37.746209930627444,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.477708333333333,
+        "left_camera": 4.946241319444445,
+        "right_camera": 4.996037326388889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7405598958333334,
+        "left_camera": 1.4764192708333332,
+        "right_camera": 1.4819270833333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 64,
+      "source_episode": 42,
+      "seed": 109,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.20963717997074127,
+        -0.14172226190567017,
+        0.7413666844367981
+      ],
+      "quaternion": [
+        0.2340257614850998,
+        0.2339380532503128,
+        0.667212188243866,
+        0.6673327088356018
+      ],
+      "initial_orientation_error_deg": 141.35313356510161,
+      "rotation_offset_deg": 38.6468684732593,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.561775173611111,
+        "left_camera": 4.991006944444444,
+        "right_camera": 5.1506987847222225
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7967447916666667,
+        "left_camera": 1.4849348958333333,
+        "right_camera": 1.5244791666666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 65,
+      "source_episode": 90,
+      "seed": 245,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.24209724366664886,
+        -0.1918967366218567,
+        0.7417194843292236
+      ],
+      "quaternion": [
+        -0.02619239129126072,
+        -0.02606712095439434,
+        0.7066683769226074,
+        0.7065792679786682
+      ],
+      "initial_orientation_error_deg": 175.7645274296617,
+      "rotation_offset_deg": 4.23549090437299,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.2633289930555556,
+        "left_camera": 4.950985243055555,
+        "right_camera": 5.026740451388889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.68046875,
+        "left_camera": 1.4986328125,
+        "right_camera": 1.4594270833333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 66,
+      "source_episode": 99,
+      "seed": 264,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10499051958322525,
+        -0.1832192838191986,
+        0.7417187094688416
+      ],
+      "quaternion": [
+        0.03469220921397209,
+        0.034846458584070206,
+        0.7062586545944214,
+        0.7062442302703857
+      ],
+      "initial_orientation_error_deg": 174.36311527354826,
+      "rotation_offset_deg": 5.636898726658241,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.1660807291666666,
+        "left_camera": 4.949778645833334,
+        "right_camera": 5.030720486111111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.6610416666666666,
+        "left_camera": 1.4704427083333333,
+        "right_camera": 1.4994140625
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 67,
+      "source_episode": 64,
+      "seed": 177,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.19882535934448242,
+        -0.01973676308989525,
+        0.7417194247245789
+      ],
+      "quaternion": [
+        -0.18581229448318481,
+        -0.18572568893432617,
+        0.6823480725288391,
+        0.6821882724761963
+      ],
+      "initial_orientation_error_deg": 149.5373151067558,
+      "rotation_offset_deg": 30.462688626857464,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.496948784722222,
+        "left_camera": 4.951623263888889,
+        "right_camera": 5.065672743055556
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7469010416666667,
+        "left_camera": 1.475859375,
+        "right_camera": 1.4629166666666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 68,
+      "source_episode": 79,
+      "seed": 215,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.12298253178596497,
+        -0.037933625280857086,
+        0.7413642406463623
+      ],
+      "quaternion": [
+        0.1615852415561676,
+        0.16147814691066742,
+        0.688322126865387,
+        0.6884966492652893
+      ],
+      "initial_orientation_error_deg": 153.5894719457145,
+      "rotation_offset_deg": 26.41053345505057,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.7444444444444445,
+        "left_camera": 5.005447048611111,
+        "right_camera": 5.212673611111111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8307421875,
+        "left_camera": 1.51265625,
+        "right_camera": 1.5615494791666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 69,
+      "source_episode": 91,
+      "seed": 246,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2336396425962448,
+        -0.12951844930648804,
+        0.7413638830184937
+      ],
+      "quaternion": [
+        -0.029565732926130295,
+        -0.0296078622341156,
+        0.706388533115387,
+        0.7065865397453308
+      ],
+      "initial_orientation_error_deg": 175.20385416945555,
+      "rotation_offset_deg": 4.796173913757469,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.4663194444444443,
+        "left_camera": 4.999995659722222,
+        "right_camera": 5.1438585069444445
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7639973958333334,
+        "left_camera": 1.494765625,
+        "right_camera": 1.5283984375
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 70,
+      "source_episode": 28,
+      "seed": 68,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.14997917413711548,
+        -0.0054349456913769245,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.2212875634431839,
+        -0.22140365839004517,
+        0.6717914938926697,
+        0.6713482737541199
+      ],
+      "initial_orientation_error_deg": 143.51615060962615,
+      "rotation_offset_deg": 36.48386961863751,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.063420138888889,
+        "left_camera": 5.022365451388889,
+        "right_camera": 6.107274305555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8654947916666667,
+        "left_camera": 1.4839973958333332,
+        "right_camera": 1.7506640625
+      },
+      "photometric_shift_flag": true,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 71,
+      "source_episode": 84,
+      "seed": 233,
+      "length": 82,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.23028042912483215,
+        -0.13058342039585114,
+        0.7408432364463806
+      ],
+      "quaternion": [
+        -0.21040154993534088,
+        -0.21050848066806793,
+        0.675285279750824,
+        0.6748387813568115
+      ],
+      "initial_orientation_error_deg": 145.36958179752182,
+      "rotation_offset_deg": 34.63043945545845,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.891840277777778,
+        "left_camera": 5.018046875,
+        "right_camera": 5.1390190972222225
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8705729166666667,
+        "left_camera": 1.4886067708333333,
+        "right_camera": 1.5189713541666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 72,
+      "source_episode": 1,
+      "seed": 3,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.0965690016746521,
+        -0.11190968751907349,
+        0.7413638830184937
+      ],
+      "quaternion": [
+        -0.13785207271575928,
+        -0.13786809146404266,
+        0.6934389472007751,
+        0.6936366558074951
+      ],
+      "initial_orientation_error_deg": 157.51480797399458,
+      "rotation_offset_deg": 22.485197920501797,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5360590277777777,
+        "left_camera": 5.018363715277777,
+        "right_camera": 5.1569618055555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8145963541666666,
+        "left_camera": 1.5049609375,
+        "right_camera": 1.5575520833333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 73,
+      "source_episode": 59,
+      "seed": 154,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16320857405662537,
+        -0.11650101095438004,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.18488579988479614,
+        -0.18488828837871552,
+        0.6824085712432861,
+        0.6826068758964539
+      ],
+      "initial_orientation_error_deg": 149.6854192688412,
+      "rotation_offset_deg": 30.314585195760785,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.5596571180555556,
+        "left_camera": 5.002669270833334,
+        "right_camera": 5.206831597222222
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8349088541666667,
+        "left_camera": 1.4960677083333334,
+        "right_camera": 1.5725520833333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 74,
+      "source_episode": 47,
+      "seed": 123,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.11452489346265793,
+        -0.11228597164154053,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.11724648624658585,
+        -0.11726836115121841,
+        0.6972181797027588,
+        0.6974153518676758
+      ],
+      "initial_orientation_error_deg": 160.90943531534583,
+      "rotation_offset_deg": 19.090571579048962,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5232508680555554,
+        "left_camera": 5.009440104166667,
+        "right_camera": 5.168958333333333
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8126041666666667,
+        "left_camera": 1.5002473958333333,
+        "right_camera": 1.5497916666666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 75,
+      "source_episode": 6,
+      "seed": 11,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.17539715766906738,
+        -0.05400639772415161,
+        0.7413290739059448
+      ],
+      "quaternion": [
+        -0.17489399015903473,
+        -0.17499922215938568,
+        0.6853121519088745,
+        0.6849340796470642
+      ],
+      "initial_orientation_error_deg": 151.35117655705233,
+      "rotation_offset_deg": 28.648841848297153,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.4764105902777778,
+        "left_camera": 5.046480034722222,
+        "right_camera": 5.271349826388889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7883072916666667,
+        "left_camera": 1.4658723958333333,
+        "right_camera": 1.4813020833333332
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 76,
+      "source_episode": 8,
+      "seed": 19,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.06783083081245422,
+        -0.15681535005569458,
+        0.7417185306549072
+      ],
+      "quaternion": [
+        0.1307942122220993,
+        0.13093943893909454,
+        0.6949140429496765,
+        0.6948685646057129
+      ],
+      "initial_orientation_error_deg": 158.66914965450755,
+      "rotation_offset_deg": 21.33085399334648,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.206814236111111,
+        "left_camera": 4.955212673611111,
+        "right_camera": 5.017217881944444
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.6889583333333333,
+        "left_camera": 1.45890625,
+        "right_camera": 1.4561588541666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 77,
+      "source_episode": 18,
+      "seed": 43,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.11687494814395905,
+        -0.12100914865732193,
+        0.7408435940742493
+      ],
+      "quaternion": [
+        0.2155846804380417,
+        0.21607616543769836,
+        0.6738451719284058,
+        0.6728796362876892
+      ],
+      "initial_orientation_error_deg": 144.45595867768273,
+      "rotation_offset_deg": 35.54415701359018,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 3.176032986111111,
+        "left_camera": 5.005611979166667,
+        "right_camera": 5.160551215277778
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9113932291666667,
+        "left_camera": 1.487734375,
+        "right_camera": 1.5021484375
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 78,
+      "source_episode": 76,
+      "seed": 212,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16682441532611847,
+        -0.07604211568832397,
+        0.7413275837898254
+      ],
+      "quaternion": [
+        0.232334166765213,
+        0.23242609202861786,
+        0.668010950088501,
+        0.6676529049873352
+      ],
+      "initial_orientation_error_deg": 141.6280928754711,
+      "rotation_offset_deg": 38.37191973685132,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.437582465277778,
+        "left_camera": 4.99765625,
+        "right_camera": 5.1922829861111115
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.77578125,
+        "left_camera": 1.4788541666666666,
+        "right_camera": 1.4652083333333332
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 79,
+      "source_episode": 48,
+      "seed": 124,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.1399606317281723,
+        -0.08018164336681366,
+        0.7417089939117432
+      ],
+      "quaternion": [
+        -0.23089420795440674,
+        -0.23070405423641205,
+        0.6683071255683899,
+        0.6684526801109314
+      ],
+      "initial_orientation_error_deg": 141.8992571657847,
+      "rotation_offset_deg": 38.10074815894163,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.3964973958333333,
+        "left_camera": 4.935998263888889,
+        "right_camera": 5.0159765625
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7438020833333333,
+        "left_camera": 1.4691276041666668,
+        "right_camera": 1.4881119791666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 80,
+      "source_episode": 77,
+      "seed": 213,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2095738798379898,
+        -0.03178674355149269,
+        0.7408432960510254
+      ],
+      "quaternion": [
+        0.05536636337637901,
+        0.05563552677631378,
+        0.7054770588874817,
+        0.7043730616569519
+      ],
+      "initial_orientation_error_deg": 170.99642608786343,
+      "rotation_offset_deg": 9.004046650846174,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.2263194444444445,
+        "left_camera": 5.0204296875,
+        "right_camera": 5.349309895833334
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9124609375,
+        "left_camera": 1.487265625,
+        "right_camera": 1.56921875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 81,
+      "source_episode": 72,
+      "seed": 194,
+      "length": 85,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.08196041733026505,
+        -0.06258091330528259,
+        0.7417188882827759
+      ],
+      "quaternion": [
+        0.08260203152894974,
+        0.08274667710065842,
+        0.7022812962532043,
+        0.7022328972816467
+      ],
+      "initial_orientation_error_deg": 166.5713339808772,
+      "rotation_offset_deg": 13.428671758899046,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.3981510416666665,
+        "left_camera": 4.930169270833333,
+        "right_camera": 4.983559027777778
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7477864583333333,
+        "left_camera": 1.4680859375,
+        "right_camera": 1.4402604166666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 82,
+      "source_episode": 82,
+      "seed": 227,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.17858532071113586,
+        -0.03307249769568443,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        0.031018957495689392,
+        0.031245673075318336,
+        0.7069644331932068,
+        0.7058773040771484
+      ],
+      "initial_orientation_error_deg": 174.9531608123742,
+      "rotation_offset_deg": 5.047642351392164,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.2073914930555554,
+        "left_camera": 5.022634548611111,
+        "right_camera": 5.386458333333334
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8971744791666667,
+        "left_camera": 1.486484375,
+        "right_camera": 1.5817317708333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 83,
+      "source_episode": 3,
+      "seed": 7,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.1518697589635849,
+        -0.12381169199943542,
+        0.7417192459106445
+      ],
+      "quaternion": [
+        -0.20002271234989166,
+        -0.19992174208164215,
+        0.6782989501953125,
+        0.6781834363937378
+      ],
+      "initial_orientation_error_deg": 147.1448124393739,
+      "rotation_offset_deg": 32.855190046541445,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.3046788194444443,
+        "left_camera": 4.955021701388889,
+        "right_camera": 4.980412326388889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7120182291666667,
+        "left_camera": 1.4588411458333332,
+        "right_camera": 1.4589322916666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 84,
+      "source_episode": 71,
+      "seed": 193,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.21478486061096191,
+        -0.10104824602603912,
+        0.7417190670967102
+      ],
+      "quaternion": [
+        0.10460308194160461,
+        0.10474202781915665,
+        0.699343740940094,
+        0.6992894411087036
+      ],
+      "initial_orientation_error_deg": 162.97451766011983,
+      "rotation_offset_deg": 17.02548669472186,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.3902517361111113,
+        "left_camera": 4.978771701388889,
+        "right_camera": 4.952122395833333
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7490364583333333,
+        "left_camera": 1.4646614583333333,
+        "right_camera": 1.4240755208333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 85,
+      "source_episode": 52,
+      "seed": 133,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2197684496641159,
+        -0.13682347536087036,
+        0.7408432364463806
+      ],
+      "quaternion": [
+        -0.209135964512825,
+        -0.20924244821071625,
+        0.6756791472434998,
+        0.675231397151947
+      ],
+      "initial_orientation_error_deg": 145.58438591104374,
+      "rotation_offset_deg": 34.41563556188995,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.9295008680555554,
+        "left_camera": 5.013524305555555,
+        "right_camera": 5.136436631944444
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.86421875,
+        "left_camera": 1.4894010416666668,
+        "right_camera": 1.5237109375
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 86,
+      "source_episode": 46,
+      "seed": 122,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10104946792125702,
+        -0.10583658516407013,
+        0.7417191863059998
+      ],
+      "quaternion": [
+        0.0690130740404129,
+        0.06917465478181839,
+        0.7037150263786316,
+        0.7037309408187866
+      ],
+      "initial_orientation_error_deg": 168.78496480976042,
+      "rotation_offset_deg": 11.215042956163293,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.2912630208333336,
+        "left_camera": 4.958181423611111,
+        "right_camera": 5.006028645833333
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7050390625,
+        "left_camera": 1.461171875,
+        "right_camera": 1.4404166666666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 87,
+      "source_episode": 23,
+      "seed": 57,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.19926469027996063,
+        -0.11589732766151428,
+        0.7417190074920654
+      ],
+      "quaternion": [
+        0.025916045531630516,
+        0.026058942079544067,
+        0.7066611647605896,
+        0.7065970301628113
+      ],
+      "initial_orientation_error_deg": 175.78759786844793,
+      "rotation_offset_deg": 4.212421267525274,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.292829861111111,
+        "left_camera": 4.970473090277777,
+        "right_camera": 4.988797743055556
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.6993098958333334,
+        "left_camera": 1.4682682291666667,
+        "right_camera": 1.4590494791666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 88,
+      "source_episode": 89,
+      "seed": 243,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.15785105526447296,
+        -0.0034186269622296095,
+        0.7417147159576416
+      ],
+      "quaternion": [
+        0.02034461311995983,
+        0.020522447302937508,
+        0.7067092061042786,
+        0.7069138288497925
+      ],
+      "initial_orientation_error_deg": 176.68814387022525,
+      "rotation_offset_deg": 3.311929020349917,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.5469270833333333,
+        "left_camera": 4.973394097222222,
+        "right_camera": 5.005620659722222
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7588541666666667,
+        "left_camera": 1.4749348958333333,
+        "right_camera": 1.3952604166666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 89,
+      "source_episode": 12,
+      "seed": 28,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.2421075999736786,
+        -0.16145893931388855,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        0.2299044132232666,
+        0.2304372489452362,
+        0.6690922975540161,
+        0.6681004762649536
+      ],
+      "initial_orientation_error_deg": 142.00696400251678,
+      "rotation_offset_deg": 37.993153985484085,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.9887543402777776,
+        "left_camera": 4.995455729166666,
+        "right_camera": 5.1559852430555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8920963541666667,
+        "left_camera": 1.4926953125,
+        "right_camera": 1.5131901041666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 90,
+      "source_episode": 88,
+      "seed": 241,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.1972852349281311,
+        -0.03960249945521355,
+        0.7413638830184937
+      ],
+      "quaternion": [
+        -0.21124091744422913,
+        -0.21123486757278442,
+        0.6747182011604309,
+        0.674916684627533
+      ],
+      "initial_orientation_error_deg": 145.23666197688343,
+      "rotation_offset_deg": 34.76334198549969,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.6933984375,
+        "left_camera": 5.022912326388889,
+        "right_camera": 5.6022352430555555
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8625520833333333,
+        "left_camera": 1.5054427083333333,
+        "right_camera": 1.6431510416666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 91,
+      "source_episode": 37,
+      "seed": 85,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.07431970536708832,
+        -0.014840264804661274,
+        0.7417187094688416
+      ],
+      "quaternion": [
+        -0.1876935511827469,
+        -0.1875811368227005,
+        0.6818110346794128,
+        0.6817023754119873
+      ],
+      "initial_orientation_error_deg": 149.22339516176115,
+      "rotation_offset_deg": 30.77660757529107,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.520716145833333,
+        "left_camera": 4.920477430555556,
+        "right_camera": 5.0388802083333335
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7435286458333333,
+        "left_camera": 1.446640625,
+        "right_camera": 1.4661328125
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 92,
+      "source_episode": 98,
+      "seed": 258,
+      "length": 84,
+      "split": "validation",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.08922765403985977,
+        -0.15152950584888458,
+        0.7413640022277832
+      ],
+      "quaternion": [
+        -0.18426674604415894,
+        -0.1842685341835022,
+        0.6825759410858154,
+        0.682774543762207
+      ],
+      "initial_orientation_error_deg": 149.78940426191048,
+      "rotation_offset_deg": 30.210600229727895,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.49140625,
+        "left_camera": 5.021158854166667,
+        "right_camera": 5.156362847222222
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7983333333333333,
+        "left_camera": 1.4714322916666667,
+        "right_camera": 1.5334895833333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 93,
+      "source_episode": 20,
+      "seed": 45,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.07505171746015549,
+        -0.0018545582424849272,
+        0.7408433556556702
+      ],
+      "quaternion": [
+        0.1069851964712143,
+        0.10733465850353241,
+        0.6994801163673401,
+        0.6983988881111145
+      ],
+      "initial_orientation_error_deg": 162.566821128107,
+      "rotation_offset_deg": 17.43342580181722,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 3.19078125,
+        "left_camera": 5.026571180555556,
+        "right_camera": 5.1889453125
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8992708333333334,
+        "left_camera": 1.484765625,
+        "right_camera": 1.5053515625
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 94,
+      "source_episode": 4,
+      "seed": 8,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.23692777752876282,
+        -0.1332455724477768,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.234489306807518,
+        -0.23447728157043457,
+        0.6669973731040955,
+        0.6671954393386841
+      ],
+      "initial_orientation_error_deg": 141.26701764708312,
+      "rotation_offset_deg": 38.73298595854487,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.5278515625,
+        "left_camera": 5.014144965277778,
+        "right_camera": 5.157322048611111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.777578125,
+        "left_camera": 1.5099869791666667,
+        "right_camera": 1.5424739583333333
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 95,
+      "source_episode": 32,
+      "seed": 75,
+      "length": 87,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.08589544892311096,
+        -0.013685550540685654,
+        0.7413641810417175
+      ],
+      "quaternion": [
+        0.12031532824039459,
+        0.12021897733211517,
+        0.6967136859893799,
+        0.6968943476676941
+      ],
+      "initial_orientation_error_deg": 160.41465994837114,
+      "rotation_offset_deg": 19.585347217158933,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.768832465277778,
+        "left_camera": 5.015711805555555,
+        "right_camera": 5.237808159722222
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.84515625,
+        "left_camera": 1.4983723958333333,
+        "right_camera": 1.5739713541666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 96,
+      "source_episode": 86,
+      "seed": 238,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16314251720905304,
+        -0.03449384123086929,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.2287183403968811,
+        -0.22870710492134094,
+        0.6689976453781128,
+        0.6691958904266357
+      ],
+      "initial_orientation_error_deg": 142.25677530229774,
+      "rotation_offset_deg": 37.7432283881647,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.7087022569444446,
+        "left_camera": 5.021449652777778,
+        "right_camera": 5.4964019097222225
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8557552083333333,
+        "left_camera": 1.5073046875,
+        "right_camera": 1.6309765625
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 97,
+      "source_episode": 11,
+      "seed": 24,
+      "length": 84,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.20007158815860748,
+        -0.09317653626203537,
+        0.7417192459106445
+      ],
+      "quaternion": [
+        -0.030607284978032112,
+        -0.03048224188387394,
+        0.7065049409866333,
+        0.7063886523246765
+      ],
+      "initial_orientation_error_deg": 175.04846881617115,
+      "rotation_offset_deg": 4.951550539829852,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.3549609375,
+        "left_camera": 4.9671484375,
+        "right_camera": 4.984079861111111
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.745390625,
+        "left_camera": 1.4609114583333334,
+        "right_camera": 1.4488802083333334
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 98,
+      "source_episode": 13,
+      "seed": 29,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.11657167226076126,
+        -0.15160305798053741,
+        0.7413665652275085
+      ],
+      "quaternion": [
+        0.04470759630203247,
+        0.044656023383140564,
+        0.7056231498718262,
+        0.7057642340660095
+      ],
+      "initial_orientation_error_deg": 172.75417569624327,
+      "rotation_offset_deg": 7.245834554169572,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 2.490842013888889,
+        "left_camera": 5.006723090277778,
+        "right_camera": 5.1554991319444445
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8286458333333333,
+        "left_camera": 1.4746223958333333,
+        "right_camera": 1.5351432291666667
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 99,
+      "source_episode": 10,
+      "seed": 22,
+      "length": 84,
+      "split": "test",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.15597546100616455,
+        -0.19789499044418335,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.12071370333433151,
+        -0.1207340881228447,
+        0.6966263651847839,
+        0.69682377576828
+      ],
+      "initial_orientation_error_deg": 160.3395440334352,
+      "rotation_offset_deg": 19.660462673977612,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5052777777777777,
+        "left_camera": 5.00734375,
+        "right_camera": 5.1368359375
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.805703125,
+        "left_camera": 1.4913671875,
+        "right_camera": 1.5454296875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    }
+  ],
+  "fresh_scenes": [
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100001,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.07227399200201035,
+        -0.0016122275264933705,
+        0.7413288354873657
+      ],
+      "quaternion": [
+        0.2007925659418106,
+        0.200896218419075,
+        0.6781691908836365,
+        0.677797794342041
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 146.9974324161067,
+      "rotation_offset_deg": 33.002583223794225,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100003,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.16423159837722778,
+        -0.1986309438943863,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.05482613295316696,
+        -0.05486496165394783,
+        0.7048792839050293,
+        0.705073893070221
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 171.10296278875387,
+      "rotation_offset_deg": 8.897051800271585,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100005,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.08502443134784698,
+        -0.020873328670859337,
+        0.7408435344696045
+      ],
+      "quaternion": [
+        0.13652484118938446,
+        0.1369044929742813,
+        0.6942754983901978,
+        0.6932530999183655
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 157.70403126921823,
+      "rotation_offset_deg": 22.296148358841943,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100006,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.08778442442417145,
+        -0.04659664258360863,
+        0.7417178153991699
+      ],
+      "quaternion": [
+        -0.16283822059631348,
+        -0.1627296805381775,
+        0.6880902051925659,
+        0.688138484954834
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 153.38097829250722,
+      "rotation_offset_deg": 26.619023512069237,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100009,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.08412395417690277,
+        -0.05822162702679634,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        0.1426924467086792,
+        0.14308178424835205,
+        0.6930295825004578,
+        0.6920091509819031
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 156.68359710333033,
+      "rotation_offset_deg": 23.31657557069042,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100010,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.1561676412820816,
+        -0.06565643846988678,
+        0.7413661479949951
+      ],
+      "quaternion": [
+        -0.20904891192913055,
+        -0.20905090868473053,
+        0.675416111946106,
+        0.6755807995796204
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 145.60801804637222,
+      "rotation_offset_deg": 34.39198470515681,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100011,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.19429343938827515,
+        -0.04135401174426079,
+        0.7417176365852356
+      ],
+      "quaternion": [
+        0.2028355449438095,
+        0.20301930606365204,
+        0.6773122549057007,
+        0.6774135231971741
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 146.645197888489,
+      "rotation_offset_deg": 33.354806699096784,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100012,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.1473543643951416,
+        -0.19115668535232544,
+        0.7413626313209534
+      ],
+      "quaternion": [
+        0.18382468819618225,
+        0.18371912837028503,
+        0.6827145218849182,
+        0.6829030513763428
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 149.8726050662271,
+      "rotation_offset_deg": 30.12740026311168,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100013,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.11911670863628387,
+        -0.11915368586778641,
+        0.741366446018219
+      ],
+      "quaternion": [
+        0.18819087743759155,
+        0.18810836970806122,
+        0.6815541386604309,
+        0.6816769242286682
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 149.13728198961212,
+      "rotation_offset_deg": 30.86272045462285,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100014,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.1683572679758072,
+        -0.19051450490951538,
+        0.7408432960510254
+      ],
+      "quaternion": [
+        -0.12314102053642273,
+        -0.12319328635931015,
+        0.6965324282646179,
+        0.6960620880126953
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 159.93757394194643,
+      "rotation_offset_deg": 20.062463462819455,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100015,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.2387266606092453,
+        -0.1777292937040329,
+        0.7413661479949951
+      ],
+      "quaternion": [
+        -0.001203565509058535,
+        -0.001255381852388382,
+        0.7070282697677612,
+        0.7071831226348877
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 179.8007551576859,
+      "rotation_offset_deg": 0.19968368812565465,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100017,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.08341922610998154,
+        -0.04774884879589081,
+        0.741328775882721
+      ],
+      "quaternion": [
+        -0.19798104465007782,
+        -0.1980946660041809,
+        0.6789916753768921,
+        0.6786254048347473
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 147.47149708744996,
+      "rotation_offset_deg": 32.5285185827004,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100023,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.15377527475357056,
+        -0.1814764142036438,
+        0.7413626313209534
+      ],
+      "quaternion": [
+        0.013683393597602844,
+        0.01362503133714199,
+        0.7068702578544617,
+        0.7070797681808472
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 177.787102876729,
+      "rotation_offset_deg": 2.2129673096568716,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100030,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.1507309377193451,
+        -0.05937020108103752,
+        0.7417193651199341
+      ],
+      "quaternion": [
+        -0.016658704727888107,
+        -0.016537828370928764,
+        0.7069800496101379,
+        0.7068438529968262
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 177.30988872980598,
+      "rotation_offset_deg": 2.6901517514371447,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100032,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.11289290338754654,
+        -0.016565712168812752,
+        0.7413653135299683
+      ],
+      "quaternion": [
+        -0.02055993676185608,
+        -0.02060149610042572,
+        0.7067133784294128,
+        0.7069010138511658
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 176.66428101586683,
+      "rotation_offset_deg": 3.335755352841463,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100035,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.10187506675720215,
+        -0.055590104311704636,
+        0.741718590259552
+      ],
+      "quaternion": [
+        -0.01997574418783188,
+        -0.01984223537147045,
+        0.7068652510643005,
+        0.706787645816803
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 176.7731836747505,
+      "rotation_offset_deg": 3.226840598949714,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100036,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.13114893436431885,
+        -0.05359642952680588,
+        0.7413628101348877
+      ],
+      "quaternion": [
+        0.19812457263469696,
+        0.19801458716392517,
+        0.6787059903144836,
+        0.6788925528526306
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 147.46614014283276,
+      "rotation_offset_deg": 32.533864854040985,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100037,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.16527685523033142,
+        -0.12797805666923523,
+        0.7413666844367981
+      ],
+      "quaternion": [
+        0.09876243025064468,
+        0.09869997948408127,
+        0.7001123428344727,
+        0.7002478837966919
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 163.94747387703725,
+      "rotation_offset_deg": 16.052530737698902,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100040,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.16282439231872559,
+        -0.15290206670761108,
+        0.7417189478874207
+      ],
+      "quaternion": [
+        0.13839615881443024,
+        0.1385471224784851,
+        0.6934365034103394,
+        0.6933952569961548
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 157.41375026177013,
+      "rotation_offset_deg": 22.586253391819223,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100044,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.15373806655406952,
+        -0.05072585120797157,
+        0.7417191863059998
+      ],
+      "quaternion": [
+        -0.15305766463279724,
+        -0.15295065939426422,
+        0.6904085874557495,
+        0.6903010606765747
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 155.0069328044866,
+      "rotation_offset_deg": 24.993070316154437,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100047,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.17287060618400574,
+        -0.10403227806091309,
+        0.7417194247245789
+      ],
+      "quaternion": [
+        -0.1925426721572876,
+        -0.1924392133951187,
+        0.6804553866386414,
+        0.6803491115570068
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 148.40678124683996,
+      "rotation_offset_deg": 31.593221159028733,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100048,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.21836432814598083,
+        -0.18857339024543762,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        0.16167376935482025,
+        0.162104070186615,
+        0.6888453364372253,
+        0.6878052353858948
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 153.53000656991105,
+      "rotation_offset_deg": 26.470156290826367,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100052,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.14575980603694916,
+        -0.09510102868080139,
+        0.7417190670967102
+      ],
+      "quaternion": [
+        0.0380193293094635,
+        0.03817765414714813,
+        0.7060806751251221,
+        0.7060786485671997
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 173.82288392277303,
+      "rotation_offset_deg": 6.177129426879128,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100053,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.17570170760154724,
+        -0.19245527684688568,
+        0.741719126701355
+      ],
+      "quaternion": [
+        -0.15977871417999268,
+        -0.15966801345348358,
+        0.6888826489448547,
+        0.6887797117233276
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 153.8903906401561,
+      "rotation_offset_deg": 26.10961233480503,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100054,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.22270047664642334,
+        -0.11183831840753555,
+        0.741718590259552
+      ],
+      "quaternion": [
+        0.05355197191238403,
+        0.05369654297828674,
+        0.7050923705101013,
+        0.705048680305481
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 171.3014658548508,
+      "rotation_offset_deg": 8.698542786602026,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100059,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.15142123401165009,
+        -0.19739475846290588,
+        0.7417182922363281
+      ],
+      "quaternion": [
+        -0.21956272423267365,
+        -0.2194538712501526,
+        0.6722303032875061,
+        0.6721150875091553
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 143.82951450997982,
+      "rotation_offset_deg": 36.17048792902972,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100060,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.11349459737539291,
+        -0.03558860719203949,
+        0.7413660287857056
+      ],
+      "quaternion": [
+        -0.04581347107887268,
+        -0.045849621295928955,
+        0.7055382132530212,
+        0.7057015895843506
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 172.5674695901848,
+      "rotation_offset_deg": 7.432542811030753,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100064,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.09651779383420944,
+        -0.1570231318473816,
+        0.7413275837898254
+      ],
+      "quaternion": [
+        -0.05471805855631828,
+        -0.05478188022971153,
+        0.7051634788513184,
+        0.7048045992851257
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 171.11849904866258,
+      "rotation_offset_deg": 8.881550259389213,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100065,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.07208438217639923,
+        -0.08491673320531845,
+        0.7417186498641968
+      ],
+      "quaternion": [
+        -0.19077438116073608,
+        -0.19066233932971954,
+        0.6809550523757935,
+        0.6808475255966187
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 148.70520775441443,
+      "rotation_offset_deg": 31.29479490557601,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100066,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.08577925711870193,
+        -0.19670139253139496,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        -0.1870209276676178,
+        -0.1871100813150406,
+        0.6821258664131165,
+        0.6817018985748291
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 149.3195038848576,
+      "rotation_offset_deg": 30.680517191560657,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100067,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.1360251009464264,
+        -0.08901943266391754,
+        0.7408433556556702
+      ],
+      "quaternion": [
+        0.08878213167190552,
+        0.08910340815782547,
+        0.702035665512085,
+        0.7009453177452087
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 165.54792638763195,
+      "rotation_offset_deg": 14.452370241661397,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100068,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.23972542583942413,
+        -0.13965056836605072,
+        0.7413638830184937
+      ],
+      "quaternion": [
+        -0.10707579553127289,
+        -0.1070997416973114,
+        0.6988521218299866,
+        0.6990495324134827
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 162.57865254313816,
+      "rotation_offset_deg": 17.421355024503725,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100069,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.23235654830932617,
+        -0.10630440711975098,
+        0.7413627505302429
+      ],
+      "quaternion": [
+        0.035306915640830994,
+        0.03524365648627281,
+        0.7061227560043335,
+        0.7063299417495728
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 174.2810214647811,
+      "rotation_offset_deg": 5.719005517334341,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100070,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.12291532754898071,
+        -0.07303875684738159,
+        0.7408433556556702
+      ],
+      "quaternion": [
+        -0.1887264996767044,
+        -0.18882109224796295,
+        0.6816678047180176,
+        0.6812180876731873
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 149.0323365352547,
+      "rotation_offset_deg": 30.96768698116152,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100071,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.16399219632148743,
+        -0.15511482954025269,
+        0.7413276433944702
+      ],
+      "quaternion": [
+        0.23496422171592712,
+        0.23506706953048706,
+        0.6670903563499451,
+        0.6667277812957764
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 141.175561505342,
+      "rotation_offset_deg": 38.82445147555672,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100074,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.147117018699646,
+        -0.11327743530273438,
+        0.7417190670967102
+      ],
+      "quaternion": [
+        0.1107134148478508,
+        0.11085285991430283,
+        0.6984010934829712,
+        0.6983481049537659
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 161.97255473730252,
+      "rotation_offset_deg": 18.027449382566562,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100075,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.243242546916008,
+        -0.12168607115745544,
+        0.7408434748649597
+      ],
+      "quaternion": [
+        -0.14797914028167725,
+        -0.1480484902858734,
+        0.6916757822036743,
+        0.691208004951477
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 155.8346213804523,
+      "rotation_offset_deg": 24.16540991813428,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100077,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.15719063580036163,
+        -0.0726938545703888,
+        0.7413275837898254
+      ],
+      "quaternion": [
+        0.21758002042770386,
+        0.2176676094532013,
+        0.672965943813324,
+        0.6726045608520508
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 144.1506379671874,
+      "rotation_offset_deg": 35.84937555995335,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100079,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.22405008971691132,
+        -0.050249263644218445,
+        0.7408415675163269
+      ],
+      "quaternion": [
+        -0.1908324658870697,
+        -0.19092704355716705,
+        0.6813664436340332,
+        0.6803452968597412
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 148.6780449937001,
+      "rotation_offset_deg": 31.322070919447153,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100080,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.17426618933677673,
+        -0.1591416895389557,
+        0.7413279414176941
+      ],
+      "quaternion": [
+        -0.04299982264637947,
+        -0.04304731264710426,
+        0.7059859037399292,
+        0.7056075930595398
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 173.0234240717173,
+      "rotation_offset_deg": 6.976644502676933,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100081,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.07986573129892349,
+        -0.02657707966864109,
+        0.7417188882827759
+      ],
+      "quaternion": [
+        -0.0012813834473490715,
+        -0.0011467391159385443,
+        0.7071477174758911,
+        0.7070636749267578
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 179.80325284015777,
+      "rotation_offset_deg": 0.1971670555192015,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100082,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.1240568533539772,
+        -0.008003954775631428,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.12212195992469788,
+        -0.12213560193777084,
+        0.697043240070343,
+        0.6959165930747986
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 160.10843839172873,
+      "rotation_offset_deg": 19.891775391206426,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100086,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.16548122465610504,
+        -0.17976221442222595,
+        0.7413280010223389
+      ],
+      "quaternion": [
+        -0.07613450288772583,
+        -0.07619427889585495,
+        0.7031817436218262,
+        0.7028040289878845
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 167.63304000017038,
+      "rotation_offset_deg": 12.366999122611272,
+      "orientation_bin": "0-15deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100090,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.2391735166311264,
+        -0.16816526651382446,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        0.22928829491138458,
+        0.22981873154640198,
+        0.6693031191825867,
+        0.6683139801025391
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 142.11274805139007,
+      "rotation_offset_deg": 37.88736948265269,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100091,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.060974981635808945,
+        -0.0014124270528554916,
+        0.7408435940742493
+      ],
+      "quaternion": [
+        0.1931496411561966,
+        0.19360801577568054,
+        0.6806402206420898,
+        0.6796602606773376
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 148.25721902057052,
+      "rotation_offset_deg": 31.742908445016603,
+      "orientation_bin": "30deg-plus"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100092,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.16462130844593048,
+        -0.05714236572384834,
+        0.7413291335105896
+      ],
+      "quaternion": [
+        -0.12867474555969238,
+        -0.1286977082490921,
+        0.6954719424247742,
+        0.6951249241828918
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 159.02863792019892,
+      "rotation_offset_deg": 20.97138144229098,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100093,
+      "arm": "right",
+      "model_id": 0,
+      "position": [
+        0.2427995651960373,
+        -0.03739715740084648,
+        0.7408435940742493
+      ],
+      "quaternion": [
+        0.10149320960044861,
+        0.10181786864995956,
+        0.7002772092819214,
+        0.6992453932762146
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 163.4687341295688,
+      "rotation_offset_deg": 16.53150147414195,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100097,
+      "arm": "right",
+      "model_id": 3,
+      "position": [
+        0.16801375150680542,
+        -0.1973220407962799,
+        0.7413290143013
+      ],
+      "quaternion": [
+        -0.10684868693351746,
+        -0.10691624134778976,
+        0.6991755366325378,
+        0.6987888813018799
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 162.61231049672585,
+      "rotation_offset_deg": 17.38771904231127,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100098,
+      "arm": "right",
+      "model_id": 2,
+      "position": [
+        0.05901670455932617,
+        -0.0957552120089531,
+        0.7413639426231384
+      ],
+      "quaternion": [
+        -0.11528127640485764,
+        -0.11530371010303497,
+        0.6975457668304443,
+        0.6977429389953613
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 161.23226101604408,
+      "rotation_offset_deg": 18.767745996968564,
+      "orientation_bin": "15-30deg"
+    },
+    {
+      "split": "unseen_eval",
+      "episode": null,
+      "source_episode": null,
+      "seed": 100100,
+      "arm": "right",
+      "model_id": 1,
+      "position": [
+        0.06137627363204956,
+        -0.07884860783815384,
+        0.7417191863059998
+      ],
+      "quaternion": [
+        0.20486724376678467,
+        0.2050129771232605,
+        0.6767771244049072,
+        0.6767362952232361
+      ],
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "initial_orientation_error_deg": 146.30455585222924,
+      "rotation_offset_deg": 33.69544651335169,
+      "orientation_bin": "30deg-plus"
+    }
+  ],
+  "fresh_setup_rejections": [
+    {
+      "seed": 100000,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100002,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100004,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100007,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100008,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100016,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100018,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100019,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100020,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100021,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100022,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100024,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100025,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100026,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100027,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100028,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100029,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100031,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100033,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100034,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100038,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100039,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100041,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100042,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100043,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100045,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100046,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100049,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100050,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100051,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100055,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100056,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100057,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100058,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100061,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100062,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100063,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100072,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100073,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100076,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100078,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100083,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100084,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100085,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100087,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100088,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100089,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100094,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100095,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100096,
+      "reason": "left_arm_outside_training_support"
+    },
+    {
+      "seed": 100099,
+      "reason": "left_arm_outside_training_support"
+    }
+  ],
+  "left_action_min": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "left_action_max": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "selection": "Fresh seeds start at 100000 in increasing order. Reject unstable setups and left-arm scenes; no expert/policy outcome filtering.",
+  "coverage": {
+    "train": {
+      "episodes": 80,
+      "model_counts": {
+        "3": 4,
+        "1": 27,
+        "0": 21,
+        "2": 28
+      },
+      "orientation_bins": {
+        "30deg-plus": 28,
+        "15-30deg": 27,
+        "0-15deg": 25
+      },
+      "position_min": [
+        0.06712949275970459,
+        -0.1918967366218567,
+        0.7408422231674194
+      ],
+      "position_max": [
+        0.24514330923557281,
+        -0.0018545582424849272,
+        0.7417201995849609
+      ],
+      "rotation_offset_min_deg": 2.943374022083958,
+      "rotation_offset_max_deg": 39.64131728124096
+    },
+    "validation": {
+      "episodes": 10,
+      "model_counts": {
+        "1": 5,
+        "0": 3,
+        "3": 1,
+        "2": 1
+      },
+      "orientation_bins": {
+        "15-30deg": 4,
+        "0-15deg": 3,
+        "30deg-plus": 3
+      },
+      "position_min": [
+        0.07123950868844986,
+        -0.19520160555839539,
+        0.7408432364463806
+      ],
+      "position_max": [
+        0.24220894277095795,
+        -0.03266296908259392,
+        0.7417194843292236
+      ],
+      "rotation_offset_min_deg": 9.070292721930553,
+      "rotation_offset_max_deg": 39.66613430276858
+    },
+    "test": {
+      "episodes": 10,
+      "model_counts": {
+        "1": 4,
+        "0": 5,
+        "2": 1
+      },
+      "orientation_bins": {
+        "15-30deg": 4,
+        "0-15deg": 5,
+        "30deg-plus": 1
+      },
+      "position_min": [
+        0.06370126456022263,
+        -0.19789499044418335,
+        0.7408410310745239
+      ],
+      "position_max": [
+        0.23736995458602905,
+        -0.0015428181504830718,
+        0.7417192459106445
+      ],
+      "rotation_offset_min_deg": 1.3776050506080058,
+      "rotation_offset_max_deg": 38.47023670265857
+    },
+    "unseen_eval": {
+      "episodes": 50,
+      "model_counts": {
+        "3": 9,
+        "2": 13,
+        "0": 13,
+        "1": 15
+      },
+      "orientation_bins": {
+        "30deg-plus": 18,
+        "0-15deg": 15,
+        "15-30deg": 17
+      },
+      "position_min": [
+        0.05901670455932617,
+        -0.1986309438943863,
+        0.7408415675163269
+      ],
+      "position_max": [
+        0.243242546916008,
+        -0.0014124270528554916,
+        0.7417194247245789
+      ],
+      "rotation_offset_min_deg": 0.1971670555192015,
+      "rotation_offset_max_deg": 38.82445147555672
+    }
+  }
+}

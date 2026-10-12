@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "stage": "completed",
+  "started_unix": 1791396268.9418645,
+  "gpu": "0",
+  "previous_status": null,
+  "finished_unix": 1791396578.422216,
+  "recovered_from": "Missing optional BEHAVIOR scene_label metadata; fixed stage figure title without rerunning models."
+}

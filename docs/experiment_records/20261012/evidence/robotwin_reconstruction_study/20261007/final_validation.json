@@ -1,0 +1,12 @@
+{
+  "registered_cases": 12,
+  "completed_cases": 12,
+  "renderer_uniform": true,
+  "required_artifacts_present": true,
+  "input_hashes_match": true,
+  "omega_strict_loading": true,
+  "ply_indices_valid": true,
+  "figures_readable": true,
+  "local_report_links_valid": true,
+  "scope": "Artifact and provenance checks; does not certify metric geometry."
+}

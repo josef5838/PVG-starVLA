@@ -1,0 +1,68 @@
+"""Single-trajectory diagnostic using the production trainer and a fixed full-episode probe."""
+import argparse
+import json
+from pathlib import Path
+import sys
+
+import numpy as np
+from omegaconf import OmegaConf
+import torch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+
+def main():
+    from starVLA.training import train_starvla as training
+    from starVLA.training.action_validation import evaluate_action_batches
+
+    class OverfitTrainer(training.VLATrainer):
+        def prepare_training(self):
+            super().prepare_training()
+            mixture = self.vla_train_dataloader.dataset
+            single = mixture.datasets[0]
+            expected = list(self.config.datasets.vla_data.episode_ids)
+            assert single.trajectory_ids.tolist() == expected == [0]
+            single.transforms.eval()
+            # Enumerate each observation exactly once; the mixture normally samples
+            # frames with replacement even in validation mode.
+            self.overfit_examples = [single[index] for index in range(len(single))]
+            single.transforms.train()
+            stats = Path(self.config.output_dir) / 'dataset_statistics.json'
+            baseline = json.loads(Path(self.config.diagnostic.baseline_statistics).read_text())
+            actual = json.loads(stats.read_text())
+            for key in baseline:
+                for modality in ('action', 'state'):
+                    for name, values in baseline[key][modality].items():
+                        np.testing.assert_allclose(actual[key][modality][name], values, rtol=0, atol=1e-7)
+            report = dict(episode_ids=expected, frames=len(self.overfit_examples),
+                          action_shapes=sorted({tuple(x['action'].shape) for x in self.overfit_examples}),
+                          instruction=sorted({x['lang'] for x in self.overfit_examples}),
+                          baseline_normalization_verified=True,
+                          probe='Every frame of the training trajectory; this is NOT held-out validation.')
+            (Path(self.config.output_dir) / 'overfit_data_audit.json').write_text(json.dumps(report, indent=2))
+
+        def eval_action_model(self, step_metrics=None):
+            model = getattr(self.model, 'module', self.model)
+            size = int(self.config.datasets.vla_data.per_device_batch_size)
+            batches = [self.overfit_examples[i:i + size] for i in range(0, len(self.overfit_examples), size)]
+            error, count, samples = evaluate_action_batches(model, batches, num_ddim_steps=20,
+                                                            max_batches=len(batches), seed=int(self.config.seed))
+            mse = error / count
+            path = Path(self.config.output_dir) / 'overfit_metrics.jsonl'
+            metrics = dict(step=self.completed_steps, training_trajectory_action_mse=mse,
+                           training_trajectory_samples=samples, num_ddim_steps=20)
+            with path.open('a') as stream:
+                stream.write(json.dumps(metrics) + '\n')
+            return {**(step_metrics or {}), **metrics}
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--config_yaml', required=True)
+    args = parser.parse_args()
+    cfg = training.apply_config_compat(OmegaConf.load(args.config_yaml))
+    cfg.config_yaml = args.config_yaml
+    training.VLATrainer = OverfitTrainer
+    training.main(cfg)
+
+
+if __name__ == '__main__':
+    main()

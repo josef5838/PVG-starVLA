@@ -1,0 +1,181 @@
+datasets:
+  vla_data:
+    action_mode: abs
+    data_mix: robotwin_surflo_rotate_qrcode
+    data_root_dir: /export/home/haoliang/projects/starVLA/playground/Datasets/RoboTwin
+    dataset_py: lerobot_datasets
+    drop_last: true
+    episode_ids:
+    - 0
+    include_state: true
+    instruction_override: rotate_qrcode
+    lerobot_version: v2.0
+    num_workers: 4
+    obs_image_size:
+    - 640
+    - 480
+    per_device_batch_size: 4
+    persistent_workers: false
+    preserve_native_images: true
+    statistics_cache_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_minimum_case/20261006_075346/normalization_cache
+    statistics_episode_ids:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 19
+    - 20
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 34
+    - 35
+    - 36
+    - 37
+    - 38
+    - 39
+    - 40
+    - 41
+    - 43
+    - 44
+    - 45
+    - 46
+    - 47
+    - 48
+    - 49
+    - 51
+    - 52
+    - 53
+    - 54
+    - 55
+    - 57
+    - 58
+    - 60
+    - 61
+    - 62
+    - 63
+    - 64
+    - 65
+    - 66
+    - 67
+    - 68
+    - 69
+    - 70
+    - 72
+    - 73
+    - 74
+    - 75
+    - 76
+    - 77
+    - 78
+    - 79
+    - 80
+    - 81
+    - 82
+    - 83
+    - 84
+    - 85
+    - 86
+    - 87
+    - 88
+    - 89
+    - 90
+    - 91
+    - 93
+    - 94
+    - 95
+    - 96
+    - 97
+    - 98
+    - 99
+    validation_fraction: 0.0
+    video_backend: torchvision_av
+diagnostic:
+  baseline_statistics: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805/dataset_statistics.json
+evaluation:
+  execute_horizon: 8
+  num_ddim_steps: 20
+framework:
+  action_model:
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    cross_attention_every: 4
+    depth: 24
+    num_condition_tokens: 5
+    num_heads: 16
+    state_dim: 14
+  condition_dropout_prob: 0.1
+  name: Omega512DiT
+  omega:
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt
+    checkpoint_sha256: c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934
+    feature_layer: 23
+    image_resolution: 512
+    num_views: 3
+    source_root: /export/home/haoliang/projects/vggt-omega-action-pred
+    train_last_blocks: 0
+    weights_mode: reference
+  readout:
+    type: dense
+  state_conditioning: full
+  state_dropout_prob: 0.2
+  state_scale: 1.0
+  task_names:
+  - rotate_qrcode
+  visual_conditioning: true
+output_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_overfit_episode0_fresh_20261006_075346
+run_id: omega512_overfit_episode0_fresh_20261006_075346
+run_root_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints
+seed: 42
+trainer:
+  eval_interval: 250
+  freeze_modules: ''
+  gradient_accumulation_steps: 2
+  gradient_clipping: 1.0
+  learning_rate:
+    action_model: 0.0003
+    base: 0.0003
+    omega: 1.0e-05
+    state_proj: 0.0003
+    visual_proj: 0.0003
+    visual_readout: 0.0003
+  logging_frequency: 10
+  lr_scheduler_type: cosine_with_min_lr
+  max_train_steps: 10000
+  num_warmup_steps: 100
+  optimizer:
+    betas:
+    - 0.9
+    - 0.95
+    eps: 1.0e-08
+    weight_decay: 1.0e-08
+  planned_training_samples: 80000
+  sample_budget: 80000
+  save_interval: 5000
+  save_training_state: true
+  scheduler_specific_kwargs:
+    min_lr: 1.0e-05
+wandb_entity: null
+wandb_project: omega512-dit-robotwin

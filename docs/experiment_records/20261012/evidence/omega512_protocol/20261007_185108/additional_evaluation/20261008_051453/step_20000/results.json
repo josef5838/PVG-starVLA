@@ -1,0 +1,158 @@
+{
+  "records": [
+    {
+      "mode": "rollout",
+      "variant": "reference_20000_seed5000",
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_dense_eight_trajectories_fresh_20261007_185108/checkpoints/steps_20000_pytorch_model.pt",
+      "training_episode": 0,
+      "source_episode": 51,
+      "seed": 131,
+      "scene_verified": true,
+      "initial_image_mae": {
+        "head_camera": 2.483203125,
+        "left_camera": 5.005052083333333,
+        "right_camera": 5.199826388888889
+      },
+      "initial_state_max_error": 0.0,
+      "policy_image_size": [
+        640,
+        480
+      ],
+      "match_training_image_size": true,
+      "object_model_id": 3,
+      "initial_object_position": [
+        0.16950176656246185,
+        -0.050992451608181,
+        0.7413286566734314
+      ],
+      "final_object_position": [
+        0.19803108274936676,
+        -0.08115051686763763,
+        0.7770843505859375
+      ],
+      "steps": 400,
+      "success": false,
+      "instruction": "rotate_qrcode",
+      "execute_horizon": 8,
+      "num_ddim_steps": 20,
+      "raw_expert": false,
+      "diffusion_seed": 5000,
+      "grasp_contact": true,
+      "lift_4cm": true,
+      "max_object_lift_m": 0.08331292867660522,
+      "first_close_step": 16,
+      "expert_first_close_step": 23,
+      "gripper_timing_error_steps": -7,
+      "ee_error_at_first_close_m": 0.05035003710728401,
+      "outcome_definitions": "Grasp contact: closed gripper with object contacting two distinct gripper bodies. Lift: object actor origin rises >=4cm. Full success: simulator task criterion. Timing uses source command t+1; EE reference is recorded first closure.",
+      "mean_right_tracking_rmse": 0.0027075017393655776,
+      "mean_controller_duration_seconds": 0.5282800000000001,
+      "elapsed_seconds": 341.7260890729958,
+      "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega512_protocol/20261007_185108/additional_evaluation/20261008_051453/step_20000/seed_5000/reference_20000_seed5000_episode_0_seed_131.mp4"
+    },
+    {
+      "mode": "rollout",
+      "variant": "reference_20000_seed5000",
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_dense_eight_trajectories_fresh_20261007_185108/checkpoints/steps_20000_pytorch_model.pt",
+      "training_episode": 2,
+      "source_episode": 38,
+      "seed": 91,
+      "scene_verified": true,
+      "initial_image_mae": {
+        "head_camera": 2.5464105902777776,
+        "left_camera": 4.9422439236111115,
+        "right_camera": 4.979874131944444
+      },
+      "initial_state_max_error": 0.0,
+      "policy_image_size": [
+        640,
+        480
+      ],
+      "match_training_image_size": true,
+      "object_model_id": 1,
+      "initial_object_position": [
+        0.06370126456022263,
+        -0.0015428181504830718,
+        0.7417186498641968
+      ],
+      "final_object_position": [
+        0.06370097398757935,
+        -0.00154255167581141,
+        0.7417189478874207
+      ],
+      "steps": 400,
+      "success": false,
+      "instruction": "rotate_qrcode",
+      "execute_horizon": 8,
+      "num_ddim_steps": 20,
+      "raw_expert": false,
+      "diffusion_seed": 5000,
+      "grasp_contact": true,
+      "lift_4cm": false,
+      "max_object_lift_m": 2.384185791015625e-06,
+      "first_close_step": 20,
+      "expert_first_close_step": 25,
+      "gripper_timing_error_steps": -5,
+      "ee_error_at_first_close_m": 0.09496680252391483,
+      "outcome_definitions": "Grasp contact: closed gripper with object contacting two distinct gripper bodies. Lift: object actor origin rises >=4cm. Full success: simulator task criterion. Timing uses source command t+1; EE reference is recorded first closure.",
+      "mean_right_tracking_rmse": 0.001724091473804924,
+      "mean_controller_duration_seconds": 0.32672000000000007,
+      "elapsed_seconds": 321.5285313409986,
+      "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega512_protocol/20261007_185108/additional_evaluation/20261008_051453/step_20000/seed_5000/reference_20000_seed5000_episode_2_seed_91.mp4"
+    },
+    {
+      "mode": "rollout",
+      "variant": "reference_20000_seed5000",
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_dense_eight_trajectories_fresh_20261007_185108/checkpoints/steps_20000_pytorch_model.pt",
+      "training_episode": 1,
+      "source_episode": 60,
+      "seed": 162,
+      "scene_verified": true,
+      "initial_image_mae": {
+        "head_camera": 2.323962673611111,
+        "left_camera": 4.925703125,
+        "right_camera": 4.973862847222223
+      },
+      "initial_state_max_error": 0.0,
+      "policy_image_size": [
+        640,
+        480
+      ],
+      "match_training_image_size": true,
+      "object_model_id": 1,
+      "initial_object_position": [
+        0.10611242800951004,
+        -0.0917166918516159,
+        0.7417191863059998
+      ],
+      "final_object_position": [
+        0.23962153494358063,
+        -0.15955215692520142,
+        0.7417188882827759
+      ],
+      "steps": 400,
+      "success": false,
+      "instruction": "rotate_qrcode",
+      "execute_horizon": 8,
+      "num_ddim_steps": 20,
+      "raw_expert": false,
+      "diffusion_seed": 5000,
+      "grasp_contact": true,
+      "lift_4cm": true,
+      "max_object_lift_m": 0.07653564214706421,
+      "first_close_step": 23,
+      "expert_first_close_step": 23,
+      "gripper_timing_error_steps": 0,
+      "ee_error_at_first_close_m": 0.02087196325417631,
+      "outcome_definitions": "Grasp contact: closed gripper with object contacting two distinct gripper bodies. Lift: object actor origin rises >=4cm. Full success: simulator task criterion. Timing uses source command t+1; EE reference is recorded first closure.",
+      "mean_right_tracking_rmse": 0.0015127222340539704,
+      "mean_controller_duration_seconds": 0.31896,
+      "elapsed_seconds": 352.2932630730793,
+      "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega512_protocol/20261007_185108/additional_evaluation/20261008_051453/step_20000/seed_5000/reference_20000_seed5000_episode_1_seed_162.mp4"
+    }
+  ],
+  "total": 3,
+  "successes": 0,
+  "grasps": 3,
+  "lifts": 2
+}

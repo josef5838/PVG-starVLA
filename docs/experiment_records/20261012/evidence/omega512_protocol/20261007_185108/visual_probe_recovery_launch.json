@@ -1,0 +1,31 @@
+{
+  "date_utc": "2026-10-08T05:16:09.753006+00:00",
+  "diagnostic": {
+    "training_episode": 70,
+    "initial_rgb_mae": [
+      3.063420138888889,
+      5.022365451388889,
+      6.107274305555555
+    ],
+    "state_max_error": 0.0,
+    "model_id": 0,
+    "expected_model_id": 0,
+    "object_xyz": [
+      0.14997917413711548,
+      -0.0054349456913769245,
+      0.7408434152603149
+    ],
+    "expected_object_xyz": [
+      0.14997949220429058,
+      -0.005435341186588533,
+      0.741
+    ],
+    "object_xyz_error_m": 0.00015658556218702075
+  },
+  "amendment": "Source scene 70 has exact robot state/model, object position error 0.157mm and head RGB MAE 3.06/255, but right wrist MAE 6.107/255 narrowly exceeded the old uniform 6/255 cutoff. Verify head RGB, state, model and additionally object XYZ within 2mm; retain all wrist errors as audit. This changes only initial scene verification, not synchronized RGB/pose pairing, trajectory split, phase sampling, inputs or fitting settings.",
+  "source_sha256": "5ce5e5fef9ff6d8c298147f42c8e8f0afc8ab5b59d34f16018b55655db2af018",
+  "gpu": 0,
+  "reason": "GPU 1 occupied by another user; enough free memory on GPU 0 for collection alongside evaluation",
+  "pid": 634427,
+  "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega512_protocol/20261007_185108/visual_probe_recovery_20261008.log"
+}

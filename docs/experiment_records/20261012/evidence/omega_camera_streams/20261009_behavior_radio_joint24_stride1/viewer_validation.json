@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "JavaScript runtime and controls in Node VM with mocked DOM/canvas; no real-browser rendering test.",
+  "controls": [
+    "all 24 images",
+    "filter head/left/right",
+    "select one output",
+    "camera/timestamp labels",
+    "color by input image",
+    "orbit",
+    "zoom",
+    "reset",
+    "play toggle"
+  ],
+  "viewers": [
+    {
+      "viewer": "turning_on_radio_ep197_f1484_1491/viewer.html",
+      "passed": true,
+      "images": 24,
+      "draw_operations": 344424
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0943_0950/viewer.html",
+      "passed": true,
+      "images": 24,
+      "draw_operations": 344509
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0934_0941/viewer.html",
+      "passed": true,
+      "images": 24,
+      "draw_operations": 344509
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0982_0989/viewer.html",
+      "passed": true,
+      "images": 24,
+      "draw_operations": 344509
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "status": "completed",
+  "worker_pid": 391681,
+  "completed": [
+    {
+      "phase": "overfit_horizon1",
+      "success_count": 0,
+      "episodes": 1
+    },
+    {
+      "phase": "overfit_horizon2",
+      "success_count": 0,
+      "episodes": 1
+    },
+    {
+      "phase": "overfit_horizon8",
+      "success_count": 1,
+      "episodes": 1
+    }
+  ],
+  "gpu": 1,
+  "phase": "overfit_horizon8",
+  "server_pid": 391682,
+  "simulator_pid": 392399,
+  "finished_utc": "2026-10-06T10:13:30.359014+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "preflight_parity": true,
+  "source_snapshots_verified": true,
+  "normalization_identical": true,
+  "splits_identical": true,
+  "initial_matched_microbatches": 16,
+  "new_policy_unit_tests_passed": 4,
+  "existing_policy_regression_tests_passed": 11,
+  "real_training_updates_verified": true,
+  "finite_training_losses": true
+}

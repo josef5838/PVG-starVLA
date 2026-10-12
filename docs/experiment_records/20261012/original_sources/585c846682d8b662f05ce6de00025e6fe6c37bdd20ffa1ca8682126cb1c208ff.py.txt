@@ -1,0 +1,67 @@
+"""Action validation with deterministic sampling and exact mode restoration."""
+import itertools
+import numpy as np
+import torch
+
+
+def evaluate_action_batches(model, batches, num_ddim_steps=20, max_batches=32, seed=42,
+                            action_indices=None, valid_future_only=False, metrics_out=None):
+    modes = [(module, module.training) for module in model.modules()]
+    squared_error, values, samples = 0.0, 0, 0
+    full_error, full_values = 0.0, 0
+    devices = [torch.cuda.current_device()] if next(model.parameters()).is_cuda else []
+    try:
+        model.eval()
+        with torch.inference_mode(), torch.random.fork_rng(devices=devices):
+            torch.random.default_generator.manual_seed(seed)
+            if devices:
+                torch.cuda.manual_seed(seed)
+            for examples in itertools.islice(batches, max_batches):
+                predicted = np.asarray(model.predict_action(examples=examples, use_ddim=True,
+                                        num_ddim_steps=num_ddim_steps)["normalized_actions"])
+                target = np.asarray([example["action"] for example in examples], dtype=np.float32)
+                if predicted.shape != target.shape:
+                    raise ValueError(f"Validation action shape mismatch: {predicted.shape} vs {target.shape}")
+                error = np.square(predicted.astype(np.float64) - target)
+                full_error += float(error.sum()); full_values += error.size
+                for index, example in enumerate(examples):
+                    horizon = int(example['valid_action_horizon']) if valid_future_only else target.shape[1]
+                    if not 1 <= horizon <= target.shape[1]:
+                        raise ValueError('Invalid action supervision horizon')
+                    selected = error[index, :horizon]
+                    if action_indices is not None:
+                        selected = selected[:, list(action_indices)]
+                    squared_error += float(selected.sum())
+                    values += selected.size
+                samples += len(examples)
+    finally:
+        for module, training in modes:
+            module.training = training
+    if not values:
+        raise ValueError("Validation loader produced no action values")
+    if metrics_out is not None:
+        metrics_out.update(full_action_mse=full_error/full_values,
+                           selection_action_mse=squared_error/values)
+    return squared_error, values, samples
+
+
+def configure_sample_budget(cfg, processes):
+    accumulation = int(cfg.trainer.get("gradient_accumulation_steps", 1))
+    batch = int(cfg.datasets.vla_data.per_device_batch_size)
+    if accumulation < 1 or batch < 1:
+        raise ValueError("Batch size and gradient accumulation must be positive")
+    global_batch = batch * accumulation * processes
+    budget = cfg.trainer.get("sample_budget")
+    if budget is not None:
+        budget = int(budget)
+        if budget < global_batch or budget % global_batch:
+            raise ValueError("sample_budget must be a positive multiple of the effective global batch")
+        updates = budget // global_batch
+        step_limit = cfg.trainer.get("step_limit")
+        if step_limit is not None:
+            if int(step_limit) < 1:
+                raise ValueError("step_limit must be positive")
+            updates = min(updates, int(step_limit))
+        cfg.trainer.max_train_steps = updates
+    cfg.trainer.planned_training_samples = int(cfg.trainer.max_train_steps) * global_batch
+    return accumulation

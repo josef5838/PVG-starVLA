@@ -1,5 +1,12 @@
 # 🚀 RoboTwin 2.0 Evaluation
 
+Local Surflo/Omega research runs are recorded separately in the
+[geometric action experiment ledger](../../../docs/geometric_action_experiments.md).
+It includes training configs, reconstruction checks, measured rollout outcomes,
+the active rotate_qrcode camera-stream study, and cancelled controls. The
+benchmark table below belongs to the upstream RoboTwin workflow and is not
+the result of those local research runs.
+
 This document provides instructions for reproducing our **experimental results** with [RoboTwin2.0](https://github.com/RoboTwin-Platform/RoboTwin).  
 The evaluation process consists of two main parts:  
 
@@ -240,54 +247,13 @@ conda activate robotwin
 pip install -r examples/simBenchmarks/Robotwin/eval_files/requirements.txt
 ```
 
-3. Point the launcher to your local RoboTwin checkout.
+3. Point the launcher to the PVG checkout.
 
 ```bash
-export ROBOTWIN_PATH=/path/to/RoboTwin
+export ROBOTWIN_PATH=/export/home/haoliang/projects/RoboTwin_PVG
 ```
 
-4. Because RoboTwin is a third-party repository, patch your own local RoboTwin checkout so `script/eval_policy.py` accepts `--policy_ckpt_path`.
-
-Apply the following change in your own RoboTwin repo:
-
-```diff
-diff --git a/script/eval_policy.py b/script/eval_policy.py
-index eded198..9fb36e3 100644
---- a/script/eval_policy.py
-+++ b/script/eval_policy.py
-@@ -69,6 +69,7 @@ def main(usr_args):
-     # checkpoint_num = usr_args['checkpoint_num']
-     policy_name = usr_args["policy_name"]
-     instruction_type = usr_args["instruction_type"]
-+    policy_ckpt_path = usr_args["policy_ckpt_path"]
-     save_dir = None
-     video_save_dir = None
-     video_size = None
-@@ -81,6 +82,7 @@ def main(usr_args):
-     args['task_name'] = task_name
-     args["task_config"] = task_config
-     args["ckpt_setting"] = ckpt_setting
-+    args["policy_ckpt_path"] = policy_ckpt_path
-
-     embodiment_type = args.get("embodiment")
-     embodiment_config_path = os.path.join(CONFIGS_PATH, "_embodiment_config.yml")
-@@ -327,11 +329,13 @@ def eval_policy(task_name,
- def parse_args_and_config():
-     parser = argparse.ArgumentParser()
-     parser.add_argument("--config", type=str, required=True)
-+    parser.add_argument("--policy_ckpt_path", type=str, required=True)
-     parser.add_argument("--overrides", nargs=argparse.REMAINDER)
-     args = parser.parse_args()
-
-     with open(args.config, "r", encoding="utf-8") as f:
-         config = yaml.safe_load(f)
-+    config["policy_ckpt_path"] = args.policy_ckpt_path
-
-     # Parse overrides
-     def parse_override_pairs(pairs):
-```
-
-This patch is intentionally documented here rather than vendored into `starVLA`, because RoboTwin is maintained in a separate repository. The StarVLA launcher passes `--policy_ckpt_path` at runtime; without this patch, RoboTwin cannot forward the checkpoint path into `model2robotwin_interface.py`.
+4. The wrappers call `RoboTwin_PVG/scripts/eval_policy_xpolicylab.py` and connect it to the StarVLA websocket policy server. No patch to RoboTwin or `policy_ckpt_path` forwarding is required.
 
 Optional:
 
@@ -378,7 +344,7 @@ The launcher auto-detects visible GPUs (via `CUDA_VISIBLE_DEVICES` or `nvidia-sm
 8-GPU example:
 
 ```bash
-export ROBOTWIN_PATH=/path/to/RoboTwin
+export ROBOTWIN_PATH=/export/home/haoliang/projects/RoboTwin_PVG
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 
 bash examples/simBenchmarks/Robotwin/eval_files/start_eval.sh \

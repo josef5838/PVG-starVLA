@@ -1,0 +1,79 @@
+"""Fixed-state, fixed-noise image ablations on held-out RoboTwin samples."""
+import argparse
+import io
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from PIL import Image
+import torch
+
+from deployment.model_server.policy_wrapper import PolicyServerWrapper
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--checkpoint', required=True)
+parser.add_argument('--output', required=True)
+args = parser.parse_args()
+root = Path('/export/home/haoliang/projects/starVLA/playground/Datasets/RoboTwin/rotate_qrcode')
+wrapper = PolicyServerWrapper(args.checkpoint, use_bf16=True)
+model = wrapper._framework
+processor = wrapper.get_norm_processor()
+stats = json.loads((Path(args.checkpoint).parents[1] / 'dataset_statistics.json').read_text())['new_embodiment']['action']
+low, high = np.asarray(stats['min']), np.asarray(stats['max'])
+order = [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 6, 13]
+samples = []
+for episode in [18, 42, 71]:
+    data = pd.read_parquet(root / f'data/chunk-000/episode_{episode:06d}.parquet')
+    for frame in [0, len(data) // 3]:
+        row = data.iloc[frame]
+        images = [Image.open(io.BytesIO(row[key]['bytes'])).convert('RGB').resize((518, 518))
+                  for key in ['observation.images.cam_high', 'observation.images.cam_left_wrist', 'observation.images.cam_right_wrist']]
+        raw_target = np.stack(data['action'].iloc[frame:min(frame + 16, len(data))].tolist())[:, order]
+        if len(raw_target) < 16:
+            raw_target = np.concatenate([raw_target, np.repeat(raw_target[-1:], 16-len(raw_target), axis=0)])
+        normalized = np.zeros_like(raw_target)
+        mask = high != low
+        normalized[:, mask] = 2 * (raw_target[:, mask] - low[mask]) / (high[mask] - low[mask]) - 1
+        normalized[:, 12:] = (raw_target[:, 12:] > .5)
+        samples.append({'episode': episode, 'frame': frame, 'image': images,
+                        'state': processor.apply_state(np.asarray(row['observation.state'])[order]),
+                        'target': normalized, 'raw_target': raw_target})
+
+records = []
+for index, sample in enumerate(samples):
+    images = sample['image']
+    replacements = {'original': images, 'repeat': images,
+                    'blank_all': [Image.new('RGB', (518, 518))] * 3,
+                    'swap_scene': samples[(index + 2) % len(samples)]['image'],
+                    'blank_head': [Image.new('RGB', (518, 518)), *images[1:]]}
+    predictions = {}
+    for name, replacement in replacements.items():
+        torch.manual_seed(123 + index)
+        torch.cuda.manual_seed_all(123 + index)
+        example = {'image': replacement, 'state': sample['state'], 'lang': 'rotate_qrcode'}
+        with torch.inference_mode():
+            predicted = model.predict_action([example], num_ddim_steps=20)['normalized_actions'][0]
+        predictions[name] = np.asarray(predicted, dtype=np.float32)
+    baseline = predictions['original']
+    raw_baseline = processor.unapply_actions(baseline)
+    record = {'episode': sample['episode'], 'frame': sample['frame'], 'conditions': {}}
+    for name, predicted in predictions.items():
+        raw = processor.unapply_actions(predicted)
+        record['conditions'][name] = {
+            'normalized_target_mse': float(np.mean((predicted - sample['target'])**2)),
+            'right_joint_target_rmse_radians': float(np.sqrt(np.mean((raw[:, 6:12] - sample['raw_target'][:, 6:12])**2))),
+            'right_joint_change_rmse_radians': float(np.sqrt(np.mean((raw[:, 6:12] - raw_baseline[:, 6:12])**2))),
+            'right_gripper_changed_fraction': float(np.mean(raw[:, 13] != raw_baseline[:, 13])),
+            'max_normalized_prediction_change': float(np.max(np.abs(predicted-baseline))),
+        }
+    records.append(record)
+    print(json.dumps(record), flush=True)
+summary = {name: {key: float(np.mean([r['conditions'][name][key] for r in records]))
+                  for key in records[0]['conditions'][name]}
+           for name in records[0]['conditions']}
+output = {'checkpoint': args.checkpoint, 'samples': len(records), 'held_out_episodes': [18,42,71],
+          'protocol': 'State and diffusion noise held fixed per sample; all three cameras swapped together; 20 DDIM steps',
+          'summary': summary, 'records': records}
+Path(args.output).write_text(json.dumps(output, indent=2)+'\n')
+print(json.dumps(summary, indent=2), flush=True)

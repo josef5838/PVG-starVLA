@@ -1,0 +1,146 @@
+{
+  "robot_square": {
+    "input_files": [
+      "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/episode_0_frame_20/input_view_0.png",
+      "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/episode_0_frame_20/input_view_1.png",
+      "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/episode_0_frame_20/input_view_2.png"
+    ],
+    "scene_std": [
+      [
+        [
+          0.20833763480186462,
+          0.20833763480186462,
+          0.20833763480186462
+        ]
+      ]
+    ],
+    "flow_displacement_mean": 0.14149506390094757,
+    "flow_displacement_max": 0.3600873351097107,
+    "finite": true,
+    "intrinsics": [
+      [
+        [
+          1466.07568359375,
+          0.0,
+          259.0
+        ],
+        [
+          0.0,
+          1452.221923828125,
+          259.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        [
+          2135.349853515625,
+          0.0,
+          259.0
+        ],
+        [
+          0.0,
+          2092.702392578125,
+          259.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        [
+          1552.2733154296875,
+          0.0,
+          259.0
+        ],
+        [
+          0.0,
+          1528.9398193359375,
+          259.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    ]
+  },
+  "reference": {
+    "input_files": [
+      "/export/home/haoliang/projects/Surflo/media/sample/DSC07956.JPG",
+      "/export/home/haoliang/projects/Surflo/media/sample/DSC08054.JPG",
+      "/export/home/haoliang/projects/Surflo/media/sample/DSC08140.JPG"
+    ],
+    "scene_std": [
+      [
+        [
+          0.46869274973869324,
+          0.46869274973869324,
+          0.46869274973869324
+        ]
+      ]
+    ],
+    "flow_displacement_mean": 0.2401316612958908,
+    "flow_displacement_max": 1.3787792921066284,
+    "finite": true,
+    "intrinsics": [
+      [
+        [
+          367.0650634765625,
+          0.0,
+          259.0
+        ],
+        [
+          0.0,
+          366.842041015625,
+          168.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        [
+          369.6661682128906,
+          0.0,
+          259.0
+        ],
+        [
+          0.0,
+          369.7514953613281,
+          168.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        [
+          365.9920654296875,
+          0.0,
+          259.0
+        ],
+        [
+          0.0,
+          365.7670593261719,
+          168.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "full_frame": {
+    "coverage": 1.0,
+    "rgb_mean": [
+      0.20000001788139343,
+      0.40000003576278687,
+      0.8000000715255737
+    ],
+    "finite": true
+  },
+  "offscreen": {
+    "coverage": 0.0,
+    "rgb_mean": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "finite": true
+  },
+  "empty": {
+    "coverage": 0.0,
+    "rgb_mean": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "finite": true
+  },
+  "partial": {
+    "coverage": 0.0625,
+    "rgb_mean": [
+      0.01249999925494194,
+      0.02499999850988388,
+      0.04999999701976776
+    ],
+    "finite": true
+  }
+}

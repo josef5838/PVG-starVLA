@@ -1,0 +1,80 @@
+"""Tests for information isolation and test-set/validation correctness."""
+import copy
+import json
+from pathlib import Path
+import tempfile
+import unittest
+import sys
+from unittest.mock import patch
+
+import numpy as np
+import torch
+
+from starVLA.dataloader.episode_split import split_train_validation_test
+from starVLA.training.action_validation import evaluate_action_batches
+from test_omega_camera_stream_policy import policy,example,prepare_images
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
+from rotate_qrcode_metrics import quaternion_error_degrees,summarize_phases
+
+
+class RotateExperimentTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):torch.set_num_threads(2)
+
+    def test_test_split_is_disjoint_and_repeatable(self):
+        with tempfile.TemporaryDirectory() as d:
+            meta=Path(d)/'meta';meta.mkdir()
+            (meta/'episodes.jsonl').write_text('\n'.join(json.dumps(dict(episode_index=i)) for i in range(100)))
+            a=split_train_validation_test(d,.1,.1,42)
+            self.assertEqual(a,split_train_validation_test(d,.1,.1,42))
+            self.assertEqual(list(map(len,a)),[80,10,10])
+            self.assertEqual(len(set(a[0])|set(a[1])|set(a[2])),100)
+
+    @patch('starVLA.model.framework.VLM4A.Omega512DiT.Omega512DiT._prepare_images',prepare_images)
+    def test_current_only_ignores_history_but_uses_current_image(self):
+        model=policy('direct').eval();model.observation_mode='current_repeat'
+        a=example();b=copy.deepcopy(a)
+        b['image_history'][0][0]=b['image_history'][1][-1]
+        _,ma=model._condition([a]);_,mb=model._condition([b]);torch.testing.assert_close(ma,mb)
+        b['image_history'][0][-1]=b['image_history'][1][-1]
+        _,mc=model._condition([b]);self.assertFalse(torch.allclose(ma,mc))
+        for call in model.omega.aggregator.calls:
+            torch.testing.assert_close(call,call[:,:1].expand_as(call))
+
+    def test_state_only_never_calls_omega_and_is_image_invariant(self):
+        model=policy('direct').eval();model.config.framework.visual_conditioning=False
+        a=example();b=copy.deepcopy(a);b.pop('image_history');b.pop('image')
+        za,ma=model._condition([a]);zb,mb=model._condition([b])
+        torch.testing.assert_close(za,zb);torch.testing.assert_close(ma,mb)
+        self.assertEqual(len(model.omega.aggregator.calls),0)
+        self.assertEqual(model.last_visual_info['calls_per_batch'],0)
+        b['state']=a['state']+1
+        zc,_=model._condition([b]);self.assertFalse(torch.allclose(za,zc))
+
+    def test_validation_excludes_inactive_arm_and_future_padding(self):
+        class Model(torch.nn.Module):
+            def __init__(self):super().__init__();self.p=torch.nn.Parameter(torch.zeros(1))
+            def predict_action(self,examples,**kwargs):
+                result=np.ones((1,3,14));result[0,0,6]=2
+                result[0,1:]=100
+                return dict(normalized_actions=result)
+        model=Model().train();details={}
+        error,count,samples=evaluate_action_batches(model,[[dict(action=np.zeros((3,14)),valid_action_horizon=1)]],
+            action_indices=[6],valid_future_only=True,metrics_out=details)
+        self.assertEqual((error,count,samples),(4.,1,1))
+        self.assertGreater(details['full_action_mse'],4)
+        self.assertTrue(model.training)
+
+    def test_orientation_metric_handles_quaternion_sign_and_known_rotation(self):
+        self.assertAlmostEqual(quaternion_error_degrees([1,0,0,0],[-1,0,0,0]),0.)
+        self.assertAlmostEqual(quaternion_error_degrees([1,0,0,0],[0,1,0,0]),180.)
+        self.assertAlmostEqual(quaternion_error_degrees([1,0,0,0],[2**-.5,2**-.5,0,0]),90.)
+
+    def test_phase_diagnostics_do_not_override_official_success(self):
+        t=[dict(closed_two_finger_contact=True,object_lift_m=.07,orientation_error_deg=0,
+                placed_within_15deg=True,both_grippers_open=True)]
+        self.assertEqual(summarize_phases(t,False)['diagnostic_failure_phase'],'official_success_tolerance')
+        self.assertEqual(summarize_phases(t,True)['diagnostic_failure_phase'],'success')
+
+
+if __name__=='__main__':unittest.main()

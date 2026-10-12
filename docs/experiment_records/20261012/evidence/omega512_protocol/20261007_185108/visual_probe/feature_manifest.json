@@ -1,0 +1,456 @@
+{
+  "records": [
+    {
+      "training_episode": 0,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 65,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 76,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 2,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 46,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 25,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 1,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 35,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 62,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 49,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 21,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 84,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 71,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 70,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 96,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 51,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 98,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 3,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 72,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 26,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 80,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 68,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 19,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 57,
+      "split": "train",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 15,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 93,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 12,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 74,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 97,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 52,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 81,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 83,
+      "split": "validation",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 39,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 56,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 75,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 91,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 7,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 37,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 22,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    },
+    {
+      "training_episode": 67,
+      "split": "test",
+      "frames": 20,
+      "feature_shape": [
+        20,
+        3,
+        64,
+        2048
+      ]
+    }
+  ],
+  "omega_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+  "backbone_frozen": true,
+  "preprocessing": "Exact Omega512DiT native PIL preparation; three cameras jointly encoded; layer 23, 8x8 grid per view.",
+  "inputs_exclude": [
+    "robot_state",
+    "actions",
+    "instruction",
+    "episode_id",
+    "frame_id",
+    "time",
+    "ground_truth_camera_calibration"
+  ]
+}

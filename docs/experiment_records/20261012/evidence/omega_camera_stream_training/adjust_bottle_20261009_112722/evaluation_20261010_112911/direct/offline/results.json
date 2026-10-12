@@ -1,0 +1,112 @@
+{
+  "best": {
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "by_split": {
+      "train": {
+        "normalized_mse": 0.013814666366074861,
+        "valid_normalized_mse": 0.014550516792089525,
+        "executed8_normalized_mse": 0.013944049586254,
+        "first_action_normalized_mse": 0.0038720139768462225,
+        "joint_rmse_rad": 0.10278567400269417,
+        "active_arm_joint_rmse_rad": 0.14536089464349466,
+        "gripper_accuracy": 0.9891493055555556,
+        "state_hold_normalized_mse": 0.10140020874663072,
+        "samples": 360,
+        "trajectories": 45
+      },
+      "heldout_validation": {
+        "normalized_mse": 0.023889446604279337,
+        "valid_normalized_mse": 0.02477843632057272,
+        "executed8_normalized_mse": 0.017732814897760116,
+        "first_action_normalized_mse": 0.00679509712507049,
+        "joint_rmse_rad": 0.1265855924168136,
+        "active_arm_joint_rmse_rad": 0.17901906332699583,
+        "gripper_accuracy": 0.973046875,
+        "state_hold_normalized_mse": 0.1176100251143419,
+        "samples": 80,
+        "trajectories": 5
+      }
+    },
+    "elapsed_seconds": 352.6608904839959,
+    "visual_info": {
+      "input_shape": [
+        4,
+        3,
+        8,
+        3,
+        448,
+        592
+      ],
+      "calls_per_batch": 3,
+      "images_per_call": 8,
+      "raw_token_shape": [
+        4,
+        3,
+        8,
+        17,
+        2048
+      ],
+      "raw_memory_tokens": 408,
+      "memory_tokens": 408,
+      "conditioning": "direct",
+      "patch_tokens_in_action_memory": 0,
+      "temporal_embedding": "learned",
+      "temporal_rope": false
+    }
+  },
+  "final": {
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/final_model/pytorch_model.pt",
+    "by_split": {
+      "train": {
+        "normalized_mse": 0.01391020786302654,
+        "valid_normalized_mse": 0.014668965773662144,
+        "executed8_normalized_mse": 0.013792422008846847,
+        "first_action_normalized_mse": 0.0042925734405531634,
+        "joint_rmse_rad": 0.10394468373981201,
+        "active_arm_joint_rmse_rad": 0.14699998129831834,
+        "gripper_accuracy": 0.9885416666666667,
+        "state_hold_normalized_mse": 0.10140020874663072,
+        "samples": 360,
+        "trajectories": 45
+      },
+      "heldout_validation": {
+        "normalized_mse": 0.024372165805073648,
+        "valid_normalized_mse": 0.025295630199347052,
+        "executed8_normalized_mse": 0.017840515160624355,
+        "first_action_normalized_mse": 0.006898900259076626,
+        "joint_rmse_rad": 0.12856469937833026,
+        "active_arm_joint_rmse_rad": 0.1818179407622665,
+        "gripper_accuracy": 0.973046875,
+        "state_hold_normalized_mse": 0.1176100251143419,
+        "samples": 80,
+        "trajectories": 5
+      }
+    },
+    "elapsed_seconds": 441.7231639099773,
+    "visual_info": {
+      "input_shape": [
+        4,
+        3,
+        8,
+        3,
+        448,
+        592
+      ],
+      "calls_per_batch": 3,
+      "images_per_call": 8,
+      "raw_token_shape": [
+        4,
+        3,
+        8,
+        17,
+        2048
+      ],
+      "raw_memory_tokens": 408,
+      "memory_tokens": 408,
+      "conditioning": "direct",
+      "patch_tokens_in_action_memory": 0,
+      "temporal_embedding": "learned",
+      "temporal_rope": false
+    }
+  }
+}

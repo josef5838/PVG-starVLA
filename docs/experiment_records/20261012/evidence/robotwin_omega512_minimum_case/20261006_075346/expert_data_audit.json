@@ -1,0 +1,39 @@
+{
+  "scenes": [
+    {
+      "training_episode": 0,
+      "source_episode": 51,
+      "simulator_seed": 131,
+      "frames": 82,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "joint_roundtrip_max_error": 2.384185791015625e-07,
+      "gripper_roundtrip_max_error": 0.47236180305480957,
+      "temporal_contract": "Converted observation t predicts recorded command t+1"
+    },
+    {
+      "training_episode": 1,
+      "source_episode": 60,
+      "simulator_seed": 162,
+      "frames": 83,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "joint_roundtrip_max_error": 2.384185791015625e-07,
+      "gripper_roundtrip_max_error": 0.47236180305480957,
+      "temporal_contract": "Converted observation t predicts recorded command t+1"
+    },
+    {
+      "training_episode": 2,
+      "source_episode": 38,
+      "simulator_seed": 91,
+      "frames": 85,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "joint_roundtrip_max_error": 3.5762786865234375e-07,
+      "gripper_roundtrip_max_error": 0.47236180305480957,
+      "temporal_contract": "Converted observation t predicts recorded command t+1"
+    }
+  ],
+  "adapter": "Production ModelClient; inference transport replaced by recorded action oracle",
+  "normalization": "Production PolicyNormProcessor transform and unapply_actions; raw comparator scheduled for failed replays."
+}

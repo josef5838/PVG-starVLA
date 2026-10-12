@@ -1,0 +1,98 @@
+run_id: ablation_vggt_omega_state_suppressed_rotate_qrcode_gated_recurrent
+run_root_dir: results/Checkpoints
+seed: 42
+wandb_entity: mango_juice
+wandb_project: vggt-omega-ablation
+is_debug: false
+version_id: "0.21"
+
+# ── VGGTOmegaOFT, staged pooling redesign, step 2b: gated recurrent memory ──
+# Identical to ablation_vggt_omega_state_suppressed_rotate_qrcode_gated_self_attn.yaml
+# (same standard 3-step wide-stride window [0,-8,-16], same state_scale=0.1)
+# except pool_type=gated_recurrent (GatedRecurrentMemoryPool): instead of one
+# flat cross+self-attention pass over the whole 9-image window, the memory
+# is updated once per timestep via a gated convex combination
+# (memory = (1-z)*memory + z*candidate, z learned/sigmoid), bounded by
+# construction — offline validation showed memory norm stays exactly
+# constant over 60 recurrent steps vs. 25x unbounded growth for the naive
+# residual rule StreamingMemoryPool used (see memory_pool.py). No data
+# pipeline changes: this trains against the existing fixed window via
+# forward_sequence (replay mode), isolating whether recurrence itself, now
+# properly stabilized, helps/hurts/is neutral vs. flat gated_self_attn
+# (45.5% rollout SR) before any real incremental-deployment (client/backbone)
+# changes are built.
+# ─────────────────────────────────────────────────────────────────────────────
+framework:
+  name: VGGTOmegaOFT
+
+  visual_backbone:
+    type: vggt_omega
+    freeze_backbone: true
+    pool_type: gated_recurrent
+    pool_window_steps: 3
+
+  vggt_omega:
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_256_text.pt
+    freeze_backbone: true
+
+  clip_text:
+    model_name: openai/clip-vit-base-patch32
+    freeze: true
+
+  action_model:
+    action_model_type: DiT-L
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    state_dim: 14
+
+  # state_scale=0.1 brings state variance (0.198*0.1=0.020) in line with
+  # visual variance (0.029), preventing state from dominating the condition.
+  state_scale: 0.1
+
+  action_norm:
+    stats_path: playground/Datasets/RoboTwin/rotate_qrcode/meta/stats_gr00t.json
+
+datasets:
+  vla_data:
+    dataset_py: lerobot_datasets
+    include_state: true
+    data_root_dir: playground/Datasets/RoboTwin
+    data_mix: robotwin_rotate_qrcode
+    action_type: abs_qpos
+    visual_feature_cache: vggt_omega
+    per_device_batch_size: 128
+    num_workers: 8
+    load_all_data_for_training: true
+    obs_image_size: [224, 224]
+    video_backend: torchvision_av
+
+trainer:
+  max_train_steps: 2000
+  num_warmup_steps: 200
+  save_interval: 1000
+  eval_interval: 250
+  learning_rate:
+    base: 6.0e-04
+    visual_pool: 6.0e-04
+    visual_proj: 6.0e-04
+    text_proj: 6.0e-04
+    state_proj: 6.0e-04
+    action_model: 6.0e-04
+  lr_scheduler_type: cosine_with_min_lr
+  scheduler_specific_kwargs:
+    min_lr: 3.0e-05
+  freeze_modules: 'vggt_omega,clip_text_model'
+  loss_scale:
+    vla: 1.0
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  logging_frequency: 10
+  gradient_clipping: 1.0
+  gradient_accumulation_steps: 1
+
+  optimizer:
+    name: AdamW
+    betas: [0.9, 0.95]
+    eps: 1.0e-08
+    weight_decay: 1.0e-08

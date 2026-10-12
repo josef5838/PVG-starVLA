@@ -1,0 +1,717 @@
+[
+  {
+    "episode": 0,
+    "source_episode": 38,
+    "seed": 130,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.263441840277778,
+      "left_camera": 4.960685763888889,
+      "right_camera": 5.086501736111111
+    },
+    "model_id": 16,
+    "arm": "right",
+    "success": true,
+    "steps": 74,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.06874114274978638,
+    "elapsed_seconds": 56.21071328793187,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_130.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_130.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.11253635585308075,
+      -0.10384129732847214,
+      0.775277853012085
+    ],
+    "final_object_position": [
+      0.20409008860588074,
+      -0.0906972736120224,
+      0.8030800819396973
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 5,
+    "source_episode": 27,
+    "seed": 86,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.6902647569444444,
+      "left_camera": 5.092222222222222,
+      "right_camera": 5.2477430555555555
+    },
+    "model_id": 13,
+    "arm": "right",
+    "success": true,
+    "steps": 74,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.07136410474777222,
+    "elapsed_seconds": 55.64709281292744,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_86.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_86.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.08813810348510742,
+      -0.09282579272985458,
+      0.7738107442855835
+    ],
+    "final_object_position": [
+      0.2027679979801178,
+      -0.08712789416313171,
+      0.8208344578742981
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 10,
+    "source_episode": 5,
+    "seed": 27,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.6976258680555554,
+      "left_camera": 5.089162326388889,
+      "right_camera": 5.228138020833334
+    },
+    "model_id": 13,
+    "arm": "right",
+    "success": true,
+    "steps": 74,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.0634804368019104,
+    "elapsed_seconds": 58.77314440603368,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_27.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_27.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.11475709080696106,
+      -0.09180811047554016,
+      0.773802638053894
+    ],
+    "final_object_position": [
+      0.22854924201965332,
+      -0.09826016426086426,
+      0.7847156524658203
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 20,
+    "source_episode": 34,
+    "seed": 114,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.2638064236111113,
+      "left_camera": 4.961228298611111,
+      "right_camera": 5.1081770833333335
+    },
+    "model_id": 16,
+    "arm": "right",
+    "success": true,
+    "steps": 74,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.07523548603057861,
+    "elapsed_seconds": 56.428650169982575,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_114.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_114.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.11031817644834518,
+      -0.10285860300064087,
+      0.7752400040626526
+    ],
+    "final_object_position": [
+      0.20367614924907684,
+      -0.09464631974697113,
+      0.8073276877403259
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 22,
+    "source_episode": 24,
+    "seed": 80,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.6970182291666664,
+      "left_camera": 5.0745225694444445,
+      "right_camera": 5.219861111111111
+    },
+    "model_id": 13,
+    "arm": "right",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.005651950836181641,
+    "elapsed_seconds": 176.0603354399791,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_80.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_80.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.11870262771844864,
+      -0.1305428296327591,
+      0.7737994194030762
+    ],
+    "final_object_position": [
+      0.2859024703502655,
+      -0.16132855415344238,
+      0.7738036513328552
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 25,
+    "source_episode": 31,
+    "seed": 92,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.7890668402777776,
+      "left_camera": 5.081098090277778,
+      "right_camera": 5.181792534722222
+    },
+    "model_id": 13,
+    "arm": "right",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.0006558895111083984,
+    "elapsed_seconds": 175.2621270539239,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_92.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_92.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.09275137633085251,
+      -0.09291205555200577,
+      0.7737985849380493
+    ],
+    "final_object_position": [
+      0.132474884390831,
+      -0.37657877802848816,
+      0.033794935792684555
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 35,
+    "source_episode": 6,
+    "seed": 31,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.716558159722222,
+      "left_camera": 5.0909635416666665,
+      "right_camera": 5.209891493055555
+    },
+    "model_id": 13,
+    "arm": "right",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.0021719932556152344,
+    "elapsed_seconds": 174.8261121000396,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_31.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_31.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.09038470685482025,
+      -0.12129992246627808,
+      0.7738030552864075
+    ],
+    "final_object_position": [
+      0.038941726088523865,
+      -0.5111576318740845,
+      0.0341971181333065
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 39,
+    "source_episode": 3,
+    "seed": 18,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.241779513888889,
+      "left_camera": 4.963888888888889,
+      "right_camera": 5.103025173611111
+    },
+    "model_id": 16,
+    "arm": "right",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.022858619689941406,
+    "elapsed_seconds": 175.06587823608425,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_18.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_18.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.08142797648906708,
+      -0.08976668119430542,
+      0.7753216028213501
+    ],
+    "final_object_position": [
+      0.7787286043167114,
+      -0.3737075924873352,
+      0.03528975322842598
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 48,
+    "source_episode": 13,
+    "seed": 55,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.286293402777778,
+      "left_camera": 4.965277777777778,
+      "right_camera": 5.095915798611111
+    },
+    "model_id": 16,
+    "arm": "right",
+    "success": true,
+    "steps": 74,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.06773710250854492,
+    "elapsed_seconds": 42.22517264203634,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_55.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_55.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.08056741952896118,
+      -0.0747569352388382,
+      0.7752671837806702
+    ],
+    "final_object_position": [
+      0.19982732832431793,
+      -0.08583827316761017,
+      0.8171051144599915
+    ],
+    "step_limit": 400
+  },
+  {
+    "episode": 49,
+    "source_episode": 10,
+    "seed": 45,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {
+      "head_camera": 3.7421223958333334,
+      "left_camera": 5.082934027777778,
+      "right_camera": 5.211827256944445
+    },
+    "model_id": 13,
+    "arm": "right",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.0013407468795776367,
+    "elapsed_seconds": 293.81796553498134,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_45.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_45.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.11989951878786087,
+      -0.10972264409065247,
+      0.7742226123809814
+    ],
+    "final_object_position": [
+      0.4466378390789032,
+      -0.48509326577186584,
+      0.034201789647340775
+    ],
+    "step_limit": 400
+  },
+  {
+    "split": "unseen_eval",
+    "episode": null,
+    "source_episode": null,
+    "seed": 100001,
+    "seed_start": 100000,
+    "setup_rejections": 1,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": false,
+    "registered_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {},
+    "model_id": 13,
+    "arm": "right",
+    "success": true,
+    "steps": 83,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.061167776584625244,
+    "elapsed_seconds": 74.48710130003747,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_100001.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_100001.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.1191646009683609,
+      -0.09192363172769547,
+      0.773804247379303
+    ],
+    "final_object_position": [
+      0.23851992189884186,
+      -0.11167219281196594,
+      0.7817128896713257
+    ],
+    "step_limit": 400
+  },
+  {
+    "split": "unseen_eval",
+    "episode": null,
+    "source_episode": null,
+    "seed": 200001,
+    "seed_start": 200000,
+    "setup_rejections": 1,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": false,
+    "registered_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {},
+    "model_id": 13,
+    "arm": "right",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.0003389716148376465,
+    "elapsed_seconds": 189.48960765602533,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_200001.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_200001.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.10139178484678268,
+      -0.0949249342083931,
+      0.7740698456764221
+    ],
+    "final_object_position": [
+      0.12302045524120331,
+      -0.1443081796169281,
+      0.7744024395942688
+    ],
+    "step_limit": 400
+  },
+  {
+    "split": "unseen_eval",
+    "episode": null,
+    "source_episode": null,
+    "seed": 300000,
+    "seed_start": 300000,
+    "setup_rejections": 0,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": false,
+    "registered_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {},
+    "model_id": 13,
+    "arm": "left",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.0004761219024658203,
+    "elapsed_seconds": 188.93793848191854,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_300000.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_300000.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      -0.10789984464645386,
+      -0.1296495795249939,
+      0.7737590074539185
+    ],
+    "final_object_position": [
+      -0.11794833093881607,
+      -0.1699477881193161,
+      0.7740744948387146
+    ],
+    "step_limit": 400
+  },
+  {
+    "split": "unseen_eval",
+    "episode": null,
+    "source_episode": null,
+    "seed": 400000,
+    "seed_start": 400000,
+    "setup_rejections": 0,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": false,
+    "registered_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {},
+    "model_id": 13,
+    "arm": "right",
+    "success": true,
+    "steps": 74,
+    "grasp_contact": true,
+    "lift_4cm": true,
+    "max_lift_m": 0.07879495620727539,
+    "elapsed_seconds": 41.16468152194284,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_400000.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_400000.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.1142682209610939,
+      -0.13357482850551605,
+      0.7738043069839478
+    ],
+    "final_object_position": [
+      0.2047884464263916,
+      -0.10072404146194458,
+      0.8007786273956299
+    ],
+    "step_limit": 400
+  },
+  {
+    "split": "unseen_eval",
+    "episode": null,
+    "source_episode": null,
+    "seed": 500000,
+    "seed_start": 500000,
+    "setup_rejections": 0,
+    "variant": "fused",
+    "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": false,
+    "registered_scene_verified": true,
+    "initial_state_max_error": 0.0,
+    "initial_image_mae": {},
+    "model_id": 13,
+    "arm": "left",
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.03787887096405029,
+    "elapsed_seconds": 174.20874268596526,
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_500000.mp4",
+    "trace": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_500000.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      -0.10148147493600845,
+      -0.11076588183641434,
+      0.7739813327789307
+    ],
+    "final_object_position": [
+      0.8257236480712891,
+      -0.8816191554069519,
+      0.033865541219711304
+    ],
+    "step_limit": 400
+  }
+]

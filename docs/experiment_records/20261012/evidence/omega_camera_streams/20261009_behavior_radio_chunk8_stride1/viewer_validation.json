@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "scope": "JavaScript runtime and control checks in Node VM with mocked DOM and canvas; no real-browser rendering test.",
+  "controls": [
+    "initial all-image draw",
+    "single-image selection",
+    "frame colors",
+    "orbit",
+    "zoom",
+    "reset",
+    "play toggle"
+  ],
+  "viewers": [
+    {
+      "viewer": "turning_on_radio_ep197_f1484_1491/zed_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f1484_1491/left_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84502
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f1484_1491/right_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0943_0950/zed_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0943_0950/left_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0943_0950/right_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0934_0941/zed_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0934_0941/left_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0934_0941/right_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0982_0989/zed_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0982_0989/left_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "viewer": "turning_on_radio_ep197_f0982_0989/right_realsense_link_camera_0/viewer.html",
+      "passed": true,
+      "draw_operations": 84506
+    }
+  ]
+}

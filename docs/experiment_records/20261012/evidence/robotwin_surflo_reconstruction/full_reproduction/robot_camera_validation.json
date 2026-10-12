@@ -1,0 +1,28 @@
+{
+  "before_guidance": {
+    "rotation_error_deg": [
+      0.0,
+      23.45762902501232,
+      13.19507705121914
+    ],
+    "camera_center_error_cm_after_best_head_frame_scale": [
+      1.6106044403725486e-18,
+      44.88308220958987,
+      21.744705600406174
+    ],
+    "best_scale": 1.1792392193088652
+  },
+  "after_guidance": {
+    "rotation_error_deg": [
+      0.0,
+      24.10403776642283,
+      13.343753540912648
+    ],
+    "camera_center_error_cm_after_best_head_frame_scale": [
+      5.2778079234626693e-17,
+      44.51577066913873,
+      21.72050003847889
+    ],
+    "best_scale": 1.180643680693089
+  }
+}

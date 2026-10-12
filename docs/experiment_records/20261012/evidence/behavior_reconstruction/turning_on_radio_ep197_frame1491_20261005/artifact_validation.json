@@ -1,0 +1,43 @@
+[
+  {
+    "file": "surflo_plain_points.ply",
+    "vertices": 100000,
+    "finite_vertices": true
+  },
+  {
+    "file": "surflo_guided_points.ply",
+    "vertices": 38217,
+    "finite_vertices": true
+  },
+  {
+    "file": "vggt_points_all.ply",
+    "vertices": 804972,
+    "finite_vertices": true
+  },
+  {
+    "file": "surflo_mesh.ply",
+    "vertices": 177074,
+    "finite_vertices": true,
+    "faces": 350607,
+    "valid_face_indices": true
+  },
+  {
+    "file": "vggt_depth_mesh.ply",
+    "vertices": 587253,
+    "finite_vertices": true,
+    "faces": 1158427,
+    "valid_face_indices": true
+  },
+  {
+    "file": "vggt_points_preview.ply",
+    "vertices": 589616,
+    "finite_vertices": true
+  },
+  {
+    "file": "surflo_mesh_colored.ply",
+    "vertices": 177074,
+    "finite_vertices": true,
+    "faces": 350607,
+    "valid_face_indices": true
+  }
+]

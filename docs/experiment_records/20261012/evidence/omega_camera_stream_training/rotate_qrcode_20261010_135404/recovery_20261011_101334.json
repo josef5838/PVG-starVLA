@@ -1,0 +1,154 @@
+{
+  "created_utc": "20261011_101334",
+  "reason": "All four registered processes absent; logs end abruptly without traceback",
+  "previous_queue_workers": [
+    {
+      "gpu": "0",
+      "pid": 1186409
+    },
+    {
+      "gpu": "1",
+      "pid": 1186410
+    }
+  ],
+  "resumed_runs": [
+    {
+      "variant": "direct",
+      "original_registration": {
+        "variant": "direct",
+        "gpu": "0",
+        "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/direct.yaml",
+        "config_sha256": "8580d18683defe3708ba235bc22a5a54c120a19f22bf15e5269be53634549b47",
+        "output_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_rotate_qrcode_direct_20000steps_20261010_135404",
+        "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/direct.log",
+        "preflight": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/direct_preflight.json",
+        "pid": 1186444,
+        "status": "running",
+        "command": [
+          "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+          "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/train_omega_camera_streams.py",
+          "--config_yaml",
+          "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/direct.yaml"
+        ],
+        "started_unix": 1791641932.2794843
+      },
+      "resume_state": {
+        "completed_steps": 10000,
+        "consumed_batches": 20000,
+        "best_validation_mse": 0.04538946921716212
+      },
+      "checkpoint": "/tmp/omega_rotate_qrcode_training_states/20261010_135404/direct/latest",
+      "previous_progress": {
+        "status": "running",
+        "completed_updates": 10000,
+        "target_updates": 20000,
+        "consumed_batches": 20000,
+        "consumed_observations": 80000,
+        "visual_info": {
+          "input_shape": [
+            4,
+            3,
+            8,
+            3,
+            448,
+            592
+          ],
+          "calls_per_batch": 3,
+          "images_per_call": 8,
+          "raw_token_shape": [
+            4,
+            3,
+            8,
+            17,
+            2048
+          ],
+          "raw_memory_tokens": 408,
+          "memory_tokens": 408,
+          "conditioning": "direct",
+          "patch_tokens_in_action_memory": 0,
+          "temporal_embedding": "learned",
+          "temporal_rope": false,
+          "observation_mode": "history"
+        },
+        "latest_metrics": null,
+        "peak_allocated_gpu_gib": 11.90618896484375,
+        "updated_unix": 1791708930.8215559
+      }
+    },
+    {
+      "variant": "fused",
+      "original_registration": {
+        "variant": "fused",
+        "gpu": "1",
+        "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/fused.yaml",
+        "config_sha256": "a3e383ca6e8d9593ba92b500d1d6836963f626621a1a22ad599fc020680d205a",
+        "output_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_rotate_qrcode_fused_20000steps_20261010_135404",
+        "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/fused.log",
+        "preflight": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/fused_preflight.json",
+        "pid": 1186445,
+        "status": "running",
+        "command": [
+          "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+          "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/train_omega_camera_streams.py",
+          "--config_yaml",
+          "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/fused.yaml"
+        ],
+        "started_unix": 1791641932.3397987
+      },
+      "resume_state": {
+        "completed_steps": 10000,
+        "consumed_batches": 20000,
+        "best_validation_mse": 0.06029871030970364
+      },
+      "checkpoint": "/tmp/omega_rotate_qrcode_training_states/20261010_135404/fused/latest",
+      "previous_progress": {
+        "status": "running",
+        "completed_updates": 10240,
+        "target_updates": 20000,
+        "consumed_batches": 20480,
+        "consumed_observations": 81920,
+        "visual_info": {
+          "input_shape": [
+            4,
+            3,
+            8,
+            3,
+            448,
+            592
+          ],
+          "calls_per_batch": 3,
+          "images_per_call": 8,
+          "raw_token_shape": [
+            4,
+            3,
+            8,
+            17,
+            2048
+          ],
+          "raw_memory_tokens": 408,
+          "memory_tokens": 32,
+          "conditioning": "fused",
+          "patch_tokens_in_action_memory": 0,
+          "temporal_embedding": "learned",
+          "temporal_rope": false,
+          "observation_mode": "history"
+        },
+        "latest_metrics": {
+          "action_dit_loss": 0.011751452460885048,
+          "training_samples": 81920,
+          "timing/data": 0.0007009520195424557,
+          "timing/model": 5.468462978024036,
+          "learning_rate/visual_proj": 0.00015065136181938372,
+          "learning_rate/state_proj": 0.00015065136181938372,
+          "learning_rate/action_model": 0.00015065136181938372,
+          "learning_rate/visual_readout": 0.00015065136181938372,
+          "learning_rate/memory_proj": 0.00015065136181938372,
+          "learning_rate/base": 0.00015065136181938372,
+          "epoch": 6.14
+        },
+        "peak_allocated_gpu_gib": 12.049481868743896,
+        "updated_unix": 1791708969.014164
+      }
+    }
+  ]
+}

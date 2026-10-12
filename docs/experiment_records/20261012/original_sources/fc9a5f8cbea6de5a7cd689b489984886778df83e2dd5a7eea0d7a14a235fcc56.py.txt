@@ -1,0 +1,57 @@
+import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
+
+import torch
+from omegaconf import OmegaConf
+
+from starVLA.model.framework.VLM4A.SurfloDiT import SurfloDiT
+from starVLA.model.modules.projector.residual_visual_adapter import ResidualVisualAdapter
+
+
+class VisualAdapterTests(unittest.TestCase):
+    def test_zero_initialization_preserves_projected_tokens(self):
+        adapter = ResidualVisualAdapter(16)
+        tokens = torch.randn(2, 132, 16)
+        self.assertTrue(torch.equal(adapter(tokens), tokens))
+
+    def test_residual_branch_learns_and_gradients_reach_input(self):
+        adapter = ResidualVisualAdapter(16)
+        optimizer = torch.optim.AdamW(adapter.parameters(), lr=.01)
+        tokens = torch.randn(2, 132, 16, requires_grad=True)
+        target = torch.randn_like(tokens)
+        for _ in range(2):
+            optimizer.zero_grad()
+            (adapter(tokens) - target).square().mean().backward()
+            self.assertGreater(adapter.fc2.weight.grad.abs().sum().item(), 0)
+            self.assertGreater(tokens.grad.abs().sum().item(), 0)
+            optimizer.step()
+        self.assertGreater(adapter.fc1.weight.grad.abs().sum().item(), 0)
+        self.assertFalse(torch.equal(adapter(tokens), tokens))
+
+    def test_variants_have_identical_shared_initial_weights(self):
+        class Backbone(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.surface_net = SimpleNamespace(
+                    encode_camera_tokens_separately=True,
+                    compressor=SimpleNamespace(latent_tokens=torch.zeros(128, 512)))
+        config = OmegaConf.load('examples/simBenchmarks/Robotwin/train_files/surflo_camera3_body_parts_robotwin.yaml')
+        module = 'starVLA.model.framework.VLM4A.SurfloDiT'
+        with patch.object(SurfloDiT, '_load_surflo', return_value=Backbone()), patch(module + '.get_action_model', side_effect=lambda **kwargs: torch.nn.Linear(14, 14)):
+            torch.manual_seed(42)
+            config.framework.visual_adapter_type = 'linear'
+            linear = SurfloDiT(config)
+            torch.manual_seed(42)
+            config.framework.visual_adapter_type = 'residual'
+            residual = SurfloDiT(config)
+        for key, value in linear.state_dict().items():
+            self.assertTrue(torch.equal(value, residual.state_dict()[key]), key)
+        tokens = torch.randn(1, 132, 512)
+        self.assertTrue(torch.equal(linear.visual_adapter(linear.visual_proj(tokens)),
+                                    residual.visual_adapter(residual.visual_proj(tokens))))
+        self.assertEqual(sum(p.numel() for p in residual.visual_adapter.parameters()), 2101248)
+
+
+if __name__ == '__main__':
+    unittest.main()

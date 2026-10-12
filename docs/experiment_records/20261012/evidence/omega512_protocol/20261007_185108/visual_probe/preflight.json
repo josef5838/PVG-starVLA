@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "feature_shape": [
+    20,
+    3,
+    64,
+    2048
+  ],
+  "targets": [
+    20,
+    9
+  ],
+  "losses": [
+    2.3775551319122314,
+    12.348163604736328,
+    2.447349786758423
+  ],
+  "changed_visual_features_prediction_mae": 0.4643023908138275,
+  "input": "Frozen image features only",
+  "updates_discarded": true
+}

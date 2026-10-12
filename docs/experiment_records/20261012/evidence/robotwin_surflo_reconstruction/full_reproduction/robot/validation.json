@@ -1,0 +1,62 @@
+{
+  "mesh": {
+    "vertices": 27148,
+    "faces": 52641,
+    "finite_vertices": true,
+    "valid_face_indices": true,
+    "zero_area_face_fraction": 0.0002469557949127106,
+    "total_area": 0.20646449232025516,
+    "bounds": [
+      [
+        -0.2663927376270294,
+        -0.2227974534034729,
+        0.41988420486450195
+      ],
+      [
+        0.20744138956069946,
+        0.11702220141887665,
+        0.8244267702102661
+      ]
+    ]
+  },
+  "views": [
+    {
+      "view": 0,
+      "gaussian_psnr_db": 36.677953626896944,
+      "gaussian_rgb_mae": 0.01379710715264082,
+      "gaussian_ssim": 0.9936122298240662,
+      "mesh_rgb_mae": 0.07258529961109161,
+      "mesh_coverage": 0.935644805431366,
+      "exposure_corrected_gaussian_rgb_mae": 0.0028729650657624006,
+      "exposure_gain": 1.027194857597351,
+      "exposure_bias": -0.011366483755409718
+    },
+    {
+      "view": 1,
+      "gaussian_psnr_db": 31.25801646207355,
+      "gaussian_rgb_mae": 0.02709907293319702,
+      "gaussian_ssim": 0.997448742389679,
+      "mesh_rgb_mae": 0.1166636049747467,
+      "mesh_coverage": 0.8906355500221252,
+      "exposure_corrected_gaussian_rgb_mae": 0.0017509907484054565,
+      "exposure_gain": 1.0145516395568848,
+      "exposure_bias": 0.014215989038348198
+    },
+    {
+      "view": 2,
+      "gaussian_psnr_db": 10.076630534018697,
+      "gaussian_rgb_mae": 0.20205961167812347,
+      "gaussian_ssim": 0.7896854877471924,
+      "mesh_rgb_mae": 0.08170859515666962,
+      "mesh_coverage": 0.960787296295166,
+      "exposure_corrected_gaussian_rgb_mae": 0.2011427879333496,
+      "exposure_gain": 1.0016732215881348,
+      "exposure_bias": 0.0028371664229780436
+    }
+  ],
+  "mean_gaussian_psnr_db": 26.004200207663065,
+  "mean_gaussian_ssim": 0.9269154866536459,
+  "mean_mesh_rgb_mae": 0.09031916658083598,
+  "scope": "Input camera renders; these are fitted views, not held-out novel views.",
+  "exposure_note": "Displayed Gaussian images and PSNR/SSIM are raw radiance. Also report RGB MAE with the learned scalar gain/bias used by the official L1 loss. Exposure correction does not change geometry or repair robot view 3."
+}

@@ -1,0 +1,106 @@
+{
+  "status": "passed",
+  "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/dense.yaml",
+  "readout": "dense",
+  "source_image_sizes": [
+    [
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ]
+    ],
+    [
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ]
+    ],
+    [
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ]
+    ],
+    [
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ],
+      [
+        640,
+        480
+      ]
+    ]
+  ],
+  "instructions": [
+    "rotate_qrcode"
+  ],
+  "losses": [
+    0.9657531380653381,
+    1.0381827354431152
+  ],
+  "gradient_norms": [
+    {
+      "visual_proj.weight": 0.0
+    },
+    {
+      "visual_proj.weight": 0.03861140087246895
+    }
+  ],
+  "frozen_backbone_no_gradients": true,
+  "visual_info": {
+    "input_shape": [
+      1,
+      3,
+      3,
+      448,
+      592
+    ],
+    "patch_grid": [
+      28,
+      37
+    ],
+    "dense_patch_tokens": 3108,
+    "memory_tokens": 3108,
+    "readout": "dense"
+  },
+  "fixed_noise_image_change_prediction_mae": 0.0021874564699828625,
+  "sampled_actions_shape": [
+    1,
+    16,
+    14
+  ],
+  "trainable_parameters": 333026318,
+  "policy_checkpoint_tensor_bytes": 1332105272,
+  "cuda_peak_memory_bytes": 11293972992,
+  "fresh_training_note": "Preflight updates are discarded; launcher starts new action weights from the same seed.",
+  "nominal_size_metadata_update": "Changed obs_image_size to native 640x480 metadata after preflight; this field is bypassed by preserve_native_images in the tested loader."
+}

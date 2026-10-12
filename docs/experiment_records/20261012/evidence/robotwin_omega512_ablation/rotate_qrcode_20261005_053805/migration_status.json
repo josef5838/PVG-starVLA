@@ -1,0 +1,42 @@
+{
+  "observed_utc": "2026-10-05T06:50:56.944444+00:00",
+  "runs": [
+    {
+      "variant": "dense",
+      "gpu": "0",
+      "pid": 284321,
+      "process_exists": true,
+      "logged_step": 5250,
+      "target_steps": 10000,
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/dense.log",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805",
+      "best_saved_state": {
+        "completed_steps": 5000,
+        "consumed_batches": 10000,
+        "best_validation_mse": 0.042342444366474864
+      },
+      "complete_periodic_states": [
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805/checkpoints/steps_5000"
+      ]
+    },
+    {
+      "variant": "state_query_local",
+      "gpu": "1",
+      "pid": 284322,
+      "process_exists": true,
+      "logged_step": 5233,
+      "target_steps": 10000,
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/state_query_local.log",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805",
+      "best_saved_state": {
+        "completed_steps": 4500,
+        "consumed_batches": 9000,
+        "best_validation_mse": 0.04647117510422987
+      },
+      "complete_periodic_states": [
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805/checkpoints/steps_5000"
+      ]
+    }
+  ],
+  "gpu_status": "name, memory.used [MiB], memory.total [MiB], utilization.gpu [%]\nNVIDIA H100 NVL, 12017 MiB, 95830 MiB, 64 %\nNVIDIA H100 NVL, 12129 MiB, 95830 MiB, 100 %"
+}

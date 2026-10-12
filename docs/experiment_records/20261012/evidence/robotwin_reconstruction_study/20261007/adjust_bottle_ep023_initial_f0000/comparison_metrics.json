@@ -1,0 +1,54 @@
+{
+  "models": {
+    "vggt": {
+      "head_rgb_mae": 0.03587785363197327,
+      "left_wrist_rgb_mae": 0.011953853070735931,
+      "right_wrist_rgb_mae": 0.015133307315409184,
+      "mean_wrist_rgb_mae": 0.013543580193072557
+    },
+    "omega256": {
+      "head_rgb_mae": 0.023956479504704475,
+      "left_wrist_rgb_mae": 0.006287852302193642,
+      "right_wrist_rgb_mae": 0.008917988277971745,
+      "mean_wrist_rgb_mae": 0.007602920290082693
+    },
+    "omega512": {
+      "head_rgb_mae": 0.02036885730922222,
+      "left_wrist_rgb_mae": 0.016355318948626518,
+      "right_wrist_rgb_mae": 0.005636054556816816,
+      "mean_wrist_rgb_mae": 0.010995686752721667
+    },
+    "surflo": {
+      "head_rgb_mae": 0.25257354974746704,
+      "left_wrist_rgb_mae": 0.357325941324234,
+      "right_wrist_rgb_mae": 0.3428971469402313,
+      "mean_wrist_rgb_mae": 0.35011154413223267
+    }
+  },
+  "surflo_stages": [
+    {
+      "view": 0,
+      "gaussian_rgb_mae": 0.021166548132896423,
+      "mesh_rgb_mae": 0.25257354974746704,
+      "gaussian_mesh_rgb_mae": 0.25395506620407104,
+      "gaussian_alpha_coverage": 1.0,
+      "mesh_coverage": 0.7764703631401062
+    },
+    {
+      "view": 1,
+      "gaussian_rgb_mae": 0.027540942654013634,
+      "mesh_rgb_mae": 0.357325941324234,
+      "gaussian_mesh_rgb_mae": 0.3548913300037384,
+      "gaussian_alpha_coverage": 1.0,
+      "mesh_coverage": 0.6330360770225525
+    },
+    {
+      "view": 2,
+      "gaussian_rgb_mae": 0.02537348121404648,
+      "mesh_rgb_mae": 0.3428971469402313,
+      "gaussian_mesh_rgb_mae": 0.3419654667377472,
+      "gaussian_alpha_coverage": 1.0,
+      "mesh_coverage": 0.6475710272789001
+    }
+  ]
+}

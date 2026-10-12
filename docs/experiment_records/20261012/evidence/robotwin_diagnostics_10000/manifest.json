@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "visual_runs": [
+    {
+      "variant": "linear",
+      "pid": 78222,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "tools/robotwin_visual_diagnostic.py",
+        "--checkpoint",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+        "--output",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_diagnostics_10000/linear_visual.json"
+      ]
+    },
+    {
+      "variant": "residual",
+      "pid": 78223,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "tools/robotwin_visual_diagnostic.py",
+        "--checkpoint",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+        "--output",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_diagnostics_10000/residual_visual.json"
+      ]
+    }
+  ],
+  "controller_replays": 7,
+  "report": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_diagnostics_10000/report.md"
+}

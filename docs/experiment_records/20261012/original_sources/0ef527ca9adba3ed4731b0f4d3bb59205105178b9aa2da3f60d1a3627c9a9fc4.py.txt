@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+"""Export deterministic, synchronized BEHAVIOR loader samples for Surflo review.
+
+This is deliberately CPU-only.  It exercises the same VLA dataset and exact
+``SurfloDiT._image_tensor`` preprocessing used by the trainer, then records
+per-sample RGB statistics and source video assignments.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from omegaconf import OmegaConf
+from torchvision.transforms import functional as VF
+
+from starVLA.dataloader.lerobot_datasets import get_vla_dataset
+from starVLA.model.framework.VLM4A.SurfloDiT import SurfloDiT
+
+
+CAMERA_LABELS = ("head", "left wrist", "right wrist")
+CAMERA_KEYS = ("head", "left_wrist", "right_wrist")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        default="examples/simBenchmarks/Behavior/train_files/surflo_dit_turn_on_radio_2026.yaml",
+    )
+    parser.add_argument(
+        "--sample-indices", type=int, nargs="+", default=(0, 500, 2000, 5000),
+        help="Deterministic combined-dataset indices to inspect.",
+    )
+    parser.add_argument(
+        "--out",
+        default="results/Checkpoints/surflo_dit_turn_on_radio_2026/loader_audit_3view",
+    )
+    return parser.parse_args()
+
+
+def save_montage(images, tensors: torch.Tensor, out_path: Path, title: str) -> None:
+    fig, axes = plt.subplots(2, 3, figsize=(12, 8))
+    for index, (image, label) in enumerate(zip(images, CAMERA_LABELS)):
+        axes[0, index].imshow(image)
+        axes[0, index].set_title(f"{label}: loader frame {image.size[0]}x{image.size[1]}")
+        axes[0, index].axis("off")
+        axes[1, index].imshow(tensors[index].permute(1, 2, 0).numpy())
+        axes[1, index].set_title(f"{label}: Surflo tensor 518x518")
+        axes[1, index].axis("off")
+    fig.suptitle(title)
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=180)
+    plt.close(fig)
+
+
+def rgb_statistics(tensor: torch.Tensor) -> dict[str, object]:
+    return {
+        "value_range": [float(tensor.min()), float(tensor.max())],
+        "mean_rgb": [float(x) for x in tensor.mean(dim=(1, 2))],
+        "std_rgb": [float(x) for x in tensor.std(dim=(1, 2), unbiased=False)],
+    }
+
+
+def main() -> None:
+    args = parse_args()
+    out_dir = Path(args.out).resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    cfg = OmegaConf.load(args.config)
+    dataset = get_vla_dataset(data_cfg=cfg.datasets.vla_data, mode="train", seed=42)
+    image_size = int(cfg.framework.surflo.image_size)
+    # A minimal holder permits calling the actual instance method without
+    # constructing/downloading the full Surflo model.
+    preprocessing_owner = type("PreprocessingOwner", (), {"image_size": image_size})()
+
+    records: list[dict[str, object]] = []
+    for sample_index in args.sample_indices:
+        source_dataset, trajectory_id, base_index = dataset.sample_step(sample_index)
+        sample = dataset[sample_index]
+        images = sample["image"]
+        if len(images) != 3:
+            raise ValueError(f"sample {sample_index}: expected 3 simultaneous views, got {len(images)}")
+
+        actual = torch.stack([SurfloDiT._image_tensor(preprocessing_owner, image) for image in images])
+        reference = torch.stack(
+            [VF.resize(VF.to_tensor(image.convert("RGB")), [image_size, image_size], antialias=True) for image in images]
+        )
+        max_abs_error = float((actual - reference).abs().max())
+        if max_abs_error != 0.0:
+            raise AssertionError(f"sample {sample_index}: preprocessing mismatch, max abs error={max_abs_error}")
+
+        sample_dir = out_dir / f"sample_{sample_index:06d}"
+        sample_dir.mkdir(exist_ok=True)
+        for camera_index, image in enumerate(images):
+            image.save(sample_dir / f"input_{camera_index}_{CAMERA_KEYS[camera_index]}.png")
+        save_montage(
+            images,
+            actual,
+            sample_dir / "loader_and_surflo_inputs.png",
+            f"sample {sample_index} | trajectory {trajectory_id} | base step {base_index}",
+        )
+
+        record: dict[str, object] = {
+            "sample_index": sample_index,
+            "task": sample["lang"],
+            "trajectory_id": int(trajectory_id),
+            "base_index": int(base_index),
+            "camera_files": {
+                key: str(source_dataset.get_video_path(trajectory_id, key)) for key in CAMERA_KEYS
+            },
+            "loader_image_sizes_wh": [list(image.size) for image in images],
+            "surflo_input_shape": list(actual.shape),
+            "surflo_input_dtype": str(actual.dtype),
+            "preprocessing": {
+                "code_path": "SurfloDiT._image_tensor",
+                "RGB_conversion": True,
+                "uint8_to_float": "torchvision.to_tensor: divide by 255",
+                "resize": {"size_hw": [image_size, image_size], "antialias": True},
+                "image_mean_std_normalization": "none",
+                "reference_max_abs_error": max_abs_error,
+            },
+            "input_rgb_statistics": [rgb_statistics(actual[view]) for view in range(3)],
+        }
+        (sample_dir / "metadata.json").write_text(json.dumps(record, indent=2) + "\n")
+        records.append(record)
+
+    report = {
+        "dataset_length": len(dataset),
+        "requested_sample_indices": list(args.sample_indices),
+        "num_exported": len(records),
+        "surflo_image_contract": {
+            "trainer_config_image_size": image_size,
+            "actual_tensor_shape_per_sample": [3, 3, image_size, image_size],
+            "VGGT_receives": "[batch, 3 views, 3 RGB channels, 518, 518]",
+            "resize_verification": "Each audited sample exactly equals a direct reproduction of SurfloDiT._image_tensor.",
+        },
+        "geometric_statistics_contract": {
+            "applies_to": "Surflo reconstruction/inference only; SurfloDiT training calls VGGT plus get_compressed_tokens directly and does not invoke FFM point normalization.",
+            "per_scene_normalize": True,
+            "mode": "median_dist_to_medianpoint",
+            "center": "coordinate-wise median of all VGGT world points",
+            "scale": "median L2 distance to that median; copied isotropically to XYZ and clamped >= 1e-6",
+            "normalization": "(xyz - center) / scale * target_std",
+            "target_std": 0.5,
+            "renormalize_after_cull": False,
+            "cull_radius_in_training_config": None,
+        },
+        "samples": records,
+    }
+    (out_dir / "audit_report.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps({"out_dir": str(out_dir), "num_exported": len(records)}, indent=2))
+
+
+if __name__ == "__main__":
+    main()

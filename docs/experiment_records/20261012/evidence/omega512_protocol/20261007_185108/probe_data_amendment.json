@@ -1,0 +1,9 @@
+{
+  "recorded_unix": 1791400130.1258748,
+  "before_any_fit": true,
+  "reason": "Exact cached-plan replay produces 159 observations versus 83 recorded observations for pilot episode 0; nearest-command alignment also fails (maximum joint error 0.1345rad, EE error 0.1498m).",
+  "change": "Synchronized regenerated simulator RGB/poses on the fixed source scene seeds. Initial RGB/state/model identity checked against originals. Original later-frame labels are not substituted.",
+  "invariant": "Original policy training remains on the eight selected recorded trajectories with original normalization. Probe train/validation/test scene identities, seeds, head settings and controls are unchanged.",
+  "pilot": "Successful regenerated expert: 158 simultaneous observations, model/state matches, initial RGB MAE under 6/255 per camera; 20 phase-stratified paired images/poses saved.",
+  "limitations": "Probe images are regenerated, rather than the original later-frame recording. Current simulator motion timing/rendering can differ. Results establish accessibility under this probe/domain and do not prove availability in every original policy observation."
+}

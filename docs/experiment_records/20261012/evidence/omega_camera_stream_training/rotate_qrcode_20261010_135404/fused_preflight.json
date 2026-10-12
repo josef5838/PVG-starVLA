@@ -1,0 +1,126 @@
+{
+  "status": "passed",
+  "variant": "fused",
+  "observation_mode": "history",
+  "use_visual": true,
+  "initial_common_weights_sha256": "591f053aeb0e38ea5364a50e4801c860c431fc0c4a79b2b1cfbbd866e67f9150",
+  "batch_image_sha256": "4a0fb0f1d02ec04041b4275826970c3e0e35c8848d80571e2c25102248d86627",
+  "batch_action_sha256": "a32a1f608f4af317ad95b726967e2d30c1b262adde435fab9562c38f86cd1c23",
+  "sample_keys": [
+    {
+      "episode": 98,
+      "frame": 80
+    },
+    {
+      "episode": 83,
+      "frame": 23
+    },
+    {
+      "episode": 98,
+      "frame": 82
+    },
+    {
+      "episode": 16,
+      "frame": 11
+    }
+  ],
+  "production_batch_size": 4,
+  "chronological_native_image_history_verified": true,
+  "calls_during_two_updates": [
+    [
+      4,
+      8,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      8,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      8,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      8,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      8,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      8,
+      3,
+      448,
+      592
+    ]
+  ],
+  "losses": [
+    0.9657531380653381,
+    1.0491677522659302
+  ],
+  "gradient_norms": [
+    {
+      "view_embeddings": 0.0,
+      "time_embeddings": 0.0,
+      "token_type_embeddings": 0.0,
+      "visual_proj.weight": 0.0,
+      "memory_proj.weight": 0.0,
+      "visual_readout.queries": 0.0
+    },
+    {
+      "view_embeddings": 0.0008514650398865342,
+      "time_embeddings": 0.0005208732909522951,
+      "token_type_embeddings": 0.0013899370096623898,
+      "visual_proj.weight": 0.06523698568344116,
+      "memory_proj.weight": 0.030630912631750107,
+      "visual_readout.queries": 0.0004415392759256065
+    }
+  ],
+  "visual_info": {
+    "input_shape": [
+      4,
+      3,
+      8,
+      3,
+      448,
+      592
+    ],
+    "calls_per_batch": 3,
+    "images_per_call": 8,
+    "raw_token_shape": [
+      4,
+      3,
+      8,
+      17,
+      2048
+    ],
+    "raw_memory_tokens": 408,
+    "memory_tokens": 32,
+    "conditioning": "fused",
+    "patch_tokens_in_action_memory": 0,
+    "temporal_embedding": "learned",
+    "temporal_rope": false,
+    "observation_mode": "history"
+  },
+  "frozen_backbone_no_gradients": true,
+  "historical_image_change_prediction_mae": 0.00013896398013457656,
+  "trainable_parameters": 340931086,
+  "peak_allocated_gpu_gib": 10.778008460998535,
+  "note": "Disposable two-update preflight; production jobs initialize fresh from seed 42."
+}

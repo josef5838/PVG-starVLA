@@ -1,0 +1,127 @@
+"""Launch two monitored, paired evaluations and retain videos, actions and errors."""
+import argparse
+import datetime
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'tools'))
+from launch_omega512_minimum_case import PYTHON,SIM_PYTHON,ROBOTWIN,environment,wait_server,finish
+
+
+def write(path,data):path.write_text(json.dumps(data,indent=2)+'\n')
+
+
+def worker(manifest_path,variant,phase='all'):
+    manifest=json.loads(manifest_path.read_text());run=next(r for r in manifest['runs'] if r['variant']==variant)
+    out=manifest_path.parent/variant;out.mkdir(exist_ok=True)
+    env=environment(run['gpu']);env['STARVLA_FRAMEWORK_MODULES']='starVLA.model.framework.VLM4A.OmegaCameraStreamDiT'
+    if phase!='offline' and manifest.get('renderer_runtime'):
+        runtime=Path(manifest['renderer_runtime'])
+        env['LD_LIBRARY_PATH']=str(runtime/'runtime_lib')+(':'+env['LD_LIBRARY_PATH'] if env.get('LD_LIBRARY_PATH') else '')
+        env['VK_ICD_FILENAMES']=str(runtime/'nvidia_icd.json')
+        if manifest.get('warp_runtime'):
+            env['PYTHONPATH']=manifest['warp_runtime']+':'+env['PYTHONPATH']
+    port=5770+int(run['gpu']);server=None;process=None
+    state_path=out/('offline_worker_status.json' if phase=='offline' else 'status.json')
+    state=dict(status='starting',variant=variant,phase=phase,started_unix=time.time(),checkpoint=run['checkpoints']['best'])
+    write(state_path,state)
+    def command(args,log):
+        nonlocal process
+        with (out/log).open('w') as stream:
+            process=subprocess.Popen(args,cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT)
+        if process.wait():raise RuntimeError(f'Failed command; see {out/log}')
+        process=None
+    try:
+        if phase=='validate':
+            state['status']='validating_videos';write(state_path,state)
+            videos=sorted(out.glob('**/*.mp4'))
+            for video in videos:
+                subprocess.run([str(SIM_PYTHON.parent/'ffmpeg'),'-v','error','-i',str(video),'-f','null','-'],
+                               check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,env=env)
+            state.update(status='completed',validated_videos=len(videos),finished_unix=time.time());write(state_path,state)
+            return
+        if phase=='offline':
+            state['status']='offline_actions';write(state_path,state)
+            command([str(PYTHON),str(ROOT/'tools/evaluate_omega_camera_stream_actions.py'),'--manifest',str(manifest_path),
+                     '--variant',variant,'--out',str(out/'offline')],'offline.log')
+            state.update(status='completed',finished_unix=time.time());write(state_path,state)
+            return
+        with (out/'server.log').open('w') as stream:
+            server=subprocess.Popen([str(PYTHON),str(ROOT/'deployment/model_server/server_policy.py'),
+                                     '--ckpt_path',run['checkpoints']['best'],'--port',str(port)],
+                                     cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT)
+        wait_server(server,port)
+        state['status']='rollouts';write(out/'status.json',state)
+        command([str(SIM_PYTHON),str(ROOT/'tools/rollout_omega_camera_streams.py'),'--manifest',str(manifest_path),
+                 '--variant',variant,'--port',str(port),'--out',str(out/'rollouts')],'rollouts.log')
+        if manifest.get('execute_horizon_ablation'):
+            horizon=str(manifest['execute_horizon_ablation'])
+            command([str(SIM_PYTHON),str(ROOT/'tools/rollout_omega_camera_streams.py'),'--manifest',str(manifest_path),
+                     '--variant',variant,'--port',str(port),'--execute-horizon',horizon,
+                     '--out',str(out/f'rollouts_h{horizon}')],f'rollouts_h{horizon}.log')
+        finish(server);server=None
+        if variant=='direct':
+            state['status']='expert_controls';write(out/'status.json',state)
+            command([str(SIM_PYTHON),str(ROOT/'tools/rollout_omega_camera_streams.py'),'--manifest',str(manifest_path),
+                     '--variant',variant,'--port',str(port),'--out',str(out/'expert_controls'),'--expert'],'expert_controls.log')
+            expert_data=manifest_path.parent/'expert_roundtrip_actions.npz'
+            if not expert_data.exists():
+                command([str(PYTHON),str(ROOT/'tools/prepare_omega_stream_expert_controls.py'),
+                         '--manifest',str(manifest_path)],'expert_roundtrip_prepare.log')
+            command([str(SIM_PYTHON),str(ROOT/'tools/rollout_omega_camera_streams.py'),'--manifest',str(manifest_path),
+                     '--variant',variant,'--port',str(port),'--out',str(out/'expert_roundtrip_controls'),
+                     '--expert','--expert-data',str(expert_data)],'expert_roundtrip.log')
+        if phase=='all':
+            state['status']='offline_actions';write(state_path,state)
+            command([str(PYTHON),str(ROOT/'tools/evaluate_omega_camera_stream_actions.py'),'--manifest',str(manifest_path),
+                     '--variant',variant,'--out',str(out/'offline')],'offline.log')
+        # Decode every video fully, not just probe the container header.
+        state['status']='validating_videos';write(out/'status.json',state)
+        for video in out.glob('**/*.mp4'):
+            subprocess.run([str(SIM_PYTHON.parent/'ffmpeg'),'-v','error','-i',str(video),'-f','null','-'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,env=env)
+        state.update(status='completed',finished_unix=time.time());write(out/'status.json',state)
+    except BaseException as error:
+        state.update(status='failed',error=repr(error),finished_unix=time.time());write(state_path,state);raise
+    finally:finish(process);finish(server)
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--manifest',type=Path,required=True)
+    parser.add_argument('--worker')
+    parser.add_argument('--queue-gpu',help='Evaluate this GPU\'s variants sequentially')
+    parser.add_argument('--sequential-per-gpu',action='store_true')
+    parser.add_argument('--phase',choices=['all','offline','rollouts','validate'],default='all')
+    args=parser.parse_args();path=args.manifest.resolve()
+    if args.worker:worker(path,args.worker,args.phase);return
+    manifest=json.loads(path.read_text());launched=[]
+    if args.queue_gpu is not None:
+        for run in manifest['runs']:
+            if str(run['gpu'])==args.queue_gpu:worker(path,run['variant'],args.phase)
+        return
+    if args.sequential_per_gpu:
+        for gpu in sorted({str(r['gpu']) for r in manifest['runs']}):
+            with (path.parent/f'eval_queue_gpu{gpu}.log').open('w') as stream:
+                process=subprocess.Popen([str(PYTHON),str(Path(__file__).resolve()),'--manifest',str(path),
+                    '--queue-gpu',gpu,'--phase',args.phase],cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,
+                    stdin=subprocess.DEVNULL,start_new_session=True)
+            launched.append(dict(gpu=gpu,pid=process.pid,phase=args.phase,sequential=True))
+        manifest.update(status='running',workers=launched,started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
+        write(path,manifest);print(json.dumps(launched),flush=True);return
+    for run in manifest['runs']:
+        out=path.parent/run['variant'];out.mkdir(exist_ok=True)
+        with (out/f'worker_{args.phase}.log').open('w') as stream:
+            process=subprocess.Popen([str(PYTHON),str(Path(__file__).resolve()),'--manifest',str(path),'--worker',run['variant'],'--phase',args.phase],
+                                     cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,stdin=subprocess.DEVNULL,start_new_session=True)
+        launched.append(dict(variant=run['variant'],pid=process.pid,phase=args.phase,status_file=str(out/('offline_worker_status.json' if args.phase=='offline' else 'status.json'))))
+    manifest.setdefault('worker_history',[]).extend(manifest.get('workers',[]))
+    manifest.update(status='running',workers=launched,started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
+    write(path,manifest);print(json.dumps(launched),flush=True)
+
+
+if __name__=='__main__':main()

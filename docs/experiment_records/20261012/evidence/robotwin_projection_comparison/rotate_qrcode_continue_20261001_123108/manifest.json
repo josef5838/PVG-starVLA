@@ -1,0 +1,69 @@
+{
+  "task": "rotate_qrcode",
+  "instruction_override": "rotate_qrcode",
+  "seed": 42,
+  "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_110510/manifest.json",
+  "effective_batch_per_variant": 8,
+  "additional_optimizer_updates_per_variant": 10000,
+  "sample_budget_per_variant": 80000,
+  "save_interval": 5000,
+  "optimizer_state": "fresh AdamW and cosine schedule; model weights continued",
+  "runs": [
+    {
+      "variant": "linear",
+      "gpu": "0",
+      "pid": 55988,
+      "run_id": "surflo_robotwin_rotate_qrcode_linear_task_instruction_continue_10000steps_20261001_123108",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_continue_20261001_123108/linear.log",
+      "command": [
+        "bash",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/run_surflo_body_parts_robotwin.sh",
+        "--framework.visual_adapter_type",
+        "linear",
+        "--seed",
+        "42",
+        "--datasets.vla_data.instruction_override",
+        "rotate_qrcode",
+        "--trainer.pretrained_checkpoint",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_20ksamples_20261001_110510/final_model/pytorch_model.pt",
+        "--trainer.max_train_steps",
+        "10000",
+        "--trainer.sample_budget",
+        "80000",
+        "--trainer.save_interval",
+        "5000"
+      ],
+      "source_checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_20ksamples_20261001_110510/final_model/pytorch_model.pt",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_task_instruction_continue_10000steps_20261001_123108"
+    },
+    {
+      "variant": "residual",
+      "gpu": "1",
+      "pid": 55989,
+      "run_id": "surflo_robotwin_rotate_qrcode_residual_task_instruction_continue_10000steps_20261001_123108",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_continue_20261001_123108/residual.log",
+      "command": [
+        "bash",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/run_surflo_body_parts_robotwin.sh",
+        "--framework.visual_adapter_type",
+        "residual",
+        "--seed",
+        "42",
+        "--datasets.vla_data.instruction_override",
+        "rotate_qrcode",
+        "--trainer.pretrained_checkpoint",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_20ksamples_20261001_110510/final_model/pytorch_model.pt",
+        "--trainer.max_train_steps",
+        "10000",
+        "--trainer.sample_budget",
+        "80000",
+        "--trainer.save_interval",
+        "5000"
+      ],
+      "source_checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_20ksamples_20261001_110510/final_model/pytorch_model.pt",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_task_instruction_continue_10000steps_20261001_123108"
+    }
+  ],
+  "status": "stopped_by_user_start_fresh",
+  "checkpoint_status": "deleted_by_user_start_fresh"
+}

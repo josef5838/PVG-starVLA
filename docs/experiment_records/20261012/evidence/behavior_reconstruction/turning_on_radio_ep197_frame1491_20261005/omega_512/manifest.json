@@ -1,0 +1,47 @@
+{
+  "status": "completed",
+  "source_root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005",
+  "inference": {
+    "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+    "checkpoint_bytes": 4576706117,
+    "checkpoint_variant": "vggt_omega_1b_512",
+    "checkpoint_loading": "strict=True; all checkpoint parameters loaded",
+    "text_alignment_head": false,
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "source_images": {
+      "view_0.png": "20c55ac3a41a886870c2cf9f1c1f6e7837323911902433971ed75da73cce21d5",
+      "view_1.png": "d4c67a9ad934e7215e7ce253f4f24c544e2f4a21e34a26752e7010c8d21d5447",
+      "view_2.png": "f47881d11341ff16b6faca7756da3a8df6ceb9e3afbd153b386bb73122b6f9ca"
+    },
+    "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/manifest.json",
+    "input_shape": [
+      3,
+      3,
+      512,
+      512
+    ],
+    "image_resolution": 512,
+    "preprocessing": "Official installed VGGT-Omega balanced loader; native source PNGs identical to Surflo/VGGT.",
+    "comparison_resolution_note": "Omega resolution budget 512; actual input height/width [512, 512]. Earlier model input dimensions are stored in the parent geometry_batch.pt.",
+    "coordinate_frame": "Omega predicted camera frame, arbitrary scale; separate gauge from VGGT/Surflo. No GT geometry or ICP.",
+    "mesh": {
+      "all_points": 786432,
+      "confidence2_points": 120528,
+      "preview_points": 629145,
+      "preview_confidence_threshold": 1.2631229877471923,
+      "confidence_range": [
+        1.000068187713623,
+        3.5858404636383057
+      ],
+      "mesh_vertices": 623258,
+      "mesh_faces": 1219594,
+      "confidence_threshold": 2.0,
+      "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+    }
+  },
+  "mesh": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_512/omega_depth_mesh.ply",
+  "raw_points": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_512/omega_points_all.ply",
+  "camera_render": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_512/camera_render_comparison.png",
+  "viewer": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_512/mesh_comparison_viewer.html"
+}

@@ -1,0 +1,79 @@
+datasets:
+  vla_data:
+    data_mix: robotwin_omega_stream8_rotate_qrcode
+    data_root_dir: /export/home/haoliang/projects/starVLA/playground/Datasets/RoboTwin
+    dataset_py: lerobot_datasets
+    drop_last: true
+    include_state: true
+    num_workers: 2
+    obs_image_size:
+    - 640
+    - 480
+    per_device_batch_size: 4
+    persistent_workers: false
+    prefetch_factor: 1
+    statistics_cache_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_rotate_qrcode_direct_20000steps_20261010_135404/data_split
+    test_fraction: 0.1
+    validation_fraction: 0.1
+    validation_seed: 42
+evaluation:
+  execute_horizon: 8
+  num_ddim_steps: 20
+framework:
+  action_model:
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    cross_attention_every: 4
+    depth: 24
+    num_condition_tokens: 5
+    num_heads: 16
+    state_dim: 14
+  condition_dropout_prob: 0.0
+  name: OmegaCameraStreamDiT
+  omega:
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt
+    checkpoint_sha256: c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934
+    image_resolution: 512
+    num_views: 3
+    source_root: /export/home/haoliang/projects/vggt-omega-action-pred
+    train_last_blocks: 0
+    weights_mode: reference
+  readout:
+    type: dense
+  state_conditioning: full
+  state_dropout_prob: 0.0
+  streams:
+    conditioning: direct
+    history_length: 8
+    observation_mode: history
+    temporal_rope: false
+    width: 512
+  task_names:
+  - rotate_qrcode
+  visual_conditioning: true
+output_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_rotate_qrcode_direct_20000steps_20261010_135404
+run_id: omega_stream8_rotate_qrcode_direct_20000steps_20261010_135404
+run_root_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints
+seed: 42
+trainer:
+  freeze_modules: ''
+  learning_rate:
+    action_model: 0.0003
+    base: 0.0003
+    memory_proj: 0.0003
+    omega: 1.0e-05
+    state_proj: 0.0003
+    visual_proj: 0.0003
+    visual_readout: 0.0003
+  lr_scheduler_type: cosine_with_min_lr
+  max_train_steps: 20000
+  num_warmup_steps: 100
+  optimizer:
+    betas:
+    - 0.9
+    - 0.95
+    eps: 1.0e-08
+    weight_decay: 1.0e-08
+  scheduler_specific_kwargs:
+    min_lr: 1.0e-05

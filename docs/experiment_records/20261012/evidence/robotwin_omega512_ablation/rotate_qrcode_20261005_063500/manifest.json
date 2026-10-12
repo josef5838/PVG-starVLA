@@ -1,0 +1,49 @@
+{
+  "task": "rotate_qrcode",
+  "baseline_config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/omega512_robotwin.yaml",
+  "baseline_config_sha256": "6d8518ae763e8487e237f95f2efbef5c7e3b0b663f72b66b42a0eb78f4d0e178",
+  "initialization": "fresh action/readout weights; verified official Omega512 reference",
+  "seed": 42,
+  "effective_batch_per_variant": 8,
+  "optimizer_updates_per_variant": 10000,
+  "sample_budget_per_variant": 80000,
+  "save_interval": 5000,
+  "training_resumable_checkpoints": true,
+  "checkpoint_contract": "Policy/adapted weights + optimizer/scheduler/RNG/cursor; immutable frozen Omega weights referenced by SHA256.",
+  "python": "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+  "runs": [
+    {
+      "variant": "dense",
+      "gpu": "0",
+      "run_id": "omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_063500",
+      "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/dense.yaml",
+      "config_sha256": "44e1e18a8fc4636d00604bfd39eacdf8658a0915c47b3d67625d52e623cd8817",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/dense.log",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_063500",
+      "pid": null,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "starVLA/training/train_starvla.py",
+        "--config_yaml",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/dense.yaml"
+      ]
+    },
+    {
+      "variant": "state_query_local",
+      "gpu": "1",
+      "run_id": "omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_063500",
+      "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/state_query_local.yaml",
+      "config_sha256": "0f0bf0bc1924234e92bcfc2679ee3f9096a4785711abc3547d1f899fb81ed20c",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/state_query_local.log",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_063500",
+      "pid": null,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "starVLA/training/train_starvla.py",
+        "--config_yaml",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/state_query_local.yaml"
+      ]
+    }
+  ],
+  "adaptation_config_not_launched": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_063500/adapt_last_blocks.yaml"
+}

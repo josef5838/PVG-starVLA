@@ -1,0 +1,7 @@
+{
+  "step": 9000,
+  "validation_action_mse": 0.02361972845595888,
+  "samples": 128,
+  "num_ddim_steps": 20,
+  "selection": "held-out action MSE; simulator success must be measured separately"
+}

@@ -1,0 +1,6 @@
+{
+  "time_unix": 1791396140.4978828,
+  "change": "Fix background-face indexing and zero-visible-face rendering; rerender and recolor cached geometry for every method and case; preserve originals, no changes to inference or reconstruction parameters.",
+  "renderer_sha256": "687780b96ba1244ee027d85b33a83479031ad71de9cf673c82385a7d91d6f2a1",
+  "validation": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/renderer_validation.json"
+}

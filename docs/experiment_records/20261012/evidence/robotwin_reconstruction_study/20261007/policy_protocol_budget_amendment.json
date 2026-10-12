@@ -1,0 +1,5 @@
+{
+  "time": 1791395193.5831473,
+  "change": "Policy-only budgets made explicit before any policy training: 20000 updates, save every 5000, checkpoints 10000/20000, rollout noise seeds 4000/4001/4002. Reconstruction protocol and inputs unchanged.",
+  "current_protocol_sha256": "38d2efa08d2fe15d2cda6998844d9119872cc643a79333cd467a40ac32876561"
+}

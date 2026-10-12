@@ -1,0 +1,21 @@
+"""Read progress for a launched independent-camera conditioning experiment."""
+import argparse
+import json
+from pathlib import Path
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--manifest',type=Path,required=True)
+    args=parser.parse_args();manifest=json.loads(args.manifest.read_text());rows=[]
+    for run in manifest['runs']:
+        progress=Path(run['output_dir'])/'stream_training_status.json'
+        row=json.loads(progress.read_text()) if progress.exists() else dict(status=run.get('status','prepared'))
+        process=Path('/proc')/str(run['pid'])/'cmdline'
+        row['process_alive']=bool(process.exists() and str(run['config']).encode() in process.read_bytes())
+        row.update(variant=run['variant'],gpu=run['gpu'],pid=run['pid'],log=run['log'],output_dir=run['output_dir'])
+        rows.append(row)
+    print(json.dumps(dict(manifest=str(args.manifest.resolve()),runs=rows),indent=2))
+
+
+if __name__=='__main__':main()

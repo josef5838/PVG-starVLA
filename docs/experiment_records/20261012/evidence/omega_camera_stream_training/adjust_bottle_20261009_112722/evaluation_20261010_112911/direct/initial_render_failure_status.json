@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "variant": "direct",
+  "started_unix": 1791631835.7201254,
+  "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/best_model/pytorch_model.pt",
+  "error": "RuntimeError('Failed command; see /export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts.log')",
+  "finished_unix": 1791631866.6530857
+}

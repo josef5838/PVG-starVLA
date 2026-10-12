@@ -1,0 +1,201 @@
+{
+  "status": "completed",
+  "results": {
+    "train_mean": {
+      "object": {
+        "mean_error_cm": 7.554223537445068,
+        "median_error_cm": 7.058868408203125,
+        "p90_error_cm": 11.079117488861083,
+        "axis_rmse_cm": [
+          4.33490514755249,
+          6.179673194885254,
+          2.3100109100341797
+        ]
+      },
+      "gripper_reference": {
+        "mean_error_cm": 8.014460563659668,
+        "median_error_cm": 7.963401794433594,
+        "p90_error_cm": 13.518713760375956,
+        "axis_rmse_cm": [
+          5.058587551116943,
+          7.073958873748779,
+          3.387589693069458
+        ]
+      },
+      "object_minus_gripper": {
+        "mean_error_cm": 7.460188865661621,
+        "median_error_cm": 6.643422603607178,
+        "p90_error_cm": 10.090654182434069,
+        "axis_rmse_cm": [
+          4.252371788024902,
+          8.397828102111816,
+          2.6729254722595215
+        ]
+      },
+      "prediction_displacement_consistency_cm": 1.6763806343078613e-06
+    },
+    "matched_visual_head": {
+      "metrics": {
+        "object": {
+          "mean_error_cm": 2.2003815174102783,
+          "median_error_cm": 1.8429014682769775,
+          "p90_error_cm": 4.568409824371337,
+          "axis_rmse_cm": [
+            1.5352624654769897,
+            1.783416986465454,
+            1.4690779447555542
+          ]
+        },
+        "gripper_reference": {
+          "mean_error_cm": 1.9665733575820923,
+          "median_error_cm": 1.6890828609466553,
+          "p90_error_cm": 3.8342537403106687,
+          "axis_rmse_cm": [
+            1.2033660411834717,
+            1.4809457063674927,
+            1.608178973197937
+          ]
+        },
+        "object_minus_gripper": {
+          "mean_error_cm": 1.83847177028656,
+          "median_error_cm": 1.4973762035369873,
+          "p90_error_cm": 3.6467375278472898,
+          "axis_rmse_cm": [
+            1.5551620721817017,
+            1.6519436836242676,
+            0.6826418042182922
+          ]
+        },
+        "prediction_displacement_consistency_cm": 0.27475091628730297
+      },
+      "best_epoch": 228,
+      "best_validation_macro_error_cm": 1.8090534955263138,
+      "trainable_parameters": 3283529,
+      "epochs_run": 268,
+      "test_images_shuffled": {
+        "object": {
+          "mean_error_cm": 5.916455268859863,
+          "median_error_cm": 6.010075092315674,
+          "p90_error_cm": 11.618198299407958,
+          "axis_rmse_cm": [
+            3.982388496398926,
+            6.155779838562012,
+            1.4229276180267334
+          ]
+        },
+        "gripper_reference": {
+          "mean_error_cm": 6.080770015716553,
+          "median_error_cm": 4.555179595947266,
+          "p90_error_cm": 11.266874504089355,
+          "axis_rmse_cm": [
+            4.049320697784424,
+            5.66444730758667,
+            2.540130138397217
+          ]
+        },
+        "object_minus_gripper": {
+          "mean_error_cm": 3.469831943511963,
+          "median_error_cm": 3.2447855472564697,
+          "p90_error_cm": 5.89346876144409,
+          "axis_rmse_cm": [
+            2.4444782733917236,
+            2.506930112838745,
+            1.9934405088424683
+          ]
+        },
+        "prediction_displacement_consistency_cm": 0.27475091628730297
+      }
+    },
+    "trajectory_shuffled_visual_head": {
+      "metrics": {
+        "object": {
+          "mean_error_cm": 5.738802433013916,
+          "median_error_cm": 4.8892669677734375,
+          "p90_error_cm": 12.127078628540039,
+          "axis_rmse_cm": [
+            4.429160118103027,
+            5.6207122802734375,
+            1.7045875787734985
+          ]
+        },
+        "gripper_reference": {
+          "mean_error_cm": 6.154051303863525,
+          "median_error_cm": 4.666040420532227,
+          "p90_error_cm": 13.200603485107422,
+          "axis_rmse_cm": [
+            4.564099311828613,
+            5.190553665161133,
+            3.3494393825531006
+          ]
+        },
+        "object_minus_gripper": {
+          "mean_error_cm": 3.8965468406677246,
+          "median_error_cm": 3.559403419494629,
+          "p90_error_cm": 6.940602779388428,
+          "axis_rmse_cm": [
+            2.3713090419769287,
+            2.606348991394043,
+            2.840954303741455
+          ]
+        },
+        "prediction_displacement_consistency_cm": 0.8294722065329552
+      },
+      "best_epoch": 17,
+      "best_validation_macro_error_cm": 5.183762684464455,
+      "trainable_parameters": 3283529,
+      "epochs_run": 57
+    }
+  },
+  "splits": {
+    "train": [
+      0,
+      65,
+      76,
+      2,
+      46,
+      25,
+      1,
+      35,
+      62,
+      49,
+      21,
+      84,
+      71,
+      70,
+      96,
+      51,
+      98,
+      3,
+      72,
+      26,
+      80,
+      68,
+      19,
+      57
+    ],
+    "validation": [
+      15,
+      93,
+      12,
+      74,
+      97,
+      52,
+      81,
+      83
+    ],
+    "test": [
+      39,
+      56,
+      75,
+      91,
+      7,
+      37,
+      22,
+      67
+    ]
+  },
+  "target_coordinates": "RoboTwin simulator world coordinates in metres; fixed robot base transform saved during collection. Object actor origin and robot right EE reference, not contact-tip pose.",
+  "input_contract": "Frozen Omega512 RGB patch features only; no state, actions, instruction, episode/frame/time IDs, or GT cameras.",
+  "selection": "Best validation macro localization error; test labels only used for final reporting.",
+  "limits": "40 right-arm trajectories; this spatially pooled feature probe does not test every possible feature readout or policy success."
+}

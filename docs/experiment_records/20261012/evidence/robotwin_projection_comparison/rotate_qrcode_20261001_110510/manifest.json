@@ -1,0 +1,38 @@
+{
+  "task": "rotate_qrcode",
+  "seed": 42,
+  "sample_budget_per_variant": 20000,
+  "effective_batch_per_variant": 8,
+  "optimizer_updates_per_variant": 2500,
+  "runs": [
+    {
+      "variant": "linear",
+      "gpu": "0",
+      "pid": 47681,
+      "run_id": "surflo_robotwin_rotate_qrcode_linear_20ksamples_20261001_110510",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_110510/linear.log",
+      "command": [
+        "bash",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/run_surflo_body_parts_robotwin.sh",
+        "--framework.visual_adapter_type",
+        "linear"
+      ],
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_20ksamples_20261001_110510"
+    },
+    {
+      "variant": "residual",
+      "gpu": "1",
+      "pid": 47682,
+      "run_id": "surflo_robotwin_rotate_qrcode_residual_20ksamples_20261001_110510",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_110510/residual.log",
+      "command": [
+        "bash",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/run_surflo_body_parts_robotwin.sh",
+        "--framework.visual_adapter_type",
+        "residual"
+      ],
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_20ksamples_20261001_110510"
+    }
+  ],
+  "checkpoint_status": "deleted_by_user_start_fresh"
+}

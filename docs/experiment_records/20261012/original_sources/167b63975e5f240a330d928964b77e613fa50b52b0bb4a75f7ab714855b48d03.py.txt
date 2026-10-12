@@ -1,0 +1,30 @@
+"""Score observed robot surfaces in a common physical coordinate frame."""
+import argparse,json
+from pathlib import Path
+import numpy as np
+from scipy.spatial import cKDTree
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+p=argparse.ArgumentParser();p.add_argument('--root',required=True);args=p.parse_args();root=Path(args.root)
+rng=np.random.default_rng(42);report={};fig=plt.figure(figsize=(18,10))
+for row,ep in enumerate([51,60,38]):
+ d=np.load(root/f'episode_{ep:03d}_geometry_comparison.npz')
+ def workspace(x):return np.isfinite(x).all(1)&(x[:,0]>-.7)&(x[:,0]<.7)&(x[:,1]>-.55)&(x[:,1]<.5)&(x[:,2]>.7)&(x[:,2]<1.3)
+ gt=d['ground_truth'];gt=gt[workspace(gt)];gt=gt[rng.choice(len(gt),min(8192,len(gt)),replace=False)];tree=cKDTree(gt);report[str(ep)]={'gt_workspace_points':len(gt),'results':{}}
+ for col,key in enumerate(['ground_truth','vggt','plain','gt_spatial_source','gt_spatial_control']):
+  pts=d[key];pts=pts[np.isfinite(pts).all(1)];inside=workspace(pts);q=pts[inside]
+  if key!='ground_truth':
+   sample=pts[rng.choice(len(pts),min(8192,len(pts)),replace=False)]
+   distances,_=tree.query(sample,workers=4);near,_=cKDTree(sample).query(gt,workers=4)
+   metrics={'total_points':len(pts),'workspace_fraction':float(inside.mean()),'all_pred_to_observed_gt_mean_cm':float(distances.mean()*100),'all_pred_to_observed_gt_median_cm':float(np.median(distances)*100),'gt_to_pred_mean_cm':float(near.mean()*100)}
+   for tol in [.01,.05]:
+    precision=float(np.mean(distances<tol));recall=float(np.mean(near<tol));metrics[f'f1_{tol*100:g}cm']=2*precision*recall/max(precision+recall,1e-12)
+   report[str(ep)]['results'][key]=metrics
+  ids=rng.choice(len(q),min(10000,len(q)),replace=False) if len(q) else []
+  ax=fig.add_subplot(3,5,row*5+col+1,projection='3d')
+  if len(q):ax.scatter(*q[ids].T,c=q[ids,2],cmap='viridis',s=.7,vmin=.7,vmax=1.3)
+  ax.set(xlim=(-.7,.7),ylim=(-.55,.5),zlim=(.7,1.3));ax.view_init(25,-65);ax.set_title(f'Episode {ep}: {key}',fontsize=9);ax.set_box_aspect((1.4,1.05,.6))
+ print(ep,json.dumps(report[str(ep)]),flush=True)
+fig.suptitle('Observed simulator surfaces and reconstructed workspace geometry\nIdentical physical bounds; no surface ICP. Privileged control replaces spatial data only.',fontsize=12);fig.tight_layout();fig.savefig(root/'robot_geometry_controls.png',dpi=160)
+(root/'robot_geometry_scores.json').write_text(json.dumps({'protocol':'At most 8192 uniformly sampled points per cloud. GT = visible simulator-depth surfaces from the recreated three cameras, restricted to fixed table workspace. Predictions use the same camera-derived similarity per scene for all variants. No surface fitting. Pred-to-GT sampling includes all finite predictions (without workspace culling); workspace fraction reports outliers excluded from the visualization. GT-to-pred measures coverage of observed surfaces only. Distances in physical centimeters; F1 at 1 and 5 cm. Occluded predicted surfaces can be unfairly penalized. The GT-spatial control retains estimated appearance/camera embeddings and is not an operational RGB-only fix.','episodes':report},indent=2))

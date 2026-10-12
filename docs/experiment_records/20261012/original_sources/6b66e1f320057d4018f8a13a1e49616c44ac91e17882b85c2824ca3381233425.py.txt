@@ -1,0 +1,150 @@
+"""Matched seen, heldout and fresh-scene closed-loop camera-stream evaluation."""
+import argparse
+import fcntl
+import io
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import time
+import h5py
+import numpy as np
+from PIL import Image
+
+ROOT=Path(__file__).resolve().parents[1]
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--manifest',type=Path,required=True)
+    parser.add_argument('--variant',required=True)
+    parser.add_argument('--port',type=int,required=True)
+    parser.add_argument('--out',type=Path,required=True)
+    parser.add_argument('--limit-scenes',type=int)
+    parser.add_argument('--expert',action='store_true')
+    parser.add_argument('--expert-data',type=Path,help='Prepared inverse-normalized expert actions, keyed by dataset episode')
+    parser.add_argument('--robotwin-root',type=Path,default=Path('/export/home/haoliang/projects/RoboTwin_PVG'))
+    args=parser.parse_args();args.manifest=args.manifest.resolve();args.out=args.out.resolve()
+    args.robotwin_root=args.robotwin_root.resolve();manifest=json.loads(args.manifest.read_text())
+    expert_data=np.load(args.expert_data.resolve()) if args.expert_data else None
+    if expert_data is not None and not args.expert:raise ValueError('--expert-data requires --expert')
+    args.out.mkdir(parents=True,exist_ok=True)
+    # Serialize resumptions targeting the same result/video directory.
+    output_lock=(args.out/'.worker.lock').open('a')
+    fcntl.flock(output_lock,fcntl.LOCK_EX)
+    sys.path.insert(0,str(ROOT));sys.path.insert(0,str(ROOT/'tools'))
+    from robotwin_omega_intervention_scenes import setup_runtime
+    _,renderer,make_env,config=setup_runtime(args.robotwin_root,0,task=manifest['task'])
+    from examples.simBenchmarks.Robotwin.eval_files import model2robotwin_interface as adapter
+    run=next(r for r in manifest['runs'] if r['variant']==args.variant)
+    source=Path(manifest['source']);info=json.loads((source/'scene_info.json').read_text())
+    fresh={r['seed']:r for r in json.loads(Path(manifest['fresh_scene_registration']).read_text())} if manifest.get('fresh_scene_registration') else {}
+    scenes=manifest['rollout_scenes']
+    if args.expert:scenes=[s for s in scenes if s['source_episode'] is not None]
+    if args.limit_scenes:scenes=scenes[:args.limit_scenes]
+    expert_actions=None
+    class ExpertTransport:
+        def __init__(self,*args):self.index=0
+        def get_server_metadata(self):
+            return dict(action_chunk_size=16,include_state=True,execute_horizon=8,num_ddim_steps=20,
+                        camera_history_length=8,camera_history_stride=1,training_obs_image_size=[640,480],
+                        preserve_native_images=False,instruction_override='adjust_bottle')
+        def predict_action(self,request):
+            start=self.index*8;self.index+=1
+            ids=np.minimum(np.arange(start,start+16),len(expert_actions)-1)
+            return {'actions':expert_actions[ids][None]}
+        def close(self):pass
+    if args.expert:adapter.WebsocketClientPolicy=ExpertTransport
+    records=[]
+    for index,scene in enumerate(scenes):
+        # Fresh process runs can resume after interruption, preserving completed cases.
+        case=args.out/f"{scene['split']}_seed_{scene['seed']}"
+        result_path=case.with_suffix('.json')
+        if result_path.exists():
+            records.append(json.loads(result_path.read_text()));continue
+        model=adapter.ModelClient(run['checkpoints']['best'],port=args.port,execute_horizon=8)
+        model.diffusion_seed=manifest['diffusion_seed']
+        if model.camera_history_length != 8 or model.preserve_native_images or list(model.image_size)!=[640,480]:
+            raise RuntimeError('Server/client history or image-size contract mismatch')
+        env=make_env(manifest['task']);pipe=None;trace=[]
+        try:
+            env.setup_demo(now_ep_num=0,seed=scene['seed'],is_test=True,**config)
+            obs=env.get_obs();frame=obs['observation']['head_camera']['rgb']
+            image_errors={};state_error=None;source_verified=False;registered_verified=False
+            if scene['source_episode'] is not None:
+                sid=scene['source_episode']
+                with h5py.File(source/f'data/episode{sid}.hdf5') as file:
+                    state_error=float(np.max(np.abs(obs['joint_action']['vector']-file['joint_action/vector'][0])))
+                    for cam in manifest['camera_order']:
+                        image=Image.open(io.BytesIO(bytes(file[f'observation/{cam}/rgb'][0]))).convert('RGB')
+                        actual=np.asarray(Image.fromarray(obs['observation'][cam]['rgb']).resize(image.size))
+                        image_errors[cam]=float(np.abs(actual.astype(float)-np.asarray(image)).mean())
+                    order=[0,1,2,3,4,5,7,8,9,10,11,12,6,13]
+                    expert_actions=file['joint_action/vector'][1:][:,order]
+                    if expert_data is not None:expert_actions=expert_data[f"episode_{scene['episode']}"]
+                expected=int(info[f'episode_{sid}']['info']['{A}'].split('base')[-1])
+                if int(env.model_id)!=expected or state_error>1e-6 or max(image_errors.values())>6:
+                    raise RuntimeError(f'Scene mismatch: {scene}, model={env.model_id}/{expected}, state={state_error}, images={image_errors}')
+                source_verified=True
+            elif scene['seed'] in fresh:
+                reference=fresh[scene['seed']]
+                state_error=float(np.max(np.abs(obs['joint_action']['vector']-np.asarray(reference['initial_state']))))
+                pose_error=float(np.linalg.norm(env.bottle.get_pose().p-np.asarray(reference['position'])))
+                actual_arm='right' if env.qpose_tag else 'left'
+                if state_error>1e-6 or pose_error>1e-5 or int(env.model_id)!=reference['model_id'] or actual_arm!=reference['arm']:
+                    raise RuntimeError(f'Registered fresh scene mismatch at seed {scene["seed"]}')
+                registered_verified=True
+            instruction=manifest['task'];env.set_instruction(instruction);model.reset(instruction)
+            video=case.with_suffix('.mp4')
+            ffmpeg=shutil.which('ffmpeg') or str(Path(sys.executable).parent/'ffmpeg')
+            pipe=subprocess.Popen([ffmpeg,'-y','-loglevel','error','-f','rawvideo','-pixel_format','rgb24',
+                                   '-video_size',f'{frame.shape[1]}x{frame.shape[0]}','-framerate','10','-i','-',
+                                   '-pix_fmt','yuv420p','-vcodec','libx264','-threads','2',str(video)],stdin=subprocess.PIPE)
+            env.eval_video_path=str(args.out);env._set_eval_video_ffmpeg(pipe)
+            initial=env.bottle.get_pose().p.copy();started=time.monotonic()
+            arm='right' if env.qpose_tag else 'left'
+            limit=env.step_lim if not args.expert else len(expert_actions)
+            for step in range(limit):
+                obs=env.get_obs();env.now_obs=obs
+                example=dict(image=[obs['observation'][cam]['rgb'] for cam in manifest['camera_order']],
+                             state=obs['joint_action']['vector'],lang=instruction)
+                inference=time.monotonic();action=model.step(example,step=step);inference=time.monotonic()-inference
+                env.take_action(action,action_type='qpos')
+                contacts=set()
+                for contact in env.scene.get_contacts():
+                    names=[body.entity.name for body in contact.bodies]
+                    if env.bottle.actor.name in names:contacts.update(n for n in names if n in env.robot.gripper_name)
+                command=np.asarray(env.robot.get_left_arm_jointState()+env.robot.get_right_arm_jointState())
+                trace.append(dict(step=step,action=action.tolist(),state_before=np.asarray(example['state']).tolist(),
+                                  command_after=command.tolist(),object_pose=np.r_[env.bottle.get_pose().p,env.bottle.get_pose().q].tolist(),
+                                  functional_point=np.asarray(env.bottle.get_functional_point(0)[:3]).tolist(),
+                                  object_gripper_contacts=sorted(contacts),
+                                  closed_two_finger_contact=bool(len(contacts)>=2 and command[13 if arm=='right' else 6]<.5),
+                                  object_lift_m=float(env.bottle.get_pose().p[2]-initial[2]),
+                                  history_observations=len(model.camera_history),policy_step_seconds=inference))
+                if env.eval_success:break
+            record=dict(**scene,variant=args.variant,checkpoint=run['checkpoints']['best'],mode=('expert_roundtrip' if expert_data is not None else 'expert') if args.expert else 'policy',
+                        source_scene_verified=source_verified,registered_scene_verified=registered_verified,
+                        initial_state_max_error=state_error,initial_image_mae=image_errors,
+                        model_id=int(env.model_id),arm=arm,success=bool(env.eval_success or env.check_success()),steps=len(trace),
+                        grasp_contact=any(x['closed_two_finger_contact'] for x in trace),
+                        lift_4cm=any(x['object_lift_m']>=.04 for x in trace),max_lift_m=max(x['object_lift_m'] for x in trace),
+                        elapsed_seconds=time.monotonic()-started,video=str(video),trace=str(case.with_suffix('.trace.json')),
+                        history_length=8,history_stride=1,image_size=list(model.image_size),num_ddim_steps=20,execute_horizon=8,
+                        diffusion_seed=manifest['diffusion_seed'],initial_object_position=initial.tolist(),
+                        final_object_position=env.bottle.get_pose().p.tolist(),step_limit=env.step_lim)
+            case.with_suffix('.trace.json').write_text(json.dumps(trace)+'\n')
+            result_path.write_text(json.dumps(record,indent=2)+'\n');records.append(record)
+            (args.out/'results.json').write_text(json.dumps(records,indent=2)+'\n')
+            print(json.dumps(record),flush=True)
+        finally:
+            if pipe is not None:
+                env._del_eval_video_ffmpeg()
+                if pipe.wait(timeout=30):raise RuntimeError('Video encoding failed')
+                env.eval_video_path=None
+            env.close_env(clear_cache=True);model.client.close()
+    (args.out/'results.json').write_text(json.dumps(records,indent=2)+'\n')
+
+
+if __name__=='__main__':main()

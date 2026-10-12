@@ -1,0 +1,46 @@
+{
+  "status": "completed",
+  "source_root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005",
+  "inference": {
+    "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_256_text.pt",
+    "checkpoint_bytes": 5399490950,
+    "checkpoint_variant": "VGGT-Omega-1B-256-Text",
+    "checkpoint_loading": "strict=True; all camera/depth/alignment parameters loaded",
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "source_images": {
+      "view_0.png": "20c55ac3a41a886870c2cf9f1c1f6e7837323911902433971ed75da73cce21d5",
+      "view_1.png": "d4c67a9ad934e7215e7ce253f4f24c544e2f4a21e34a26752e7010c8d21d5447",
+      "view_2.png": "f47881d11341ff16b6faca7756da3a8df6ceb9e3afbd153b386bb73122b6f9ca"
+    },
+    "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/manifest.json",
+    "input_shape": [
+      3,
+      3,
+      256,
+      256
+    ],
+    "image_resolution": 256,
+    "preprocessing": "Official installed VGGT-Omega balanced loader; native source PNGs identical to Surflo/VGGT.",
+    "comparison_resolution_note": "Earlier VGGT and Surflo use 518x518; downloaded Omega checkpoint recommends 256x256.",
+    "coordinate_frame": "Omega predicted camera frame, arbitrary scale; separate gauge from VGGT/Surflo. No GT geometry or ICP.",
+    "mesh": {
+      "all_points": 196608,
+      "confidence2_points": 189566,
+      "preview_points": 157286,
+      "preview_confidence_threshold": 2.9417887687683106,
+      "confidence_range": [
+        1.0065617561340332,
+        11.024332046508789
+      ],
+      "mesh_vertices": 156453,
+      "mesh_faces": 300317,
+      "confidence_threshold": 2.0,
+      "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+    }
+  },
+  "mesh": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_256/omega_depth_mesh.ply",
+  "raw_points": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_256/omega_points_all.ply",
+  "camera_render": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_256/camera_render_comparison.png",
+  "viewer": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_256/mesh_comparison_viewer.html"
+}

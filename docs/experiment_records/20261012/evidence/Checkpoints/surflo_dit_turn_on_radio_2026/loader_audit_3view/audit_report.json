@@ -1,0 +1,418 @@
+{
+  "dataset_length": 429928,
+  "requested_sample_indices": [
+    0,
+    500,
+    2000,
+    5000
+  ],
+  "num_exported": 4,
+  "surflo_image_contract": {
+    "trainer_config_image_size": 518,
+    "actual_tensor_shape_per_sample": [
+      3,
+      3,
+      518,
+      518
+    ],
+    "VGGT_receives": "[batch, 3 views, 3 RGB channels, 518, 518]",
+    "resize_verification": "Each audited sample exactly equals a direct reproduction of SurfloDiT._image_tensor."
+  },
+  "geometric_statistics_contract": {
+    "applies_to": "Surflo reconstruction/inference only; SurfloDiT training calls VGGT plus get_compressed_tokens directly and does not invoke FFM point normalization.",
+    "per_scene_normalize": true,
+    "mode": "median_dist_to_medianpoint",
+    "center": "coordinate-wise median of all VGGT world points",
+    "scale": "median L2 distance to that median; copied isotropically to XYZ and clamped >= 1e-6",
+    "normalization": "(xyz - center) / scale * target_std",
+    "target_std": 0.5,
+    "renormalize_after_cull": false,
+    "cull_radius_in_training_config": null
+  },
+  "samples": [
+    {
+      "sample_index": 0,
+      "task": "turning_on_radio",
+      "trajectory_id": 197,
+      "base_index": 1491,
+      "camera_files": {
+        "head": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.zed_link_camera_0/chunk-000/file-005.mp4",
+        "left_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.left_realsense_link_camera_0/chunk-000/file-001.mp4",
+        "right_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.right_realsense_link_camera_0/chunk-000/file-001.mp4"
+      },
+      "loader_image_sizes_wh": [
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ]
+      ],
+      "surflo_input_shape": [
+        3,
+        3,
+        518,
+        518
+      ],
+      "surflo_input_dtype": "torch.float32",
+      "preprocessing": {
+        "code_path": "SurfloDiT._image_tensor",
+        "RGB_conversion": true,
+        "uint8_to_float": "torchvision.to_tensor: divide by 255",
+        "resize": {
+          "size_hw": [
+            518,
+            518
+          ],
+          "antialias": true
+        },
+        "image_mean_std_normalization": "none",
+        "reference_max_abs_error": 0.0
+      },
+      "input_rgb_statistics": [
+        {
+          "value_range": [
+            0.00027570672682486475,
+            1.0
+          ],
+          "mean_rgb": [
+            0.6234245896339417,
+            0.5518267750740051,
+            0.4893363416194916
+          ],
+          "std_rgb": [
+            0.12661772966384888,
+            0.12824970483779907,
+            0.1482497900724411
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.8178590536117554
+          ],
+          "mean_rgb": [
+            0.31003478169441223,
+            0.24537865817546844,
+            0.19115714728832245
+          ],
+          "std_rgb": [
+            0.3182300329208374,
+            0.26533398032188416,
+            0.2199801802635193
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.7405298352241516
+          ],
+          "mean_rgb": [
+            0.41180121898651123,
+            0.3118312656879425,
+            0.23958638310432434
+          ],
+          "std_rgb": [
+            0.27131277322769165,
+            0.21494907140731812,
+            0.17361192405223846
+          ]
+        }
+      ]
+    },
+    {
+      "sample_index": 500,
+      "task": "turning_on_radio",
+      "trajectory_id": 57,
+      "base_index": 256,
+      "camera_files": {
+        "head": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.zed_link_camera_0/chunk-000/file-001.mp4",
+        "left_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.left_realsense_link_camera_0/chunk-000/file-000.mp4",
+        "right_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.right_realsense_link_camera_0/chunk-000/file-000.mp4"
+      },
+      "loader_image_sizes_wh": [
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ]
+      ],
+      "surflo_input_shape": [
+        3,
+        3,
+        518,
+        518
+      ],
+      "surflo_input_dtype": "torch.float32",
+      "preprocessing": {
+        "code_path": "SurfloDiT._image_tensor",
+        "RGB_conversion": true,
+        "uint8_to_float": "torchvision.to_tensor: divide by 255",
+        "resize": {
+          "size_hw": [
+            518,
+            518
+          ],
+          "antialias": true
+        },
+        "image_mean_std_normalization": "none",
+        "reference_max_abs_error": 0.0
+      },
+      "input_rgb_statistics": [
+        {
+          "value_range": [
+            0.0,
+            0.9804681539535522
+          ],
+          "mean_rgb": [
+            0.6490458846092224,
+            0.5734636783599854,
+            0.5062062740325928
+          ],
+          "std_rgb": [
+            0.19944915175437927,
+            0.18429332971572876,
+            0.1696176826953888
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.8331987261772156
+          ],
+          "mean_rgb": [
+            0.32697516679763794,
+            0.26914942264556885,
+            0.21737825870513916
+          ],
+          "std_rgb": [
+            0.32915839552879333,
+            0.281025767326355,
+            0.24122482538223267
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.8254464268684387
+          ],
+          "mean_rgb": [
+            0.27534177899360657,
+            0.21609699726104736,
+            0.1665424257516861
+          ],
+          "std_rgb": [
+            0.3006424307823181,
+            0.24725140631198883,
+            0.20483380556106567
+          ]
+        }
+      ]
+    },
+    {
+      "sample_index": 2000,
+      "task": "turning_on_radio",
+      "trajectory_id": 186,
+      "base_index": 1241,
+      "camera_files": {
+        "head": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.zed_link_camera_0/chunk-000/file-005.mp4",
+        "left_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.left_realsense_link_camera_0/chunk-000/file-001.mp4",
+        "right_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.right_realsense_link_camera_0/chunk-000/file-001.mp4"
+      },
+      "loader_image_sizes_wh": [
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ]
+      ],
+      "surflo_input_shape": [
+        3,
+        3,
+        518,
+        518
+      ],
+      "surflo_input_dtype": "torch.float32",
+      "preprocessing": {
+        "code_path": "SurfloDiT._image_tensor",
+        "RGB_conversion": true,
+        "uint8_to_float": "torchvision.to_tensor: divide by 255",
+        "resize": {
+          "size_hw": [
+            518,
+            518
+          ],
+          "antialias": true
+        },
+        "image_mean_std_normalization": "none",
+        "reference_max_abs_error": 0.0
+      },
+      "input_rgb_statistics": [
+        {
+          "value_range": [
+            0.0,
+            1.0
+          ],
+          "mean_rgb": [
+            0.6206420063972473,
+            0.5491970181465149,
+            0.48991990089416504
+          ],
+          "std_rgb": [
+            0.18094289302825928,
+            0.17684310674667358,
+            0.1734304279088974
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.8684491515159607
+          ],
+          "mean_rgb": [
+            0.6534786224365234,
+            0.5407440662384033,
+            0.44159334897994995
+          ],
+          "std_rgb": [
+            0.24587979912757874,
+            0.20993220806121826,
+            0.17754147946834564
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.979597270488739
+          ],
+          "mean_rgb": [
+            0.6937052607536316,
+            0.17934171855449677,
+            0.1314576417207718
+          ],
+          "std_rgb": [
+            0.17682018876075745,
+            0.20104557275772095,
+            0.16493099927902222
+          ]
+        }
+      ]
+    },
+    {
+      "sample_index": 5000,
+      "task": "turning_on_radio",
+      "trajectory_id": 47,
+      "base_index": 1446,
+      "camera_files": {
+        "head": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.zed_link_camera_0/chunk-000/file-001.mp4",
+        "left_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.left_realsense_link_camera_0/chunk-000/file-000.mp4",
+        "right_wrist": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.right_realsense_link_camera_0/chunk-000/file-000.mp4"
+      },
+      "loader_image_sizes_wh": [
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ],
+        [
+          224,
+          224
+        ]
+      ],
+      "surflo_input_shape": [
+        3,
+        3,
+        518,
+        518
+      ],
+      "surflo_input_dtype": "torch.float32",
+      "preprocessing": {
+        "code_path": "SurfloDiT._image_tensor",
+        "RGB_conversion": true,
+        "uint8_to_float": "torchvision.to_tensor: divide by 255",
+        "resize": {
+          "size_hw": [
+            518,
+            518
+          ],
+          "antialias": true
+        },
+        "image_mean_std_normalization": "none",
+        "reference_max_abs_error": 0.0
+      },
+      "input_rgb_statistics": [
+        {
+          "value_range": [
+            0.0,
+            0.9828956127166748
+          ],
+          "mean_rgb": [
+            0.574302613735199,
+            0.5094678997993469,
+            0.45730435848236084
+          ],
+          "std_rgb": [
+            0.17469732463359833,
+            0.16901206970214844,
+            0.17303001880645752
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.8876771926879883
+          ],
+          "mean_rgb": [
+            0.30994582176208496,
+            0.19740398228168488,
+            0.16305524110794067
+          ],
+          "std_rgb": [
+            0.2582170069217682,
+            0.2246571183204651,
+            0.2006380259990692
+          ]
+        },
+        {
+          "value_range": [
+            0.0,
+            0.9477922320365906
+          ],
+          "mean_rgb": [
+            0.5734219551086426,
+            0.2283230870962143,
+            0.17889001965522766
+          ],
+          "std_rgb": [
+            0.2409745156764984,
+            0.25762638449668884,
+            0.2146003693342209
+          ]
+        }
+      ]
+    }
+  ]
+}

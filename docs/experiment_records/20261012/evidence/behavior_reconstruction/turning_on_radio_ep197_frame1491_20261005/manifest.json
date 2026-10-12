@@ -1,0 +1,104 @@
+{
+  "status": "completed",
+  "task": "turning_on_radio",
+  "episode": 197,
+  "frame": 1491,
+  "models": "Released Surflo EMA and its frozen VGGT-1B backbone",
+  "inputs": {
+    "task": "turning_on_radio",
+    "episode": 197,
+    "frame": 1491,
+    "episode_timestamp": 49.70000076293945,
+    "raw_episode_id": 2970,
+    "source_dataset": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026",
+    "cameras": [
+      {
+        "camera": "observation.rgb.zed_link_camera_0",
+        "source_video": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.zed_link_camera_0/chunk-000/file-005.mp4",
+        "requested_timestamp": 806.0666674296062,
+        "decoded_timestamp": 806.0666666666667,
+        "native_size_wh": [
+          720,
+          720
+        ],
+        "image": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/inputs/view_0.png",
+        "sha256": "20c55ac3a41a886870c2cf9f1c1f6e7837323911902433971ed75da73cce21d5"
+      },
+      {
+        "camera": "observation.rgb.left_realsense_link_camera_0",
+        "source_video": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.left_realsense_link_camera_0/chunk-000/file-001.mp4",
+        "requested_timestamp": 6286.600000762939,
+        "decoded_timestamp": 6286.6,
+        "native_size_wh": [
+          480,
+          480
+        ],
+        "image": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/inputs/view_1.png",
+        "sha256": "d4c67a9ad934e7215e7ce253f4f24c544e2f4a21e34a26752e7010c8d21d5447"
+      },
+      {
+        "camera": "observation.rgb.right_realsense_link_camera_0",
+        "source_video": "/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026/videos/observation.rgb.right_realsense_link_camera_0/chunk-000/file-001.mp4",
+        "requested_timestamp": 5534.800000762938,
+        "decoded_timestamp": 5534.8,
+        "native_size_wh": [
+          480,
+          480
+        ],
+        "image": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/inputs/view_2.png",
+        "sha256": "f47881d11341ff16b6faca7756da3a8df6ceb9e3afbd153b386bb73122b6f9ca"
+      }
+    ],
+    "preprocessing": "Native RGB video frames; shared Surflo no_stretch preprocessing to 518px. No training-loader 224px intermediate.",
+    "coordinate_frame": "VGGT reconstruction frame, arbitrary scale; no ground-truth camera poses, depth, or metric alignment used.",
+    "checkpoint": "/export/home/haoliang/projects/Surflo/checkpoints/surflo_v0.pt",
+    "use_ema": true,
+    "plain_seed": 42,
+    "guided_seed": null,
+    "seed_note": "Plain source sampling uses seed 42. The completed guided run used the global RNG without an explicit reset; exported results are preserved. The reusable script now resets RNGs before guided inference."
+  },
+  "surflo": {
+    "plain_points": 100000,
+    "guided_points": 38217,
+    "mesh_vertices": 177074,
+    "mesh_faces": 350607,
+    "guided_preset": "default",
+    "expert_preset": "default (DA3 depth + aligned normals)",
+    "num_query_points": 100000,
+    "ode_steps_plain": 100,
+    "plain_seed": 42,
+    "guided_seed": null,
+    "seed_note": "Plain source sampling uses seed 42. The completed guided run used the global RNG without an explicit reset; exported results are preserved. The reusable script now resets RNGs before guided inference."
+  },
+  "vggt": {
+    "all_points": 804972,
+    "confidence2_points": 0,
+    "preview_points": 589616,
+    "preview_confidence_threshold": 1.000001,
+    "confidence_range": [
+      1.0,
+      1.5634088516235352
+    ],
+    "mesh_vertices": 587253,
+    "mesh_faces": 1158427,
+    "confidence_threshold": 2.0,
+    "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+  },
+  "artifacts": {
+    "camera_render": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/camera_render_comparison.png",
+    "geometry_preview": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/geometry_preview.png",
+    "interactive_viewer": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/reconstruction_viewer.html",
+    "surflo_colored_mesh": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/surflo_mesh_colored.ply",
+    "surflo_geometry_mesh": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/surflo_mesh.ply",
+    "surflo_plain_points": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/surflo_plain_points.ply",
+    "surflo_guided_points": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/surflo_guided_points.ply",
+    "vggt_all_points": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/vggt_points_all.ply",
+    "vggt_preview_points": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/vggt_points_preview.ply",
+    "vggt_derived_mesh": "results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/vggt_depth_mesh.ply"
+  },
+  "omega_comparison_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_256/manifest.json",
+  "comparison_status": "all four models reconstructed and visualized",
+  "omega_256": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_256/manifest.json",
+  "omega_512": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/omega_512/manifest.json",
+  "grouped_comparison": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/behavior_comparison.png"
+}

@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_dense_eight_trajectories_fresh_20261007_185108/checkpoints/steps_10000_pytorch_model.pt",
+  "step": 10000,
+  "seeds": {
+    "4000": {
+      "successes": 0,
+      "grasps": 2,
+      "lifts": 0,
+      "episodes": 8
+    },
+    "4001": {
+      "successes": 1,
+      "grasps": 2,
+      "lifts": 3,
+      "episodes": 8
+    },
+    "4002": {
+      "successes": 0,
+      "grasps": 1,
+      "lifts": 1,
+      "episodes": 8
+    }
+  },
+  "started_unix": 1791409272.1901991,
+  "finished_unix": 1791415929.9739134
+}

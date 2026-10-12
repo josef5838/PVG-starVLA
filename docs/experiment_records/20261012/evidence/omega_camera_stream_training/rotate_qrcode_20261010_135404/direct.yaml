@@ -1,0 +1,772 @@
+run_id: omega_stream8_rotate_qrcode_direct_20000steps_20261010_135404
+run_root_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints
+seed: 42
+wandb_entity: null
+wandb_project: omega-camera-streams-robotwin
+is_debug: false
+version_id: '0.21'
+framework:
+  name: OmegaCameraStreamDiT
+  omega:
+    source_root: /export/home/haoliang/projects/vggt-omega-action-pred
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt
+    checkpoint_sha256: c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934
+    image_resolution: 512
+    num_views: 3
+    feature_layer: 23
+    train_last_blocks: 0
+    weights_mode: reference
+  readout:
+    type: dense
+    queries_per_view: 64
+    local_grid: 16
+    depth: 2
+  action_model:
+    action_model_type: DiT-L
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    state_dim: 14
+    num_condition_tokens: 5
+    depth: 24
+    num_heads: 16
+    cross_attention_every: 4
+  task_names:
+  - rotate_qrcode
+  state_scale: 1.0
+  state_dropout_prob: 0.0
+  condition_dropout_prob: 0.0
+  state_conditioning: full
+  visual_conditioning: true
+  streams:
+    history_length: 8
+    conditioning: direct
+    width: 512
+    depth: 2
+    heads: 8
+    output_queries: 32
+    temporal_embedding: learned
+    temporal_rope: false
+    observation_mode: history
+datasets:
+  vla_data:
+    dataset_py: lerobot_datasets
+    data_root_dir: /export/home/haoliang/projects/starVLA/playground/Datasets/RoboTwin
+    data_mix: robotwin_omega_stream8_rotate_qrcode
+    lerobot_version: v2.0
+    action_mode: abs
+    include_state: true
+    per_device_batch_size: 4
+    num_workers: 2
+    persistent_workers: false
+    load_all_data_for_training: false
+    obs_image_size:
+    - 640
+    - 480
+    video_backend: torchvision_av
+    action_type: abs_qpos
+    validation_fraction: 0.1
+    validation_seed: 42
+    drop_last: true
+    instruction_override: rotate_qrcode
+    statistics_cache_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_rotate_qrcode_direct_20000steps_20261010_135404/data_split
+    preserve_native_images: true
+    pack_image_history: true
+    prefetch_factor: 1
+    test_fraction: 0.1
+    validation_samples:
+    - episode: 18
+      frame: 0
+    - episode: 18
+      frame: 5
+    - episode: 18
+      frame: 11
+    - episode: 18
+      frame: 16
+    - episode: 18
+      frame: 22
+    - episode: 18
+      frame: 27
+    - episode: 18
+      frame: 32
+    - episode: 18
+      frame: 38
+    - episode: 18
+      frame: 43
+    - episode: 18
+      frame: 49
+    - episode: 18
+      frame: 54
+    - episode: 18
+      frame: 59
+    - episode: 18
+      frame: 65
+    - episode: 18
+      frame: 70
+    - episode: 18
+      frame: 76
+    - episode: 18
+      frame: 81
+    - episode: 21
+      frame: 0
+    - episode: 21
+      frame: 5
+    - episode: 21
+      frame: 11
+    - episode: 21
+      frame: 16
+    - episode: 21
+      frame: 22
+    - episode: 21
+      frame: 27
+    - episode: 21
+      frame: 33
+    - episode: 21
+      frame: 38
+    - episode: 21
+      frame: 44
+    - episode: 21
+      frame: 49
+    - episode: 21
+      frame: 55
+    - episode: 21
+      frame: 60
+    - episode: 21
+      frame: 66
+    - episode: 21
+      frame: 71
+    - episode: 21
+      frame: 77
+    - episode: 21
+      frame: 82
+    - episode: 27
+      frame: 0
+    - episode: 27
+      frame: 5
+    - episode: 27
+      frame: 11
+    - episode: 27
+      frame: 16
+    - episode: 27
+      frame: 22
+    - episode: 27
+      frame: 27
+    - episode: 27
+      frame: 32
+    - episode: 27
+      frame: 38
+    - episode: 27
+      frame: 43
+    - episode: 27
+      frame: 49
+    - episode: 27
+      frame: 54
+    - episode: 27
+      frame: 59
+    - episode: 27
+      frame: 65
+    - episode: 27
+      frame: 70
+    - episode: 27
+      frame: 76
+    - episode: 27
+      frame: 81
+    - episode: 33
+      frame: 0
+    - episode: 33
+      frame: 6
+    - episode: 33
+      frame: 11
+    - episode: 33
+      frame: 17
+    - episode: 33
+      frame: 22
+    - episode: 33
+      frame: 28
+    - episode: 33
+      frame: 33
+    - episode: 33
+      frame: 39
+    - episode: 33
+      frame: 44
+    - episode: 33
+      frame: 50
+    - episode: 33
+      frame: 55
+    - episode: 33
+      frame: 61
+    - episode: 33
+      frame: 66
+    - episode: 33
+      frame: 72
+    - episode: 33
+      frame: 77
+    - episode: 33
+      frame: 83
+    - episode: 42
+      frame: 0
+    - episode: 42
+      frame: 5
+    - episode: 42
+      frame: 11
+    - episode: 42
+      frame: 16
+    - episode: 42
+      frame: 22
+    - episode: 42
+      frame: 27
+    - episode: 42
+      frame: 33
+    - episode: 42
+      frame: 38
+    - episode: 42
+      frame: 44
+    - episode: 42
+      frame: 49
+    - episode: 42
+      frame: 55
+    - episode: 42
+      frame: 60
+    - episode: 42
+      frame: 66
+    - episode: 42
+      frame: 71
+    - episode: 42
+      frame: 77
+    - episode: 42
+      frame: 82
+    - episode: 50
+      frame: 0
+    - episode: 50
+      frame: 6
+    - episode: 50
+      frame: 11
+    - episode: 50
+      frame: 17
+    - episode: 50
+      frame: 22
+    - episode: 50
+      frame: 28
+    - episode: 50
+      frame: 33
+    - episode: 50
+      frame: 39
+    - episode: 50
+      frame: 44
+    - episode: 50
+      frame: 50
+    - episode: 50
+      frame: 55
+    - episode: 50
+      frame: 61
+    - episode: 50
+      frame: 66
+    - episode: 50
+      frame: 72
+    - episode: 50
+      frame: 77
+    - episode: 50
+      frame: 83
+    - episode: 56
+      frame: 0
+    - episode: 56
+      frame: 5
+    - episode: 56
+      frame: 11
+    - episode: 56
+      frame: 16
+    - episode: 56
+      frame: 22
+    - episode: 56
+      frame: 27
+    - episode: 56
+      frame: 33
+    - episode: 56
+      frame: 38
+    - episode: 56
+      frame: 44
+    - episode: 56
+      frame: 49
+    - episode: 56
+      frame: 55
+    - episode: 56
+      frame: 60
+    - episode: 56
+      frame: 66
+    - episode: 56
+      frame: 71
+    - episode: 56
+      frame: 77
+    - episode: 56
+      frame: 82
+    - episode: 59
+      frame: 0
+    - episode: 59
+      frame: 6
+    - episode: 59
+      frame: 11
+    - episode: 59
+      frame: 17
+    - episode: 59
+      frame: 22
+    - episode: 59
+      frame: 28
+    - episode: 59
+      frame: 34
+    - episode: 59
+      frame: 39
+    - episode: 59
+      frame: 45
+    - episode: 59
+      frame: 50
+    - episode: 59
+      frame: 56
+    - episode: 59
+      frame: 62
+    - episode: 59
+      frame: 67
+    - episode: 59
+      frame: 73
+    - episode: 59
+      frame: 78
+    - episode: 59
+      frame: 84
+    - episode: 71
+      frame: 0
+    - episode: 71
+      frame: 5
+    - episode: 71
+      frame: 11
+    - episode: 71
+      frame: 16
+    - episode: 71
+      frame: 22
+    - episode: 71
+      frame: 27
+    - episode: 71
+      frame: 32
+    - episode: 71
+      frame: 38
+    - episode: 71
+      frame: 43
+    - episode: 71
+      frame: 49
+    - episode: 71
+      frame: 54
+    - episode: 71
+      frame: 59
+    - episode: 71
+      frame: 65
+    - episode: 71
+      frame: 70
+    - episode: 71
+      frame: 76
+    - episode: 71
+      frame: 81
+    - episode: 92
+      frame: 0
+    - episode: 92
+      frame: 6
+    - episode: 92
+      frame: 11
+    - episode: 92
+      frame: 17
+    - episode: 92
+      frame: 22
+    - episode: 92
+      frame: 28
+    - episode: 92
+      frame: 33
+    - episode: 92
+      frame: 39
+    - episode: 92
+      frame: 44
+    - episode: 92
+      frame: 50
+    - episode: 92
+      frame: 55
+    - episode: 92
+      frame: 61
+    - episode: 92
+      frame: 66
+    - episode: 92
+      frame: 72
+    - episode: 92
+      frame: 77
+    - episode: 92
+      frame: 83
+    test_samples:
+    - episode: 2
+      frame: 0
+    - episode: 2
+      frame: 6
+    - episode: 2
+      frame: 11
+    - episode: 2
+      frame: 17
+    - episode: 2
+      frame: 22
+    - episode: 2
+      frame: 28
+    - episode: 2
+      frame: 34
+    - episode: 2
+      frame: 39
+    - episode: 2
+      frame: 45
+    - episode: 2
+      frame: 50
+    - episode: 2
+      frame: 56
+    - episode: 2
+      frame: 62
+    - episode: 2
+      frame: 67
+    - episode: 2
+      frame: 73
+    - episode: 2
+      frame: 78
+    - episode: 2
+      frame: 84
+    - episode: 4
+      frame: 0
+    - episode: 4
+      frame: 5
+    - episode: 4
+      frame: 11
+    - episode: 4
+      frame: 16
+    - episode: 4
+      frame: 22
+    - episode: 4
+      frame: 27
+    - episode: 4
+      frame: 33
+    - episode: 4
+      frame: 38
+    - episode: 4
+      frame: 44
+    - episode: 4
+      frame: 49
+    - episode: 4
+      frame: 55
+    - episode: 4
+      frame: 60
+    - episode: 4
+      frame: 66
+    - episode: 4
+      frame: 71
+    - episode: 4
+      frame: 77
+    - episode: 4
+      frame: 82
+    - episode: 24
+      frame: 0
+    - episode: 24
+      frame: 5
+    - episode: 24
+      frame: 11
+    - episode: 24
+      frame: 16
+    - episode: 24
+      frame: 22
+    - episode: 24
+      frame: 27
+    - episode: 24
+      frame: 33
+    - episode: 24
+      frame: 38
+    - episode: 24
+      frame: 44
+    - episode: 24
+      frame: 49
+    - episode: 24
+      frame: 55
+    - episode: 24
+      frame: 60
+    - episode: 24
+      frame: 66
+    - episode: 24
+      frame: 71
+    - episode: 24
+      frame: 77
+    - episode: 24
+      frame: 82
+    - episode: 25
+      frame: 0
+    - episode: 25
+      frame: 6
+    - episode: 25
+      frame: 11
+    - episode: 25
+      frame: 17
+    - episode: 25
+      frame: 22
+    - episode: 25
+      frame: 28
+    - episode: 25
+      frame: 33
+    - episode: 25
+      frame: 39
+    - episode: 25
+      frame: 44
+    - episode: 25
+      frame: 50
+    - episode: 25
+      frame: 55
+    - episode: 25
+      frame: 61
+    - episode: 25
+      frame: 66
+    - episode: 25
+      frame: 72
+    - episode: 25
+      frame: 77
+    - episode: 25
+      frame: 83
+    - episode: 51
+      frame: 0
+    - episode: 51
+      frame: 5
+    - episode: 51
+      frame: 11
+    - episode: 51
+      frame: 16
+    - episode: 51
+      frame: 22
+    - episode: 51
+      frame: 27
+    - episode: 51
+      frame: 33
+    - episode: 51
+      frame: 38
+    - episode: 51
+      frame: 44
+    - episode: 51
+      frame: 49
+    - episode: 51
+      frame: 55
+    - episode: 51
+      frame: 60
+    - episode: 51
+      frame: 66
+    - episode: 51
+      frame: 71
+    - episode: 51
+      frame: 77
+    - episode: 51
+      frame: 82
+    - episode: 52
+      frame: 0
+    - episode: 52
+      frame: 5
+    - episode: 52
+      frame: 11
+    - episode: 52
+      frame: 16
+    - episode: 52
+      frame: 21
+    - episode: 52
+      frame: 27
+    - episode: 52
+      frame: 32
+    - episode: 52
+      frame: 37
+    - episode: 52
+      frame: 43
+    - episode: 52
+      frame: 48
+    - episode: 52
+      frame: 53
+    - episode: 52
+      frame: 59
+    - episode: 52
+      frame: 64
+    - episode: 52
+      frame: 69
+    - episode: 52
+      frame: 75
+    - episode: 52
+      frame: 80
+    - episode: 61
+      frame: 0
+    - episode: 61
+      frame: 5
+    - episode: 61
+      frame: 11
+    - episode: 61
+      frame: 16
+    - episode: 61
+      frame: 22
+    - episode: 61
+      frame: 27
+    - episode: 61
+      frame: 33
+    - episode: 61
+      frame: 38
+    - episode: 61
+      frame: 44
+    - episode: 61
+      frame: 49
+    - episode: 61
+      frame: 55
+    - episode: 61
+      frame: 60
+    - episode: 61
+      frame: 66
+    - episode: 61
+      frame: 71
+    - episode: 61
+      frame: 77
+    - episode: 61
+      frame: 82
+    - episode: 81
+      frame: 0
+    - episode: 81
+      frame: 6
+    - episode: 81
+      frame: 11
+    - episode: 81
+      frame: 17
+    - episode: 81
+      frame: 22
+    - episode: 81
+      frame: 28
+    - episode: 81
+      frame: 34
+    - episode: 81
+      frame: 39
+    - episode: 81
+      frame: 45
+    - episode: 81
+      frame: 50
+    - episode: 81
+      frame: 56
+    - episode: 81
+      frame: 62
+    - episode: 81
+      frame: 67
+    - episode: 81
+      frame: 73
+    - episode: 81
+      frame: 78
+    - episode: 81
+      frame: 84
+    - episode: 97
+      frame: 0
+    - episode: 97
+      frame: 6
+    - episode: 97
+      frame: 11
+    - episode: 97
+      frame: 17
+    - episode: 97
+      frame: 22
+    - episode: 97
+      frame: 28
+    - episode: 97
+      frame: 33
+    - episode: 97
+      frame: 39
+    - episode: 97
+      frame: 44
+    - episode: 97
+      frame: 50
+    - episode: 97
+      frame: 55
+    - episode: 97
+      frame: 61
+    - episode: 97
+      frame: 66
+    - episode: 97
+      frame: 72
+    - episode: 97
+      frame: 77
+    - episode: 97
+      frame: 83
+    - episode: 99
+      frame: 0
+    - episode: 99
+      frame: 6
+    - episode: 99
+      frame: 11
+    - episode: 99
+      frame: 17
+    - episode: 99
+      frame: 22
+    - episode: 99
+      frame: 28
+    - episode: 99
+      frame: 33
+    - episode: 99
+      frame: 39
+    - episode: 99
+      frame: 44
+    - episode: 99
+      frame: 50
+    - episode: 99
+      frame: 55
+    - episode: 99
+      frame: 61
+    - episode: 99
+      frame: 66
+    - episode: 99
+      frame: 72
+    - episode: 99
+      frame: 77
+    - episode: 99
+      frame: 83
+trainer:
+  save_training_state: true
+  max_train_steps: 20000
+  num_warmup_steps: 100
+  save_interval: 1000
+  eval_interval: 250
+  learning_rate:
+    base: 0.0003
+    visual_proj: 0.0003
+    state_proj: 0.0003
+    action_model: 0.0003
+    visual_readout: 0.0003
+    omega: 1.0e-05
+    memory_proj: 0.0003
+  lr_scheduler_type: cosine_with_min_lr
+  scheduler_specific_kwargs:
+    min_lr: 1.0e-05
+  freeze_modules: ''
+  loss_scale:
+    vla: 1.0
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  logging_frequency: 10
+  gradient_clipping: 1.0
+  gradient_accumulation_steps: 2
+  optimizer:
+    name: AdamW
+    betas:
+    - 0.9
+    - 0.95
+    eps: 1.0e-08
+    weight_decay: 1.0e-08
+  sample_budget: 160000
+  validation_ddim_steps: 20
+  validation_max_batches: 40
+  step_limit: 20000
+  planned_training_samples: 160000
+  validation_action_indices:
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 13
+  validation_valid_future_only: true
+  compact_checkpoints: true
+  milestone_updates:
+  - 10000
+  training_state_root: /tmp/omega_rotate_qrcode_training_states/20261010_135404/direct
+evaluation:
+  execute_horizon: 8
+  num_ddim_steps: 20
+config_yaml: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/rotate_qrcode_20261010_135404/direct.yaml

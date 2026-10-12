@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "scope": "Node execution with mocked canvas/DOM; drawing, frame selection, coloring, orbit, zoom, reset, playback controls. No real browser visual check.",
+  "results": [
+    {
+      "task": "rotate_qrcode",
+      "camera": "head_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "rotate_qrcode",
+      "camera": "left_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "rotate_qrcode",
+      "camera": "right_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "adjust_bottle",
+      "camera": "head_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "adjust_bottle",
+      "camera": "left_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "adjust_bottle",
+      "camera": "right_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "head_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "left_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "right_camera",
+      "js_runtime_passed": true,
+      "draw_operations": 84506
+    }
+  ]
+}

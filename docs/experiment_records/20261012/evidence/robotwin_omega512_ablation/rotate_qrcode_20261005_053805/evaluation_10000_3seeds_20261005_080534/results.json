@@ -1,0 +1,105 @@
+{
+  "task": "rotate_qrcode",
+  "checkpoint_step": 10000,
+  "episodes_per_model": 3,
+  "scene_seeds": [
+    100000,
+    200000,
+    300000
+  ],
+  "num_ddim_steps": 20,
+  "execute_horizon": 8,
+  "instruction_override": "rotate_qrcode",
+  "preserve_native_images": true,
+  "server_metadata_file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/verified_server_metadata.json",
+  "runs": [
+    {
+      "variant": "dense",
+      "gpu": 0,
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805/checkpoints/steps_10000_pytorch_model.pt",
+      "successes": 0,
+      "total": 3,
+      "success_rate": 0.0,
+      "episodes": [
+        {
+          "seed": 100000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805_evaluation_20261005_080534/2026-10-05_08-06-06_680727/_result.txt",
+          "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/seed_100000.log",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos/seed_100000.mp4"
+          ]
+        },
+        {
+          "seed": 200000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805_evaluation_20261005_080534/2026-10-05_08-09-10_305628/_result.txt",
+          "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/seed_200000.log",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos/seed_200000.mp4"
+          ]
+        },
+        {
+          "seed": 300000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805_evaluation_20261005_080534/2026-10-05_08-12-33_001383/_result.txt",
+          "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/seed_300000.log",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos/seed_300000.mp4"
+          ]
+        }
+      ],
+      "decoded_video_frames": {
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos/seed_300000.mp4": 400,
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos/seed_100000.mp4": 400,
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos/seed_200000.mp4": 400
+      },
+      "video_validation": "passed",
+      "finished_at": "2026-10-05T08:15:56.883465+00:00"
+    },
+    {
+      "variant": "state_query_local",
+      "gpu": 1,
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805/checkpoints/steps_10000_pytorch_model.pt",
+      "successes": 0,
+      "total": 3,
+      "success_rate": 0.0,
+      "episodes": [
+        {
+          "seed": 100000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805_evaluation_20261005_080534/2026-10-05_08-06-07_464983/_result.txt",
+          "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/seed_100000.log",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos/seed_100000.mp4"
+          ]
+        },
+        {
+          "seed": 200000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805_evaluation_20261005_080534/2026-10-05_08-09-10_672341/_result.txt",
+          "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/seed_200000.log",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos/seed_200000.mp4"
+          ]
+        },
+        {
+          "seed": 300000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805_evaluation_20261005_080534/2026-10-05_08-12-14_175375/_result.txt",
+          "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/seed_300000.log",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos/seed_300000.mp4"
+          ]
+        }
+      ],
+      "decoded_video_frames": {
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos/seed_300000.mp4": 400,
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos/seed_100000.mp4": 400,
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos/seed_200000.mp4": 400
+      },
+      "video_validation": "passed",
+      "finished_at": "2026-10-05T08:15:27.688257+00:00"
+    }
+  ]
+}

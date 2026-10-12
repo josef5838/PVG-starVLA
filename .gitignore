@@ -262,3 +262,17 @@ examples/realRobots/UnitreeG1_WholeBody/sdk_tools/Jinhui.sh
 examples/realRobots/UnitreeG1_WholeBody/step3_deployment/eval_files/local_self_test.py
 examples/realRobots/UnitreeG1_WholeBody/sdk_tools/SonicStar
 examples/realRobots/UnitreeG1_WholeBody/sdk_tools/sonicstar_wbc_deployment_reference
+
+# Keep the Surflo RoboTwin training instructions with the implementation.
+!examples/simBenchmarks/Robotwin/train_files/surflo_body_parts.md
+!examples/simBenchmarks/Robotwin/train_files/omega512_policy_ablation.md
+!docs/omega512_cluster_handoff.md
+
+# Version experiment protocols and compact evidence; keep bulky results local.
+!docs/omega512_experiment_protocol_20261007.md
+!docs/omega_camera_stream_action_protocol_20261009.md
+!docs/omega_camera_stream_evaluation_protocol_20261010.md
+!docs/omega_rotate_qrcode_protocol_20261010.md
+!docs/geometric_action_experiments.md
+!docs/geometric_action_push.md
+!docs/experiment_records/**

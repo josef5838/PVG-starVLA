@@ -1,0 +1,80 @@
+"""Paired teacher-forced action predictions on recorded train/heldout trajectories."""
+import argparse
+import json
+from pathlib import Path
+import sys
+import time
+import numpy as np
+from omegaconf import OmegaConf
+import torch
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from deployment.model_server.policy_wrapper import PolicyServerWrapper
+from starVLA.dataloader.lerobot_datasets import get_vla_dataset
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--manifest',type=Path,required=True)
+    parser.add_argument('--variant',required=True)
+    parser.add_argument('--out',type=Path,required=True)
+    args=parser.parse_args();manifest=json.loads(args.manifest.read_text())
+    run=next(r for r in manifest['runs'] if r['variant']==args.variant)
+    args.out.mkdir(parents=True,exist_ok=True);torch.set_num_threads(4)
+    cfg=OmegaConf.load(Path(run['output_dir'])/'config.full.yaml')
+    split_modes=[('train','train'),('heldout_validation','val')]
+    if cfg.datasets.vla_data.get('test_fraction',0):split_modes.append(('heldout_test','test'))
+    datasets={split:get_vla_dataset(cfg.datasets.vla_data,mode=mode).datasets[0] for split,mode in split_modes}
+    wrapper=PolicyServerWrapper(run['checkpoints']['best'],device='cuda',use_bf16=False)
+    model=wrapper._framework;processor=wrapper.get_norm_processor()
+    samples=manifest['offline_samples']
+    source_info=json.loads((Path(manifest['source'])/'scene_info.json').read_text())
+    mapping={r['episode']:r for r in manifest['trajectory_mapping']}
+    results={}
+    for kind in run['checkpoints']:
+        if kind!='best':model.load_pretrained_state_dict(torch.load(run['checkpoints'][kind],map_location='cpu'));model.eval()
+        rows=[];predictions=[];targets=[];keys=[];started=time.monotonic()
+        for start in range(0,len(samples),4):
+            descriptors=samples[start:start+4];batch=[]
+            for row in descriptors:
+                ds=datasets[row['split']]
+                batch.append(ds._pack_sample(ds.transforms(ds.get_step_data(row['episode'],row['frame']))))
+            with torch.inference_mode():
+                pred=np.asarray(model.predict_action(batch,num_ddim_steps=20,diffusion_seed=manifest['diffusion_seed']+start//4)['normalized_actions'],dtype=np.float64)
+            target=np.asarray([x['action'] for x in batch],dtype=np.float64)
+            if pred.shape != target.shape or not np.isfinite(pred).all():raise RuntimeError('Invalid prediction')
+            raw_pred=np.stack([processor.unapply_actions(x) for x in pred])
+            raw_target=np.stack([processor.unapply_actions(x) for x in target])
+            for i,row in enumerate(descriptors):
+                error=(pred[i]-target[i])**2
+                length=min(16,row['length']-row['frame']);side=source_info[f"episode_{mapping[row['episode']]['source_episode']}"]['info']['{a}']
+                arm=slice(6,12) if side=='right' else slice(0,6)
+                active_indices=list(range(6,12))+[13] if side=='right' else list(range(6))+[12]
+                baseline=np.repeat(np.asarray(batch[i]['state'],dtype=np.float64).reshape(1,14),16,axis=0)
+                item=dict(**row,variant=args.variant,checkpoint_kind=kind,active_arm=side,
+                          normalized_mse=float(error.mean()),valid_normalized_mse=float(error[:length].mean()),
+                          active_arm_valid_normalized_mse=float(error[:length,active_indices].mean()),
+                          executed8_normalized_mse=float(error[:min(length,8)].mean()),first_action_normalized_mse=float(error[0].mean()),
+                          joint_rmse_rad=float(np.sqrt(np.mean((raw_pred[i,:length,:12]-raw_target[i,:length,:12])**2))),
+                          active_arm_joint_rmse_rad=float(np.sqrt(np.mean((raw_pred[i,:length,arm]-raw_target[i,:length,arm])**2))),
+                          gripper_accuracy=float(np.mean(raw_pred[i,:length,12:]==raw_target[i,:length,12:])),
+                          state_hold_normalized_mse=float(np.mean((baseline[:length]-target[i,:length])**2)),valid_horizon=length)
+                rows.append(item);predictions.append(pred[i]);targets.append(target[i]);keys.append([row['episode'],row['frame']])
+            if start%40==0:
+                (args.out/'status.json').write_text(json.dumps(dict(status='running',checkpoint_kind=kind,completed_samples=start+len(batch),total_samples=len(samples)))+'\n')
+                print(f'{args.variant}/{kind} {start+len(batch)}/{len(samples)}',flush=True)
+        by_split={}
+        for split in datasets:
+            subset=[r for r in rows if r['split']==split]
+            by_split[split]={key:float(np.mean([r[key] for r in subset])) for key in ['normalized_mse','valid_normalized_mse','active_arm_valid_normalized_mse','executed8_normalized_mse','first_action_normalized_mse','joint_rmse_rad','active_arm_joint_rmse_rad','gripper_accuracy','state_hold_normalized_mse']}
+            by_split[split].update(samples=len(subset),trajectories=len({r['episode'] for r in subset}))
+        results[kind]=dict(checkpoint=run['checkpoints'][kind],by_split=by_split,elapsed_seconds=time.monotonic()-started,visual_info=model.last_visual_info)
+        (args.out/f'{kind}_sample_metrics.json').write_text(json.dumps(rows,indent=2)+'\n')
+        np.savez_compressed(args.out/f'{kind}_predictions.npz',normalized_prediction=np.stack(predictions),normalized_target=np.stack(targets),episode_frame=np.asarray(keys))
+        (args.out/'results.json').write_text(json.dumps(results,indent=2)+'\n')
+    (args.out/'status.json').write_text(json.dumps(dict(status='completed',checkpoints=list(run['checkpoints']),samples_per_checkpoint=len(samples)))+'\n')
+    print(json.dumps(results),flush=True)
+
+
+if __name__=='__main__':main()

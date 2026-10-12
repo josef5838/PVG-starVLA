@@ -1,0 +1,210 @@
+{
+  "passed": true,
+  "joint_calls": 4,
+  "RGB_images_per_call": 24,
+  "baseline_input_parity": true,
+  "scope": "Array shapes, finite outputs, positive depth, input hashes and ordering, exact preprocessed RGB parity, recorded-pose parity, independently checked pairwise rotation metrics, geometry exports, PNG integrity, gallery links, archived source hashes.",
+  "cases": [
+    {
+      "case": "turning_on_radio_ep197_f1484_1491",
+      "passed": true,
+      "output_shapes": {
+        "depth": [
+          24,
+          512,
+          512
+        ],
+        "confidence": [
+          24,
+          512,
+          512
+        ],
+        "extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "intrinsics": [
+          24,
+          3,
+          3
+        ],
+        "images": [
+          24,
+          512,
+          512,
+          3
+        ],
+        "camera_and_register_tokens": [
+          24,
+          17,
+          2048
+        ],
+        "recorded_extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "frames": [
+          24
+        ],
+        "camera_indices": [
+          24
+        ]
+      },
+      "input_hashes_match_baseline": true,
+      "preprocessed_RGB_exactly_matches_baseline": true
+    },
+    {
+      "case": "turning_on_radio_ep197_f0943_0950",
+      "passed": true,
+      "output_shapes": {
+        "depth": [
+          24,
+          512,
+          512
+        ],
+        "confidence": [
+          24,
+          512,
+          512
+        ],
+        "extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "intrinsics": [
+          24,
+          3,
+          3
+        ],
+        "images": [
+          24,
+          512,
+          512,
+          3
+        ],
+        "camera_and_register_tokens": [
+          24,
+          17,
+          2048
+        ],
+        "recorded_extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "frames": [
+          24
+        ],
+        "camera_indices": [
+          24
+        ]
+      },
+      "input_hashes_match_baseline": true,
+      "preprocessed_RGB_exactly_matches_baseline": true
+    },
+    {
+      "case": "turning_on_radio_ep197_f0934_0941",
+      "passed": true,
+      "output_shapes": {
+        "depth": [
+          24,
+          512,
+          512
+        ],
+        "confidence": [
+          24,
+          512,
+          512
+        ],
+        "extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "intrinsics": [
+          24,
+          3,
+          3
+        ],
+        "images": [
+          24,
+          512,
+          512,
+          3
+        ],
+        "camera_and_register_tokens": [
+          24,
+          17,
+          2048
+        ],
+        "recorded_extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "frames": [
+          24
+        ],
+        "camera_indices": [
+          24
+        ]
+      },
+      "input_hashes_match_baseline": true,
+      "preprocessed_RGB_exactly_matches_baseline": true
+    },
+    {
+      "case": "turning_on_radio_ep197_f0982_0989",
+      "passed": true,
+      "output_shapes": {
+        "depth": [
+          24,
+          512,
+          512
+        ],
+        "confidence": [
+          24,
+          512,
+          512
+        ],
+        "extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "intrinsics": [
+          24,
+          3,
+          3
+        ],
+        "images": [
+          24,
+          512,
+          512,
+          3
+        ],
+        "camera_and_register_tokens": [
+          24,
+          17,
+          2048
+        ],
+        "recorded_extrinsics": [
+          24,
+          3,
+          4
+        ],
+        "frames": [
+          24
+        ],
+        "camera_indices": [
+          24
+        ]
+      },
+      "input_hashes_match_baseline": true,
+      "preprocessed_RGB_exactly_matches_baseline": true
+    }
+  ],
+  "updated_report_links_and_images_checked": true
+}

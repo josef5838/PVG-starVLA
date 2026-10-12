@@ -1,0 +1,502 @@
+[
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/train_seed_130.mp4",
+    "frames": 40,
+    "expected_frames": 40,
+    "control_steps": 39,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/heldout_validation_seed_86.mp4",
+    "frames": 37,
+    "expected_frames": 37,
+    "control_steps": 36,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/train_seed_27.mp4",
+    "frames": 37,
+    "expected_frames": 37,
+    "control_steps": 36,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/heldout_validation_seed_114.mp4",
+    "frames": 36,
+    "expected_frames": 36,
+    "control_steps": 35,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/train_seed_80.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/heldout_validation_seed_92.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/train_seed_31.mp4",
+    "frames": 40,
+    "expected_frames": 40,
+    "control_steps": 39,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/heldout_validation_seed_18.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/train_seed_55.mp4",
+    "frames": 39,
+    "expected_frames": 39,
+    "control_steps": 38,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/heldout_validation_seed_45.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/unseen_eval_seed_100001.mp4",
+    "frames": 34,
+    "expected_frames": 34,
+    "control_steps": 33,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/unseen_eval_seed_200001.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/unseen_eval_seed_300000.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/unseen_eval_seed_400000.mp4",
+    "frames": 40,
+    "expected_frames": 40,
+    "control_steps": 39,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/rollouts/unseen_eval_seed_500000.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_130.mp4",
+    "frames": 75,
+    "expected_frames": 75,
+    "control_steps": 74,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_86.mp4",
+    "frames": 75,
+    "expected_frames": 75,
+    "control_steps": 74,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_27.mp4",
+    "frames": 75,
+    "expected_frames": 75,
+    "control_steps": 74,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_114.mp4",
+    "frames": 75,
+    "expected_frames": 75,
+    "control_steps": 74,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_80.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_92.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_31.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_18.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/train_seed_55.mp4",
+    "frames": 75,
+    "expected_frames": 75,
+    "control_steps": 74,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/heldout_validation_seed_45.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_100001.mp4",
+    "frames": 84,
+    "expected_frames": 84,
+    "control_steps": 83,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_200001.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_300000.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_400000.mp4",
+    "frames": 75,
+    "expected_frames": 75,
+    "control_steps": 74,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/fused/rollouts/unseen_eval_seed_500000.mp4",
+    "frames": 400,
+    "expected_frames": 400,
+    "control_steps": 400,
+    "extra_success_frame": false,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/train_seed_130.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/heldout_validation_seed_86.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/train_seed_27.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/heldout_validation_seed_114.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/train_seed_80.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/heldout_validation_seed_92.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/train_seed_31.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/heldout_validation_seed_18.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/train_seed_55.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_controls/heldout_validation_seed_45.mp4",
+    "frames": 55,
+    "expected_frames": 55,
+    "control_steps": 54,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/train_seed_130.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/heldout_validation_seed_86.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/train_seed_27.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/heldout_validation_seed_114.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/train_seed_80.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/heldout_validation_seed_92.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/train_seed_31.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/heldout_validation_seed_18.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/train_seed_55.mp4",
+    "frames": 56,
+    "expected_frames": 56,
+    "control_steps": 55,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  },
+  {
+    "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/direct/expert_roundtrip_controls/heldout_validation_seed_45.mp4",
+    "frames": 55,
+    "expected_frames": 55,
+    "control_steps": 54,
+    "extra_success_frame": true,
+    "width": 320,
+    "height": 240,
+    "full_decode": "passed in validation worker"
+  }
+]

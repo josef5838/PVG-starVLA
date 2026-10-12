@@ -1,0 +1,126 @@
+{
+  "status": "completed: all four models on both scenes",
+  "models": [
+    "Surflo released EMA + default guidance",
+    "VGGT-1B",
+    "VGGT-Omega-1B-256-Text",
+    "VGGT-Omega-1B-512"
+  ],
+  "scenes": {
+    "behavior": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005",
+    "robotwin": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin"
+  },
+  "comparison_layout": "Same input image column, four model columns; model tiles pair colored mesh with shaded geometry.",
+  "grouping_script": "tools/group_reconstruction_comparisons.py",
+  "comparison_notes": [
+    "Identical source image hashes within each scene.",
+    "Official Omega resolution budgets; VGGT/Surflo use original 518px preprocessing.",
+    "Independent estimated cameras and arbitrary scale; no metric ground truth.",
+    "Primary VGGT/Omega depth meshes use no confidence mask and shared 5% edge cutoff.",
+    "Surflo released EMA includes default guidance with depth/normal experts.",
+    "Interactive viewers decimate display copies only; PLY files retain full geometry."
+  ],
+  "images": {
+    "behavior": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/behavior_comparison.png",
+    "robotwin": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin_comparison.png"
+  },
+  "mesh_viewers": {
+    "behavior": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/behavior_mesh_viewer.html",
+    "robotwin": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin_mesh_viewer.html"
+  },
+  "depth_mesh_confidence_filter": "none in primary figures",
+  "metrics": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/render_comparison_metrics.json",
+  "download": {
+    "repository": "facebook/VGGT-Omega",
+    "revision": "1041e80fc0e911235d3426b0a3d9a81075111a53",
+    "filename": "vggt_omega_1b_512.pt",
+    "source_url": "https://huggingface.co/facebook/VGGT-Omega/blob/main/vggt_omega_1b_512.pt",
+    "expected_bytes": 4576706117,
+    "expected_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+    "path": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+    "bytes": 4576706117,
+    "sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+    "checksum_matches": true,
+    "status": "verified"
+  },
+  "omega512_inference": {
+    "behavior": {
+      "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+      "checkpoint_bytes": 4576706117,
+      "checkpoint_variant": "vggt_omega_1b_512",
+      "checkpoint_loading": "strict=True; all checkpoint parameters loaded",
+      "text_alignment_head": false,
+      "missing_keys": [],
+      "unexpected_keys": [],
+      "source_images": {
+        "view_0.png": "20c55ac3a41a886870c2cf9f1c1f6e7837323911902433971ed75da73cce21d5",
+        "view_1.png": "d4c67a9ad934e7215e7ce253f4f24c544e2f4a21e34a26752e7010c8d21d5447",
+        "view_2.png": "f47881d11341ff16b6faca7756da3a8df6ceb9e3afbd153b386bb73122b6f9ca"
+      },
+      "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005/manifest.json",
+      "input_shape": [
+        3,
+        3,
+        512,
+        512
+      ],
+      "image_resolution": 512,
+      "preprocessing": "Official installed VGGT-Omega balanced loader; native source PNGs identical to Surflo/VGGT.",
+      "comparison_resolution_note": "Omega resolution budget 512; actual input height/width [512, 512]. Earlier model input dimensions are stored in the parent geometry_batch.pt.",
+      "coordinate_frame": "Omega predicted camera frame, arbitrary scale; separate gauge from VGGT/Surflo. No GT geometry or ICP.",
+      "mesh": {
+        "all_points": 786432,
+        "confidence2_points": 120528,
+        "preview_points": 629145,
+        "preview_confidence_threshold": 1.2631229877471923,
+        "confidence_range": [
+          1.000068187713623,
+          3.5858404636383057
+        ],
+        "mesh_vertices": 623258,
+        "mesh_faces": 1219594,
+        "confidence_threshold": 2.0,
+        "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+      }
+    },
+    "robotwin": {
+      "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+      "checkpoint_bytes": 4576706117,
+      "checkpoint_variant": "vggt_omega_1b_512",
+      "checkpoint_loading": "strict=True; all checkpoint parameters loaded",
+      "text_alignment_head": false,
+      "missing_keys": [],
+      "unexpected_keys": [],
+      "source_images": {
+        "view_0.png": "99956adcdf49d5f4ed8de4e3a4493e1dbe04aa34932f8f761de8f8dbb8a47c8c",
+        "view_1.png": "f5cf92f8cbf0421babd9c94f5d9ffa6b6635f748818ad9840f292180c959ed54",
+        "view_2.png": "1db4b8ff2ea85db7ed17404fbb7b14acfccfdaac995f7317be7ddccb40290a73"
+      },
+      "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/manifest.json",
+      "input_shape": [
+        3,
+        3,
+        448,
+        592
+      ],
+      "image_resolution": 512,
+      "preprocessing": "Official installed VGGT-Omega balanced loader; native source PNGs identical to Surflo/VGGT.",
+      "comparison_resolution_note": "Omega resolution budget 512; actual input height/width [448, 592]. Earlier model input dimensions are stored in the parent geometry_batch.pt.",
+      "coordinate_frame": "Omega predicted camera frame, arbitrary scale; separate gauge from VGGT/Surflo. No GT geometry or ICP.",
+      "mesh": {
+        "all_points": 795648,
+        "confidence2_points": 404233,
+        "preview_points": 636518,
+        "preview_confidence_threshold": 1.6266866683959962,
+        "confidence_range": [
+          1.007111668586731,
+          3.866244077682495
+        ],
+        "mesh_vertices": 633635,
+        "mesh_faces": 1246242,
+        "confidence_threshold": 2.0,
+        "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+      }
+    }
+  }
+}

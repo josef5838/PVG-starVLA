@@ -1,0 +1,47 @@
+{
+  "status": "completed",
+  "source_root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin",
+  "inference": {
+    "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+    "checkpoint_bytes": 4576706117,
+    "checkpoint_variant": "vggt_omega_1b_512",
+    "checkpoint_loading": "strict=True; all checkpoint parameters loaded",
+    "text_alignment_head": false,
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "source_images": {
+      "view_0.png": "99956adcdf49d5f4ed8de4e3a4493e1dbe04aa34932f8f761de8f8dbb8a47c8c",
+      "view_1.png": "f5cf92f8cbf0421babd9c94f5d9ffa6b6635f748818ad9840f292180c959ed54",
+      "view_2.png": "1db4b8ff2ea85db7ed17404fbb7b14acfccfdaac995f7317be7ddccb40290a73"
+    },
+    "source_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/manifest.json",
+    "input_shape": [
+      3,
+      3,
+      448,
+      592
+    ],
+    "image_resolution": 512,
+    "preprocessing": "Official installed VGGT-Omega balanced loader; native source PNGs identical to Surflo/VGGT.",
+    "comparison_resolution_note": "Omega resolution budget 512; actual input height/width [448, 592]. Earlier model input dimensions are stored in the parent geometry_batch.pt.",
+    "coordinate_frame": "Omega predicted camera frame, arbitrary scale; separate gauge from VGGT/Surflo. No GT geometry or ICP.",
+    "mesh": {
+      "all_points": 795648,
+      "confidence2_points": 404233,
+      "preview_points": 636518,
+      "preview_confidence_threshold": 1.6266866683959962,
+      "confidence_range": [
+        1.007111668586731,
+        3.866244077682495
+      ],
+      "mesh_vertices": 633635,
+      "mesh_faces": 1246242,
+      "confidence_threshold": 2.0,
+      "mesh_protocol": "Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry."
+    }
+  },
+  "mesh": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/omega_512/omega_depth_mesh.ply",
+  "raw_points": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/omega_512/omega_points_all.ply",
+  "camera_render": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/omega_512/camera_render_comparison.png",
+  "viewer": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/omega_512/mesh_comparison_viewer.html"
+}

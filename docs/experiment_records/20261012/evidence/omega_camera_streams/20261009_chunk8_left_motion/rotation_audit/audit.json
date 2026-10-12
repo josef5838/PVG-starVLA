@@ -1,0 +1,119 @@
+{
+  "source": "/export/home/haoliang/projects/RoboTwin/data/stack_blocks_three/demo_clean/data/episode7.hdf5",
+  "frames": [
+    170,
+    177
+  ],
+  "camera": "left_camera",
+  "recorded": {
+    "cv_rotation_deg": 29.2635177279092,
+    "gl_rotation_deg": 29.26351920836202,
+    "end_effector_rotation_deg": 29.263518190053947,
+    "relative_axis_in_last_camera": [
+      -0.8874964143505278,
+      -0.4594859902025129,
+      0.03496768969452311
+    ],
+    "camera_displacement_m": 0.169404196842221,
+    "optical_axis_direction_change_deg": 29.245226296316233,
+    "cv_gl_rotation_max_difference": 5.960464477539063e-08
+  },
+  "rgb_check": {
+    "sift_features": [
+      84,
+      89
+    ],
+    "ratio_matches": 26,
+    "homography_inliers": 6,
+    "nominal_table_height_m": 0.74,
+    "points_first": [
+      [
+        183.7567596435547,
+        133.79771423339844
+      ],
+      [
+        189.9534454345703,
+        130.11204528808594
+      ],
+      [
+        191.76226806640625,
+        119.0616683959961
+      ],
+      [
+        198.0251007080078,
+        78.7628402709961
+      ],
+      [
+        201.7326202392578,
+        66.10821533203125
+      ],
+      [
+        209.74923706054688,
+        123.93290710449219
+      ]
+    ],
+    "points_last": [
+      [
+        242.00296020507812,
+        222.0123291015625
+      ],
+      [
+        246.3064422607422,
+        222.2202606201172
+      ],
+      [
+        246.92471313476562,
+        211.8201446533203
+      ],
+      [
+        249.03375244140625,
+        183.5959014892578
+      ],
+      [
+        250.9173583984375,
+        176.1374053955078
+      ],
+      [
+        263.4512023925781,
+        223.60073852539062
+      ]
+    ],
+    "combined_motion_predictions": [
+      [
+        242.76751708984375,
+        222.2766571044922
+      ],
+      [
+        246.40577697753906,
+        219.6730499267578
+      ],
+      [
+        247.11268615722656,
+        211.5779266357422
+      ],
+      [
+        249.35533142089844,
+        183.71102905273438
+      ],
+      [
+        250.9957275390625,
+        175.52389526367188
+      ],
+      [
+        258.0071105957031,
+        215.62989807128906
+      ]
+    ],
+    "residuals_px": [
+      0.8089601397514343,
+      2.549146890640259,
+      0.30659976601600647,
+      0.3415660858154297,
+      0.6184952855110168,
+      9.652586936950684
+    ],
+    "median_residual_px": 0.7137277126312256,
+    "rotation_only_median_residual_px": 163.25238037109375
+  },
+  "interpretation": "Internal pose agreement and RGB consistency support recorded camera motion. Six automatically matched background features are a small, planar check, not independent full-scene ground truth."
+}

@@ -1,0 +1,96 @@
+run_id: ablation_vggt_omega_state_suppressed_rotate_qrcode_hist8stride1_gated
+run_root_dir: results/Checkpoints
+seed: 42
+wandb_entity: mango_juice
+wandb_project: vggt-omega-ablation
+is_debug: false
+version_id: "0.21"
+
+# ── VGGTOmegaOFT, gated pooling, longer adjacent-frame history (8 steps) ────
+# Identical to ablation_vggt_omega_state_suppressed_rotate_qrcode_hist8stride1.yaml
+# (8 consecutive adjacent frames, [0,-1,...,-7]) except pool_type=gated_self_attn
+# (GatedMemoryPool) instead of the default cross_self_attn (VisualMemoryPool).
+# The original hist8stride1 result (0/31 rollout) used the broken ungated
+# pooling design, so it's confounded and doesn't answer "does more history
+# help" at all. This re-runs the same history-length question with the
+# validated gated pooling (45.5% on the standard 3-step wide-stride window),
+# holding the pooling architecture fixed so history length is the only
+# variable — see memory_pool.py.
+# ─────────────────────────────────────────────────────────────────────────────
+framework:
+  name: VGGTOmegaOFT
+
+  visual_backbone:
+    type: vggt_omega
+    freeze_backbone: true
+    pool_type: gated_self_attn
+
+  vggt_omega:
+    checkpoint_path: /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_256_text.pt
+    freeze_backbone: true
+
+  clip_text:
+    model_name: openai/clip-vit-base-patch32
+    freeze: true
+
+  action_model:
+    action_model_type: DiT-L
+    action_dim: 14
+    action_hidden_dim: 1024
+    action_horizon: 16
+    state_dim: 14
+
+  # state_scale=0.1 brings state variance (0.198*0.1=0.020) in line with
+  # visual variance (0.029), preventing state from dominating the condition.
+  state_scale: 0.1
+
+  action_norm:
+    stats_path: playground/Datasets/RoboTwin/rotate_qrcode/meta/stats_gr00t.json
+
+datasets:
+  vla_data:
+    dataset_py: lerobot_datasets
+    include_state: true
+    data_root_dir: playground/Datasets/RoboTwin
+    data_mix: robotwin_rotate_qrcode_hist8stride1
+    action_type: abs_qpos
+    visual_feature_cache: vggt_omega
+    # 8 frames x 3 views = 24 images/sample vs the usual 3x3=9 (~2.7x), which
+    # OOM'd at batch_size=128. Reduced to 32 with 4x gradient accumulation
+    # below to keep the effective batch size at 128, matching the other
+    # ablations.
+    per_device_batch_size: 32
+    num_workers: 8
+    load_all_data_for_training: true
+    obs_image_size: [224, 224]
+    video_backend: torchvision_av
+
+trainer:
+  max_train_steps: 2000
+  num_warmup_steps: 200
+  save_interval: 1000
+  eval_interval: 250
+  learning_rate:
+    base: 6.0e-04
+    visual_pool: 6.0e-04
+    visual_proj: 6.0e-04
+    text_proj: 6.0e-04
+    state_proj: 6.0e-04
+    action_model: 6.0e-04
+  lr_scheduler_type: cosine_with_min_lr
+  scheduler_specific_kwargs:
+    min_lr: 3.0e-05
+  freeze_modules: 'vggt_omega,clip_text_model'
+  loss_scale:
+    vla: 1.0
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  logging_frequency: 10
+  gradient_clipping: 1.0
+  gradient_accumulation_steps: 4
+
+  optimizer:
+    name: AdamW
+    betas: [0.9, 0.95]
+    eps: 1.0e-08
+    weight_decay: 1.0e-08

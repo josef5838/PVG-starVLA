@@ -1,0 +1,34 @@
+[
+  {
+    "model": "Surflo released EMA + guidance",
+    "file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/behavior_renderer_audit/surflo_mesh_colored.ply",
+    "vertices": 177074,
+    "faces": 350607,
+    "finite_vertices": true,
+    "valid_face_indices": true
+  },
+  {
+    "model": "VGGT-1B",
+    "file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/behavior_renderer_audit/raw_depth_meshes/vggt_depth_mesh.ply",
+    "vertices": 800832,
+    "faces": 1587789,
+    "finite_vertices": true,
+    "valid_face_indices": true
+  },
+  {
+    "model": "VGGT-Omega-1B-256-Text",
+    "file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/behavior_renderer_audit/raw_depth_meshes/omega256_depth_mesh.ply",
+    "vertices": 193780,
+    "faces": 379844,
+    "finite_vertices": true,
+    "valid_face_indices": true
+  },
+  {
+    "model": "VGGT-Omega-1B-512",
+    "file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/behavior_renderer_audit/raw_depth_meshes/omega512_depth_mesh.ply",
+    "vertices": 779550,
+    "faces": 1543385,
+    "finite_vertices": true,
+    "valid_face_indices": true
+  }
+]

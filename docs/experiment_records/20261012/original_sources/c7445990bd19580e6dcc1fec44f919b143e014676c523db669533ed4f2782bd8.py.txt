@@ -1,0 +1,38 @@
+"""Robot state modulation of Surflo's existing Perceiver queries."""
+
+import torch
+from torch import nn
+
+
+class SurfloStateQueryConditioner(nn.Module):
+    def __init__(self, state_dim: int, visual_dim: int):
+        super().__init__()
+        self.state_dim = state_dim
+        self.state_encoder = nn.Sequential(
+            nn.Linear(state_dim, visual_dim), nn.SiLU(), nn.Linear(visual_dim, visual_dim)
+        )
+        # Preserve the pretrained compressor exactly at initialization.
+        nn.init.zeros_(self.state_encoder[-1].weight)
+        nn.init.zeros_(self.state_encoder[-1].bias)
+
+    def forward(self, compressor, tokens, state, *, keep_state=None, read_ca_mask=None):
+        if compressor.elastic:
+            raise ValueError("State-conditioned compression requires non-elastic Surflo queries.")
+        if state.shape != (tokens.shape[0], self.state_dim):
+            raise ValueError(f"Expected state [B,{self.state_dim}], got {tuple(state.shape)}")
+        offset = self.state_encoder(state)
+        if keep_state is not None:
+            offset = offset * keep_state.to(dtype=offset.dtype).reshape(-1, 1)
+        queries = compressor.latent_tokens.unsqueeze(0).expand(tokens.shape[0], -1, -1)
+        queries = queries + offset.unsqueeze(1)
+        # Reuse the released blocks and ordering without changing Surflo source
+        # or its checkpoint parameter names.
+        for ca_idx in range(compressor.n_ca_blocks):
+            queries = compressor._process_cross_attention(
+                ca_idx, queries, tokens, attn_mask=read_ca_mask
+            )
+            for sa_idx in range(compressor.sa_to_ca_ratio):
+                queries = compressor._process_self_attention(
+                    ca_idx * compressor.sa_to_ca_ratio + sa_idx, queries
+                )
+        return queries, None

@@ -1,0 +1,73 @@
+{
+  "status": "completed",
+  "created_utc": "20261006_075346",
+  "directory": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_minimum_case/20261006_075346",
+  "code_sha256": {
+    "tools/train_omega512_overfit.py": "2adf39a754d0d863c0bb63a07190a41c772b3c2b93f6bd4ef8c34fb220c10b18",
+    "tools/robotwin_omega_seen_scene.py": "dcfcecde16634f7958b9341e312732f879771011e1146422454e76f524fcc6f9",
+    "tools/launch_omega512_minimum_case.py": "32fbd2233828b94b71ce6309f29129f9f462cabb373a60708e74e0a791ac1300",
+    "starVLA/model/framework/VLM4A/Omega512DiT.py": "5420abfce024bb56f4c8ab21a0d79f7fe9ad6749c03387c2d08ea5de1394226c",
+    "starVLA/model/modules/action_model/OmegaCrossAttentionHeader.py": "861e96a65f36fd1ee8282ea2df5ccbb56ab0f904b1709b8e0fcf5e77b75db2e8",
+    "starVLA/model/modules/projector/omega_readout.py": "6d5302c3e731a0898ba8ebaa36da571e7a8d467bbd6304c288ee923dbc98b763",
+    "starVLA/training/train_starvla.py": "b9443b668f3a63ae0c8891c344c159fadfbd3ecfdb071531bfd58842ce189b15",
+    "examples/simBenchmarks/Robotwin/eval_files/model2robotwin_interface.py": "3259ba59bcfd185f07a5b547a45f76fd92138b02d0a7f34ea463ff0502388abe",
+    "deployment/model_server/policy_norm_processor.py": "d4c629de7d207f430da1e44481070e2d33662bf1164b167e6affa4a3fdb3b281"
+  },
+  "training": {
+    "status": "completed",
+    "gpu": 1,
+    "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_minimum_case/20261006_075346/overfit.yaml",
+    "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_overfit_episode0_fresh_20261006_075346",
+    "max_updates": 10000,
+    "save_updates": [
+      5000,
+      10000
+    ],
+    "fresh_initialization": true,
+    "frozen_backbone": true,
+    "conditioning_dropout_unchanged": true,
+    "normalization": "Original 90-episode training statistics; samples only from episode 0",
+    "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_minimum_case/20261006_075346/overfit_training.log",
+    "pid": 352854,
+    "exit_code": 0
+  },
+  "diagnostics": {
+    "status": "completed",
+    "gpu": 0,
+    "expert_replay": "3 verified recorded training trajectories; raw comparators if necessary",
+    "rollouts": "Dense and state-query/local 10000 checkpoints, 3 scenes each",
+    "scenes": [
+      [
+        0,
+        51,
+        131
+      ],
+      [
+        1,
+        60,
+        162
+      ],
+      [
+        2,
+        38,
+        91
+      ]
+    ],
+    "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_minimum_case/20261006_075346/diagnostics_worker.log",
+    "pid": 352855,
+    "exit_code": 0
+  },
+  "overfit_evaluation": {
+    "status": "completed",
+    "gpu": 1,
+    "episode": 0,
+    "execute_horizons": [
+      1,
+      2,
+      8
+    ],
+    "pid": 391681,
+    "exit_code": 0
+  },
+  "worker_pid": 352849
+}

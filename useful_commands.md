@@ -8,7 +8,9 @@ bash examples/Robotwin/generate_robotwin_data.sh --task rotate_qrcode --num 100 
 ### eval 3hist
 ```bash
 CKPT=/export/home/haoliang/projects/starVLA/results/Checkpoints/ablation_vggt_omega_nostate_hist9_smoke/final_model/pytorch_model.pt
-SEEDS=/export/home/haoliang/projects/RoboTwin/data/rotate_qrcode/demo_clean/seed.txt
+# RoboTwin_PVG does not ship the legacy fixed seed list. Provide one explicitly
+# when reproducing an in-domain run.
+SEEDS="${ROBOTWIN_SEEDS_FILE:?Set ROBOTWIN_SEEDS_FILE to a preserved seed.txt}"
 
 cd /export/home/haoliang/projects/starVLA && \
 DEPLOY_POLICY_TEMPLATE_PATH=/export/home/haoliang/projects/starVLA/examples/Robotwin/eval_files/deploy_policy_hist9.yml \

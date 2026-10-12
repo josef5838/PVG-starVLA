@@ -1,0 +1,321 @@
+"""Matched four-model reconstruction study with registered deterministic cases."""
+
+import argparse
+import gc
+import hashlib
+import io
+import json
+import logging
+import os
+from pathlib import Path
+import random
+import shutil
+import subprocess
+import sys
+import time
+from types import SimpleNamespace
+
+import numpy as np
+
+REPO = Path(__file__).resolve().parents[1]
+SURFLO = Path('/export/home/haoliang/projects/Surflo')
+OMEGA = Path('/export/home/haoliang/projects/vggt-omega-action-pred')
+CAMERAS = ['head_camera', 'left_camera', 'right_camera']
+MODELS = ['surflo', 'vggt', 'omega256', 'omega512']
+
+
+def write(path, value):
+    path = Path(path)
+    tmp = path.with_suffix(path.suffix + '.tmp')
+    tmp.write_text(json.dumps(value, indent=2) + '\n')
+    tmp.replace(path)
+
+
+def prepare(out):
+    import h5py
+    from PIL import Image
+
+    out.mkdir(parents=True, exist_ok=False)
+    shutil.copy2(REPO / 'docs/omega512_experiment_protocol_20261007.md', out / 'protocol.md')
+    code = out / 'code'
+    code.mkdir()
+    sources = ['robotwin_reconstruction_study.py', 'render_behavior_reconstruction.py',
+               'render_behavior_omega_comparison.py', 'render_unfiltered_depth_meshes.py',
+               'group_reconstruction_comparisons.py', 'finalize_reconstruction_comparisons.py']
+    hashes = {}
+    for name in sources:
+        p = REPO / 'tools' / name
+        shutil.copy2(p, code / name)
+        hashes[name] = hashlib.sha256(p.read_bytes()).hexdigest()
+    configs = out / 'configs'
+    configs.mkdir()
+    for relative in ['guided/default.yaml', 'expert/default.yaml', 'mesh/default.yaml']:
+        p = SURFLO / 'configs' / relative
+        shutil.copy2(p, configs / relative.replace('/', '_'))
+    cases = []
+    for task in ['rotate_qrcode', 'adjust_bottle', 'stack_blocks_three']:
+        for episode in [7, 23]:
+            source = Path('/export/home/haoliang/projects/RoboTwin/data') / task / 'demo_clean/data' / f'episode{episode}.hdf5'
+            with h5py.File(source) as f:
+                n = len(f['joint_action/vector'])
+                grip = np.stack([f[f'joint_action/{side}_gripper'][:] for side in ['left', 'right']], -1)
+                closing = []
+                for side in range(2):
+                    for t in range(1, n):
+                        if grip[t, side] < .5 and np.any(grip[:t, side] > .8):
+                            closing.append(t)
+                            break
+                if closing:
+                    interaction, rule = min(closing), 'first closure below 0.5 following open above 0.8'
+                elif np.abs(np.diff(grip, axis=0)).max() > 1e-6:
+                    interaction = int(np.unravel_index(np.abs(np.diff(grip, axis=0)).argmax(), (n-1, 2))[0]) + 1
+                    rule = 'largest gripper change'
+                else:
+                    interaction, rule = n // 2, 'midpoint: no gripper change'
+                for phase, frame in [('initial', 0), ('interaction', interaction)]:
+                    name = f'{task}_ep{episode:03d}_{phase}_f{frame:04d}'
+                    root = out / name
+                    (root / 'inputs').mkdir(parents=True)
+                    records, extrinsics, intrinsics = [], [], []
+                    for view, camera in enumerate(CAMERAS):
+                        image = Image.open(io.BytesIO(bytes(f[f'observation/{camera}/rgb'][frame]))).convert('RGB')
+                        target = root / 'inputs' / f'view_{view}.png'
+                        image.save(target)
+                        records.append(dict(camera=camera, image=str(target), native_size_wh=list(image.size),
+                                            sha256=hashlib.sha256(target.read_bytes()).hexdigest()))
+                        extrinsics.append(f[f'observation/{camera}/extrinsic_cv'][frame])
+                        intrinsics.append(f[f'observation/{camera}/intrinsic_cv'][frame])
+                    np.savez(root / 'recorded_calibration.npz', extrinsics=np.stack(extrinsics),
+                             intrinsics=np.stack(intrinsics), gripper=grip[frame],
+                             left_endpose=f['endpose/left_endpose'][frame],
+                             right_endpose=f['endpose/right_endpose'][frame])
+                    label = f'RoboTwin {task}, source episode {episode}, frame {frame} ({phase})'
+                    metadata = dict(scene_label=label, task=task, episode=episode, frame=frame,
+                                    phase=phase, episode_frames=n, interaction_selection=rule,
+                                    gripper=grip[frame].tolist(), source_hdf5=str(source),
+                                    cameras=records, seed=42, use_ema=True,
+                                    ground_truth='Recorded CV cameras; no recorded depth ground truth.')
+                    write(root / 'inputs.json', metadata)
+                    write(root / 'manifest.json', dict(status='prepared', scene_label=label, inputs=str(root / 'inputs.json')))
+                    cases.append(dict(name=name, root=str(root), task=task, episode=episode,
+                                      frame=frame, phase=phase, worker=len(cases) % 2))
+    manifest = dict(status='prepared', prepared_unix=time.time(), cases=cases,
+                    protocol=str(out / 'protocol.md'), code_sha256=hashes,
+                    checkpoints=dict(surflo=str(SURFLO / 'checkpoints/surflo_v0.pt'),
+                                     omega256=str(OMEGA / 'ckpt/vggt_omega_1b_256_text.pt'),
+                                     omega512=str(OMEGA / 'ckpt/vggt_omega_1b_512.pt')),
+                    scope='12 cases from six source episodes across three tasks; input-view and camera consistency, not GT surface accuracy.')
+    write(out / 'manifest.json', manifest)
+    print(json.dumps(manifest), flush=True)
+
+
+def camera_scores(predicted, reference):
+    """Relative rotations and camera centers expressed in each head frame."""
+    p, g = np.asarray(predicted, float), np.asarray(reference, float)
+    def relative(e):
+        r = e[:, :, :3]
+        c = -np.einsum('nij,nj->ni', r.transpose(0, 2, 1), e[:, :, 3])
+        return r @ r[0].T, (c-c[0]) @ r[0].T
+    pr, pc = relative(p)
+    gr, gc_ = relative(g)
+    fit_scale = float(np.sum(pc[1:] * gc_[1:]) / max(np.sum(pc[1:]**2), 1e-12))
+    scale = float(np.median(np.linalg.norm(gc_[1:], axis=-1) / np.maximum(np.linalg.norm(pc[1:], axis=-1), 1e-12)))
+    records = []
+    for i in [1, 2]:
+        rot = np.degrees(np.arccos(np.clip((np.trace(pr[i] @ gr[i].T)-1)/2, -1, 1)))
+        cosine = np.dot(pc[i], gc_[i]) / max(np.linalg.norm(pc[i]) * np.linalg.norm(gc_[i]), 1e-12)
+        records.append(dict(view=i, relative_rotation_error_deg=float(rot),
+                            center_direction_error_deg=float(np.degrees(np.arccos(np.clip(cosine, -1, 1)))),
+                            positive_baseline_scale=scale, unconstrained_signed_scale=fit_scale,
+                            center_error_cm_after_positive_baseline_scale=float(np.linalg.norm(scale*pc[i]-gc_[i])*100)))
+    return records
+
+
+def stage_diagnostics(root):
+    import torch
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    import trimesh
+    from surflo.utils.guided_result import build_refined_cameras_from_guided_result, gaussians_from_guided_result
+    from surflo.rendering.surflo import render_surflo
+    from surflo.rendering.mesh import MeshRasterizer, ScalableMeshRenderer
+    from surflo.structures.mesh import Meshes
+    from surflo.structures.cameras import is_in_view_frustum
+
+    batch = torch.load(root / 'geometry_batch.pt', map_location='cuda', weights_only=False)
+    guided = torch.load(root / 'surflo_guided_result.pt', map_location='cuda', weights_only=False)
+    cameras = build_refined_cameras_from_guided_result(batch, 0, guided, apply_camera_correction=True, data_device='cuda')
+    gs = gaussians_from_guided_result(guided, device=torch.device('cuda'))
+    gs.colors_sh = guided['aux_colors_sh'].float()
+    gs.active_sh_degree = 3
+    original_frames = np.load(root / 'render_frames.npz')
+    source = trimesh.load(root / 'surflo_mesh_colored.ply', process=False)
+    mesh = Meshes(torch.tensor(np.asarray(source.vertices), dtype=torch.float32, device='cuda'),
+                  torch.tensor(np.asarray(source.faces), dtype=torch.int32, device='cuda'),
+                  torch.tensor(np.array(source.visual.vertex_colors[:, :3])/255, dtype=torch.float32, device='cuda'))
+    renderer = ScalableMeshRenderer(rasterizer=MeshRasterizer(cameras=cameras, use_opengl=False))
+    rows = [('input', 'Input RGB'), ('gaussian', 'Guided Gaussian RGB'),
+            ('alpha', 'Gaussian alpha'), ('gaussian_normal', 'Gaussian normal geometry'),
+            ('mesh', 'Extracted mesh RGB'), ('mesh_normal', 'Mesh normal geometry')]
+    frames, scores = {}, []
+    with torch.no_grad():
+        for i, camera in enumerate(cameras):
+            result = render_surflo(camera, gs, torch.zeros(3, device='cuda'))
+            rgb = result['render'].clamp(0, 1).permute(1, 2, 0)
+            alpha = result['mask'].squeeze().clamp(0, 1)
+            normal = result['normal']
+            if normal.shape[0] == 3:
+                normal = normal.permute(1, 2, 0)
+            normal = torch.nn.functional.normalize(normal, dim=-1)
+            normal_display = torch.where((alpha > .1)[..., None], (normal+1)/2, torch.zeros_like(normal))
+            keep = is_in_view_frustum(mesh.verts, camera)[mesh.faces.long()].any(-1)
+            surface = renderer(Meshes(mesh.verts, mesh.faces[keep], mesh.verts_colors), cam_idx=i,
+                               return_depth=True, return_normals=True, use_antialiasing=False)
+            mrgb = surface['rgb'].squeeze(0).clamp(0, 1)
+            mnormal = surface['normals'].squeeze(0)
+            mdepth = surface['depth'].squeeze()
+            target = batch['rgb_images'][0, i].float().permute(1, 2, 0)
+            frames.update({f'input_{i}': target.cpu().numpy(), f'gaussian_{i}': rgb.cpu().numpy(),
+                           f'alpha_{i}': alpha.cpu().numpy(), f'gaussian_normal_{i}': normal_display.cpu().numpy(),
+                           f'mesh_{i}': mrgb.cpu().numpy(),
+                           f'mesh_normal_{i}': torch.where((mdepth > 0)[..., None], (mnormal+1)/2, torch.zeros_like(mnormal)).cpu().numpy(),
+                           f'gaussian_depth_{i}': result['median_depth'].squeeze().cpu().numpy(),
+                           f'mesh_depth_{i}': mdepth.cpu().numpy()})
+            assert np.allclose(rgb.cpu().numpy(), original_frames[f'gaussian_{i}'], atol=2e-5)
+            scores.append(dict(view=i, gaussian_rgb_mae=float((rgb-target).abs().mean()),
+                               mesh_rgb_mae=float((mrgb-target).abs().mean()),
+                               gaussian_mesh_rgb_mae=float((rgb-mrgb).abs().mean()),
+                               gaussian_alpha_coverage=float((alpha > .1).float().mean()),
+                               mesh_coverage=float((mdepth > 0).float().mean())))
+    np.savez_compressed(root / 'surflo_stage_frames.npz', **frames)
+    fig, axes = plt.subplots(len(rows), 3, figsize=(12, 17))
+    for row, (key, label) in enumerate(rows):
+        for i in range(3):
+            axes[row, i].imshow(frames[f'{key}_{i}'], vmin=0, vmax=1, cmap='gray')
+            axes[row, i].set_xticks([])
+            axes[row, i].set_yticks([])
+            if row == 0:
+                axes[row, i].set_title(['Head', 'Left wrist', 'Right wrist'][i])
+            if i == 0:
+                axes[row, i].set_ylabel(label)
+    fig.suptitle(json.loads((root / 'inputs.json').read_text())['scene_label'] + '\nSurflo stages at the same refined input cameras; normal images are not metric accuracy.')
+    fig.tight_layout(rect=(0, 0, 1, .96))
+    fig.savefig(root / 'surflo_stage_diagnostics.png', dpi=150)
+    plt.close(fig)
+    gt = np.load(root / 'recorded_calibration.npz')['extrinsics']
+    camera_metrics = {}
+    camera_metrics['vggt'] = camera_scores(batch['vggt_extrinsics'][0].cpu().numpy(), gt)
+    # Camera.world_view_transform follows the renderer's transpose convention.
+    refined = np.stack([c.world_view_transform.T.detach().cpu().numpy()[:3] for c in cameras])
+    camera_metrics['surflo_refined'] = camera_scores(refined, gt)
+    for resolution in [256, 512]:
+        omega_batch = torch.load(root / f'omega_{resolution}/geometry_batch.pt', map_location='cpu', weights_only=True)
+        camera_metrics[f'omega{resolution}'] = camera_scores(omega_batch['vggt_extrinsics'][0].numpy(), gt)
+    write(root / 'stage_metrics.json', dict(scores=scores, camera_scores=camera_metrics,
+          scope='Raw fitted-view Gaussian RGB; mesh RGB/coverage; relative camera calibration consistency. No GT surface depths.'))
+    return scores
+
+
+def release_cuda():
+    import torch
+    gc.collect()
+    torch.cuda.empty_cache()
+
+
+def execute_case(case):
+    import torch
+    from render_behavior_reconstruction import reconstruct, render, previews
+    from render_behavior_omega_comparison import infer, render as omega_render, viewer
+    from group_reconstruction_comparisons import group
+    from finalize_reconstruction_comparisons import mesh_viewer, scene_metrics
+
+    root = Path(case['root'])
+    label = json.loads((root / 'inputs.json').read_text())['scene_label']
+    status = dict(status='running', case=case['name'], started_unix=time.time(), gpu=os.environ.get('CUDA_VISIBLE_DEVICES'))
+    def stage(name):
+        status['stage'] = name
+        write(root / 'status.json', status)
+        print(json.dumps(status), flush=True)
+    torch.cuda.set_device(0)
+    torch.manual_seed(42)
+    np.random.seed(42)
+    random.seed(42)
+    args = SimpleNamespace(out=root, root=root, checkpoint=SURFLO / 'checkpoints/surflo_v0.pt',
+                           episode=case['episode'], frame=case['frame'], scene_label=label)
+    try:
+        stage('surflo_full_guided_and_vggt')
+        reconstruct(args)
+        release_cuda()
+        stage('surflo_and_vggt_render')
+        render(args)
+        previews(args)
+        release_cuda()
+        for resolution in [256, 512]:
+            stage(f'omega_{resolution}')
+            out = root / f'omega_{resolution}'
+            out.mkdir(exist_ok=True)
+            oargs = SimpleNamespace(root=root, resolution=resolution,
+                                    checkpoint=OMEGA / 'ckpt' / ('vggt_omega_1b_256_text.pt' if resolution == 256 else 'vggt_omega_1b_512.pt'))
+            infer(oargs, out)
+            release_cuda()
+            omega_render(oargs, out)
+            viewer(oargs, out)
+            write(out / 'manifest.json', dict(status='completed', inference=json.loads((out / 'inference.json').read_text())))
+            release_cuda()
+        stage('unfiltered_depth_meshes')
+        subprocess.run([sys.executable, str(REPO / 'tools/render_unfiltered_depth_meshes.py'), '--root', str(root)], check=True)
+        stage('four_model_comparison_and_diagnostics')
+        group(root, root / 'comparison.png', label, unfiltered=True)
+        group(root, root / 'confidence_filtered.png', label, unfiltered=False)
+        stages = stage_diagnostics(root)
+        release_cuda()
+        validations = mesh_viewer(root, root / 'mesh_viewer.html', label)
+        metrics = scene_metrics(root)
+        write(root / 'artifact_validation.json', validations)
+        write(root / 'comparison_metrics.json', dict(models=metrics, surflo_stages=stages))
+        status.update(status='completed', stage='completed', finished_unix=time.time(),
+                      duration_seconds=time.time()-status['started_unix'])
+        write(root / 'status.json', status)
+        write(root / 'manifest.json', dict(status='completed', case=case, comparison=str(root / 'comparison.png'),
+                                          mesh_viewer=str(root / 'mesh_viewer.html'), stage_diagnostics=str(root / 'surflo_stage_diagnostics.png')))
+    except Exception as error:
+        status.update(status='failed', error=repr(error), finished_unix=time.time())
+        write(root / 'status.json', status)
+        raise
+
+
+def worker(out, index):
+    manifest = json.loads((out / 'manifest.json').read_text())
+    records = []
+    for case in manifest['cases']:
+        if case['worker'] != index:
+            continue
+        root = Path(case['root'])
+        with (root / 'run.log').open('w') as log:
+            code = subprocess.call([sys.executable, str(Path(__file__).resolve()), 'case', '--root', str(root)], stdout=log, stderr=subprocess.STDOUT)
+        records.append(dict(case=case['name'], exit_code=code))
+        write(out / f'worker_{index}_status.json', dict(status='running', pid=os.getpid(), records=records))
+    write(out / f'worker_{index}_status.json', dict(status='completed' if all(x['exit_code']==0 for x in records) else 'completed_with_failures', pid=os.getpid(), records=records))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('mode', choices=['prepare', 'worker', 'case'])
+    parser.add_argument('--root', type=Path, required=True)
+    parser.add_argument('--worker', type=int, choices=[0, 1])
+    args = parser.parse_args()
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+    root = args.root.resolve()
+    if args.mode == 'prepare':
+        prepare(root)
+    elif args.mode == 'worker':
+        worker(root, args.worker)
+    else:
+        manifest = json.loads((root.parent / 'manifest.json').read_text())
+        case = next(x for x in manifest['cases'] if Path(x['root']) == root)
+        execute_case(case)
+
+
+if __name__ == '__main__':
+    main()

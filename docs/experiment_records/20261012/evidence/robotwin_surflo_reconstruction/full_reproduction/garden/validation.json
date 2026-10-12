@@ -1,0 +1,205 @@
+{
+  "mesh": {
+    "vertices": 1570830,
+    "faces": 3139299,
+    "finite_vertices": true,
+    "valid_face_indices": true,
+    "zero_area_face_fraction": 9.588127795409103e-05,
+    "total_area": 26.71911044293193,
+    "bounds": [
+      [
+        -1.7016265392303467,
+        -0.9688469767570496,
+        -1.6692743301391602
+      ],
+      [
+        1.67148756980896,
+        0.5740230083465576,
+        2.3044238090515137
+      ]
+    ]
+  },
+  "views": [
+    {
+      "view": 0,
+      "gaussian_psnr_db": 27.792826652098785,
+      "gaussian_rgb_mae": 0.026861129328608513,
+      "gaussian_ssim": 0.8569546937942505,
+      "mesh_rgb_mae": 0.05835416540503502,
+      "mesh_coverage": 0.9815739989280701,
+      "exposure_corrected_gaussian_rgb_mae": 0.02585447207093239,
+      "exposure_gain": 0.9681402444839478,
+      "exposure_bias": 0.009860253892838955
+    },
+    {
+      "view": 1,
+      "gaussian_psnr_db": 28.139679290599634,
+      "gaussian_rgb_mae": 0.02783309482038021,
+      "gaussian_ssim": 0.8856637477874756,
+      "mesh_rgb_mae": 0.05557705834507942,
+      "mesh_coverage": 0.9866186380386353,
+      "exposure_corrected_gaussian_rgb_mae": 0.0229546707123518,
+      "exposure_gain": 0.9280056357383728,
+      "exposure_bias": 0.018268123269081116
+    },
+    {
+      "view": 2,
+      "gaussian_psnr_db": 27.06649730626718,
+      "gaussian_rgb_mae": 0.028645634651184082,
+      "gaussian_ssim": 0.8520295023918152,
+      "mesh_rgb_mae": 0.07509437203407288,
+      "mesh_coverage": 0.984785795211792,
+      "exposure_corrected_gaussian_rgb_mae": 0.02872392348945141,
+      "exposure_gain": 1.0142724514007568,
+      "exposure_bias": -0.0005132582737132907
+    },
+    {
+      "view": 3,
+      "gaussian_psnr_db": 26.744334369426937,
+      "gaussian_rgb_mae": 0.033800069242715836,
+      "gaussian_ssim": 0.8632933497428894,
+      "mesh_rgb_mae": 0.05597672611474991,
+      "mesh_coverage": 0.993381142616272,
+      "exposure_corrected_gaussian_rgb_mae": 0.02621954120695591,
+      "exposure_gain": 0.9370923042297363,
+      "exposure_bias": 0.01061599887907505
+    },
+    {
+      "view": 4,
+      "gaussian_psnr_db": 27.806864200877758,
+      "gaussian_rgb_mae": 0.030389824882149696,
+      "gaussian_ssim": 0.88100266456604,
+      "mesh_rgb_mae": 0.05451280623674393,
+      "mesh_coverage": 0.996161937713623,
+      "exposure_corrected_gaussian_rgb_mae": 0.023067165166139603,
+      "exposure_gain": 0.9360100030899048,
+      "exposure_bias": 0.006817912217229605
+    },
+    {
+      "view": 5,
+      "gaussian_psnr_db": 28.08817879950152,
+      "gaussian_rgb_mae": 0.026925353333353996,
+      "gaussian_ssim": 0.8600025773048401,
+      "mesh_rgb_mae": 0.07281167805194855,
+      "mesh_coverage": 0.9996896982192993,
+      "exposure_corrected_gaussian_rgb_mae": 0.02687562257051468,
+      "exposure_gain": 1.0183136463165283,
+      "exposure_bias": -0.0013201070250943303
+    },
+    {
+      "view": 6,
+      "gaussian_psnr_db": 26.531472573208422,
+      "gaussian_rgb_mae": 0.03692132979631424,
+      "gaussian_ssim": 0.8553727269172668,
+      "mesh_rgb_mae": 0.058208245784044266,
+      "mesh_coverage": 0.9985463619232178,
+      "exposure_corrected_gaussian_rgb_mae": 0.024272378534078598,
+      "exposure_gain": 0.9127810597419739,
+      "exposure_bias": 0.013429112732410431
+    },
+    {
+      "view": 7,
+      "gaussian_psnr_db": 29.462172654065593,
+      "gaussian_rgb_mae": 0.02329067699611187,
+      "gaussian_ssim": 0.8760312795639038,
+      "mesh_rgb_mae": 0.05588266998529434,
+      "mesh_coverage": 0.9945244789123535,
+      "exposure_corrected_gaussian_rgb_mae": 0.02341824397444725,
+      "exposure_gain": 0.9891452789306641,
+      "exposure_bias": 0.005307375453412533
+    },
+    {
+      "view": 8,
+      "gaussian_psnr_db": 29.19182459343152,
+      "gaussian_rgb_mae": 0.02516486681997776,
+      "gaussian_ssim": 0.8830709457397461,
+      "mesh_rgb_mae": 0.043860357254743576,
+      "mesh_coverage": 0.9995518326759338,
+      "exposure_corrected_gaussian_rgb_mae": 0.021527845412492752,
+      "exposure_gain": 0.9762864112854004,
+      "exposure_bias": -0.0013853253331035376
+    },
+    {
+      "view": 9,
+      "gaussian_psnr_db": 26.3065178033007,
+      "gaussian_rgb_mae": 0.035633645951747894,
+      "gaussian_ssim": 0.8728455305099487,
+      "mesh_rgb_mae": 0.05691763758659363,
+      "mesh_coverage": 0.999948263168335,
+      "exposure_corrected_gaussian_rgb_mae": 0.024463383480906487,
+      "exposure_gain": 0.9194305539131165,
+      "exposure_bias": 0.01355177816003561
+    },
+    {
+      "view": 10,
+      "gaussian_psnr_db": 29.28365620924753,
+      "gaussian_rgb_mae": 0.02316170744597912,
+      "gaussian_ssim": 0.8743841052055359,
+      "mesh_rgb_mae": 0.06945565342903137,
+      "mesh_coverage": 0.9999252557754517,
+      "exposure_corrected_gaussian_rgb_mae": 0.022820886224508286,
+      "exposure_gain": 1.0161455869674683,
+      "exposure_bias": -0.0035054825711995363
+    },
+    {
+      "view": 11,
+      "gaussian_psnr_db": 25.519394055813272,
+      "gaussian_rgb_mae": 0.04274064302444458,
+      "gaussian_ssim": 0.8638467788696289,
+      "mesh_rgb_mae": 0.0690135657787323,
+      "mesh_coverage": 0.9999367594718933,
+      "exposure_corrected_gaussian_rgb_mae": 0.024174485355615616,
+      "exposure_gain": 0.8998381495475769,
+      "exposure_bias": 0.016108909621834755
+    },
+    {
+      "view": 12,
+      "gaussian_psnr_db": 29.44982078669669,
+      "gaussian_rgb_mae": 0.023930450901389122,
+      "gaussian_ssim": 0.8723077774047852,
+      "mesh_rgb_mae": 0.07021676003932953,
+      "mesh_coverage": 0.9992530345916748,
+      "exposure_corrected_gaussian_rgb_mae": 0.021928410977125168,
+      "exposure_gain": 1.038063645362854,
+      "exposure_bias": -0.010570785962045193
+    },
+    {
+      "view": 13,
+      "gaussian_psnr_db": 28.795593669561388,
+      "gaussian_rgb_mae": 0.027687616646289825,
+      "gaussian_ssim": 0.8857011795043945,
+      "mesh_rgb_mae": 0.046372782438993454,
+      "mesh_coverage": 0.999718427658081,
+      "exposure_corrected_gaussian_rgb_mae": 0.021013770252466202,
+      "exposure_gain": 0.942585825920105,
+      "exposure_bias": 0.011303452774882317
+    },
+    {
+      "view": 14,
+      "gaussian_psnr_db": 29.57913381509048,
+      "gaussian_rgb_mae": 0.025644568726420403,
+      "gaussian_ssim": 0.8904320597648621,
+      "mesh_rgb_mae": 0.05357012152671814,
+      "mesh_coverage": 0.9999195337295532,
+      "exposure_corrected_gaussian_rgb_mae": 0.019250981509685516,
+      "exposure_gain": 0.965196967124939,
+      "exposure_bias": -0.001494536641985178
+    },
+    {
+      "view": 15,
+      "gaussian_psnr_db": 28.1399405359881,
+      "gaussian_rgb_mae": 0.030169349163770676,
+      "gaussian_ssim": 0.8778682351112366,
+      "mesh_rgb_mae": 0.04584100469946861,
+      "mesh_coverage": 0.9995805621147156,
+      "exposure_corrected_gaussian_rgb_mae": 0.023832818493247032,
+      "exposure_gain": 0.9616345763206482,
+      "exposure_bias": 0.004027632065117359
+    }
+  ],
+  "mean_gaussian_psnr_db": 27.993619207198467,
+  "mean_gaussian_ssim": 0.8719254471361637,
+  "mean_mesh_rgb_mae": 0.05885410029441118,
+  "scope": "Input camera renders; these are fitted views, not held-out novel views.",
+  "exposure_note": "Displayed Gaussian images and PSNR/SSIM are raw radiance. Also report RGB MAE with the learned scalar gain/bias used by the official L1 loss. Exposure correction does not change geometry or repair robot view 3."
+}

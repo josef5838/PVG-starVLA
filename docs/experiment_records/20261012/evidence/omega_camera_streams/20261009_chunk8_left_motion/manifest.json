@@ -1,0 +1,641 @@
+{
+  "status": "completed",
+  "started_unix": 1791529437.2308373,
+  "args": {
+    "data_root": "/export/home/haoliang/projects/RoboTwin/data",
+    "omega_root": "/export/home/haoliang/projects/vggt-omega-action-pred",
+    "checkpoint": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+    "tasks": [
+      "stack_blocks_three"
+    ],
+    "episode": 7,
+    "chunk_length": 8,
+    "stride": 1,
+    "end_frame": 177,
+    "resolution": 512,
+    "gpu": 0,
+    "render_only": false,
+    "out": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_streams/20261009_chunk8_left_motion"
+  },
+  "cases": [
+    {
+      "name": "stack_blocks_three_ep007_f0170_0177",
+      "task": "stack_blocks_three",
+      "source": "/export/home/haoliang/projects/RoboTwin/data/stack_blocks_three/demo_clean/data/episode7.hdf5",
+      "frames": [
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "selection": "explicit end frame",
+      "streams": {
+        "head_camera": {
+          "relative_rotation_error_deg": [
+            0.0,
+            0.08846931904554367,
+            0.06255725026130676,
+            0.10087054967880249,
+            0.1312212198972702,
+            0.14265252649784088,
+            0.20935672521591187,
+            0.14265252649784088
+          ],
+          "max_relative_rotation_error_deg": 0.20935672521591187,
+          "predicted_rotation_from_first_deg": [
+            0.0,
+            0.08846931904554367,
+            0.06255725026130676,
+            0.10467831045389175,
+            0.1312212198972702,
+            0.14536996185779572,
+            0.20935672521591187,
+            0.14536996185779572
+          ],
+          "recorded_rotation_from_first_deg": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_camera_centers_in_first_camera": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0008645005873404443,
+              0.0007215976365841925,
+              -0.000948091212194413
+            ],
+            [
+              0.0007475197198800743,
+              0.00011091064516222104,
+              -0.0008051078184507787
+            ],
+            [
+              0.0012720105005428195,
+              0.000273092242423445,
+              -0.000720965676009655
+            ],
+            [
+              0.001869300613179803,
+              -0.00024443387519568205,
+              -0.000416325347032398
+            ],
+            [
+              0.001387651776894927,
+              -0.0006294926861301064,
+              -0.0006330393953248858
+            ],
+            [
+              0.0021397077944129705,
+              -0.000808818731456995,
+              -0.0003107187803834677
+            ],
+            [
+              0.0017246280331164598,
+              -0.0014636099804192781,
+              -0.0007815920980647206
+            ]
+          ],
+          "recorded_camera_centers_in_first_camera_m": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "recorded_max_camera_displacement_m": 0.0,
+          "predicted_max_camera_displacement_over_median_depth": 0.0024672882234693296,
+          "translation_scale_fit": null,
+          "median_depth_per_frame": [
+            0.9504011869430542,
+            0.9565398097038269,
+            0.9605261087417603,
+            0.9650290608406067,
+            0.9711830615997314,
+            0.9781734943389893,
+            0.9871071577072144,
+            0.9966737031936646
+          ],
+          "confidence_percentiles": [
+            1.0062682628631592,
+            2.6512853860855103,
+            10.98997950553894,
+            20.070387840270996,
+            23.485846519470215,
+            26.41108436584473,
+            42.740203857421875
+          ],
+          "consecutive_rgb_mae": [
+            0.09292817860841751,
+            0.09092341363430023,
+            0.08247760683298111,
+            0.07680384069681168,
+            0.066511370241642,
+            0.05447475239634514,
+            0.05045830085873604
+          ],
+          "interpretation": "Camera consistency against recorded extrinsics, not ground-truth surface accuracy.",
+          "inference_seconds": 0.7935694069601595,
+          "input_shape": [
+            8,
+            3,
+            448,
+            592
+          ],
+          "peak_allocated_gpu_gib": 5.485378742218018,
+          "exports": {
+            "all_frames_unfiltered": 150000,
+            "all_frames_conf90": 150000,
+            "latest_frame_conf90": 60000
+          },
+          "mesh": {
+            "vertices": 238554,
+            "faces": 473782,
+            "filtering": "Per-frame bottom 10% confidence removed; triangle edges < 5% median camera depth"
+          },
+          "finite_outputs": true,
+          "geometry_roundtrip_checked": true,
+          "retained_fraction_per_frame": [
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668
+          ]
+        },
+        "left_camera": {
+          "relative_rotation_error_deg": [
+            0.03956468030810356,
+            3.749305009841919,
+            7.6074652671813965,
+            11.589082717895508,
+            15.752004623413086,
+            20.14366912841797,
+            24.325410842895508,
+            28.07680892944336
+          ],
+          "max_relative_rotation_error_deg": 28.07680892944336,
+          "predicted_rotation_from_first_deg": [
+            0.0,
+            0.24708151817321777,
+            0.6720213294029236,
+            0.5740312337875366,
+            0.9875454306602478,
+            0.6305604577064514,
+            0.6858552694320679,
+            1.2899813652038574
+          ],
+          "recorded_rotation_from_first_deg": [
+            0.03956468030810356,
+            3.6094508171081543,
+            7.55689001083374,
+            11.750927925109863,
+            16.116928100585938,
+            20.563188552856445,
+            24.97663116455078,
+            29.263526916503906
+          ],
+          "predicted_camera_centers_in_first_camera": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              -0.012834430672228336,
+              -0.01747751608490944,
+              -0.0017006724374368787
+            ],
+            [
+              -0.02800930105149746,
+              -0.03487014397978783,
+              0.000863243592903018
+            ],
+            [
+              -0.045400720089673996,
+              -0.055997803807258606,
+              0.0005098049878142774
+            ],
+            [
+              -0.060230083763599396,
+              -0.07695651054382324,
+              0.0030237839091569185
+            ],
+            [
+              -0.07783430069684982,
+              -0.10745158791542053,
+              0.0025419804733246565
+            ],
+            [
+              -0.09970857203006744,
+              -0.13938859105110168,
+              0.0017334336880594492
+            ],
+            [
+              -0.12530986964702606,
+              -0.1628486067056656,
+              0.002091117901727557
+            ]
+          ],
+          "recorded_camera_centers_in_first_camera_m": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              -0.01751682348549366,
+              0.004205326084047556,
+              -0.014877920970320702
+            ],
+            [
+              -0.03651949390769005,
+              0.010244283825159073,
+              -0.029736682772636414
+            ],
+            [
+              -0.05655835196375847,
+              0.018168484792113304,
+              -0.04371887445449829
+            ],
+            [
+              -0.0770723968744278,
+              0.027906890958547592,
+              -0.05617670714855194
+            ],
+            [
+              -0.09743024408817291,
+              0.039160653948783875,
+              -0.06653546541929245
+            ],
+            [
+              -0.11701805889606476,
+              0.05141109600663185,
+              -0.07429798692464828
+            ],
+            [
+              -0.13531902432441711,
+              0.06405678391456604,
+              -0.07926706969738007
+            ]
+          ],
+          "recorded_max_camera_displacement_m": 0.16940417885780334,
+          "predicted_max_camera_displacement_over_median_depth": 0.20401369003582165,
+          "translation_scale_fit": {
+            "positive_scale": 0.17481885850429535,
+            "signed_scale": 0.17481885850429535,
+            "rms_center_residual_cm": 10.058470070362091,
+            "scope": "One fitted scale; relative orientation fixed by first recorded camera. No ICP."
+          },
+          "median_depth_per_frame": [
+            1.0008869171142578,
+            1.0061208009719849,
+            1.0051112174987793,
+            1.007088303565979,
+            1.0059680938720703,
+            1.009596347808838,
+            1.0115711688995361,
+            1.0119082927703857
+          ],
+          "confidence_percentiles": [
+            1.0883259773254395,
+            11.464946746826172,
+            16.40028667449951,
+            20.870089530944824,
+            25.41254186630249,
+            29.68483543395996,
+            47.69275665283203
+          ],
+          "consecutive_rgb_mae": [
+            0.028480537235736847,
+            0.027422776445746422,
+            0.02656029351055622,
+            0.025645993649959564,
+            0.02664497308433056,
+            0.03432874009013176,
+            0.039179060608148575
+          ],
+          "interpretation": "Camera consistency against recorded extrinsics, not ground-truth surface accuracy.",
+          "inference_seconds": 0.22881721600424498,
+          "input_shape": [
+            8,
+            3,
+            448,
+            592
+          ],
+          "peak_allocated_gpu_gib": 5.485378742218018,
+          "exports": {
+            "all_frames_unfiltered": 150000,
+            "all_frames_conf90": 150000,
+            "latest_frame_conf90": 60000
+          },
+          "mesh": {
+            "vertices": 238426,
+            "faces": 472946,
+            "filtering": "Per-frame bottom 10% confidence removed; triangle edges < 5% median camera depth"
+          },
+          "finite_outputs": true,
+          "geometry_roundtrip_checked": true,
+          "retained_fraction_per_frame": [
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668
+          ]
+        },
+        "right_camera": {
+          "relative_rotation_error_deg": [
+            0.0,
+            0.2797648012638092,
+            1.2857269048690796,
+            1.6289476156234741,
+            1.7207870483398438,
+            2.0370161533355713,
+            1.894238829612732,
+            2.102078676223755
+          ],
+          "max_relative_rotation_error_deg": 2.102078676223755,
+          "predicted_rotation_from_first_deg": [
+            0.0,
+            3.901136636734009,
+            8.693799018859863,
+            13.553441047668457,
+            18.48952293395996,
+            23.359079360961914,
+            28.70856475830078,
+            33.4195671081543
+          ],
+          "recorded_rotation_from_first_deg": [
+            0.0,
+            3.712567090988159,
+            7.881770610809326,
+            12.442831039428711,
+            17.314786911010742,
+            22.460758209228516,
+            27.834308624267578,
+            33.374385833740234
+          ],
+          "predicted_camera_centers_in_first_camera": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              -0.004743669182062149,
+              -0.023999236524105072,
+              0.001173239084891975
+            ],
+            [
+              -0.021671723574399948,
+              -0.05955357104539871,
+              0.01255052350461483
+            ],
+            [
+              -0.031754717230796814,
+              -0.08872631937265396,
+              0.02770540677011013
+            ],
+            [
+              -0.035318050533533096,
+              -0.12245864421129227,
+              0.04708891361951828
+            ],
+            [
+              -0.04349676892161369,
+              -0.15081745386123657,
+              0.06604202091693878
+            ],
+            [
+              -0.05151217430830002,
+              -0.18023820221424103,
+              0.08934567123651505
+            ],
+            [
+              -0.06132078915834427,
+              -0.20428292453289032,
+              0.11236463487148285
+            ]
+          ],
+          "recorded_camera_centers_in_first_camera_m": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0019774455577135086,
+              -0.00828306283801794,
+              0.0031080248299986124
+            ],
+            [
+              -0.004280079621821642,
+              -0.016644220799207687,
+              0.008272524923086166
+            ],
+            [
+              -0.0069048842415213585,
+              -0.024779735133051872,
+              0.015575888566672802
+            ],
+            [
+              -0.009843684732913971,
+              -0.03242037072777748,
+              0.02493276260793209
+            ],
+            [
+              -0.013116198591887951,
+              -0.03914852812886238,
+              0.03637327253818512
+            ],
+            [
+              -0.016729487106204033,
+              -0.04454459622502327,
+              0.04980938136577606
+            ],
+            [
+              -0.020664842799305916,
+              -0.048421405255794525,
+              0.0649256557226181
+            ]
+          ],
+          "recorded_max_camera_displacement_m": 0.08358833193778992,
+          "predicted_max_camera_displacement_over_median_depth": 0.23963813388322888,
+          "translation_scale_fit": {
+            "positive_scale": 0.3090496361255646,
+            "signed_scale": 0.3090496361255646,
+            "rms_center_residual_cm": 1.695438101887703,
+            "scope": "One fitted scale; relative orientation fixed by first recorded camera. No ICP."
+          },
+          "median_depth_per_frame": [
+            1.1298874616622925,
+            1.104418158531189,
+            1.077949047088623,
+            1.0437299013137817,
+            1.007556438446045,
+            0.9787706136703491,
+            0.9489269852638245,
+            0.9262007474899292
+          ],
+          "confidence_percentiles": [
+            1.0332247018814087,
+            2.4421586275100706,
+            3.0603938698768616,
+            3.5961862802505493,
+            4.565057992935181,
+            5.3654004573822025,
+            13.079121589660645
+          ],
+          "consecutive_rgb_mae": [
+            0.020551910623908043,
+            0.026622330769896507,
+            0.031207837164402008,
+            0.030397646129131317,
+            0.03151758387684822,
+            0.0321943424642086,
+            0.035166848450899124
+          ],
+          "interpretation": "Camera consistency against recorded extrinsics, not ground-truth surface accuracy.",
+          "inference_seconds": 0.21818629396148026,
+          "input_shape": [
+            8,
+            3,
+            448,
+            592
+          ],
+          "peak_allocated_gpu_gib": 5.485378742218018,
+          "exports": {
+            "all_frames_unfiltered": 150000,
+            "all_frames_conf90": 150000,
+            "latest_frame_conf90": 60000
+          },
+          "mesh": {
+            "vertices": 236266,
+            "faces": 457967,
+            "filtering": "Per-frame bottom 10% confidence removed; triangle edges < 5% median camera depth"
+          },
+          "finite_outputs": true,
+          "geometry_roundtrip_checked": true,
+          "retained_fraction_per_frame": [
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.8999984917953668,
+            0.9000022623069498
+          ]
+        }
+      },
+      "input_sha256": {
+        "head_camera": {
+          "frame_00170.png": "d25e60b62883b2ab1348473e2bbf1dcb6304b154a0c311648446d20203bb5717",
+          "frame_00171.png": "edaa2c1dbe1b9bdb59986009d7ad2828f644a86412c061bf0f0da306c8cfd88f",
+          "frame_00172.png": "d392084a6100888e64b6f4975353fc9e1484d474de976b60e22db2b61b902dfa",
+          "frame_00173.png": "a330812beedf0a10d5e1aec9e5c4fc680aa9385c691de155653babbc3407174b",
+          "frame_00174.png": "3b389ad02d4753e0f9eaf2b29bc5597b7b428ddb487af63269b2ff7b104a32f8",
+          "frame_00175.png": "123d504452402333d46a75b60dc0ce3f35b3aab6b55e7f585a657e7379c35083",
+          "frame_00176.png": "1e4a3babb71285fb9a4116beb03f2034775506817f95b9174626ffc567f27c15",
+          "frame_00177.png": "40075cfaeb28ab3d48b9a8e74afb3691ed30ab7b000f4739a4279a40320b8d76"
+        },
+        "left_camera": {
+          "frame_00170.png": "b172c5f2c63f1695a5b694a05613833991734d9a070f07b004f60894d8f4107c",
+          "frame_00171.png": "6186dd704b2ca2558aaeb0ca975908caee27ec496d705b258213c54719f7794f",
+          "frame_00172.png": "b20415830f7f151c01d5168a6b1db0a7fd9f67bf11bc7e0b62579eaaa655c711",
+          "frame_00173.png": "e92a2da8601c4360b9b14db68d196291c22d69583812558d5a5219375e3c8831",
+          "frame_00174.png": "84d42e85c9b968aed81903e0fce51864b9f2c1a28a90c9d0e3950827c1f4f9f5",
+          "frame_00175.png": "30ed88eb41ad855436acf02dc70e2fbb36dcabe3407254e893ade8ded57a7272",
+          "frame_00176.png": "8ac6532deaee23d8be3d8dea0036b00c1f0ecaf122288e5356b45605dab8de6f",
+          "frame_00177.png": "f0c57f7fb53aed9bb7f0ecccafe778ded55504bca5d4c34254e1759bfe02d6e7"
+        },
+        "right_camera": {
+          "frame_00170.png": "30038be4b210111ef1fbf125077040fae7d2f0d1b9b1eb1e378784f06f33a3c8",
+          "frame_00171.png": "ea52069a28c1a765690c6bd9eb52a79b5456c10039e0e23b7fc4d8c87c393fb8",
+          "frame_00172.png": "22c61868e64c856aa695ef27b80e3300624d45e995356cf24cff0ad9c81eb616",
+          "frame_00173.png": "f31eccb3917401c33ef058be87aef7ebdf566d3358b8e97a4da2e67f946e2ea8",
+          "frame_00174.png": "226104d03337a45e2aea305a1c06aec4a363fbb810bba33193526a4cda9987e9",
+          "frame_00175.png": "a2e69ed57fc1d73cae2b29a260df4823c9835099e23ce49a83262a7492cc8bda",
+          "frame_00176.png": "17b753061007340a5806f46e8d0118663675b03bcd2573dba831047dd9d83d84",
+          "frame_00177.png": "e82a49af462cf6b7b69ceb9e288246914c1518b0c1ce11832fdb860cab0ce164"
+        }
+      }
+    }
+  ],
+  "python": "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+  "torch": "2.7.1+cu128",
+  "gpu": "NVIDIA H100 NVL",
+  "inference_contract": "One camera, eight past observations, independent call; frozen shared weights; no calibration input.",
+  "source_sha256": "520ab6a9e2a0c75bbb19ef4f6b55157d86777c4416c0810cbb115c7dcdc2f638",
+  "reproduce_command": "/export/home/haoliang/miniconda3/envs/starVLA/bin/python tools/robotwin_omega_camera_streams.py --data-root /export/home/haoliang/projects/RoboTwin/data --omega-root /export/home/haoliang/projects/vggt-omega-action-pred --checkpoint /export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt --episode 7 --chunk-length 8 --stride 1 --resolution 512 --gpu 0 --end-frame 177 --tasks stack_blocks_three --out /export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_streams/20261009_chunk8_left_motion_rerun",
+  "checkpoint_loading": "strict=True; no missing or unexpected parameters",
+  "completed_unix": 1791529475.688024,
+  "checkpoint_provenance": {
+    "repository": "facebook/VGGT-Omega",
+    "revision": "1041e80fc0e911235d3426b0a3d9a81075111a53",
+    "filename": "vggt_omega_1b_512.pt",
+    "source_url": "https://huggingface.co/facebook/VGGT-Omega/blob/main/vggt_omega_1b_512.pt",
+    "expected_bytes": 4576706117,
+    "expected_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+    "path": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt",
+    "bytes": 4576706117,
+    "sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+    "checksum_matches": true,
+    "status": "verified"
+  },
+  "rendering_source_sha256": "73d272e0457cdb2e87bced11e0c2dbbf2a86cec797ca2c4153edc8a421c4c91c"
+}

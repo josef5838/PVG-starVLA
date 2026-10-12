@@ -1,0 +1,62 @@
+{
+  "anchors": [
+    {
+      "episode": 0,
+      "xy_error_m": 1.337726987624989e-06
+    },
+    {
+      "episode": 1,
+      "xy_error_m": 4.331450947170261e-07
+    },
+    {
+      "episode": 2,
+      "xy_error_m": 3.0696339857773733e-07
+    },
+    {
+      "episode": 3,
+      "xy_error_m": 2.5428235809119686e-07
+    },
+    {
+      "episode": 4,
+      "xy_error_m": 4.125613906510192e-07
+    },
+    {
+      "episode": 5,
+      "xy_error_m": 1.1418151962941371e-06
+    },
+    {
+      "episode": 6,
+      "xy_error_m": 8.070787289851113e-07
+    },
+    {
+      "episode": 7,
+      "xy_error_m": 1.1711629679040179e-06
+    },
+    {
+      "episode": 8,
+      "xy_error_m": 4.634157548433772e-07
+    },
+    {
+      "episode": 9,
+      "xy_error_m": 4.980946646613679e-07
+    },
+    {
+      "episode": 10,
+      "xy_error_m": 3.65308148099863e-07
+    },
+    {
+      "episode": 11,
+      "xy_error_m": 5.294825172248947e-07
+    },
+    {
+      "episode": 12,
+      "xy_error_m": 1.2245451992160741e-06
+    },
+    {
+      "episode": 13,
+      "xy_error_m": 3.9174877514095253e-07
+    }
+  ],
+  "max_xy_error_m": 1.337726987624989e-06,
+  "method": "Replays exact zero-range table draw, both static-camera Gaussian/uniform draws, and rejected QR pose samples. Object model choice checked against every source episode."
+}

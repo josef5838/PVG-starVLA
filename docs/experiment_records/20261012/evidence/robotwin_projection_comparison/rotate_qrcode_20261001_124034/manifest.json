@@ -1,0 +1,61 @@
+{
+  "task": "rotate_qrcode",
+  "seed": 42,
+  "sample_budget_per_variant": 80000,
+  "effective_batch_per_variant": 8,
+  "optimizer_updates_per_variant": 10000,
+  "initialization": "fresh policy layers; pretrained frozen Surflo visual backbone",
+  "instruction_override": "rotate_qrcode",
+  "save_interval": 5000,
+  "training_resumable_checkpoints": true,
+  "runs": [
+    {
+      "variant": "linear",
+      "gpu": "0",
+      "pid": 58033,
+      "run_id": "surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/linear.log",
+      "command": [
+        "bash",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/run_surflo_body_parts_robotwin.sh",
+        "--framework.visual_adapter_type",
+        "linear",
+        "--datasets.vla_data.instruction_override",
+        "rotate_qrcode",
+        "--trainer.max_train_steps",
+        "10000",
+        "--trainer.sample_budget",
+        "80000",
+        "--trainer.save_interval",
+        "5000",
+        "--trainer.save_training_state",
+        "true"
+      ],
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034"
+    },
+    {
+      "variant": "residual",
+      "gpu": "1",
+      "pid": 58034,
+      "run_id": "surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/residual.log",
+      "command": [
+        "bash",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/train_files/run_surflo_body_parts_robotwin.sh",
+        "--framework.visual_adapter_type",
+        "residual",
+        "--datasets.vla_data.instruction_override",
+        "rotate_qrcode",
+        "--trainer.max_train_steps",
+        "10000",
+        "--trainer.sample_budget",
+        "80000",
+        "--trainer.save_interval",
+        "5000",
+        "--trainer.save_training_state",
+        "true"
+      ],
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034"
+    }
+  ]
+}

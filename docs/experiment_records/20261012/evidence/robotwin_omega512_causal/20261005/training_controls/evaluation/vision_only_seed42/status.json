@@ -1,0 +1,93 @@
+{
+  "task": "rotate_qrcode",
+  "gpu": "0",
+  "port": 5740,
+  "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_vision_only_seed42_20261005_120419/checkpoints/steps_10000_pytorch_model.pt",
+  "directory": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42",
+  "evaluation_id": "omega512_causal_vision_only_seed42_20261005_120419_evaluation_20261005_141400",
+  "seed_indices": [
+    1,
+    2
+  ],
+  "simulator_seeds": [
+    200000,
+    300000
+  ],
+  "simulator_output": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_causal_vision_only_seed42_20261005_120419_evaluation_20261005_141400",
+  "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/videos",
+  "server_log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/server.log",
+  "framework_module": "starVLA.model.framework.VLM4A.Omega512DiT",
+  "status": "completed",
+  "episodes": [
+    {
+      "seed": 200000,
+      "success": false,
+      "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_causal_vision_only_seed42_20261005_120419_evaluation_20261005_141400/2026-10-05_14-14-31_258912/_result.txt",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/seed_200000.log",
+      "videos": [
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/videos/seed_200000.mp4"
+      ]
+    },
+    {
+      "seed": 300000,
+      "success": false,
+      "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/omega512_causal_vision_only_seed42_20261005_120419_evaluation_20261005_141400/2026-10-05_14-17-50_881419/_result.txt",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/seed_300000.log",
+      "videos": [
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/videos/seed_300000.mp4"
+      ]
+    }
+  ],
+  "completed_episodes": 2,
+  "success_count": 0,
+  "server_command": [
+    "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/deployment/model_server/server_policy.py",
+    "--ckpt_path",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_vision_only_seed42_20261005_120419/checkpoints/steps_10000_pytorch_model.pt",
+    "--port",
+    "5740",
+    "--config_override",
+    "evaluation.diffusion_seed=4000"
+  ],
+  "config_overrides": [
+    "evaluation.diffusion_seed=4000"
+  ],
+  "server_pid": 328556,
+  "current_seed": 300000,
+  "current_command": [
+    "/export/home/haoliang/miniconda3/envs/RoboTwin/bin/python3.10",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/robotwin_eval_fixed_instruction.py",
+    "--render-gpu",
+    "0",
+    "--task_name",
+    "rotate_qrcode",
+    "--task_config",
+    "demo_clean",
+    "--policy_name",
+    "starVLA",
+    "--protocol",
+    "starvla_ws",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "5740",
+    "--device_id",
+    "0",
+    "--seed",
+    "2",
+    "--test_num",
+    "1",
+    "--expert_check",
+    "false",
+    "--additional_info",
+    "ckpt_name=omega512_causal_vision_only_seed42_20261005_120419_evaluation_20261005_141400,action_type=joint,policy_ckpt_path=/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_vision_only_seed42_20261005_120419/checkpoints/steps_10000_pytorch_model.pt,starvla_adapter_path=/export/home/haoliang/projects/PVG-starVLA-snapshot/examples/simBenchmarks/Robotwin/eval_files"
+  ],
+  "simulator_pid": 328982,
+  "finished_at": "2026-10-05T14:21:07.104942+00:00",
+  "decoded_video_frames": {
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/videos/seed_300000.mp4": 400,
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_causal/20261005/training_controls/evaluation/vision_only_seed42/videos/seed_200000.mp4": 400
+  },
+  "video_validation": "passed"
+}

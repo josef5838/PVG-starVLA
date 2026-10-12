@@ -1,0 +1,5 @@
+{
+  "original_scene": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/behavior_reconstruction/turning_on_radio_ep197_frame1491_20261005",
+  "original_figure": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/behavior_comparison.png",
+  "scope": "Same reconstruction tensors and mesh geometry; corrected renderer and refreshed TSDF colors; original outputs preserved."
+}

@@ -1,0 +1,320 @@
+"""Export and render matched Surflo/VGGT reconstructions of a BEHAVIOR frame."""
+
+import argparse
+import hashlib
+import json
+import logging
+import random
+import sys
+from pathlib import Path
+
+import av
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from PIL import Image
+import torch
+
+SURFLO_ROOT = Path('/export/home/haoliang/projects/Surflo')
+sys.path.insert(0, str(SURFLO_ROOT))
+
+
+def cpu(value):
+    if isinstance(value, torch.Tensor):
+        return value.detach().cpu()
+    if isinstance(value, dict):
+        return {key: cpu(item) for key, item in value.items()}
+    return value
+
+
+def write_json(path, value):
+    Path(path).write_text(json.dumps(value, indent=2) + '\n')
+
+
+def decode_frame(path, timestamp, fps):
+    with av.open(str(path)) as container:
+        stream = container.streams.video[0]
+        container.seek(int(timestamp / stream.time_base), stream=stream, backward=True)
+        best = None
+        for frame in container.decode(stream):
+            if frame.pts is None:
+                continue
+            frame_time = float(frame.pts * stream.time_base)
+            distance = abs(frame_time - timestamp)
+            if best is None or distance < best[0]:
+                best = (distance, frame_time, frame.to_image().convert('RGB'))
+            if frame_time > timestamp + 1 / fps:
+                break
+        if best is None or best[0] > .51 / fps:
+            raise RuntimeError(f'No synchronized frame at {timestamp}: {path}')
+        return best[2], best[1]
+
+
+def prepare_inputs(args):
+    out = args.out
+    inputs = out / 'inputs'
+    inputs.mkdir(parents=True, exist_ok=True)
+    info = json.loads((args.dataset / 'meta/info.json').read_text())
+    episodes = pd.read_parquet(args.dataset / 'meta/episodes/chunk-000/file-000.parquet')
+    episode = episodes[episodes.episode_index == args.episode].iloc[0]
+    data_path = args.dataset / info['data_path'].format(
+        chunk_index=int(episode['data/chunk_index']), file_index=int(episode['data/file_index']))
+    rows = pd.read_parquet(data_path, filters=[('episode_index', '=', args.episode)])
+    row = rows[rows.frame_index == args.frame].iloc[0]
+    keys = ['observation.rgb.zed_link_camera_0',
+            'observation.rgb.left_realsense_link_camera_0',
+            'observation.rgb.right_realsense_link_camera_0']
+    records = []
+    for index, key in enumerate(keys):
+        path = args.dataset / info['video_path'].format(
+            video_key=key, chunk_index=int(episode[f'videos/{key}/chunk_index']),
+            file_index=int(episode[f'videos/{key}/file_index']))
+        timestamp = float(episode[f'videos/{key}/from_timestamp']) + float(row.timestamp)
+        image, actual_time = decode_frame(path, timestamp, info['fps'])
+        target = inputs / f'view_{index}.png'
+        image.save(target)
+        records.append(dict(camera=key, source_video=str(path), requested_timestamp=timestamp,
+                            decoded_timestamp=actual_time, native_size_wh=list(image.size),
+                            image=str(target), sha256=hashlib.sha256(target.read_bytes()).hexdigest()))
+    metadata = dict(task='turning_on_radio', episode=args.episode, frame=args.frame,
+                    episode_timestamp=float(row.timestamp), raw_episode_id=int(episode.raw_episode_id),
+                    source_dataset=str(args.dataset), cameras=records,
+                    preprocessing='Native RGB video frames; shared Surflo no_stretch preprocessing to 518px. No training-loader 224px intermediate.',
+                    coordinate_frame='VGGT reconstruction frame, arbitrary scale; no ground-truth camera poses, depth, or metric alignment used.',
+                    checkpoint=str(args.checkpoint), use_ema=True, seed=42)
+    write_json(out / 'inputs.json', metadata)
+    return metadata
+
+
+def triangulate_depth(points, depth, valid):
+    """Same per-view connectivity and relative edge cutoff for all depth models."""
+    _, height, width, _ = points.shape
+    grid = np.arange(height * width).reshape(height, width)
+    triangles = np.concatenate([
+        np.stack([grid[:-1, :-1], grid[1:, :-1], grid[:-1, 1:]], -1).reshape(-1, 3),
+        np.stack([grid[1:, :-1], grid[1:, 1:], grid[:-1, 1:]], -1).reshape(-1, 3)])
+    faces = []
+    for index in range(len(points)):
+        xyz = points[index].reshape(-1, 3)
+        mask = valid[index].reshape(-1)
+        z = depth[index].reshape(-1)
+        tri = triangles[mask[triangles].all(-1)]
+        edge_lengths = np.stack([np.linalg.norm(xyz[tri[:, i]] - xyz[tri[:, j]], axis=-1)
+                                 for i, j in [(0, 1), (1, 2), (2, 0)]], -1)
+        keep = edge_lengths.max(-1) <= .05 * z[tri].min(-1)
+        faces.append(tri[keep] + index * height * width)
+    faces = np.concatenate(faces)
+    used, inverse = np.unique(faces, return_inverse=True)
+    vertices = points.reshape(-1, 3)[used]
+    faces = inverse.reshape(-1, 3)
+    return vertices, faces, used
+
+
+def export_vggt(batch, out, prefix='vggt'):
+    """Export depth-backprojected points and a visualization mesh of each grid."""
+    from surflo.utils.io import write_points_ply, write_mesh_ply
+    points = batch['vggt_world_points'][0].float().cpu().numpy()
+    depth = batch['vggt_depth'][0, ..., 0].float().cpu().numpy()
+    colors = (batch['rgb_images'][0].permute(0, 2, 3, 1).float().cpu().numpy().clip(0, 1) * 255).round().astype(np.uint8)
+    confidence = batch['vggt_depth_conf'][0].float().cpu().numpy()
+    valid = np.isfinite(points).all(-1) & np.isfinite(depth) & (depth > 0)
+    selected = valid & np.isfinite(confidence) & (confidence >= 2.)
+    write_points_ply(str(out / f'{prefix}_points_all.ply'), points[valid], colors_uint8=colors[valid])
+    write_points_ply(str(out / f'{prefix}_points_conf2.ply'), points[selected], colors_uint8=colors[selected])
+    preview_threshold = max(1.000001, float(np.quantile(confidence[valid], .2)))
+    preview_selected = valid & np.isfinite(confidence) & (confidence >= preview_threshold)
+    write_points_ply(str(out / f'{prefix}_points_preview.ply'), points[preview_selected], colors_uint8=colors[preview_selected])
+    vertices, faces, used = triangulate_depth(points, depth, preview_selected)
+    vertex_colors = colors.reshape(-1, 3)[used]
+    write_mesh_ply(str(out / f'{prefix}_depth_mesh.ply'), vertices, faces, vertex_colors_uint8=vertex_colors)
+    stats = dict(all_points=int(valid.sum()), confidence2_points=int(selected.sum()),
+                 preview_points=int(preview_selected.sum()), preview_confidence_threshold=preview_threshold,
+                 confidence_range=[float(confidence.min()), float(confidence.max())],
+                 mesh_vertices=len(vertices), mesh_faces=len(faces), confidence_threshold=2.,
+                 mesh_protocol='Per-view depth-grid triangles; no cross-view stitching; use labeled relative-confidence preview mask and discard edges longer than 5% of local predicted depth. This mesh is derived visualization geometry.')
+    write_json(out / f'{prefix}_metadata.json', stats)
+    return stats
+
+
+def reconstruct(args):
+    from surflo import Surflo, load_preset, save_mesh, save_ply
+    model = Surflo.from_checkpoint(args.checkpoint, device='cuda', use_ema=True)
+    model.model.device = torch.device('cuda')
+    scene = model.encode(args.out / 'inputs', target_size=518, n_images=3, cull_radius=10.)
+    batch = {key: cpu(scene.batch[key]) for key in
+             ['rgb_images', 'vggt_world_points', 'vggt_depth', 'vggt_depth_conf',
+              'vggt_intrinsics', 'vggt_extrinsics']}
+    torch.save(batch, args.out / 'geometry_batch.pt')
+    export_vggt(scene.batch, args.out)
+    logging.info('VGGT exports complete; starting plain Surflo.')
+    plain = scene.reconstruct(mode='plain', num_steps=100, num_query_points=100000, seed=42)
+    save_ply(plain, args.out / 'surflo_plain_points.ply')
+    torch.save(cpu(plain), args.out / 'surflo_plain_result.pt')
+    logging.info('Plain Surflo complete; starting full default guided recipe.')
+    torch.manual_seed(42)
+    np.random.seed(42)
+    random.seed(42)
+    result = scene.reconstruct(mode='guided', config_block=load_preset('guided', 'default'),
+                               expert_cfg={}, num_query_points=100000)
+    torch.save(cpu(result), args.out / 'surflo_guided_result.pt')
+    colors = scene.color_points(result['points'], result)
+    save_ply(result, args.out / 'surflo_guided_points.ply', colors=colors)
+    mesh = scene.extract_mesh(result, mesh_cfg=load_preset('mesh'))
+    vertices, faces = save_mesh(mesh, args.out / 'surflo_mesh.ply')
+    scene.color_mesh(mesh, result)
+    save_mesh(mesh, args.out / 'surflo_mesh_colored.ply')
+    write_json(args.out / 'surflo_metadata.json', dict(plain_points=len(plain['points']),
+               guided_points=len(result['points']), mesh_vertices=vertices, mesh_faces=faces,
+               guided_preset='default', expert_preset='default (DA3 depth + aligned normals)',
+               num_query_points=100000, seed=42, ode_steps_plain=100))
+
+
+def render(args):
+    import trimesh
+    from surflo.rendering.mesh import MeshRasterizer, ScalableMeshRenderer
+    from surflo.rendering.surflo import render_surflo
+    from surflo.structures.mesh import Meshes
+    from surflo.structures.cameras import is_in_view_frustum
+    from surflo.utils.guided_result import build_refined_cameras_from_guided_result, gaussians_from_guided_result
+    batch = torch.load(args.out / 'geometry_batch.pt', map_location='cuda', weights_only=False)
+    result = torch.load(args.out / 'surflo_guided_result.pt', map_location='cuda', weights_only=False)
+    original = build_refined_cameras_from_guided_result(batch, 0, result, apply_camera_correction=False, data_device='cuda')
+    refined = build_refined_cameras_from_guided_result(batch, 0, result, apply_camera_correction=True, data_device='cuda')
+    gs = gaussians_from_guided_result(result, device=torch.device('cuda'))
+    gs.colors_sh = result['aux_colors_sh'].float()
+    gs.active_sh_degree = 3
+    frames = {}
+    scores = []
+    with torch.no_grad():
+        for label, filename, cameras in [('vggt', 'vggt_depth_mesh.ply', original),
+                                         ('surflo', 'surflo_mesh_colored.ply', refined)]:
+            source = trimesh.load(args.out / filename, process=False)
+            mesh = Meshes(verts=torch.tensor(np.asarray(source.vertices), dtype=torch.float32, device='cuda'),
+                          faces=torch.tensor(np.asarray(source.faces), dtype=torch.int32, device='cuda'),
+                          verts_colors=torch.tensor(np.array(source.visual.vertex_colors[:, :3]) / 255, dtype=torch.float32, device='cuda'))
+            renderer = ScalableMeshRenderer(rasterizer=MeshRasterizer(cameras=cameras, use_opengl=False))
+            for index, camera in enumerate(cameras):
+                keep = is_in_view_frustum(mesh.verts, camera)[mesh.faces.long()].any(-1)
+                visible = Meshes(verts=mesh.verts, faces=mesh.faces[keep], verts_colors=mesh.verts_colors)
+                output = renderer(visible, cam_idx=index, return_depth=True, return_normals=True, use_antialiasing=False)
+                rgb = output['rgb'].squeeze(0).clamp(0, 1)
+                normals = output['normals'].squeeze(0)
+                light = torch.tensor([.3, -.6, -.7], device='cuda')
+                light /= light.norm()
+                gray = (.2 + .8 * (normals * light).sum(-1).abs()).clamp(0, 1)
+                gray = torch.where(output['depth'].squeeze() > 0, gray, torch.zeros_like(gray))
+                frames[f'{label}_{index}'] = rgb.cpu().numpy()
+                frames[f'{label}_shaded_{index}'] = gray.cpu().numpy()
+                target = batch['rgb_images'][0, index].permute(1, 2, 0).float()
+                scores.append(dict(model=label, view=index, rgb_mae=float((rgb-target).abs().mean()),
+                                   coverage=float((output['depth'] > 0).float().mean())))
+                if label == 'surflo':
+                    frames[f'input_{index}'] = target.cpu().numpy()
+                    gaussian = render_surflo(camera, gs, torch.zeros(3, device='cuda'))['render'].clamp(0, 1)
+                    frames[f'gaussian_{index}'] = gaussian.permute(1, 2, 0).cpu().numpy()
+    np.savez_compressed(args.out / 'render_frames.npz', **frames)
+    rows = [('input', 'Input RGB'), ('vggt', 'VGGT depth mesh RGB'),
+            ('vggt_shaded', 'VGGT depth mesh geometry'), ('gaussian', 'Surflo guided Gaussian RGB'),
+            ('surflo', 'Surflo extracted mesh RGB'), ('surflo_shaded', 'Surflo extracted mesh geometry')]
+    fig, axes = plt.subplots(len(rows), 3, figsize=(12, 20))
+    for row, (key, label) in enumerate(rows):
+        for index in range(3):
+            axes[row, index].imshow(frames[f'{key}_{index}'], cmap='gray', vmin=0, vmax=1)
+            axes[row, index].axis('off')
+            if row == 0:
+                axes[row, index].set_title(['Head', 'Left wrist', 'Right wrist'][index])
+            if index == 0:
+                axes[row, index].text(-.03, .5, label, transform=axes[row, index].transAxes,
+                                      rotation=90, ha='right', va='center')
+    scene_label = getattr(args, 'scene_label', f'BEHAVIOR turning_on_radio — episode {args.episode}, frame {args.frame}')
+    fig.suptitle(f'{scene_label}\nReleased Surflo EMA + default guidance; VGGT depth backprojection', fontsize=13)
+    fig.tight_layout()
+    fig.savefig(args.out / 'camera_render_comparison.png', dpi=150)
+    plt.close(fig)
+    write_json(args.out / 'render_metadata.json', dict(scores=scores,
+               scope='Input views, not held-out novel views. VGGT rendered at predicted cameras; Surflo at cameras refined by its default guidance. RGB agreement alone does not certify geometry.'))
+
+
+def previews(args):
+    import open3d as o3d
+    import plotly.graph_objects as go
+    traces = []
+    for label, filename in [('Surflo colored mesh', 'surflo_mesh_colored.ply'),
+                             ('VGGT depth mesh', 'vggt_depth_mesh.ply')]:
+        mesh = o3d.io.read_triangle_mesh(str(args.out / filename))
+        if len(mesh.triangles) > 100000:
+            mesh = mesh.simplify_quadric_decimation(100000)
+        v, f, c = np.asarray(mesh.vertices), np.asarray(mesh.triangles), np.asarray(mesh.vertex_colors)
+        traces.append(go.Mesh3d(x=v[:, 0], y=v[:, 2], z=-v[:, 1], i=f[:, 0], j=f[:, 1], k=f[:, 2],
+                               vertexcolor=c, name=label, visible=len(traces) == 0, flatshading=True))
+    clouds = []
+    rng = np.random.default_rng(42)
+    for label, filename in [('VGGT points (relative confidence filter)', 'vggt_points_preview.ply'),
+                             ('Surflo plain points', 'surflo_plain_points.ply'),
+                             ('Surflo guided points', 'surflo_guided_points.ply')]:
+        cloud = o3d.io.read_point_cloud(str(args.out / filename))
+        p, c = np.asarray(cloud.points), np.asarray(cloud.colors)
+        keep = rng.choice(len(p), min(len(p), 30000), replace=False)
+        colors = c[keep] if len(c) else np.tile([.65, .7, .8], (len(keep), 1))
+        traces.append(go.Scatter3d(x=p[keep, 0], y=p[keep, 2], z=-p[keep, 1], mode='markers',
+                                  marker=dict(size=1, color=colors), name=label, visible=False))
+        clouds.append((label, p[keep], colors))
+    buttons = []
+    for index, trace in enumerate(traces):
+        buttons.append(dict(label=trace.name, method='update', args=[{'visible': [i == index for i in range(len(traces))]}]))
+    fig = go.Figure(traces)
+    fig.update_layout(title='BEHAVIOR reconstruction — drag to rotate; scroll to zoom',
+                      scene=dict(aspectmode='data', xaxis_title='X', yaxis_title='Z (camera forward)', zaxis_title='−Y (camera up)'),
+                      updatemenus=[dict(buttons=buttons)], margin=dict(l=0, r=0, b=0, t=80))
+    fig.write_html(args.out / 'reconstruction_viewer.html', include_plotlyjs=True, full_html=True)
+    # Shared limits preserve the models' common VGGT coordinate frame.
+    reference = clouds[0][1]
+    lo, hi = np.quantile(reference, [.005, .995], axis=0)
+    center = (lo + hi) / 2
+    radius = max(hi-lo) / 2 * 1.1
+    figure = plt.figure(figsize=(15, 13))
+    for row, (label, points, colors) in enumerate(clouds):
+        for col, (elev, azim) in enumerate([(15, -75), (15, 45), (80, -75)]):
+            axis = figure.add_subplot(3, 3, row*3+col+1, projection='3d')
+            axis.scatter(points[:, 0], points[:, 2], -points[:, 1], c=colors, s=.35, linewidths=0, depthshade=False)
+            axis.set_xlim(center[0]-radius, center[0]+radius)
+            axis.set_ylim(center[2]-radius, center[2]+radius)
+            axis.set_zlim(-center[1]-radius, -center[1]+radius)
+            axis.set_box_aspect((1, 1, 1))
+            axis.view_init(elev=elev, azim=azim)
+            axis.set_title(label if col == 0 else ['','Alternate angle','Top'][col])
+            axis.set_axis_off()
+    figure.suptitle('BEHAVIOR: VGGT and Surflo point-cloud previews (shared frame and display bounds)')
+    figure.tight_layout()
+    figure.savefig(args.out / 'geometry_preview.png', dpi=160)
+    plt.close(figure)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--dataset', type=Path, default=Path('/export/home/haoliang/projects/starVLA/playground/Datasets/behavior-1k-2026'))
+    parser.add_argument('--episode', type=int, default=197)
+    parser.add_argument('--frame', type=int, default=1491)
+    parser.add_argument('--checkpoint', type=Path, default=SURFLO_ROOT / 'checkpoints/surflo_v0.pt')
+    parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--render-only', action='store_true')
+    args = parser.parse_args()
+    args.out = args.out.resolve()
+    args.out.mkdir(parents=True, exist_ok=True)
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+    torch.cuda.set_device(0)
+    torch.manual_seed(42)
+    np.random.seed(42)
+    random.seed(42)
+    if not args.render_only:
+        prepare_inputs(args)
+        reconstruct(args)
+    render(args)
+    previews(args)
+    logging.info('Complete: %s', args.out)
+
+
+if __name__ == '__main__':
+    main()

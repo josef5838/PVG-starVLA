@@ -1,0 +1,42 @@
+{
+  "direct": {
+    "left_joint_min": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "left_joint_max": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "inverse_formula": "(normalized+1)/2*(max-min)+min",
+    "left_joints_fixed_zero": true
+  },
+  "fused": {
+    "left_joint_min": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "left_joint_max": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "inverse_formula": "(normalized+1)/2*(max-min)+min",
+    "left_joints_fixed_zero": true
+  }
+}

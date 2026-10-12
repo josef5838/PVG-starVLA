@@ -1,0 +1,2013 @@
+{
+  "status": "completed",
+  "registered_cases": 12,
+  "completed_cases": 12,
+  "cases": [
+    {
+      "case": "rotate_qrcode_ep007_initial_f0000",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "rotate_qrcode_ep007_interaction_f0024",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "rotate_qrcode_ep023_initial_f0000",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "rotate_qrcode_ep023_interaction_f0024",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "adjust_bottle_ep007_initial_f0000",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "adjust_bottle_ep007_interaction_f0027",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "adjust_bottle_ep023_initial_f0000",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "adjust_bottle_ep023_interaction_f0027",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "stack_blocks_three_ep007_initial_f0000",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "stack_blocks_three_ep007_interaction_f0058",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "stack_blocks_three_ep023_initial_f0000",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    },
+    {
+      "case": "stack_blocks_three_ep023_interaction_f0057",
+      "status": "completed",
+      "stage": "completed",
+      "error": null
+    }
+  ],
+  "aggregates": {
+    "surflo": {
+      "mean_head_rgb_mae": 0.34253159413735074,
+      "mean_left_wrist_rgb_mae": 0.43816427265604335,
+      "mean_right_wrist_rgb_mae": 0.33836501743644476,
+      "mean_wrist_rgb_mae": 0.3882646450462441,
+      "mean_wrist_coverage": 0.6042973162852073,
+      "median_relative_camera_rotation_error_deg": 22.149982043765405,
+      "median_camera_center_direction_error_deg": 76.66608429413432
+    },
+    "vggt": {
+      "mean_head_rgb_mae": 0.05738973392484089,
+      "mean_left_wrist_rgb_mae": 0.02057752339169383,
+      "mean_right_wrist_rgb_mae": 0.021133383726313088,
+      "mean_wrist_rgb_mae": 0.02085545355900346,
+      "mean_wrist_coverage": 0.9980505506197611,
+      "median_relative_camera_rotation_error_deg": 22.35126664240702,
+      "median_camera_center_direction_error_deg": 76.41492680714036
+    },
+    "omega256": {
+      "mean_head_rgb_mae": 0.033415625958393015,
+      "mean_left_wrist_rgb_mae": 0.024113311665132642,
+      "mean_right_wrist_rgb_mae": 0.018380929289075237,
+      "mean_wrist_rgb_mae": 0.021247120477103938,
+      "mean_wrist_coverage": 0.9951831176877022,
+      "median_relative_camera_rotation_error_deg": 19.175249647852667,
+      "median_camera_center_direction_error_deg": 60.969332659181866
+    },
+    "omega512": {
+      "mean_head_rgb_mae": 0.04435094849516948,
+      "mean_left_wrist_rgb_mae": 0.03641161737808337,
+      "mean_right_wrist_rgb_mae": 0.020986062726782013,
+      "mean_wrist_rgb_mae": 0.02869884005243269,
+      "mean_wrist_coverage": 0.9981866776943207,
+      "median_relative_camera_rotation_error_deg": 18.8899227447274,
+      "median_camera_center_direction_error_deg": 63.55367077957601
+    }
+  },
+  "surflo_diagnostics": {
+    "mean_wrist_gaussian_rgb_mae": 0.037662885151803493,
+    "mean_wrist_gaussian_alpha_coverage": 1.0,
+    "cases_mesh_wrist_mae_exceeds_gaussian": 12,
+    "cases_surflo_mesh_wrist_mae_exceeds_each_depth_method": 12,
+    "minimum_full_guided_gaussians": 73,
+    "cases_zero_wrist_mesh_coverage": 1,
+    "scope": "Continuous fitted-view measurements; comparisons are exploratory and are not metric geometry accuracy."
+  },
+  "records": [
+    {
+      "case": {
+        "name": "rotate_qrcode_ep007_initial_f0000",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep007_initial_f0000",
+        "task": "rotate_qrcode",
+        "episode": 7,
+        "frame": 0,
+        "phase": "initial",
+        "worker": 0
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.022197233512997627,
+            "left_wrist_rgb_mae": 0.012835214845836163,
+            "right_wrist_rgb_mae": 0.012431979179382324,
+            "mean_wrist_rgb_mae": 0.012633597012609243
+          },
+          "omega256": {
+            "head_rgb_mae": 0.02269330993294716,
+            "left_wrist_rgb_mae": 0.011692937463521957,
+            "right_wrist_rgb_mae": 0.015567978844046593,
+            "mean_wrist_rgb_mae": 0.013630458153784275
+          },
+          "omega512": {
+            "head_rgb_mae": 0.023247407749295235,
+            "left_wrist_rgb_mae": 0.01029602624475956,
+            "right_wrist_rgb_mae": 0.011166316457092762,
+            "mean_wrist_rgb_mae": 0.01073117135092616
+          },
+          "surflo": {
+            "head_rgb_mae": 0.9587668180465698,
+            "left_wrist_rgb_mae": 0.9248889684677124,
+            "right_wrist_rgb_mae": 0.9243692755699158,
+            "mean_wrist_rgb_mae": 0.9246291220188141
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.06070147082209587,
+            "mesh_rgb_mae": 0.9587668180465698,
+            "gaussian_mesh_rgb_mae": 0.9357984662055969,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.0
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.052362196147441864,
+            "mesh_rgb_mae": 0.9248889684677124,
+            "gaussian_mesh_rgb_mae": 0.8981647491455078,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.0
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.05104944854974747,
+            "mesh_rgb_mae": 0.9243692755699158,
+            "gaussian_mesh_rgb_mae": 0.8986520171165466,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.0
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 22.095823877944067,
+            "center_direction_error_deg": 101.54214257021451,
+            "positive_baseline_scale": 60.1993462621884,
+            "unconstrained_signed_scale": -17.96064033004417,
+            "center_error_cm_after_positive_baseline_scale": 63.387023155113894
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 21.660875977913147,
+            "center_direction_error_deg": 147.77159803087557,
+            "positive_baseline_scale": 60.1993462621884,
+            "unconstrained_signed_scale": -17.96064033004417,
+            "center_error_cm_after_positive_baseline_scale": 188.3598381905529
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 22.317761907072626,
+            "center_direction_error_deg": 101.25171718192085,
+            "positive_baseline_scale": 62.732521701398305,
+            "unconstrained_signed_scale": -18.0654331610412,
+            "center_error_cm_after_positive_baseline_scale": 63.10199666296528
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 22.14417395832341,
+            "center_direction_error_deg": 148.3476859548238,
+            "positive_baseline_scale": 62.732521701398305,
+            "unconstrained_signed_scale": -18.0654331610412,
+            "center_error_cm_after_positive_baseline_scale": 194.68117234831757
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 15.228660405095829,
+            "center_direction_error_deg": 67.00649106127142,
+            "positive_baseline_scale": 8.270052037776122,
+            "unconstrained_signed_scale": -1.102950894660893,
+            "center_error_cm_after_positive_baseline_scale": 59.921865760006696
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 16.005431183657144,
+            "center_direction_error_deg": 145.33066259624383,
+            "positive_baseline_scale": 8.270052037776122,
+            "unconstrained_signed_scale": -1.102950894660893,
+            "center_error_cm_after_positive_baseline_scale": 90.51667859158171
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 15.606797991542916,
+            "center_direction_error_deg": 50.86267082537771,
+            "positive_baseline_scale": 17.552153606615754,
+            "unconstrained_signed_scale": -0.5214163628178978,
+            "center_error_cm_after_positive_baseline_scale": 43.64553215091549
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 15.837855729072661,
+            "center_direction_error_deg": 136.1290404254996,
+            "positive_baseline_scale": 17.552153606615754,
+            "unconstrained_signed_scale": -0.5214163628178978,
+            "center_error_cm_after_positive_baseline_scale": 92.14090740455872
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 37,
+        "full_guided_gaussians": 73,
+        "mesh_vertices": 23,
+        "mesh_faces": 24,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9990270733833313,
+        "omega256": 0.9986282289028168,
+        "omega512": 0.9994683563709259,
+        "surflo": 0.0
+      }
+    },
+    {
+      "case": {
+        "name": "rotate_qrcode_ep007_interaction_f0024",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep007_interaction_f0024",
+        "task": "rotate_qrcode",
+        "episode": 7,
+        "frame": 24,
+        "phase": "interaction",
+        "worker": 1
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.07737445086240768,
+            "left_wrist_rgb_mae": 0.0031145818065851927,
+            "right_wrist_rgb_mae": 0.002606741152703762,
+            "mean_wrist_rgb_mae": 0.0028606614796444774
+          },
+          "omega256": {
+            "head_rgb_mae": 0.021693643182516098,
+            "left_wrist_rgb_mae": 0.006921620573848486,
+            "right_wrist_rgb_mae": 0.06030867248773575,
+            "mean_wrist_rgb_mae": 0.03361514653079212
+          },
+          "omega512": {
+            "head_rgb_mae": 0.06074676290154457,
+            "left_wrist_rgb_mae": 0.12676078081130981,
+            "right_wrist_rgb_mae": 0.00522167794406414,
+            "mean_wrist_rgb_mae": 0.06599122937768698
+          },
+          "surflo": {
+            "head_rgb_mae": 0.2163284569978714,
+            "left_wrist_rgb_mae": 0.45133572816848755,
+            "right_wrist_rgb_mae": 0.11904836446046829,
+            "mean_wrist_rgb_mae": 0.2851920463144779
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.04088577628135681,
+            "mesh_rgb_mae": 0.2163284569978714,
+            "gaussian_mesh_rgb_mae": 0.21958506107330322,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8161222338676453
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.039860423654317856,
+            "mesh_rgb_mae": 0.45133572816848755,
+            "gaussian_mesh_rgb_mae": 0.44295191764831543,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.5756011009216309
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.036503665149211884,
+            "mesh_rgb_mae": 0.11904836446046829,
+            "gaussian_mesh_rgb_mae": 0.1287086457014084,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.9303997755050659
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 22.53163260684432,
+            "center_direction_error_deg": 66.18674063594649,
+            "positive_baseline_scale": 94.19186790072862,
+            "unconstrained_signed_scale": 3.5085898518449707,
+            "center_error_cm_after_positive_baseline_scale": 46.01030187235987
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 28.070714584683827,
+            "center_direction_error_deg": 32.51428975487373,
+            "positive_baseline_scale": 94.19186790072862,
+            "unconstrained_signed_scale": 3.5085898518449707,
+            "center_error_cm_after_positive_baseline_scale": 1336.583927913398
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 23.238550849337077,
+            "center_direction_error_deg": 48.02450074925678,
+            "positive_baseline_scale": 65.39989714884945,
+            "unconstrained_signed_scale": 3.544834799462536,
+            "center_error_cm_after_positive_baseline_scale": 37.90778952674776
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 27.51004190372691,
+            "center_direction_error_deg": 31.709454304899094,
+            "positive_baseline_scale": 65.39989714884945,
+            "unconstrained_signed_scale": 3.544834799462536,
+            "center_error_cm_after_positive_baseline_scale": 919.8491565262256
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 14.787807007001264,
+            "center_direction_error_deg": 70.90743248246991,
+            "positive_baseline_scale": 1.906255469602689,
+            "unconstrained_signed_scale": 1.2449972308178205,
+            "center_error_cm_after_positive_baseline_scale": 52.60082534751174
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 31.16214136620542,
+            "center_direction_error_deg": 16.11905677952708,
+            "positive_baseline_scale": 1.906255469602689,
+            "unconstrained_signed_scale": 1.2449972308178205,
+            "center_error_cm_after_positive_baseline_scale": 29.43232781561908
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.365982260760177,
+            "center_direction_error_deg": 61.92938045058759,
+            "positive_baseline_scale": 3.328307061889281,
+            "unconstrained_signed_scale": 0.2828345810541997,
+            "center_error_cm_after_positive_baseline_scale": 47.621698806753585
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 43.03909037267234,
+            "center_direction_error_deg": 94.13385873441338,
+            "positive_baseline_scale": 3.328307061889281,
+            "unconstrained_signed_scale": 0.2828345810541997,
+            "center_error_cm_after_positive_baseline_scale": 100.98885631069976
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 5410,
+        "full_guided_gaussians": 6645,
+        "mesh_vertices": 37104,
+        "mesh_faces": 71759,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9974974989891052,
+        "omega256": 0.989947646856308,
+        "omega512": 0.9990573525428772,
+        "surflo": 0.7530004382133484
+      }
+    },
+    {
+      "case": {
+        "name": "rotate_qrcode_ep023_initial_f0000",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep023_initial_f0000",
+        "task": "rotate_qrcode",
+        "episode": 23,
+        "frame": 0,
+        "phase": "initial",
+        "worker": 0
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.028871359303593636,
+            "left_wrist_rgb_mae": 0.013001387007534504,
+            "right_wrist_rgb_mae": 0.01935250498354435,
+            "mean_wrist_rgb_mae": 0.016176945995539427
+          },
+          "omega256": {
+            "head_rgb_mae": 0.017650675028562546,
+            "left_wrist_rgb_mae": 0.006364346016198397,
+            "right_wrist_rgb_mae": 0.009007488377392292,
+            "mean_wrist_rgb_mae": 0.007685917196795344
+          },
+          "omega512": {
+            "head_rgb_mae": 0.02400333806872368,
+            "left_wrist_rgb_mae": 0.012518109753727913,
+            "right_wrist_rgb_mae": 0.01417436171323061,
+            "mean_wrist_rgb_mae": 0.013346235733479261
+          },
+          "surflo": {
+            "head_rgb_mae": 0.6839394569396973,
+            "left_wrist_rgb_mae": 0.8047336339950562,
+            "right_wrist_rgb_mae": 0.7915447354316711,
+            "mean_wrist_rgb_mae": 0.7981391847133636
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.0329982154071331,
+            "mesh_rgb_mae": 0.6839394569396973,
+            "gaussian_mesh_rgb_mae": 0.6835814118385315,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.3081601858139038
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.03322018310427666,
+            "mesh_rgb_mae": 0.8047336339950562,
+            "gaussian_mesh_rgb_mae": 0.7975916862487793,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.13649874925613403
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.03274982422590256,
+            "mesh_rgb_mae": 0.7915447354316711,
+            "gaussian_mesh_rgb_mae": 0.7824514508247375,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.15579865872859955
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 22.72546582782663,
+            "center_direction_error_deg": 81.88541593624167,
+            "positive_baseline_scale": 45.17445377186301,
+            "unconstrained_signed_scale": -5.677928633332208,
+            "center_error_cm_after_positive_baseline_scale": 53.92917716919307
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 22.265494862994316,
+            "center_direction_error_deg": 121.95201433278584,
+            "positive_baseline_scale": 45.17445377186301,
+            "unconstrained_signed_scale": -5.677928633332208,
+            "center_error_cm_after_positive_baseline_scale": 231.08672386715256
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.960059016622193,
+            "center_direction_error_deg": 81.45839818595037,
+            "positive_baseline_scale": 46.916055099001525,
+            "unconstrained_signed_scale": -5.76865308849789,
+            "center_error_cm_after_positive_baseline_scale": 53.668392091792015
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 21.506401579781315,
+            "center_direction_error_deg": 122.5744353141698,
+            "positive_baseline_scale": 46.916055099001525,
+            "unconstrained_signed_scale": -5.76865308849789,
+            "center_error_cm_after_positive_baseline_scale": 239.84332612976615
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 15.369430211055848,
+            "center_direction_error_deg": 60.68400892375037,
+            "positive_baseline_scale": 4.104213415937979,
+            "unconstrained_signed_scale": -0.37660608623226943,
+            "center_error_cm_after_positive_baseline_scale": 50.8933387414176
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 15.499580106082137,
+            "center_direction_error_deg": 132.89539000502504,
+            "positive_baseline_scale": 4.104213415937979,
+            "unconstrained_signed_scale": -0.37660608623226943,
+            "center_error_cm_after_positive_baseline_scale": 91.75974877374891
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.092148602627613,
+            "center_direction_error_deg": 55.92195667431873,
+            "positive_baseline_scale": 10.279110212466925,
+            "unconstrained_signed_scale": -0.41954990133278486,
+            "center_error_cm_after_positive_baseline_scale": 47.59458156711418
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 16.077060312984,
+            "center_direction_error_deg": 131.83467275529762,
+            "positive_baseline_scale": 10.279110212466925,
+            "unconstrained_signed_scale": -0.41954990133278486,
+            "center_error_cm_after_positive_baseline_scale": 90.7746338628253
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 162,
+        "full_guided_gaussians": 226,
+        "mesh_vertices": 1203,
+        "mesh_faces": 2037,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9989223778247833,
+        "omega256": 0.9986824691295624,
+        "omega512": 0.9993344843387604,
+        "surflo": 0.1461487039923668
+      }
+    },
+    {
+      "case": {
+        "name": "rotate_qrcode_ep023_interaction_f0024",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep023_interaction_f0024",
+        "task": "rotate_qrcode",
+        "episode": 23,
+        "frame": 24,
+        "phase": "interaction",
+        "worker": 1
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.017861925065517426,
+            "left_wrist_rgb_mae": 0.0023526756558567286,
+            "right_wrist_rgb_mae": 0.08720839023590088,
+            "mean_wrist_rgb_mae": 0.044780532945878804
+          },
+          "omega256": {
+            "head_rgb_mae": 0.10414945334196091,
+            "left_wrist_rgb_mae": 0.024872001260519028,
+            "right_wrist_rgb_mae": 0.027983946725726128,
+            "mean_wrist_rgb_mae": 0.026427973993122578
+          },
+          "omega512": {
+            "head_rgb_mae": 0.18563328683376312,
+            "left_wrist_rgb_mae": 0.11934753507375717,
+            "right_wrist_rgb_mae": 0.006521113216876984,
+            "mean_wrist_rgb_mae": 0.06293432414531708
+          },
+          "surflo": {
+            "head_rgb_mae": 0.10237154364585876,
+            "left_wrist_rgb_mae": 0.12241366505622864,
+            "right_wrist_rgb_mae": 0.05951778218150139,
+            "mean_wrist_rgb_mae": 0.09096572361886501
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.015573622658848763,
+            "mesh_rgb_mae": 0.10237154364585876,
+            "gaussian_mesh_rgb_mae": 0.1081397756934166,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.9092459678649902
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.0172131285071373,
+            "mesh_rgb_mae": 0.12241366505622864,
+            "gaussian_mesh_rgb_mae": 0.1315503865480423,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8836745023727417
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.04148034006357193,
+            "mesh_rgb_mae": 0.05951778218150139,
+            "gaussian_mesh_rgb_mae": 0.09062671661376953,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.940598726272583
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.20649139661873,
+            "center_direction_error_deg": 58.231734380583596,
+            "positive_baseline_scale": 2.2102318229237983,
+            "unconstrained_signed_scale": 1.1433566333665264,
+            "center_error_cm_after_positive_baseline_scale": 43.148293171745536
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 99.830334706582,
+            "center_direction_error_deg": 21.759533719681567,
+            "positive_baseline_scale": 2.2102318229237983,
+            "unconstrained_signed_scale": 1.1433566333665264,
+            "center_error_cm_after_positive_baseline_scale": 57.73668999675289
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.201979638236196,
+            "center_direction_error_deg": 58.29036653049789,
+            "positive_baseline_scale": 2.178069747337322,
+            "unconstrained_signed_scale": 1.1403151346562865,
+            "center_error_cm_after_positive_baseline_scale": 43.200958770811745
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 99.34642539660376,
+            "center_direction_error_deg": 21.014071222219076,
+            "positive_baseline_scale": 2.178069747337322,
+            "unconstrained_signed_scale": 1.1403151346562865,
+            "center_error_cm_after_positive_baseline_scale": 56.42009817084194
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 12.223679579196808,
+            "center_direction_error_deg": 64.55687903317289,
+            "positive_baseline_scale": 2.988715344054076,
+            "unconstrained_signed_scale": 1.6343863465343587,
+            "center_error_cm_after_positive_baseline_scale": 55.98400294336917
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 37.91923221367418,
+            "center_direction_error_deg": 48.454612317309255,
+            "positive_baseline_scale": 2.988715344054076,
+            "unconstrained_signed_scale": 1.6343863465343587,
+            "center_error_cm_after_positive_baseline_scale": 44.27429728077353
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 15.94070195956411,
+            "center_direction_error_deg": 55.39562910013874,
+            "positive_baseline_scale": 6.146711915775276,
+            "unconstrained_signed_scale": 3.0429015229937946,
+            "center_error_cm_after_positive_baseline_scale": 54.41382417967991
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 37.949422988097844,
+            "center_direction_error_deg": 60.73711087740945,
+            "positive_baseline_scale": 6.146711915775276,
+            "unconstrained_signed_scale": 3.0429015229937946,
+            "center_error_cm_after_positive_baseline_scale": 52.18510635444713
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 7966,
+        "full_guided_gaussians": 8638,
+        "mesh_vertices": 55015,
+        "mesh_faces": 107355,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9967007637023926,
+        "omega256": 0.9900174140930176,
+        "omega512": 0.998799055814743,
+        "surflo": 0.9121366143226624
+      }
+    },
+    {
+      "case": {
+        "name": "adjust_bottle_ep007_initial_f0000",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep007_initial_f0000",
+        "task": "adjust_bottle",
+        "episode": 7,
+        "frame": 0,
+        "phase": "initial",
+        "worker": 0
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.03237690404057503,
+            "left_wrist_rgb_mae": 0.009216094389557838,
+            "right_wrist_rgb_mae": 0.014012254774570465,
+            "mean_wrist_rgb_mae": 0.011614174582064152
+          },
+          "omega256": {
+            "head_rgb_mae": 0.025800220668315887,
+            "left_wrist_rgb_mae": 0.013433079235255718,
+            "right_wrist_rgb_mae": 0.01593337394297123,
+            "mean_wrist_rgb_mae": 0.014683226589113474
+          },
+          "omega512": {
+            "head_rgb_mae": 0.024875955656170845,
+            "left_wrist_rgb_mae": 0.02149660885334015,
+            "right_wrist_rgb_mae": 0.018814368173480034,
+            "mean_wrist_rgb_mae": 0.02015548851341009
+          },
+          "surflo": {
+            "head_rgb_mae": 0.18090182542800903,
+            "left_wrist_rgb_mae": 0.2268112599849701,
+            "right_wrist_rgb_mae": 0.18551945686340332,
+            "mean_wrist_rgb_mae": 0.2061653584241867
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.025286249816417694,
+            "mesh_rgb_mae": 0.18090182542800903,
+            "gaussian_mesh_rgb_mae": 0.1829746663570404,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8557230830192566
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.02469428814947605,
+            "mesh_rgb_mae": 0.2268112599849701,
+            "gaussian_mesh_rgb_mae": 0.227680504322052,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.7847132682800293
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.02073989063501358,
+            "mesh_rgb_mae": 0.18551945686340332,
+            "gaussian_mesh_rgb_mae": 0.189022496342659,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8310759663581848
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.74175101578605,
+            "center_direction_error_deg": 58.36233940264579,
+            "positive_baseline_scale": 6.719851693649993,
+            "unconstrained_signed_scale": -1.2608430864621052,
+            "center_error_cm_after_positive_baseline_scale": 43.786166582713946
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 22.437038421819725,
+            "center_direction_error_deg": 126.70336836973937,
+            "positive_baseline_scale": 6.719851693649993,
+            "unconstrained_signed_scale": -1.2608430864621052,
+            "center_error_cm_after_positive_baseline_scale": 116.66963286350507
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.741903902043173,
+            "center_direction_error_deg": 56.2934445312144,
+            "positive_baseline_scale": 6.797380090622667,
+            "unconstrained_signed_scale": -1.2555959176545257,
+            "center_error_cm_after_positive_baseline_scale": 42.48052660869757
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 22.155790129207404,
+            "center_direction_error_deg": 127.23586295029989,
+            "positive_baseline_scale": 6.797380090622667,
+            "unconstrained_signed_scale": -1.2555959176545257,
+            "center_error_cm_after_positive_baseline_scale": 117.27144490389819
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 17.726160898726445,
+            "center_direction_error_deg": 60.400306468685415,
+            "positive_baseline_scale": 8.935696323599938,
+            "unconstrained_signed_scale": -0.498860090475382,
+            "center_error_cm_after_positive_baseline_scale": 52.083538369600234
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 17.762211830732674,
+            "center_direction_error_deg": 132.09518132430674,
+            "positive_baseline_scale": 8.935696323599938,
+            "unconstrained_signed_scale": -0.498860090475382,
+            "center_error_cm_after_positive_baseline_scale": 89.42025428401526
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.56125755345725,
+            "center_direction_error_deg": 55.7091691289126,
+            "positive_baseline_scale": 11.800993497616789,
+            "unconstrained_signed_scale": 0.11916533745866785,
+            "center_error_cm_after_positive_baseline_scale": 50.16763021257199
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 16.77599351042191,
+            "center_direction_error_deg": 132.63633450218856,
+            "positive_baseline_scale": 11.800993497616789,
+            "unconstrained_signed_scale": 0.11916533745866785,
+            "center_error_cm_after_positive_baseline_scale": 87.54589400640106
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 2968,
+        "full_guided_gaussians": 3622,
+        "mesh_vertices": 10494,
+        "mesh_faces": 19819,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9991828501224518,
+        "omega256": 0.9987289607524872,
+        "omega512": 0.99940425157547,
+        "surflo": 0.8078946173191071
+      }
+    },
+    {
+      "case": {
+        "name": "adjust_bottle_ep007_interaction_f0027",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep007_interaction_f0027",
+        "task": "adjust_bottle",
+        "episode": 7,
+        "frame": 27,
+        "phase": "interaction",
+        "worker": 1
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.023130057379603386,
+            "left_wrist_rgb_mae": 0.058457132428884506,
+            "right_wrist_rgb_mae": 0.006572064012289047,
+            "mean_wrist_rgb_mae": 0.03251459822058678
+          },
+          "omega256": {
+            "head_rgb_mae": 0.06102272495627403,
+            "left_wrist_rgb_mae": 0.08599065989255905,
+            "right_wrist_rgb_mae": 0.00840405747294426,
+            "mean_wrist_rgb_mae": 0.047197358682751656
+          },
+          "omega512": {
+            "head_rgb_mae": 0.02924644947052002,
+            "left_wrist_rgb_mae": 0.03130713105201721,
+            "right_wrist_rgb_mae": 0.11966658383607864,
+            "mean_wrist_rgb_mae": 0.07548685744404793
+          },
+          "surflo": {
+            "head_rgb_mae": 0.10995152592658997,
+            "left_wrist_rgb_mae": 0.44069963693618774,
+            "right_wrist_rgb_mae": 0.09212066978216171,
+            "mean_wrist_rgb_mae": 0.26641015335917473
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.01479548029601574,
+            "mesh_rgb_mae": 0.10995152592658997,
+            "gaussian_mesh_rgb_mae": 0.11388752609491348,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.9196645617485046
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.027215903624892235,
+            "mesh_rgb_mae": 0.44069963693618774,
+            "gaussian_mesh_rgb_mae": 0.43672797083854675,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.5326040387153625
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.04059698432683945,
+            "mesh_rgb_mae": 0.09212066978216171,
+            "gaussian_mesh_rgb_mae": 0.12358266115188599,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8782864212989807
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 26.905118771859158,
+            "center_direction_error_deg": 48.559661102136204,
+            "positive_baseline_scale": 2.3895497406809687,
+            "unconstrained_signed_scale": 1.3133179183386843,
+            "center_error_cm_after_positive_baseline_scale": 38.80309159400039
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 97.75642076833908,
+            "center_direction_error_deg": 55.891697872297264,
+            "positive_baseline_scale": 2.3895497406809687,
+            "unconstrained_signed_scale": 1.3133179183386843,
+            "center_error_cm_after_positive_baseline_scale": 63.707870152048606
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 27.280127835935122,
+            "center_direction_error_deg": 47.86268822591829,
+            "positive_baseline_scale": 2.3817230315673634,
+            "unconstrained_signed_scale": 1.3090492641982376,
+            "center_error_cm_after_positive_baseline_scale": 38.299753067098095
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 97.45299174220804,
+            "center_direction_error_deg": 56.21909529857073,
+            "positive_baseline_scale": 2.3817230315673634,
+            "unconstrained_signed_scale": 1.3090492641982376,
+            "center_error_cm_after_positive_baseline_scale": 64.01381207734286
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.003048588600894,
+            "center_direction_error_deg": 40.87164774446064,
+            "positive_baseline_scale": 2.2084676860459123,
+            "unconstrained_signed_scale": 1.6562188792472539,
+            "center_error_cm_after_positive_baseline_scale": 32.95368154726318
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 112.02410795264562,
+            "center_direction_error_deg": 29.623647778624818,
+            "positive_baseline_scale": 2.2084676860459123,
+            "unconstrained_signed_scale": 1.6562188792472539,
+            "center_error_cm_after_positive_baseline_scale": 37.79222407306983
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 26.729532994030077,
+            "center_direction_error_deg": 65.17796110856443,
+            "positive_baseline_scale": 8.56430598322949,
+            "unconstrained_signed_scale": 0.9422096962994109,
+            "center_error_cm_after_positive_baseline_scale": 182.1386632507696
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 160.722342723999,
+            "center_direction_error_deg": 82.47185458331577,
+            "positive_baseline_scale": 8.56430598322949,
+            "unconstrained_signed_scale": 0.9422096962994109,
+            "center_error_cm_after_positive_baseline_scale": 66.72570381899473
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 5979,
+        "full_guided_gaussians": 6860,
+        "mesh_vertices": 29872,
+        "mesh_faces": 57876,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9948519766330719,
+        "omega256": 0.9927688241004944,
+        "omega512": 0.9956186413764954,
+        "surflo": 0.7054452300071716
+      }
+    },
+    {
+      "case": {
+        "name": "adjust_bottle_ep023_initial_f0000",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep023_initial_f0000",
+        "task": "adjust_bottle",
+        "episode": 23,
+        "frame": 0,
+        "phase": "initial",
+        "worker": 0
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.03587785363197327,
+            "left_wrist_rgb_mae": 0.011953853070735931,
+            "right_wrist_rgb_mae": 0.015133307315409184,
+            "mean_wrist_rgb_mae": 0.013543580193072557
+          },
+          "omega256": {
+            "head_rgb_mae": 0.023956479504704475,
+            "left_wrist_rgb_mae": 0.006287852302193642,
+            "right_wrist_rgb_mae": 0.008917988277971745,
+            "mean_wrist_rgb_mae": 0.007602920290082693
+          },
+          "omega512": {
+            "head_rgb_mae": 0.02036885730922222,
+            "left_wrist_rgb_mae": 0.016355318948626518,
+            "right_wrist_rgb_mae": 0.005636054556816816,
+            "mean_wrist_rgb_mae": 0.010995686752721667
+          },
+          "surflo": {
+            "head_rgb_mae": 0.25257354974746704,
+            "left_wrist_rgb_mae": 0.357325941324234,
+            "right_wrist_rgb_mae": 0.3428971469402313,
+            "mean_wrist_rgb_mae": 0.35011154413223267
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.021166548132896423,
+            "mesh_rgb_mae": 0.25257354974746704,
+            "gaussian_mesh_rgb_mae": 0.25395506620407104,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.7764703631401062
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.027540942654013634,
+            "mesh_rgb_mae": 0.357325941324234,
+            "gaussian_mesh_rgb_mae": 0.3548913300037384,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.6330360770225525
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.02537348121404648,
+            "mesh_rgb_mae": 0.3428971469402313,
+            "gaussian_mesh_rgb_mae": 0.3419654667377472,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.6475710272789001
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.492424040623387,
+            "center_direction_error_deg": 70.42171216128465,
+            "positive_baseline_scale": 10.897879672972914,
+            "unconstrained_signed_scale": -2.3252836067793816,
+            "center_error_cm_after_positive_baseline_scale": 50.03591445136205
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 21.50762071010043,
+            "center_direction_error_deg": 125.13770426548267,
+            "positive_baseline_scale": 10.897879672972914,
+            "unconstrained_signed_scale": -2.3252836067793816,
+            "center_error_cm_after_positive_baseline_scale": 132.77158763300795
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.91875982303566,
+            "center_direction_error_deg": 68.27678593440304,
+            "positive_baseline_scale": 10.979687044107154,
+            "unconstrained_signed_scale": -2.3123753128828626,
+            "center_error_cm_after_positive_baseline_scale": 48.81283530612463
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 21.879016580264313,
+            "center_direction_error_deg": 125.65106610636906,
+            "positive_baseline_scale": 10.979687044107154,
+            "unconstrained_signed_scale": -2.3123753128828626,
+            "center_error_cm_after_positive_baseline_scale": 133.78285656397998
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 17.286477870280162,
+            "center_direction_error_deg": 63.472583192953266,
+            "positive_baseline_scale": 10.25285500002945,
+            "unconstrained_signed_scale": -1.3294940373187911,
+            "center_error_cm_after_positive_baseline_scale": 52.44197491867963
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 17.093421281326233,
+            "center_direction_error_deg": 133.6206986510083,
+            "positive_baseline_scale": 10.25285500002945,
+            "unconstrained_signed_scale": -1.3294940373187911,
+            "center_error_cm_after_positive_baseline_scale": 92.95019012052191
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 17.0230530771039,
+            "center_direction_error_deg": 49.43891129795626,
+            "positive_baseline_scale": 111.42015589748942,
+            "unconstrained_signed_scale": 12.20212747734267,
+            "center_error_cm_after_positive_baseline_scale": 48.198235140572706
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 16.957357833718966,
+            "center_direction_error_deg": 131.22573830005942,
+            "positive_baseline_scale": 111.42015589748942,
+            "unconstrained_signed_scale": 12.20212747734267,
+            "center_error_cm_after_positive_baseline_scale": 84.42084535311292
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 3822,
+        "full_guided_gaussians": 4574,
+        "mesh_vertices": 8915,
+        "mesh_faces": 16549,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9991879463195801,
+        "omega256": 0.9988374412059784,
+        "omega512": 0.999232679605484,
+        "surflo": 0.6403035521507263
+      }
+    },
+    {
+      "case": {
+        "name": "adjust_bottle_ep023_interaction_f0027",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep023_interaction_f0027",
+        "task": "adjust_bottle",
+        "episode": 23,
+        "frame": 27,
+        "phase": "interaction",
+        "worker": 1
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.014765945263206959,
+            "left_wrist_rgb_mae": 0.023754583671689034,
+            "right_wrist_rgb_mae": 0.001962467795237899,
+            "mean_wrist_rgb_mae": 0.012858525733463466
+          },
+          "omega256": {
+            "head_rgb_mae": 0.024634066969156265,
+            "left_wrist_rgb_mae": 0.07227365672588348,
+            "right_wrist_rgb_mae": 0.011136515997350216,
+            "mean_wrist_rgb_mae": 0.04170508636161685
+          },
+          "omega512": {
+            "head_rgb_mae": 0.10050516575574875,
+            "left_wrist_rgb_mae": 0.027271324768662453,
+            "right_wrist_rgb_mae": 0.016555409878492355,
+            "mean_wrist_rgb_mae": 0.021913367323577404
+          },
+          "surflo": {
+            "head_rgb_mae": 0.1053604781627655,
+            "left_wrist_rgb_mae": 0.16777105629444122,
+            "right_wrist_rgb_mae": 0.07808903604745865,
+            "mean_wrist_rgb_mae": 0.12293004617094994
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.013870872557163239,
+            "mesh_rgb_mae": 0.1053604781627655,
+            "gaussian_mesh_rgb_mae": 0.11117882281541824,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.913913905620575
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.023830782622098923,
+            "mesh_rgb_mae": 0.16777105629444122,
+            "gaussian_mesh_rgb_mae": 0.17876118421554565,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8417600989341736
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.006900289095938206,
+            "mesh_rgb_mae": 0.07808903604745865,
+            "gaussian_mesh_rgb_mae": 0.07915710657835007,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8986690640449524
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 26.32875574022183,
+            "center_direction_error_deg": 46.932513237415165,
+            "positive_baseline_scale": 1.2027603026654488,
+            "unconstrained_signed_scale": 0.5820426349172387,
+            "center_error_cm_after_positive_baseline_scale": 37.03673163089826
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 96.73099236207285,
+            "center_direction_error_deg": 59.17531142594393,
+            "positive_baseline_scale": 1.2027603026654488,
+            "unconstrained_signed_scale": 0.5820426349172387,
+            "center_error_cm_after_positive_baseline_scale": 71.6153936904961
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 26.322027985661286,
+            "center_direction_error_deg": 46.66035199271214,
+            "positive_baseline_scale": 1.2002950676908546,
+            "unconstrained_signed_scale": 0.5828065103897412,
+            "center_error_cm_after_positive_baseline_scale": 36.85053411726776
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 96.52872497186874,
+            "center_direction_error_deg": 59.128752119075465,
+            "positive_baseline_scale": 1.2002950676908546,
+            "unconstrained_signed_scale": 0.5828065103897412,
+            "center_error_cm_after_positive_baseline_scale": 71.52680471277075
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 12.0153741707277,
+            "center_direction_error_deg": 49.71436735469971,
+            "positive_baseline_scale": 1.953193116870006,
+            "unconstrained_signed_scale": 0.8013786605124898,
+            "center_error_cm_after_positive_baseline_scale": 38.27635554660277
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 102.7297877592328,
+            "center_direction_error_deg": 55.28857892357007,
+            "positive_baseline_scale": 1.953193116870006,
+            "unconstrained_signed_scale": 0.8013786605124898,
+            "center_error_cm_after_positive_baseline_scale": 82.5430273385757
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.647149036517337,
+            "center_direction_error_deg": 61.63936530610151,
+            "positive_baseline_scale": 6.266521639801446,
+            "unconstrained_signed_scale": 2.270964255973339,
+            "center_error_cm_after_positive_baseline_scale": 86.86203201330358
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 43.73249532579831,
+            "center_direction_error_deg": 44.32571757030361,
+            "positive_baseline_scale": 6.266521639801446,
+            "unconstrained_signed_scale": 2.270964255973339,
+            "center_error_cm_after_positive_baseline_scale": 42.86496252832256
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 7568,
+        "full_guided_gaussians": 8457,
+        "mesh_vertices": 26061,
+        "mesh_faces": 50422,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9966548085212708,
+        "omega256": 0.9903894364833832,
+        "omega512": 0.995445191860199,
+        "surflo": 0.870214581489563
+      }
+    },
+    {
+      "case": {
+        "name": "stack_blocks_three_ep007_initial_f0000",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep007_initial_f0000",
+        "task": "stack_blocks_three",
+        "episode": 7,
+        "frame": 0,
+        "phase": "initial",
+        "worker": 0
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.01947109028697014,
+            "left_wrist_rgb_mae": 0.012993761338293552,
+            "right_wrist_rgb_mae": 0.031380102038383484,
+            "mean_wrist_rgb_mae": 0.022186931688338518
+          },
+          "omega256": {
+            "head_rgb_mae": 0.03248397633433342,
+            "left_wrist_rgb_mae": 0.024026162922382355,
+            "right_wrist_rgb_mae": 0.02953285537660122,
+            "mean_wrist_rgb_mae": 0.026779509149491787
+          },
+          "omega512": {
+            "head_rgb_mae": 0.022866714745759964,
+            "left_wrist_rgb_mae": 0.012745571322739124,
+            "right_wrist_rgb_mae": 0.021468807011842728,
+            "mean_wrist_rgb_mae": 0.017107189167290926
+          },
+          "surflo": {
+            "head_rgb_mae": 0.9358810186386108,
+            "left_wrist_rgb_mae": 0.916450023651123,
+            "right_wrist_rgb_mae": 0.9228522777557373,
+            "mean_wrist_rgb_mae": 0.9196511507034302
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.08760039508342743,
+            "mesh_rgb_mae": 0.9358810186386108,
+            "gaussian_mesh_rgb_mae": 0.9107420444488525,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.0
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.07173488289117813,
+            "mesh_rgb_mae": 0.916450023651123,
+            "gaussian_mesh_rgb_mae": 0.9241541624069214,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.0
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.06613550335168839,
+            "mesh_rgb_mae": 0.9228522777557373,
+            "gaussian_mesh_rgb_mae": 0.9223562479019165,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 2.042859159701038e-05
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 20.636318879334727,
+            "center_direction_error_deg": 104.32211980433816,
+            "positive_baseline_scale": 19.980609105376608,
+            "unconstrained_signed_scale": -11.5116695097532,
+            "center_error_cm_after_positive_baseline_scale": 76.09844939336536
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 17.886611993635878,
+            "center_direction_error_deg": 149.95889291474393,
+            "positive_baseline_scale": 19.980609105376608,
+            "unconstrained_signed_scale": -11.5116695097532,
+            "center_error_cm_after_positive_baseline_scale": 101.55141630227556
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.52640657762463,
+            "center_direction_error_deg": 104.22378072612979,
+            "positive_baseline_scale": 20.257721881795028,
+            "unconstrained_signed_scale": -11.796107447528232,
+            "center_error_cm_after_positive_baseline_scale": 75.9116019632616
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 18.097843027843908,
+            "center_direction_error_deg": 151.35523360528572,
+            "positive_baseline_scale": 20.257721881795028,
+            "unconstrained_signed_scale": -11.796107447528232,
+            "center_error_cm_after_positive_baseline_scale": 102.1136519076561
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 20.92271073540726,
+            "center_direction_error_deg": 51.97475416400306,
+            "positive_baseline_scale": 5.367319183773445,
+            "unconstrained_signed_scale": 0.3387557695691105,
+            "center_error_cm_after_positive_baseline_scale": 44.27654690617651
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 20.588287464972655,
+            "center_direction_error_deg": 120.19525177916384,
+            "positive_baseline_scale": 5.367319183773445,
+            "unconstrained_signed_scale": 0.3387557695691105,
+            "center_error_cm_after_positive_baseline_scale": 86.54289821624842
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.94927040609956,
+            "center_direction_error_deg": 46.0373989420669,
+            "positive_baseline_scale": 9.301731902351214,
+            "unconstrained_signed_scale": 0.8373032777009365,
+            "center_error_cm_after_positive_baseline_scale": 40.073817140278514
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 17.702955943724074,
+            "center_direction_error_deg": 123.97195936051983,
+            "positive_baseline_scale": 9.301731902351214,
+            "unconstrained_signed_scale": 0.8373032777009365,
+            "center_error_cm_after_positive_baseline_scale": 87.12809812493816
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 73,
+        "full_guided_gaussians": 118,
+        "mesh_vertices": 26,
+        "mesh_faces": 22,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9990807175636292,
+        "omega256": 0.9986359775066376,
+        "omega512": 0.9994381964206696,
+        "surflo": 1.021429579850519e-05
+      }
+    },
+    {
+      "case": {
+        "name": "stack_blocks_three_ep007_interaction_f0058",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep007_interaction_f0058",
+        "task": "stack_blocks_three",
+        "episode": 7,
+        "frame": 58,
+        "phase": "interaction",
+        "worker": 1
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.18804676830768585,
+            "left_wrist_rgb_mae": 0.04808066040277481,
+            "right_wrist_rgb_mae": 0.034907687455415726,
+            "mean_wrist_rgb_mae": 0.04149417392909527
+          },
+          "omega256": {
+            "head_rgb_mae": 0.019995220005512238,
+            "left_wrist_rgb_mae": 0.004228936042636633,
+            "right_wrist_rgb_mae": 0.009816629812121391,
+            "mean_wrist_rgb_mae": 0.007022782927379012
+          },
+          "omega512": {
+            "head_rgb_mae": 0.009920481592416763,
+            "left_wrist_rgb_mae": 0.024378066882491112,
+            "right_wrist_rgb_mae": 0.008945560082793236,
+            "mean_wrist_rgb_mae": 0.016661813482642174
+          },
+          "surflo": {
+            "head_rgb_mae": 0.21321693062782288,
+            "left_wrist_rgb_mae": 0.14797092974185944,
+            "right_wrist_rgb_mae": 0.1526646465063095,
+            "mean_wrist_rgb_mae": 0.15031778812408447
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.04824916645884514,
+            "mesh_rgb_mae": 0.21321693062782288,
+            "gaussian_mesh_rgb_mae": 0.20861078798770905,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8658607602119446
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.014742068015038967,
+            "mesh_rgb_mae": 0.14797092974185944,
+            "gaussian_mesh_rgb_mae": 0.15055713057518005,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.9424526691436768
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.04691360890865326,
+            "mesh_rgb_mae": 0.1526646465063095,
+            "gaussian_mesh_rgb_mae": 0.17010076344013214,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8724285364151001
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 78.81516834906705,
+            "center_direction_error_deg": 94.03414785232658,
+            "positive_baseline_scale": 3.8188610255348583,
+            "unconstrained_signed_scale": -0.2908619496638564,
+            "center_error_cm_after_positive_baseline_scale": 89.80721684823017
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 30.892753561321452,
+            "center_direction_error_deg": 97.25585982670596,
+            "positive_baseline_scale": 3.8188610255348583,
+            "unconstrained_signed_scale": -0.2908619496638564,
+            "center_error_cm_after_positive_baseline_scale": 110.99252770347042
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 80.19221259566584,
+            "center_direction_error_deg": 94.16324825754766,
+            "positive_baseline_scale": 3.743022623952517,
+            "unconstrained_signed_scale": -0.30444126644917674,
+            "center_error_cm_after_positive_baseline_scale": 90.07738296153272
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 31.50043587392874,
+            "center_direction_error_deg": 97.72329171546102,
+            "positive_baseline_scale": 3.743022623952517,
+            "unconstrained_signed_scale": -0.30444126644917674,
+            "center_error_cm_after_positive_baseline_scale": 110.01757465251139
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 70.63695953864173,
+            "center_direction_error_deg": 76.10444430394165,
+            "positive_baseline_scale": 2.0383247804790243,
+            "unconstrained_signed_scale": 0.6109994290476118,
+            "center_error_cm_after_positive_baseline_scale": 77.38556728575415
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 27.69726454077655,
+            "center_direction_error_deg": 61.25465639461336,
+            "positive_baseline_scale": 2.0383247804790243,
+            "unconstrained_signed_scale": 0.6109994290476118,
+            "center_error_cm_after_positive_baseline_scale": 74.98728321879912
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 68.78383456923596,
+            "center_direction_error_deg": 75.32178816069487,
+            "positive_baseline_scale": 6.171288305222637,
+            "unconstrained_signed_scale": 0.7214901629476039,
+            "center_error_cm_after_positive_baseline_scale": 72.80417735015557
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 27.562711959816646,
+            "center_direction_error_deg": 60.98308127389856,
+            "positive_baseline_scale": 6.171288305222637,
+            "unconstrained_signed_scale": 0.7214901629476039,
+            "center_error_cm_after_positive_baseline_scale": 209.77338158372257
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 3752,
+        "full_guided_gaussians": 4227,
+        "mesh_vertices": 12901,
+        "mesh_faces": 25054,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.997959703207016,
+        "omega256": 0.9932028949260712,
+        "omega512": 0.9968157708644867,
+        "surflo": 0.9074406027793884
+      }
+    },
+    {
+      "case": {
+        "name": "stack_blocks_three_ep023_initial_f0000",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep023_initial_f0000",
+        "task": "stack_blocks_three",
+        "episode": 23,
+        "frame": 0,
+        "phase": "initial",
+        "worker": 0
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.03352329507470131,
+            "left_wrist_rgb_mae": 0.02177511528134346,
+            "right_wrist_rgb_mae": 0.02632695995271206,
+            "mean_wrist_rgb_mae": 0.02405103761702776
+          },
+          "omega256": {
+            "head_rgb_mae": 0.030501753091812134,
+            "left_wrist_rgb_mae": 0.028503280133008957,
+            "right_wrist_rgb_mae": 0.01989019475877285,
+            "mean_wrist_rgb_mae": 0.024196737445890903
+          },
+          "omega512": {
+            "head_rgb_mae": 0.02306823804974556,
+            "left_wrist_rgb_mae": 0.03127774968743324,
+            "right_wrist_rgb_mae": 0.021507415920495987,
+            "mean_wrist_rgb_mae": 0.026392582803964615
+          },
+          "surflo": {
+            "head_rgb_mae": 0.09434939920902252,
+            "left_wrist_rgb_mae": 0.19438610970973969,
+            "right_wrist_rgb_mae": 0.1621522158384323,
+            "mean_wrist_rgb_mae": 0.178269162774086
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.025050818920135498,
+            "mesh_rgb_mae": 0.09434939920902252,
+            "gaussian_mesh_rgb_mae": 0.10885024815797806,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.9265336394309998
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.02594790980219841,
+            "mesh_rgb_mae": 0.19438610970973969,
+            "gaussian_mesh_rgb_mae": 0.20219209790229797,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8091254234313965
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.02549971081316471,
+            "mesh_rgb_mae": 0.1621522158384323,
+            "gaussian_mesh_rgb_mae": 0.16995058953762054,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8438693881034851
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.919283099918214,
+            "center_direction_error_deg": 68.72792725048947,
+            "positive_baseline_scale": 4.057225165636191,
+            "unconstrained_signed_scale": -0.9056484705587176,
+            "center_error_cm_after_positive_baseline_scale": 53.434719608082084
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 18.433687895018185,
+            "center_direction_error_deg": 133.01776850133805,
+            "positive_baseline_scale": 4.057225165636191,
+            "unconstrained_signed_scale": -0.9056484705587176,
+            "center_error_cm_after_positive_baseline_scale": 99.25844383347511
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 16.920208974115887,
+            "center_direction_error_deg": 67.70832904693196,
+            "positive_baseline_scale": 4.04473988910891,
+            "unconstrained_signed_scale": -0.9165338295293051,
+            "center_error_cm_after_positive_baseline_scale": 52.6396380518362
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 17.586219073292526,
+            "center_direction_error_deg": 134.17672776252863,
+            "positive_baseline_scale": 4.04473988910891,
+            "unconstrained_signed_scale": -0.9165338295293051,
+            "center_error_cm_after_positive_baseline_scale": 100.03379004406779
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 20.90986325687102,
+            "center_direction_error_deg": 57.47956290408681,
+            "positive_baseline_scale": 5.950147591757402,
+            "unconstrained_signed_scale": -0.259881017401032,
+            "center_error_cm_after_positive_baseline_scale": 47.974709548794316
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 21.26756287547544,
+            "center_direction_error_deg": 127.62165326777765,
+            "positive_baseline_scale": 5.950147591757402,
+            "unconstrained_signed_scale": -0.259881017401032,
+            "center_error_cm_after_positive_baseline_scale": 90.67039624924104
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 20.076889545730722,
+            "center_direction_error_deg": 70.07932418121307,
+            "positive_baseline_scale": 7.9395825485558555,
+            "unconstrained_signed_scale": 1.664599118588957,
+            "center_error_cm_after_positive_baseline_scale": 53.391954371051675
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 21.480335742517827,
+            "center_direction_error_deg": 81.74899680129357,
+            "positive_baseline_scale": 7.9395825485558555,
+            "unconstrained_signed_scale": 1.664599118588957,
+            "center_error_cm_after_positive_baseline_scale": 73.62189668610554
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 7755,
+        "full_guided_gaussians": 9002,
+        "mesh_vertices": 36438,
+        "mesh_faces": 71283,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.9990091919898987,
+        "omega256": 0.998473197221756,
+        "omega512": 0.999232679605484,
+        "surflo": 0.8264974057674408
+      }
+    },
+    {
+      "case": {
+        "name": "stack_blocks_three_ep023_interaction_f0057",
+        "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep023_interaction_f0057",
+        "task": "stack_blocks_three",
+        "episode": 23,
+        "frame": 57,
+        "phase": "interaction",
+        "worker": 1
+      },
+      "image_consistency": {
+        "models": {
+          "vggt": {
+            "head_rgb_mae": 0.19517992436885834,
+            "left_wrist_rgb_mae": 0.029395220801234245,
+            "right_wrist_rgb_mae": 0.0017061458202078938,
+            "mean_wrist_rgb_mae": 0.01555068331072107
+          },
+          "omega256": {
+            "head_rgb_mae": 0.016405988484621048,
+            "left_wrist_rgb_mae": 0.004765207413583994,
+            "right_wrist_rgb_mae": 0.0040714493952691555,
+            "mean_wrist_rgb_mae": 0.004418328404426575
+          },
+          "omega512": {
+            "head_rgb_mae": 0.007728723809123039,
+            "left_wrist_rgb_mae": 0.0031851851381361485,
+            "right_wrist_rgb_mae": 0.002155083930119872,
+            "mean_wrist_rgb_mae": 0.0026701345341280103
+          },
+          "surflo": {
+            "head_rgb_mae": 0.2567381262779236,
+            "left_wrist_rgb_mae": 0.5031843185424805,
+            "right_wrist_rgb_mae": 0.2296046018600464,
+            "mean_wrist_rgb_mae": 0.3663944602012634
+          }
+        },
+        "surflo_stages": [
+          {
+            "view": 0,
+            "gaussian_rgb_mae": 0.09446454048156738,
+            "mesh_rgb_mae": 0.2567381262779236,
+            "gaussian_mesh_rgb_mae": 0.22141727805137634,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8332056403160095
+          },
+          {
+            "view": 1,
+            "gaussian_rgb_mae": 0.03494397550821304,
+            "mesh_rgb_mae": 0.5031843185424805,
+            "gaussian_mesh_rgb_mae": 0.48158615827560425,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.5290085673332214
+          },
+          {
+            "view": 2,
+            "gaussian_rgb_mae": 0.11665981262922287,
+            "mesh_rgb_mae": 0.2296046018600464,
+            "gaussian_mesh_rgb_mae": 0.21884267032146454,
+            "gaussian_alpha_coverage": 1.0,
+            "mesh_coverage": 0.8359431028366089
+          }
+        ]
+      },
+      "camera_consistency": {
+        "vggt": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 17.840905172558312,
+            "center_direction_error_deg": 70.94443767803905,
+            "positive_baseline_scale": 13.050641028091107,
+            "unconstrained_signed_scale": -0.08299957913781549,
+            "center_error_cm_after_positive_baseline_scale": 133.85688298604023
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 56.49886456082227,
+            "center_direction_error_deg": 140.9701280272358,
+            "positive_baseline_scale": 13.050641028091107,
+            "unconstrained_signed_scale": -0.08299957913781549,
+            "center_error_cm_after_positive_baseline_scale": 109.54701472595458
+          }
+        ],
+        "surflo_refined": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 18.487239597766685,
+            "center_direction_error_deg": 71.87377040231829,
+            "positive_baseline_scale": 13.252107393719923,
+            "unconstrained_signed_scale": -0.09145464853064947,
+            "center_error_cm_after_positive_baseline_scale": 137.03417877778853
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 54.67483255016204,
+            "center_direction_error_deg": 139.72595812753244,
+            "positive_baseline_scale": 13.252107393719923,
+            "unconstrained_signed_scale": -0.09145464853064947,
+            "center_error_cm_after_positive_baseline_scale": 108.99962734951933
+          }
+        ],
+        "omega256": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 21.52434766089009,
+            "center_direction_error_deg": 47.88119561006464,
+            "positive_baseline_scale": 1.8610897764055054,
+            "unconstrained_signed_scale": 1.3353652194856132,
+            "center_error_cm_after_positive_baseline_scale": 40.552911909176984
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 44.973353121431245,
+            "center_direction_error_deg": 42.28741343871024,
+            "positive_baseline_scale": 1.8610897764055054,
+            "unconstrained_signed_scale": 1.3353652194856132,
+            "center_error_cm_after_positive_baseline_scale": 51.95687796375774
+          }
+        ],
+        "omega512": [
+          {
+            "view": 1,
+            "relative_rotation_error_deg": 26.896350531382954,
+            "center_direction_error_deg": 51.64937665747774,
+            "positive_baseline_scale": 4.556014454052197,
+            "unconstrained_signed_scale": 0.8495557794221263,
+            "center_error_cm_after_positive_baseline_scale": 143.4214303982666
+          },
+          {
+            "view": 2,
+            "relative_rotation_error_deg": 35.41056876767165,
+            "center_direction_error_deg": 82.07169160154231,
+            "positive_baseline_scale": 4.556014454052197,
+            "unconstrained_signed_scale": 0.8495557794221263,
+            "center_error_cm_after_positive_baseline_scale": 78.3439946486084
+          }
+        ]
+      },
+      "surflo_geometry": {
+        "plain_points": 100000,
+        "guided_points": 4342,
+        "full_guided_gaussians": 5343,
+        "mesh_vertices": 18422,
+        "mesh_faces": 34958,
+        "guided_preset": "default",
+        "expert_preset": "default (DA3 depth + aligned normals)",
+        "num_query_points": 100000,
+        "seed": 42,
+        "ode_steps_plain": 100
+      },
+      "mean_wrist_coverage": {
+        "vggt": 0.998531699180603,
+        "omega256": 0.9938849210739136,
+        "omega512": 0.996393471956253,
+        "surflo": 0.6824758350849152
+      }
+    }
+  ],
+  "scope": "Input-view image consistency and recorded-camera consistency; no metric surface ground truth."
+}

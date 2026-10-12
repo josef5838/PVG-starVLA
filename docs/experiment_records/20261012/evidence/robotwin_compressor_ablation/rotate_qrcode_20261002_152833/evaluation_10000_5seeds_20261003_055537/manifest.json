@@ -1,0 +1,49 @@
+{
+  "task": "rotate_qrcode",
+  "task_config": "demo_clean",
+  "training_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/manifest.json",
+  "checkpoint_step": 10000,
+  "seed_indices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "simulator_seeds": [
+    100000,
+    200000,
+    300000,
+    400000,
+    500000
+  ],
+  "episodes_per_model": 5,
+  "video_recording": true,
+  "instruction_override": "rotate_qrcode",
+  "num_ddim_steps": 20,
+  "execute_horizon": 8,
+  "runs": [
+    {
+      "variant": "compressor",
+      "gpu": 0,
+      "port": 5710,
+      "pid": 201463,
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_compressor_fresh_10000steps_20261002_152833/checkpoints/steps_10000_pytorch_model.pt",
+      "status_file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/evaluation_10000_5seeds_20261003_055537/compressor/status.json",
+      "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/evaluation_10000_5seeds_20261003_055537/compressor/videos"
+    },
+    {
+      "variant": "compressor_state",
+      "gpu": 1,
+      "port": 5711,
+      "pid": 203522,
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_compressor_state_fresh_10000steps_20261002_152833/checkpoints/steps_10000_pytorch_model.pt",
+      "status_file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/evaluation_10000_5seeds_20261003_055537/compressor_state/status.json",
+      "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/evaluation_10000_5seeds_20261003_055537/compressor_state/videos",
+      "previous_pids": [
+        201464,
+        202296
+      ]
+    }
+  ]
+}

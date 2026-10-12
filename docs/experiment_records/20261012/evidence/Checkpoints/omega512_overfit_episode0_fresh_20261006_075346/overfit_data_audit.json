@@ -1,0 +1,17 @@
+{
+  "episode_ids": [
+    0
+  ],
+  "frames": 82,
+  "action_shapes": [
+    [
+      16,
+      14
+    ]
+  ],
+  "instruction": [
+    "rotate_qrcode"
+  ],
+  "baseline_normalization_verified": true,
+  "probe": "Every frame of the training trajectory; this is NOT held-out validation."
+}

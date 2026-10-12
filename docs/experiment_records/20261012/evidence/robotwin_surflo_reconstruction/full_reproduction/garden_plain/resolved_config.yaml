@@ -1,0 +1,329 @@
+model:
+  _target_: surflo.model.ffm.FFM
+  estimate_in_freq_enc: false
+  spatial_mean:
+  - -0.0009664548509708326
+  - -0.1530075818176061
+  - 0.5449113849578763
+  spatial_std:
+  - 1.876203819188109
+  - 0.8843501744816077
+  - 1.9678368095875896
+  target_std: 0.5
+  prediction_mode: velocity
+  compute_loss_in_velocity: false
+  scheduler:
+    _target_: flow_matching.path.scheduler.CondOTScheduler
+  unconditional_ratio: 0.1
+  use_mean_flow: false
+  t_sampler:
+    _target_: surflo.nn.vggt.utils.time_sampling.LogitNormalTimeSampler
+    mu: 1.0
+    sigma: 1.6
+  overfit_mode: false
+  sample_from_vggt_world_points_with_sd: 0.1
+  use_voxel_matching: false
+  voxel_match_n_voxels_per_axis: 10
+  per_scene_normalize: true
+  scene_normalize_mode: median_dist_to_medianpoint
+  renormalize_after_cull: false
+  SDF: null
+  compile: false
+  cache_vggt_predictions_when_overfitting: false
+  use_learned_tokens: false
+  estimate_normals: true
+  SurfaceNet:
+    _target_: surflo.model.surface_net.SurfaceNet
+    intermediate_layer_idx:
+    - 4
+    - 11
+    - 17
+    - 23
+    project_aggregated_tokens: true
+    project_aggregated_tokens_dim: 512
+    use_camera_tokens: true
+    encode_camera_tokens_separately: true
+    use_3d_positional_encoding_for_patch_tokens: true
+    tokens_3d_positional_encoder:
+      _target_: surflo.nn.spatial_encoder.GaussianSpatialEncoder
+      out_dim: 512
+      mlp_ratio: 4.0
+      bias: true
+      estimate_in_freq_enc: false
+      n_hidden_layers: 0
+      add_time_as_input: false
+      frequency_encoder:
+        _target_: surflo.nn.spatial_encoder.GaussianFrequencyEncoder
+        spatial_mean:
+        - -0.0009664548509708326
+        - -0.1530075818176061
+        - 0.5449113849578763
+        spatial_std:
+        - 1.876203819188109
+        - 0.8843501744816077
+        - 1.9678368095875896
+        target_std: 0.5
+        in_dim: 3
+        num_freq: 512
+        sigma:
+        - 100.0
+        - 64.93816315762113
+        - 42.169650342858226
+        - 27.384196342643612
+        - 17.78279410038923
+        - 11.547819846894583
+        - 7.498942093324559
+        - 4.869675251658632
+        - 3.16227766016838
+        - 2.0535250264571463
+        - 1.3335214321633242
+        - 0.8659643233600655
+        - 0.5623413251903492
+        - 0.3651741272548378
+        - 0.23713737056616557
+        - 0.15399265260594922
+    decoder:
+      _target_: surflo.nn.decoder.SimpleFieldDecoder
+      use_mean_flow: false
+      estimate_in_freq_enc: false
+      field_dim: 6
+      depth: 12
+      mlp_ratio: 4.0
+      decoder_mlp_ratio: 1.0
+      decoder_mlp_n_hiden_layers: 1
+      embed_dim: 512
+      condition_on_camera_tokens_with_adaln: true
+      condition_on_camera_tokens_at_start_only: true
+      number_of_adaln_blocks: 2
+      adaln_mlp_ratio: 2.0
+      time_conditioning_mode: adaln
+      no_conditioning_token_projector: false
+      time_adaln_mlp_ratio: 2.0
+      use_adaln_decoding: true
+      n_additional_ffn_blocks: 2
+      final_decoding_n_hidden_layers: 0
+      cross_attn_depth: 6
+      num_heads: 16
+      qk_norm: true
+      use_camera_conditioning: true
+      value_gating: false
+      spatial_encoder:
+        _target_: surflo.nn.spatial_encoder.GaussianSpatialEncoder
+        out_dim: 512
+        mlp_ratio: 1.0
+        bias: true
+        estimate_in_freq_enc: false
+        n_hidden_layers: 0
+        add_time_as_input: true
+        frequency_encoder:
+          _target_: surflo.nn.spatial_encoder.GaussianFrequencyEncoder
+          in_dim: 6
+          num_freq: 512
+          sigma:
+          - 100.0
+          - 64.93816315762113
+          - 42.169650342858226
+          - 27.384196342643612
+          - 17.78279410038923
+          - 11.547819846894583
+          - 7.498942093324559
+          - 4.869675251658632
+          - 3.16227766016838
+          - 2.0535250264571463
+          - 1.3335214321633242
+          - 0.8659643233600655
+          - 0.5623413251903492
+          - 0.3651741272548378
+          - 0.23713737056616557
+          - 0.15399265260594922
+      time_encoder:
+        _target_: surflo.nn.time_encoder.TimeEncoder
+        out_dim: 512
+        mlp_ratio: 1.0
+        bias: true
+        estimate_in_freq_enc: false
+        n_hidden_layers: 0
+        add_time_as_input: false
+        frequency_encoder:
+          _target_: surflo.nn.time_encoder.TimeFrequencyEncoder
+          in_dim: 1
+          num_freq: 512
+          max_period: 10000.0
+          input_factor: 1000.0
+    camera_tokens_compressor:
+      _target_: surflo.nn.compressor.Compressor
+      embed_dim: 512
+      depth: 4
+      mlp_ratio: 4.0
+      sa_to_ca_ratio: 0
+      num_latent_tokens: 1
+      elastic: false
+    compressor:
+      _target_: surflo.nn.compressor.Compressor
+      embed_dim: 512
+      depth: 4
+      mlp_ratio: 4.0
+      sa_to_ca_ratio: 4
+      num_latent_tokens: 128
+      elastic: false
+plain:
+  num_steps: 100
+  num_points_per_batch: 100000
+  guidance_scale: 0.0
+  save_initial: true
+  save_final: true
+guided:
+  start_time: 0.0
+  num_steps: 100
+  use_biphase: true
+  num_steps_phase_1: 50
+  num_steps_phase_2: 100
+  phase_switch_frac: 0.95
+  learn_normals: true
+  decouple_normals: true
+  initial_n_gaussians_per_anchor: 1
+  learn_camera_pose: true
+  cam_rot_lr: 1.0e-05
+  cam_trans_lr: 1.0e-05
+  k_inner_loop: 32
+  n_additional_iterations: 500
+  use_position_lr_schedule: true
+  position_lr_init: 0.00016
+  position_lr_final: 1.6e-06
+  position_lr_delay_mult: 0.01
+  position_lr_delay_steps: 0
+  position_lr_max_steps: 30000
+  densify_from_step: 500
+  densify_until_step: 2000
+  densification_interval: 250
+  opacity_reset_interval: 1000
+  densify_grad_threshold: 0.0002
+  densify_min_opacity: 0.05
+  densify_percent_dense: 0.01
+  densify_split_n: 2
+  densify_use_abs_grad: true
+  densify_max_screen_size_after_first_reset: 20
+  opacity_reset_value: 0.01
+  log_densify_diagnostics: false
+  render_guidance_scale: 100.0
+  render_guidance_start_frac: 0.95
+  use_rgb_loss: true
+  use_dn_loss: true
+  start_dn_loss_at_step: 100
+  use_vggt_depth_loss: true
+  use_mask_loss: true
+  use_normal_loss: true
+  start_normal_loss_at_step: 100
+  use_anisotropy_penalty: true
+  use_confidence: true
+  confidence_threshold: 2.0
+  use_smooth_confidence_mask: true
+  smooth_confidence_mask_min_value: 0.01
+  use_exposure_compensation: true
+  use_entropy_loss: false
+  start_entropy_loss_at_step: 125
+  use_monodepth_guidance: true
+  start_monodepth_guidance_at_step: 0
+  depth_ratio_for_monodepth_guidance: 0.6
+  use_normal_guidance: true
+  start_normal_guidance_at_step: 0
+  depth_ratio_for_normal_guidance: 0.6
+  use_curvature_loss_for_normal_guidance: true
+  lambda_curvature_loss: 0.025
+  lambda_rgb: 1.0
+  lambda_depth: 5.0
+  lambda_mask_loss: 1.0
+  lambda_normal_loss: 0.05
+  lambda_anisotropy_penalty: 0.1
+  lambda_entropy_loss: 0.1
+  lambda_monodepth_guidance: 1.0
+  lambda_normal_guidance: 0.1
+  use_random_bg: true
+  mask_bg: true
+  initial_opacity: 0.1
+  initial_scale_factor: 1.0
+  sh_degree: 3
+  aux_lr_multiplier: 1.0
+  gaussian_radius: 0.003
+  initialize_isotropic_gaussians: true
+  k_neighbors: 10
+  target_camera_extent: 5.0
+  lambda_depth_schedule_values:
+  - 0.5
+  lambda_depth_schedule_steps:
+  - 125
+  lambda_monodepth_schedule_values:
+  - 0.5
+  lambda_monodepth_schedule_steps:
+  - 140
+  lambda_normal_guidance_schedule_values:
+  - 0.05
+  lambda_normal_guidance_schedule_steps:
+  - 140
+  lambda_curvature_loss_schedule_values:
+  - 0.0125
+  lambda_curvature_loss_schedule_steps:
+  - 140
+  use_sh_degree_warmup: true
+  sh_degree_warmup_interval: 500
+mesh:
+  enabled: true
+  kernel_size: 0.0
+  sdf_isosurface_value: 0.0
+  use_regular_pivots: true
+  std_factor: 3.33
+  n_pivots: 9
+  use_smallest_axis_as_normal: true
+  n_points_per_sdf_evaluation: 20000000
+  use_valid_mask: true
+  filter_large_edges: true
+  collapse_large_edges: false
+  mtet_on_cpu: false
+  n_binary_steps: 10
+  delaunay_method: geodel
+  use_refined_cameras: true
+expert:
+  enabled: true
+  monodepth_id: depth-anything/da3mono-large
+  pred_res: 1596
+  process_res_method: upper_bound_resize
+  conf_threshold_for_normal_guidance: 2.0
+texture:
+  enabled: true
+  mode: vertex_colors
+  n_iterations: 0
+  learning_rate: 0.0025
+  lambda_dssim: 0.2
+  use_scalable_renderer: true
+  init_color: tsdf
+  tsdf_trunc_margin_first_pass_factor: 0.002
+  tsdf_trunc_margin_fallback_factor: 1.0
+  texture_resolution: 2048
+  atlas_padding: 2
+  atlas_max_chart_iterations: 0
+  dilate_iterations: 4
+  uv_texture_learning_rate: 0.01
+  use_mipmaps: true
+  use_antialiasing: true
+  output_filename: mesh_textured.ply
+mode: plain
+num_query_points: 100000
+ckpt: /export/home/haoliang/projects/Surflo/checkpoints/surflo_v0.pt
+device: cuda
+seed: 42
+use_ema: true
+output_dir: /export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/full_reproduction/garden_plain
+overwrite: false
+source:
+  image_folder: /export/home/haoliang/projects/Surflo/media/sample
+  n_images: 16
+  sampling: uniform
+  target_size: 518
+  cull_radius: 10.0
+filtered_centers_opacity_threshold: 0.1
+ply:
+  binary: true
+  initial_color:
+  - 128
+  - 128
+  - 255

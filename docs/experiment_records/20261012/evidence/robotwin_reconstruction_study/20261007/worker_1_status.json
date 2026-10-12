@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "pid": 457930,
+  "records": [
+    {
+      "case": "rotate_qrcode_ep007_interaction_f0024",
+      "exit_code": 0
+    },
+    {
+      "case": "rotate_qrcode_ep023_interaction_f0024",
+      "exit_code": 0
+    },
+    {
+      "case": "adjust_bottle_ep007_interaction_f0027",
+      "exit_code": 0
+    },
+    {
+      "case": "adjust_bottle_ep023_interaction_f0027",
+      "exit_code": 0
+    },
+    {
+      "case": "stack_blocks_three_ep007_interaction_f0058",
+      "exit_code": 0
+    },
+    {
+      "case": "stack_blocks_three_ep023_interaction_f0057",
+      "exit_code": 0
+    }
+  ]
+}

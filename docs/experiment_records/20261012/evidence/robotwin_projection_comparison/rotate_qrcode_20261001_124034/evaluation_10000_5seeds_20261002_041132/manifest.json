@@ -1,0 +1,144 @@
+{
+  "status": "completed",
+  "task": "rotate_qrcode",
+  "task_config": "demo_clean",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "episodes_per_model": 5,
+  "checkpoint_step": 10000,
+  "video_recording": true,
+  "runs": [
+    {
+      "variant": "linear",
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+      "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/linear",
+      "simulator_output": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model",
+      "episodes": [
+        {
+          "seed": 100000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-12-15_988128/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/linear/seed_100000.mp4"
+          ]
+        },
+        {
+          "seed": 200000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-15-26_936171/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/linear/seed_200000.mp4"
+          ]
+        },
+        {
+          "seed": 300000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-18-47_246561/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/linear/seed_300000.mp4"
+          ]
+        },
+        {
+          "seed": 400000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-22-21_755904/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/linear/seed_400000.mp4"
+          ]
+        },
+        {
+          "seed": 500000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-25-33_795502/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/linear/seed_500000.mp4"
+          ]
+        }
+      ],
+      "success_count": 0,
+      "completed_episodes": 5
+    },
+    {
+      "variant": "residual",
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+      "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/residual",
+      "simulator_output": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model",
+      "episodes": [
+        {
+          "seed": 100000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-54-07_681076/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/residual/seed_100000.mp4"
+          ]
+        },
+        {
+          "seed": 200000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_04-57-21_022795/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/residual/seed_200000.mp4"
+          ]
+        },
+        {
+          "seed": 300000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_05-00-26_484586/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/residual/seed_300000.mp4"
+          ]
+        },
+        {
+          "seed": 400000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_05-03-49_533246/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/residual/seed_400000.mp4"
+          ]
+        },
+        {
+          "seed": 500000,
+          "success": false,
+          "result_file": "/export/home/haoliang/projects/RoboTwin_PVG/eval_result/rotate_qrcode/starVLA/demo_clean/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034_checkpoints_steps_10000_pytorch_model/2026-10-02_05-06-54_611202/_result.txt",
+          "videos": [
+            "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/videos/residual/seed_500000.mp4"
+          ]
+        }
+      ],
+      "success_count": 0,
+      "completed_episodes": 5
+    }
+  ],
+  "command": [
+    "bash",
+    "examples/simBenchmarks/Robotwin/eval_files/eval_surflo_checkpoints.sh",
+    "rotate_qrcode",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/seeds.txt",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt"
+  ],
+  "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/residual_evaluation.log",
+  "pid": 67768,
+  "previous_command": [
+    "bash",
+    "examples/simBenchmarks/Robotwin/eval_files/eval_surflo_checkpoints.sh",
+    "rotate_qrcode",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/seeds.txt",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+    "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt"
+  ],
+  "previous_exit_code": 1,
+  "previous_log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_projection_comparison/rotate_qrcode_20261001_124034/evaluation_10000_5seeds_20261002_041132/evaluation.log",
+  "simulator_seeds": [
+    100000,
+    200000,
+    300000,
+    400000,
+    500000
+  ],
+  "exit_code": 0
+}

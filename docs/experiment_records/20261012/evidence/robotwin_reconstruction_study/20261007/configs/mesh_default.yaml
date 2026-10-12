@@ -1,0 +1,15 @@
+enabled: true
+kernel_size: 0.0
+sdf_isosurface_value: 0.0
+use_regular_pivots: true
+std_factor: 3.33
+n_pivots: 9
+use_smallest_axis_as_normal: true
+n_points_per_sdf_evaluation: 20000000
+use_valid_mask: true
+filter_large_edges: true
+collapse_large_edges: false
+mtet_on_cpu: false
+n_binary_steps: 10
+delaunay_method: geodel
+use_refined_cameras: true

@@ -1,0 +1,112 @@
+[
+  {
+    "episode": 0,
+    "source_episode": 38,
+    "seed": 130,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.6391277313232422e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 5,
+    "source_episode": 27,
+    "seed": 86,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 10,
+    "source_episode": 5,
+    "seed": 27,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.7695128917694092e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 20,
+    "source_episode": 34,
+    "seed": 114,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.341104507446289e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 22,
+    "source_episode": 24,
+    "seed": 80,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 25,
+    "source_episode": 31,
+    "seed": 92,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 35,
+    "source_episode": 6,
+    "seed": 31,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 39,
+    "source_episode": 3,
+    "seed": 18,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 48,
+    "source_episode": 13,
+    "seed": 55,
+    "length": 65,
+    "split": "train",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  },
+  {
+    "episode": 49,
+    "source_episode": 10,
+    "seed": 45,
+    "length": 65,
+    "split": "heldout_validation",
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "joint_roundtrip_max_error": 1.1920928955078125e-07,
+    "gripper_roundtrip_max_error": 0.47236180305480957
+  }
+]

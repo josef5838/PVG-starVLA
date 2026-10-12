@@ -1,0 +1,26 @@
+{
+  "episodes": [
+    0,
+    1,
+    2,
+    25,
+    35,
+    46,
+    65,
+    76
+  ],
+  "full_frames": 668,
+  "fixed_probe_frames": 128,
+  "action_shapes": [
+    [
+      16,
+      14
+    ]
+  ],
+  "instructions": [
+    "rotate_qrcode"
+  ],
+  "original_normalization_verified": true,
+  "omega_frozen": true,
+  "probe": "Training-trajectory sampled-action error; not held-out validation."
+}

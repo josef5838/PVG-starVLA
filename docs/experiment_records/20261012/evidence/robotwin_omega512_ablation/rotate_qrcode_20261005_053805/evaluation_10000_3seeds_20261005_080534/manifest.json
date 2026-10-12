@@ -1,0 +1,100 @@
+{
+  "task": "rotate_qrcode",
+  "task_config": "demo_clean",
+  "checkpoint_step": 10000,
+  "episodes_per_model": 3,
+  "simulator_seeds": [
+    100000,
+    200000,
+    300000
+  ],
+  "seed_indices": [
+    0,
+    1,
+    2
+  ],
+  "video_recording": true,
+  "instruction_override": "rotate_qrcode",
+  "preserve_native_images": true,
+  "execute_horizon": 8,
+  "num_ddim_steps": 20,
+  "created_utc": "2026-10-05T08:05:34.307452+00:00",
+  "training_manifest": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/manifest.json",
+  "python": "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+  "runs": [
+    {
+      "variant": "dense",
+      "gpu": 0,
+      "port": 5710,
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805/checkpoints/steps_10000_pytorch_model.pt",
+      "directory": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense",
+      "worker_log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense_worker.log",
+      "pid": 305397,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/evaluate_robotwin_omega512.py",
+        "--checkpoint",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_dense_fresh_10000steps_20261005_053805/checkpoints/steps_10000_pytorch_model.pt",
+        "--robotwin-root",
+        "/export/home/haoliang/projects/RoboTwin_PVG",
+        "--robotwin-python",
+        "/export/home/haoliang/miniconda3/envs/RoboTwin/bin/python",
+        "--out",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense",
+        "--gpu",
+        "0",
+        "--port",
+        "5710",
+        "--samples",
+        "3"
+      ],
+      "status_file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/status.json",
+      "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/dense/videos"
+    },
+    {
+      "variant": "state_query_local",
+      "gpu": 1,
+      "port": 5711,
+      "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805/checkpoints/steps_10000_pytorch_model.pt",
+      "directory": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local",
+      "worker_log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local_worker.log",
+      "pid": 305398,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/evaluate_robotwin_omega512.py",
+        "--checkpoint",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_robotwin_rotate_qrcode_state_query_local_fresh_10000steps_20261005_053805/checkpoints/steps_10000_pytorch_model.pt",
+        "--robotwin-root",
+        "/export/home/haoliang/projects/RoboTwin_PVG",
+        "--robotwin-python",
+        "/export/home/haoliang/miniconda3/envs/RoboTwin/bin/python",
+        "--out",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local",
+        "--gpu",
+        "1",
+        "--port",
+        "5711",
+        "--samples",
+        "3"
+      ],
+      "status_file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/status.json",
+      "video_folder": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/state_query_local/videos"
+    }
+  ],
+  "status": "completed",
+  "code_sha256": {
+    "tools/evaluate_robotwin_omega512.py": "ba21c2f6a27e5cb17146fa08662a4ed416d9dfff4d3b17a1aa3e407810d99483",
+    "tools/launch_robotwin_compressor_evaluation.py": "2994acc64fea66c267622c0fe6c2bde166e37adccc3f3c8fbdcdcd085961d2cc",
+    "tools/robotwin_eval_fixed_instruction.py": "c010c0bafcbf75957abea88d42d2e2e4bae7c83fe38234cf07e92d506997e6e8",
+    "deployment/model_server/policy_wrapper.py": "377f0a1b8475c82ffb0a4a0a2908ea2ad1c985a357b8b22a33c7b3a014b94640",
+    "starVLA/model/framework/share_tools.py": "3afcabd734465fd618105bf8f9d90ca7e36a4891c599d3fe645e8ae3fb3aa0d6",
+    "examples/simBenchmarks/Robotwin/eval_files/model2robotwin_interface.py": "f9341f0806e05a675a47c6b3ed8d76585526edcc1f94def46c8c9c5b734dfc1d"
+  },
+  "results_file": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_omega512_ablation/rotate_qrcode_20261005_053805/evaluation_10000_3seeds_20261005_080534/results.json",
+  "finished_utc": "2026-10-05T08:16:54.976386+00:00",
+  "success_counts": {
+    "dense": 0,
+    "state_query_local": 0
+  },
+  "video_validation": "passed"
+}

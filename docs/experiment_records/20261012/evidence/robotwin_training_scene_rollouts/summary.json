@@ -1,0 +1,180 @@
+{
+  "status": "completed",
+  "training_episodes": [
+    0,
+    1,
+    2
+  ],
+  "source_episodes": [
+    51,
+    60,
+    38
+  ],
+  "seeds": [
+    131,
+    162,
+    91
+  ],
+  "variants": {
+    "linear": {
+      "success_count": 1,
+      "episodes": [
+        {
+          "variant": "linear",
+          "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+          "training_episode": 0,
+          "source_episode": 51,
+          "seed": 131,
+          "scene_verified": true,
+          "initial_image_mae": 2.483203125,
+          "initial_robot_state_max_error": 0.0,
+          "object_model_id": 3,
+          "initial_object_position": [
+            0.16950176656246185,
+            -0.050992451608181,
+            0.7413286566734314
+          ],
+          "final_object_position": [
+            0.20999830961227417,
+            0.0001534055918455124,
+            0.7461192607879639
+          ],
+          "instruction": "rotate_qrcode",
+          "steps": 7,
+          "success": true,
+          "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts/linear_training_episode_0_seed_131.mp4"
+        },
+        {
+          "variant": "linear",
+          "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+          "training_episode": 1,
+          "source_episode": 60,
+          "seed": 162,
+          "scene_verified": true,
+          "initial_image_mae": 2.323962673611111,
+          "initial_robot_state_max_error": 0.0,
+          "object_model_id": 1,
+          "initial_object_position": [
+            0.10611242800951004,
+            -0.0917166918516159,
+            0.7417191863059998
+          ],
+          "final_object_position": [
+            0.0999298021197319,
+            -0.0835818201303482,
+            0.7417199015617371
+          ],
+          "instruction": "rotate_qrcode",
+          "steps": 400,
+          "success": false,
+          "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts/linear_training_episode_1_seed_162.mp4"
+        },
+        {
+          "variant": "linear",
+          "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+          "training_episode": 2,
+          "source_episode": 38,
+          "seed": 91,
+          "scene_verified": true,
+          "initial_image_mae": 2.5464105902777776,
+          "initial_robot_state_max_error": 0.0,
+          "object_model_id": 1,
+          "initial_object_position": [
+            0.06370126456022263,
+            -0.0015428181504830718,
+            0.7417186498641968
+          ],
+          "final_object_position": [
+            0.03366553783416748,
+            -0.012282307259738445,
+            0.7417190074920654
+          ],
+          "instruction": "rotate_qrcode",
+          "steps": 400,
+          "success": false,
+          "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts/linear_training_episode_2_seed_91.mp4"
+        }
+      ]
+    },
+    "residual": {
+      "success_count": 0,
+      "episodes": [
+        {
+          "variant": "residual",
+          "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+          "training_episode": 0,
+          "source_episode": 51,
+          "seed": 131,
+          "scene_verified": true,
+          "initial_image_mae": 2.483203125,
+          "initial_robot_state_max_error": 0.0,
+          "object_model_id": 3,
+          "initial_object_position": [
+            0.16950176656246185,
+            -0.050992451608181,
+            0.7413286566734314
+          ],
+          "final_object_position": [
+            0.13037562370300293,
+            -0.02313848026096821,
+            0.7413293123245239
+          ],
+          "instruction": "rotate_qrcode",
+          "steps": 400,
+          "success": false,
+          "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts/residual_training_episode_0_seed_131.mp4"
+        },
+        {
+          "variant": "residual",
+          "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+          "training_episode": 1,
+          "source_episode": 60,
+          "seed": 162,
+          "scene_verified": true,
+          "initial_image_mae": 2.323962673611111,
+          "initial_robot_state_max_error": 0.0,
+          "object_model_id": 1,
+          "initial_object_position": [
+            0.10611242800951004,
+            -0.0917166918516159,
+            0.7417191863059998
+          ],
+          "final_object_position": [
+            0.08971638232469559,
+            -0.06800699234008789,
+            0.7417187690734863
+          ],
+          "instruction": "rotate_qrcode",
+          "steps": 400,
+          "success": false,
+          "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts/residual_training_episode_1_seed_162.mp4"
+        },
+        {
+          "variant": "residual",
+          "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_residual_fresh_10000steps_20261001_124034/checkpoints/steps_10000_pytorch_model.pt",
+          "training_episode": 2,
+          "source_episode": 38,
+          "seed": 91,
+          "scene_verified": true,
+          "initial_image_mae": 2.5464105902777776,
+          "initial_robot_state_max_error": 0.0,
+          "object_model_id": 1,
+          "initial_object_position": [
+            0.06370126456022263,
+            -0.0015428181504830718,
+            0.7417186498641968
+          ],
+          "final_object_position": [
+            0.051723793148994446,
+            0.008594144135713577,
+            0.74170982837677
+          ],
+          "instruction": "rotate_qrcode",
+          "steps": 400,
+          "success": false,
+          "video": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_training_scene_rollouts/residual_training_episode_2_seed_91.mp4"
+        }
+      ]
+    }
+  }
+}

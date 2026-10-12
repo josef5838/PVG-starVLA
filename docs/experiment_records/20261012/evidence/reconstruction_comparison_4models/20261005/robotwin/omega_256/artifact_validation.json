@@ -1,0 +1,19 @@
+[
+  {
+    "file": "omega_depth_mesh.ply",
+    "vertices": 153868,
+    "finite_vertices": true,
+    "faces": 301898,
+    "valid_face_indices": true
+  },
+  {
+    "file": "omega_points_all.ply",
+    "vertices": 193536,
+    "finite_vertices": true
+  },
+  {
+    "file": "omega_points_preview.ply",
+    "vertices": 154829,
+    "finite_vertices": true
+  }
+]

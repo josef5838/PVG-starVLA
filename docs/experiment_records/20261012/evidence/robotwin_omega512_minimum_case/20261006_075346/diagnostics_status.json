@@ -1,0 +1,26 @@
+{
+  "status": "completed",
+  "worker_pid": 352855,
+  "completed": [
+    {
+      "phase": "expert_replay",
+      "success_count": 3,
+      "episodes": 3
+    },
+    {
+      "phase": "dense_horizon8",
+      "success_count": 0,
+      "episodes": 3
+    },
+    {
+      "phase": "state_query_local_horizon8",
+      "success_count": 0,
+      "episodes": 3
+    }
+  ],
+  "gpu": 0,
+  "phase": "state_query_local_horizon8",
+  "simulator_pid": 358353,
+  "server_pid": 358196,
+  "finished_utc": "2026-10-06T08:15:31.236592+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "config_matches_original_architecture_optimizer_dropout_batch": true,
+  "fresh_initialization": true,
+  "episode_filter": [
+    0
+  ],
+  "full_training_state_saving": true,
+  "process_gpu_assignments": [
+    {
+      "phase": "training",
+      "pid": 352854,
+      "environment": [
+        "CUDA_VISIBLE_DEVICES=1"
+      ]
+    },
+    {
+      "phase": "diagnostics",
+      "pid": 352855,
+      "environment": [
+        "CUDA_VISIBLE_DEVICES=0"
+      ]
+    }
+  ],
+  "completed_expert_video_frames": {
+    "expert_roundtrip_episode_0_seed_131.mp4": 70,
+    "expert_roundtrip_episode_1_seed_162.mp4": 71,
+    "expert_roundtrip_episode_2_seed_91.mp4": 73
+  }
+}

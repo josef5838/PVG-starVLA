@@ -1,0 +1,11 @@
+{
+  "status": "completed",
+  "source_root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_surflo_reconstruction/full_reproduction",
+  "inputs": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/inputs.json",
+  "vggt": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/vggt_depth_mesh.ply",
+  "surflo": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/surflo_mesh_colored.ply",
+  "comparison_status": "all four models reconstructed and visualized",
+  "omega_256": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/omega_256/manifest.json",
+  "omega_512": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin/omega_512/manifest.json",
+  "grouped_comparison": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/reconstruction_comparison_4models/20261005/robotwin_comparison.png"
+}

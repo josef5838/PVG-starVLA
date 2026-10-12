@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "variant": "fused",
+  "phase": "validate",
+  "started_unix": 1791635045.5568378,
+  "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_fused_10000steps_20261009_112722/best_model/pytorch_model.pt",
+  "validated_videos": 15,
+  "finished_unix": 1791635046.2594864
+}

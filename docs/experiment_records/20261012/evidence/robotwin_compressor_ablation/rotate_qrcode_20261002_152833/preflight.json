@@ -1,0 +1,31 @@
+[
+  {
+    "variant": "compressor",
+    "losses": [
+      1.0253525972366333,
+      1.0498273372650146
+    ],
+    "query_gradient_norms": [
+      0.0,
+      0.0005073807551525533
+    ],
+    "only_surflo_compressor_trainable": true,
+    "trainable_parameters": 368601614,
+    "peak_gpu_gib": 15.417541980743408
+  },
+  {
+    "variant": "compressor_state",
+    "losses": [
+      1.0253525972366333,
+      1.0498273372650146
+    ],
+    "query_gradient_norms": [
+      0.0,
+      0.0005073948996141553
+    ],
+    "only_surflo_compressor_trainable": true,
+    "trainable_parameters": 368871950,
+    "peak_gpu_gib": 15.419057369232178,
+    "state_conditioner_gradient_norm": 0.005820904392749071
+  }
+]

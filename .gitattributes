@@ -1,0 +1,2 @@
+# Historical experiment evidence retains original bytes for provenance hashes.
+docs/experiment_records/** whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab

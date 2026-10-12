@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "variant": "direct",
+  "phase": "offline",
+  "started_unix": 1791631951.3350718,
+  "checkpoint": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega_stream8_adjust_bottle_direct_10000steps_20261009_112722/best_model/pytorch_model.pt",
+  "finished_unix": 1791632775.3141055
+}

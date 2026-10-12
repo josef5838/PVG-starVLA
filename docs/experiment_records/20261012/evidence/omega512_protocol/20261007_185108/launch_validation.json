@@ -1,0 +1,8 @@
+{
+  "reference_preflight": "passed",
+  "visual_preflight": "passed",
+  "resume_next_update_test": true,
+  "policy_normalization": true,
+  "code_hashes_match": true,
+  "registered_before_training": true
+}

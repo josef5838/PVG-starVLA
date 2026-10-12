@@ -1,0 +1,5 @@
+{
+  "completed_steps": 3000,
+  "consumed_batches": 6000,
+  "best_validation_mse": 0.07379374879692936
+}

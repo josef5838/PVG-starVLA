@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "stage": "completed",
+  "completed_updates": 20000,
+  "target_updates": 20000,
+  "consumed_observations": 160000,
+  "updated_unix": 1791431087.6316454,
+  "rollout_exit_code": 0
+}

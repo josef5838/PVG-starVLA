@@ -1,0 +1,200 @@
+{
+  "status": "completed",
+  "prepared_unix": 1791394953.8688488,
+  "cases": [
+    {
+      "name": "rotate_qrcode_ep007_initial_f0000",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep007_initial_f0000",
+      "task": "rotate_qrcode",
+      "episode": 7,
+      "frame": 0,
+      "phase": "initial",
+      "worker": 0
+    },
+    {
+      "name": "rotate_qrcode_ep007_interaction_f0024",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep007_interaction_f0024",
+      "task": "rotate_qrcode",
+      "episode": 7,
+      "frame": 24,
+      "phase": "interaction",
+      "worker": 1
+    },
+    {
+      "name": "rotate_qrcode_ep023_initial_f0000",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep023_initial_f0000",
+      "task": "rotate_qrcode",
+      "episode": 23,
+      "frame": 0,
+      "phase": "initial",
+      "worker": 0
+    },
+    {
+      "name": "rotate_qrcode_ep023_interaction_f0024",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/rotate_qrcode_ep023_interaction_f0024",
+      "task": "rotate_qrcode",
+      "episode": 23,
+      "frame": 24,
+      "phase": "interaction",
+      "worker": 1
+    },
+    {
+      "name": "adjust_bottle_ep007_initial_f0000",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep007_initial_f0000",
+      "task": "adjust_bottle",
+      "episode": 7,
+      "frame": 0,
+      "phase": "initial",
+      "worker": 0
+    },
+    {
+      "name": "adjust_bottle_ep007_interaction_f0027",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep007_interaction_f0027",
+      "task": "adjust_bottle",
+      "episode": 7,
+      "frame": 27,
+      "phase": "interaction",
+      "worker": 1
+    },
+    {
+      "name": "adjust_bottle_ep023_initial_f0000",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep023_initial_f0000",
+      "task": "adjust_bottle",
+      "episode": 23,
+      "frame": 0,
+      "phase": "initial",
+      "worker": 0
+    },
+    {
+      "name": "adjust_bottle_ep023_interaction_f0027",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/adjust_bottle_ep023_interaction_f0027",
+      "task": "adjust_bottle",
+      "episode": 23,
+      "frame": 27,
+      "phase": "interaction",
+      "worker": 1
+    },
+    {
+      "name": "stack_blocks_three_ep007_initial_f0000",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep007_initial_f0000",
+      "task": "stack_blocks_three",
+      "episode": 7,
+      "frame": 0,
+      "phase": "initial",
+      "worker": 0
+    },
+    {
+      "name": "stack_blocks_three_ep007_interaction_f0058",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep007_interaction_f0058",
+      "task": "stack_blocks_three",
+      "episode": 7,
+      "frame": 58,
+      "phase": "interaction",
+      "worker": 1
+    },
+    {
+      "name": "stack_blocks_three_ep023_initial_f0000",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep023_initial_f0000",
+      "task": "stack_blocks_three",
+      "episode": 23,
+      "frame": 0,
+      "phase": "initial",
+      "worker": 0
+    },
+    {
+      "name": "stack_blocks_three_ep023_interaction_f0057",
+      "root": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/stack_blocks_three_ep023_interaction_f0057",
+      "task": "stack_blocks_three",
+      "episode": 23,
+      "frame": 57,
+      "phase": "interaction",
+      "worker": 1
+    }
+  ],
+  "protocol": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/protocol.md",
+  "code_sha256": {
+    "robotwin_reconstruction_study.py": "55ab7fd2c6ec8a2c82b2ac1e4cec4bd42cae5f5cc61f8e494b51f6098ac1c024",
+    "render_behavior_reconstruction.py": "289c69d088f3ad97e1d0764ff165f4b1da73333492d89e38a02b57ea25d979cb",
+    "render_behavior_omega_comparison.py": "e663d10b5750a0ea6ab9e0d9ac620e1e7f155b4fb4061c701c7da158e5331143",
+    "render_unfiltered_depth_meshes.py": "38085e5ecc07cdbc5f190106a1f6a724c6aa50ae6924146c85bc685b6102359d",
+    "group_reconstruction_comparisons.py": "c742f70006a82cccd52bd7a1737be920aaca518769f1d4061ac7ba463ecdff41",
+    "finalize_reconstruction_comparisons.py": "61d2c4df80054ff11d80a8dd9ab546ff0016dcc00a81a43539c7aede54e9d4ff"
+  },
+  "checkpoints": {
+    "surflo": "/export/home/haoliang/projects/Surflo/checkpoints/surflo_v0.pt",
+    "omega256": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_256_text.pt",
+    "omega512": "/export/home/haoliang/projects/vggt-omega-action-pred/ckpt/vggt_omega_1b_512.pt"
+  },
+  "scope": "12 cases from six source episodes across three tasks; input-view and camera consistency, not GT surface accuracy.",
+  "started_unix": 1791394998.6147604,
+  "workers": [
+    {
+      "gpu": 0,
+      "pid": 457929,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/surflo-cu124/bin/python",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/robotwin_reconstruction_study.py",
+        "worker",
+        "--root",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007",
+        "--worker",
+        "0"
+      ]
+    },
+    {
+      "gpu": 1,
+      "pid": 457930,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/surflo-cu124/bin/python",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/tools/robotwin_reconstruction_study.py",
+        "worker",
+        "--root",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007",
+        "--worker",
+        "1"
+      ]
+    }
+  ],
+  "summary": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/summary.json",
+  "report": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/report.md",
+  "finished_unix": 1791396898.152387,
+  "final_code_sha256": {
+    "robotwin_reconstruction_study.py": "2975bf52ce354b2e7444e76a4dfa558f0f52504e23b5f2ff68c57663a61dbd30",
+    "refresh_reconstruction_study.py": "0d14cfd8fb3d9d4c5e19097eafbef0798aa7c927f565b1d0b7fa0bc907afd751",
+    "summarize_robotwin_reconstruction_study.py": "641f3bdefe724fe38e17be0a1d34f1ff82a7cd8aaf55f204ab6823e5bf821be7",
+    "render_behavior_reconstruction.py": "289c69d088f3ad97e1d0764ff165f4b1da73333492d89e38a02b57ea25d979cb",
+    "render_behavior_omega_comparison.py": "e663d10b5750a0ea6ab9e0d9ac620e1e7f155b4fb4061c701c7da158e5331143",
+    "render_unfiltered_depth_meshes.py": "38085e5ecc07cdbc5f190106a1f6a724c6aa50ae6924146c85bc685b6102359d",
+    "group_reconstruction_comparisons.py": "c742f70006a82cccd52bd7a1737be920aaca518769f1d4061ac7ba463ecdff41",
+    "finalize_reconstruction_comparisons.py": "61d2c4df80054ff11d80a8dd9ab546ff0016dcc00a81a43539c7aede54e9d4ff"
+  },
+  "source_versions": {
+    "surflo": {
+      "root": "/export/home/haoliang/projects/Surflo",
+      "commit": "67d2ba9cf78cc8531cdad3ae4802c7661d2e9e2e",
+      "local_patch": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/code_after_renderer_fix/surflo_source.patch",
+      "local_patch_sha256": "5436c23d7c2687ee296acaa661d78d26fc6107e1db0cfd89d636a8e2d578277a"
+    },
+    "omega": {
+      "root": "/export/home/haoliang/projects/vggt-omega-action-pred",
+      "commit": "39a0cb8af88554f15ddcb5354cd52bde588fa014",
+      "local_patch": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/code_after_renderer_fix/omega_source.patch",
+      "local_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "renderer_amendment": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/renderer_protocol_amendment.json",
+  "rendering_workers": {
+    "original": [
+      457929,
+      457930
+    ],
+    "refresh": [
+      471331,
+      471332
+    ],
+    "status": "all completed; no GPU reconstruction process remains"
+  },
+  "behavior_audit": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/behavior_renderer_audit",
+  "checkpoint_hashes": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/checkpoint_hashes.json",
+  "interpretation": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_reconstruction_study/20261007/interpretation.md"
+}

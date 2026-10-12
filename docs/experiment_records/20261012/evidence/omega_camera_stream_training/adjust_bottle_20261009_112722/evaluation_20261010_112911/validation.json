@@ -1,0 +1,22 @@
+{
+  "deployment_history_tests": {
+    "passed": 2,
+    "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega_camera_stream_training/adjust_bottle_20261009_112722/evaluation_20261010_112911/deployment_history_tests.log"
+  },
+  "existing_robotwin_training_tests": {
+    "passed": 11
+  },
+  "training_model_archive_matches_live": true,
+  "renderer_cuda_warp_smoke": "passed",
+  "source_trajectory_mapping": {
+    "passed": 50,
+    "observation_t": "source_command_t",
+    "action_t": "source_command_t_plus_1"
+  },
+  "paired_offline_targets_and_indices_identical": true,
+  "offline_predicted_chunks": 1760,
+  "completed_policy_rollouts": 30,
+  "completed_expert_controls": 20,
+  "fully_decoded_videos": 50,
+  "video_frame_counts_match_control_steps_plus_success_frame": true
+}

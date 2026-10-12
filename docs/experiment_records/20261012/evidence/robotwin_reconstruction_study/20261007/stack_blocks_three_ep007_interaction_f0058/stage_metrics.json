@@ -1,0 +1,103 @@
+{
+  "scores": [
+    {
+      "view": 0,
+      "gaussian_rgb_mae": 0.04824916645884514,
+      "mesh_rgb_mae": 0.21321693062782288,
+      "gaussian_mesh_rgb_mae": 0.20861078798770905,
+      "gaussian_alpha_coverage": 1.0,
+      "mesh_coverage": 0.8658607602119446
+    },
+    {
+      "view": 1,
+      "gaussian_rgb_mae": 0.014742068015038967,
+      "mesh_rgb_mae": 0.14797092974185944,
+      "gaussian_mesh_rgb_mae": 0.15055713057518005,
+      "gaussian_alpha_coverage": 1.0,
+      "mesh_coverage": 0.9424526691436768
+    },
+    {
+      "view": 2,
+      "gaussian_rgb_mae": 0.04691360890865326,
+      "mesh_rgb_mae": 0.1526646465063095,
+      "gaussian_mesh_rgb_mae": 0.17010076344013214,
+      "gaussian_alpha_coverage": 1.0,
+      "mesh_coverage": 0.8724285364151001
+    }
+  ],
+  "camera_scores": {
+    "vggt": [
+      {
+        "view": 1,
+        "relative_rotation_error_deg": 78.81516834906705,
+        "center_direction_error_deg": 94.03414785232658,
+        "positive_baseline_scale": 3.8188610255348583,
+        "unconstrained_signed_scale": -0.2908619496638564,
+        "center_error_cm_after_positive_baseline_scale": 89.80721684823017
+      },
+      {
+        "view": 2,
+        "relative_rotation_error_deg": 30.892753561321452,
+        "center_direction_error_deg": 97.25585982670596,
+        "positive_baseline_scale": 3.8188610255348583,
+        "unconstrained_signed_scale": -0.2908619496638564,
+        "center_error_cm_after_positive_baseline_scale": 110.99252770347042
+      }
+    ],
+    "surflo_refined": [
+      {
+        "view": 1,
+        "relative_rotation_error_deg": 80.19221259566584,
+        "center_direction_error_deg": 94.16324825754766,
+        "positive_baseline_scale": 3.743022623952517,
+        "unconstrained_signed_scale": -0.30444126644917674,
+        "center_error_cm_after_positive_baseline_scale": 90.07738296153272
+      },
+      {
+        "view": 2,
+        "relative_rotation_error_deg": 31.50043587392874,
+        "center_direction_error_deg": 97.72329171546102,
+        "positive_baseline_scale": 3.743022623952517,
+        "unconstrained_signed_scale": -0.30444126644917674,
+        "center_error_cm_after_positive_baseline_scale": 110.01757465251139
+      }
+    ],
+    "omega256": [
+      {
+        "view": 1,
+        "relative_rotation_error_deg": 70.63695953864173,
+        "center_direction_error_deg": 76.10444430394165,
+        "positive_baseline_scale": 2.0383247804790243,
+        "unconstrained_signed_scale": 0.6109994290476118,
+        "center_error_cm_after_positive_baseline_scale": 77.38556728575415
+      },
+      {
+        "view": 2,
+        "relative_rotation_error_deg": 27.69726454077655,
+        "center_direction_error_deg": 61.25465639461336,
+        "positive_baseline_scale": 2.0383247804790243,
+        "unconstrained_signed_scale": 0.6109994290476118,
+        "center_error_cm_after_positive_baseline_scale": 74.98728321879912
+      }
+    ],
+    "omega512": [
+      {
+        "view": 1,
+        "relative_rotation_error_deg": 68.78383456923596,
+        "center_direction_error_deg": 75.32178816069487,
+        "positive_baseline_scale": 6.171288305222637,
+        "unconstrained_signed_scale": 0.7214901629476039,
+        "center_error_cm_after_positive_baseline_scale": 72.80417735015557
+      },
+      {
+        "view": 2,
+        "relative_rotation_error_deg": 27.562711959816646,
+        "center_direction_error_deg": 60.98308127389856,
+        "positive_baseline_scale": 6.171288305222637,
+        "unconstrained_signed_scale": 0.7214901629476039,
+        "center_error_cm_after_positive_baseline_scale": 209.77338158372257
+      }
+    ]
+  },
+  "scope": "Raw fitted-view Gaussian RGB; mesh RGB/coverage; relative camera calibration consistency. No GT surface depths."
+}

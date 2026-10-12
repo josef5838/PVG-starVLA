@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "stage": "completed",
+  "started_unix": 1791396144.3310719,
+  "gpu": "1",
+  "previous_status": "completed",
+  "finished_unix": 1791396243.239695,
+  "duration_seconds": 98.90862369537354
+}

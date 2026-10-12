@@ -1,0 +1,224 @@
+"""Prepare fresh matched modality controls and run a bounded local GPU queue."""
+import argparse
+import datetime
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import time
+
+from omegaconf import OmegaConf
+
+ROOT = Path(__file__).resolve().parents[1]
+CODE = ['starVLA/model/framework/VLM4A/Omega512DiT.py',
+        'starVLA/model/modules/action_model/OmegaCrossAttentionHeader.py',
+        'starVLA/model/modules/projector/omega_readout.py',
+        'starVLA/training/train_starvla.py', 'starVLA/training/action_validation.py',
+        'deployment/model_server/policy_wrapper.py', 'deployment/model_server/server_policy.py',
+        'examples/simBenchmarks/Robotwin/eval_files/model2robotwin_interface.py',
+        'tools/evaluate_robotwin_omega512.py', 'tools/launch_omega512_causal_controls.py']
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def write(path, value):
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(json.dumps(value, indent=2) + '\n')
+    temporary.replace(path)
+
+
+def prepare(args):
+    baseline = OmegaConf.load(args.baseline)
+    if baseline.framework.readout.type != 'dense':
+        raise ValueError('Use the dense baseline to isolate conditioning without a readout change')
+    directory = args.out.resolve()
+    directory.mkdir(parents=True, exist_ok=False)
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d_%H%M%S')
+    manifest = dict(created_utc=stamp, status='prepared', runs=[], python=sys.executable,
+                    baseline_config=str(args.baseline.resolve()),
+                    initialization='Fresh policy weights; frozen verified Omega512 reference. No policy warm start.',
+                    controlled_factors=['explicit state conditioning', 'visual conditioning', 'training seed'],
+                    data_contract='Original right-arm-only data, unchanged episode split, normalization and camera processing.',
+                    training_budget='10000 updates / 80000 samples per run; resumable saves at 5000 and 10000.',
+                    evaluation_contract='Same right-side simulator seeds 200000/300000; 20 DDIM, execute 8, task name; video; fixed noise seed 4000 + chunk index.',
+                    code_sha256={name: digest(ROOT / name) for name in CODE})
+    for name in CODE:
+        target = directory / 'code' / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, target)
+    # Seed-42 full conditioning already exists; reuse its completed training,
+    # but repeat rollout evaluation with the same fixed-noise protocol.
+    baseline_run = Path(str(baseline.output_dir)).resolve()
+    manifest['reference_seed42'] = dict(variant='full_seed42', checkpoint=str(baseline_run / 'checkpoints/steps_10000_pytorch_model.pt'),
+                                        status='evaluation_pending', checkpoint_dir=str(baseline_run))
+    groups = [('vision_only', 42, 'none', True), ('state_only', 42, 'full', False),
+              ('full', 43, 'full', True), ('vision_only', 43, 'none', True), ('state_only', 43, 'full', False)]
+    normalized = []
+    for index, (variant, seed, state_mode, visual) in enumerate(groups):
+        cfg = OmegaConf.create(OmegaConf.to_container(baseline, resolve=True))
+        cfg.seed = seed
+        cfg.framework.state_conditioning = state_mode
+        cfg.framework.visual_conditioning = visual
+        cfg.evaluation.diffusion_seed = 4000
+        for key in ('pretrained_checkpoint', 'resume_checkpoint', 'is_resume'):
+            cfg.trainer.pop(key, None)
+        cfg.trainer.save_training_state = True
+        cfg.run_id = f'omega512_causal_{variant}_seed{seed}_{stamp}'
+        output_root = Path(args.extra_output_root).resolve() if index >= 2 and args.extra_output_root else ROOT / cfg.run_root_dir
+        cfg.output_dir = str(output_root / cfg.run_id)
+        output_root.mkdir(parents=True, exist_ok=True)
+        cfg.datasets.vla_data.statistics_cache_dir = str(Path(cfg.output_dir) / 'data_split')
+        path = directory / f'{variant}_seed{seed}.yaml'
+        cfg.config_yaml = str(path)
+        OmegaConf.save(cfg, path, resolve=True)
+        packed = OmegaConf.to_container(cfg, resolve=True)
+        for key in ('seed', 'run_id', 'output_dir', 'config_yaml'):
+            packed.pop(key)
+        packed['framework'].pop('state_conditioning')
+        packed['framework'].pop('visual_conditioning')
+        packed['datasets']['vla_data'].pop('statistics_cache_dir')
+        normalized.append(packed)
+        manifest['runs'].append(dict(variant=f'{variant}_seed{seed}', seed=seed, run_id=cfg.run_id,
+            state_conditioning=state_mode, visual_conditioning=visual, config=str(path), config_sha256=digest(path),
+            checkpoint_dir=cfg.output_dir, log=str(directory / f'{variant}_seed{seed}.log'),
+            status='prepared', pid=None, gpu=None))
+    if any(cfg != normalized[0] for cfg in normalized):
+        raise ValueError('Unexpected differences in matched controls')
+    write(directory / 'manifest.json', manifest)
+    print(directory / 'manifest.json', flush=True)
+
+
+def evaluate(run, gpu, directory):
+    checkpoint = run.get('checkpoint') or str(Path(run['checkpoint_dir']) / 'checkpoints/steps_10000_pytorch_model.pt')
+    command = [sys.executable, str(ROOT / 'tools/evaluate_robotwin_omega512.py'),
+               '--checkpoint', checkpoint, '--robotwin-root', '/export/home/haoliang/projects/RoboTwin_PVG',
+               '--robotwin-python', '/export/home/haoliang/miniconda3/envs/RoboTwin/bin/python',
+               '--out', str(directory / 'evaluation' / run['variant']), '--gpu', str(gpu),
+               '--port', str(5740 + gpu), '--seed-indices', '1,2',
+               '--config-override', 'evaluation.diffusion_seed=4000']
+    log = directory / f"{run['variant']}_evaluation.log"
+    with log.open('w') as stream:
+        child = subprocess.Popen(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT)
+    return child
+
+
+def worker(args):
+    path = args.manifest.resolve()
+    directory = path.parent
+    with path.with_suffix('.lock').open('w') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        manifest = json.loads(path.read_text())
+        if manifest['status'] != 'prepared':
+            raise ValueError('Queue already started; inspect manifest before retrying')
+        for name, sha in manifest['code_sha256'].items():
+            if digest(ROOT / name) != sha:
+                raise ValueError(f'Code changed after preparation: {name}')
+        for run in manifest['runs'][:args.max_new_runs]:
+            if digest(run['config']) != run['config_sha256'] or Path(run['checkpoint_dir']).exists():
+                raise ValueError('Changed configuration or nonfresh run directory')
+        manifest.update(status='running', worker_pid=os.getpid(), max_new_runs=args.max_new_runs)
+        write(path, manifest)
+        pending = manifest['runs'][:args.max_new_runs].copy()
+        active = {}
+        reference_pending = manifest['reference_seed42']
+        failed = False
+        while pending or active or reference_pending:
+            for gpu in (0, 1):
+                if gpu in active:
+                    process, run, phase = active[gpu]
+                    code = process.poll()
+                    if code is None:
+                        continue
+                    run[f'{phase}_exit_code'] = code
+                    if code:
+                        run['status'] = f'{phase}_failed'
+                        del active[gpu]
+                        manifest['status'] = 'failed'
+                        manifest['error'] = f"{run['variant']} {phase} exited {code}"
+                        write(path, manifest)
+                        # Finish monitoring owned sibling jobs; launch no new runs.
+                        failed = True
+                        pending.clear()
+                        reference_pending = None
+                        continue
+                    if phase == 'training':
+                        marker = Path(run['checkpoint_dir']) / 'checkpoints/steps_10000/complete.json'
+                        if not marker.is_file():
+                            raise RuntimeError('Training ended without its complete resumable checkpoint')
+                        active[gpu] = (evaluate(run, gpu, directory), run, 'evaluation')
+                        run.update(status='evaluating', evaluation_pid=active[gpu][0].pid)
+                        write(path, manifest)
+                        continue
+                    run['status'] = 'completed'
+                    del active[gpu]
+                    write(path, manifest)
+                if gpu not in active and (pending or reference_pending):
+                    used = subprocess.check_output(['nvidia-smi', f'--id={gpu}', '--query-gpu=memory.used', '--format=csv,noheader,nounits'], text=True)
+                    if int(used.strip()) > 1000:
+                        continue
+                    if reference_pending and not pending:
+                        run = reference_pending
+                        reference_pending = None
+                        active[gpu] = (evaluate(run, gpu, directory), run, 'evaluation')
+                        run.update(status='evaluating', gpu=gpu, evaluation_pid=active[gpu][0].pid)
+                    else:
+                        run = pending[0]
+                        parent = Path(run['checkpoint_dir']).parent
+                        parent.mkdir(parents=True, exist_ok=True)
+                        filesystem = parent.stat().st_dev
+                        remaining = sum(int(20.5 * 1024**3) for r in manifest['runs'][:args.max_new_runs]
+                                        if r['status'] == 'prepared' and Path(r['checkpoint_dir']).parent.stat().st_dev == filesystem)
+                        # Reserve space for pending outputs. Running jobs may not
+                        # yet have written their 20 GiB of complete checkpoint states.
+                        outstanding = 0
+                        for _, r, phase in active.values():
+                            if phase == 'training' and Path(r['checkpoint_dir']).parent.stat().st_dev == filesystem:
+                                written = sum(f.stat().st_size for f in Path(r['checkpoint_dir']).rglob('*') if f.is_file())
+                                outstanding += max(0, int(20.5 * 1024**3) - written)
+                        if shutil.disk_usage(parent).free < remaining + outstanding + 2 * 1024**3:
+                            manifest.update(status='storage_blocked', error=f'Insufficient reserved space on {parent}; prepared jobs were not launched')
+                            write(path, manifest)
+                            return
+                        pending.pop(0)
+                        for name, sha in manifest['code_sha256'].items():
+                            if digest(ROOT / name) != sha:
+                                raise RuntimeError(f'Code changed before queued training launch: {name}')
+                        env = dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu), STARVLA_DISABLE_DEEPSPEED='1',
+                                   STARVLA_FRAMEWORK_MODULES='starVLA.model.framework.VLM4A.Omega512DiT',
+                                   WANDB_MODE='offline', PYTHONUNBUFFERED='1', OMP_NUM_THREADS='4',
+                                   NO_ALBUMENTATIONS_UPDATE='1', PYTHONPATH=str(ROOT))
+                        command = [sys.executable, str(ROOT / 'starVLA/training/train_starvla.py'), '--config_yaml', run['config']]
+                        with Path(run['log']).open('w') as stream:
+                            process = subprocess.Popen(command, cwd=ROOT, env=env, stdin=subprocess.DEVNULL,
+                                                       stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
+                        run.update(status='training', gpu=gpu, pid=process.pid, command=command)
+                        active[gpu] = (process, run, 'training')
+                    write(path, manifest)
+            time.sleep(5)
+        manifest['status'] = ('failed' if failed else 'completed' if args.max_new_runs == len(manifest['runs'])
+                              else 'selected_runs_completed_extra_configs_prepared')
+        write(path, manifest)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    sub = parser.add_subparsers(dest='mode', required=True)
+    p = sub.add_parser('prepare')
+    p.add_argument('--baseline', type=Path, required=True)
+    p.add_argument('--out', type=Path, required=True)
+    p.add_argument('--extra-output-root', type=Path)
+    p = sub.add_parser('worker')
+    p.add_argument('--manifest', type=Path, required=True)
+    p.add_argument('--max-new-runs', type=int, default=2, choices=range(1, 6))
+    args = parser.parse_args()
+    prepare(args) if args.mode == 'prepare' else worker(args)
+
+
+if __name__ == '__main__':
+    main()

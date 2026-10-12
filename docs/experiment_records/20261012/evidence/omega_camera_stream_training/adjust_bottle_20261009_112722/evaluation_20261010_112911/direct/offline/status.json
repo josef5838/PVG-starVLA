@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "checkpoints": [
+    "best",
+    "final"
+  ],
+  "samples_per_checkpoint": 440
+}

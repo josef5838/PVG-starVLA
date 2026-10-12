@@ -1,0 +1,58 @@
+{
+  "task": "rotate_qrcode",
+  "baseline_config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_linear_fresh_10000steps_20261001_124034/config.full.yaml",
+  "baseline_config_sha256": "8aed557105480e9ebb446ae2c15cd4d210fce7f358204c29a5b955abb006af11",
+  "seed": 42,
+  "initialization": "fresh policy; released EMA Surflo weights; no old action checkpoints",
+  "trainable_surflo_modules": [
+    "surface_net.compressor"
+  ],
+  "surface_auxiliary_loss": false,
+  "compressor_learning_rate": 3e-05,
+  "optimizer_updates_per_variant": 10000,
+  "sample_budget_per_variant": 80000,
+  "effective_batch_per_variant": 8,
+  "save_interval": 5000,
+  "training_resumable_checkpoints": true,
+  "python": "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+  "runs": [
+    {
+      "variant": "compressor",
+      "gpu": "0",
+      "run_id": "surflo_robotwin_rotate_qrcode_compressor_fresh_10000steps_20261002_152833",
+      "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/compressor.yaml",
+      "config_sha256": "6887878c049a942909eff5449d414cd30f5bc2a52ded5ea4182a6793682afcb8",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/compressor.log",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_compressor_fresh_10000steps_20261002_152833",
+      "pid": 183814,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "starVLA/training/train_starvla.py",
+        "--config_yaml",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/compressor.yaml"
+      ]
+    },
+    {
+      "variant": "compressor_state",
+      "gpu": "1",
+      "run_id": "surflo_robotwin_rotate_qrcode_compressor_state_fresh_10000steps_20261002_152833",
+      "config": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/compressor_state.yaml",
+      "config_sha256": "31de24278433df1a7cd6e8abdd3be8d6f396d8d8b0d1ab099c773723df0df83a",
+      "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/compressor_state.log",
+      "checkpoint_dir": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/surflo_robotwin_rotate_qrcode_compressor_state_fresh_10000steps_20261002_152833",
+      "pid": 183815,
+      "command": [
+        "/export/home/haoliang/miniconda3/envs/starVLA/bin/python",
+        "starVLA/training/train_starvla.py",
+        "--config_yaml",
+        "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/robotwin_compressor_ablation/rotate_qrcode_20261002_152833/compressor_state.yaml"
+      ]
+    }
+  ],
+  "code_sha256": {
+    "starVLA/model/framework/VLM4A/SurfloDiT.py": "087bb6bab6389c17df64c9563b78fb05062e6a0d3d1373964c14ab476af92fa1",
+    "starVLA/model/modules/projector/surflo_state_conditioner.py": "c7445990bd19580e6dcc1fec44f919b143e014676c523db669533ed4f2782bd8",
+    "starVLA/training/trainer_utils/trainer_tools.py": "d174fe8830386880b09ff4acf2543cc096f629a9f8b852f58e05ae8bf8c3dbaa",
+    "tools/launch_robotwin_compressor_ablations.py": "952e69c18250c4d2b84eda1eaa3ebffa5c589df1b54dd8ca58c74f9372c46bf8"
+  }
+}

@@ -1,0 +1,646 @@
+{
+  "passed": true,
+  "stream_count": 12,
+  "joint_input_images_per_stream": 8,
+  "checks": [
+    "native input hashes and dimensions",
+    "video timestamp uniqueness and synchronization",
+    "finite arrays and positive depth",
+    "array shapes and frame indices",
+    "PLY vertices and mesh face indices",
+    "preview image integrity",
+    "local gallery links",
+    "archived inference source hashes"
+  ],
+  "reference_frame1491_sha256_matches_previous_reconstruction": {
+    "zed_link_camera_0": "20c55ac3a41a886870c2cf9f1c1f6e7837323911902433971ed75da73cce21d5",
+    "left_realsense_link_camera_0": "d4c67a9ad934e7215e7ce253f4f24c544e2f4a21e34a26752e7010c8d21d5447",
+    "right_realsense_link_camera_0": "f47881d11341ff16b6faca7756da3a8df6ceb9e3afbd153b386bb73122b6f9ca"
+  },
+  "streams": [
+    {
+      "stream": "turning_on_radio_ep197_f1484_1491/zed_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235841,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 1.780192178557627e-06,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f1484_1491/left_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 234344,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 1.7801912690629251e-06,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f1484_1491/right_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235258,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 1.7801903595682234e-06,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0943_0950/zed_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235560,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 8.900962029656512e-07,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0943_0950/left_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235206,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 8.900960892788135e-07,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0943_0950/right_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 233775,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 8.90097908268217e-07,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0934_0941/zed_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235571,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 7.629395213371026e-07,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0934_0941/left_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235406,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 7.629396350239404e-07,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0934_0941/right_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 234206,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 7.629405445186421e-07,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0982_0989/zed_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235423,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 1.7801919511839515e-06,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0982_0989/left_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 235492,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 1.780192178557627e-06,
+      "passed": true
+    },
+    {
+      "stream": "turning_on_radio_ep197_f0982_0989/right_realsense_link_camera_0",
+      "arrays": {
+        "depth": [
+          8,
+          512,
+          512
+        ],
+        "confidence": [
+          8,
+          512,
+          512
+        ],
+        "extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "intrinsics": [
+          8,
+          3,
+          3
+        ],
+        "images": [
+          8,
+          512,
+          512,
+          3
+        ],
+        "frames": [
+          8
+        ],
+        "recorded_extrinsics": [
+          8,
+          3,
+          4
+        ],
+        "camera_and_register_tokens": [
+          8,
+          17,
+          2048
+        ]
+      },
+      "ply_vertices": {
+        "all_frames_unfiltered.ply": 150000,
+        "all_frames_conf90.ply": 150000,
+        "latest_frame_depth_mesh.ply": 234189,
+        "latest_frame_conf90.ply": 60000
+      },
+      "max_video_timestamp_difference_s": 1.7801930880523287e-06,
+      "passed": true
+    }
+  ]
+}

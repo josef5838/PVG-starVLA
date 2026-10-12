@@ -1,0 +1,261 @@
+{
+  "observed_utc": "2026-10-05T12:14:30.702022+00:00",
+  "expert_successful_interventions": 5,
+  "total_interventions": 5,
+  "heldout_episodes": [
+    18,
+    21,
+    27
+  ],
+  "noise_seeds": [
+    4000,
+    4001,
+    4002
+  ],
+  "models": {
+    "dense": {
+      "heldout": {
+        "full": {
+          "right_joint_target_rmse_rad": 0.30901149411996204,
+          "right_active_normalized_mse": 0.08249412715021107,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0
+        },
+        "none": {
+          "right_joint_target_rmse_rad": 0.5088195618655946,
+          "right_active_normalized_mse": 0.23360848302642503,
+          "right_gripper_binary_error": 0.04513888888888889,
+          "right_joint_prediction_change_rmse_rad": 0.34088438997666043
+        },
+        "swapped_images": {
+          "right_joint_target_rmse_rad": 0.3102772786385483,
+          "right_active_normalized_mse": 0.08735528262332082,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0283684484505405
+        },
+        "state_only": {
+          "right_joint_target_rmse_rad": 0.35866428083843654,
+          "right_active_normalized_mse": 0.11912977203933729,
+          "right_gripper_binary_error": 0.03125,
+          "right_joint_prediction_change_rmse_rad": 0.0785484208414952
+        }
+      },
+      "initial_frame": {
+        "full": {
+          "right_joint_target_rmse_rad": 0.4025199876891242,
+          "right_active_normalized_mse": 0.13463641620344585,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0
+        },
+        "none": {
+          "right_joint_target_rmse_rad": 0.5838750733269585,
+          "right_active_normalized_mse": 0.26622982488738167,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.3070487545596229
+        },
+        "swapped_images": {
+          "right_joint_target_rmse_rad": 0.4062047468291389,
+          "right_active_normalized_mse": 0.14620881030956903,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.026815422241472535
+        },
+        "state_only": {
+          "right_joint_target_rmse_rad": 0.42202775677045185,
+          "right_active_normalized_mse": 0.1764202035135693,
+          "right_gripper_binary_error": 0.0625,
+          "right_joint_prediction_change_rmse_rad": 0.057303293297688164
+        }
+      },
+      "later_frame": {
+        "full": {
+          "right_joint_target_rmse_rad": 0.2155030005507999,
+          "right_active_normalized_mse": 0.03035183809697628,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0
+        },
+        "none": {
+          "right_joint_target_rmse_rad": 0.43376405040423077,
+          "right_active_normalized_mse": 0.20098714116546842,
+          "right_gripper_binary_error": 0.09027777777777778,
+          "right_joint_prediction_change_rmse_rad": 0.374720025393698
+        },
+        "swapped_images": {
+          "right_joint_target_rmse_rad": 0.21434981044795778,
+          "right_active_normalized_mse": 0.028501754937072594,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.02992147465960847
+        },
+        "state_only": {
+          "right_joint_target_rmse_rad": 0.29530080490642124,
+          "right_active_normalized_mse": 0.06183934056510528,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.09979354838530223
+        }
+      },
+      "mean_expert_chunk_ee_position_error_m": 0.20658726784311982,
+      "translated_scenes_opposed_expert_response": 9,
+      "translated_scene_comparisons": 9
+    },
+    "state_query_local": {
+      "heldout": {
+        "full": {
+          "right_joint_target_rmse_rad": 0.31790943899088436,
+          "right_active_normalized_mse": 0.08514834966303574,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0
+        },
+        "none": {
+          "right_joint_target_rmse_rad": 0.589226073688931,
+          "right_active_normalized_mse": 0.24532454502251413,
+          "right_gripper_binary_error": 0.059027777777777776,
+          "right_joint_prediction_change_rmse_rad": 0.42178546720080906
+        },
+        "decoder_only": {
+          "right_joint_target_rmse_rad": 0.26542510216434795,
+          "right_active_normalized_mse": 0.07705553556378517,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.208832035255101
+        },
+        "readout_only": {
+          "right_joint_target_rmse_rad": 0.8229657030767865,
+          "right_active_normalized_mse": 0.4694054913189676,
+          "right_gripper_binary_error": 0.04861111111111111,
+          "right_joint_prediction_change_rmse_rad": 0.6375151624282202
+        },
+        "swapped_images": {
+          "right_joint_target_rmse_rad": 0.33002669033077026,
+          "right_active_normalized_mse": 0.08688939981059068,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.026333684101700783
+        },
+        "state_only": {
+          "right_joint_target_rmse_rad": 0.3017091461353832,
+          "right_active_normalized_mse": 0.09259663356675042,
+          "right_gripper_binary_error": 0.052083333333333336,
+          "right_joint_prediction_change_rmse_rad": 0.14957334929042393
+        }
+      },
+      "initial_frame": {
+        "full": {
+          "right_joint_target_rmse_rad": 0.4101952181922065,
+          "right_active_normalized_mse": 0.14396045770910051,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0
+        },
+        "none": {
+          "right_joint_target_rmse_rad": 0.6141913334528605,
+          "right_active_normalized_mse": 0.24817891584502327,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.33290324608484906
+        },
+        "decoder_only": {
+          "right_joint_target_rmse_rad": 0.34627006616857314,
+          "right_active_normalized_mse": 0.13572250306606293,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.3636144134733412
+        },
+        "readout_only": {
+          "right_joint_target_rmse_rad": 1.0073867440223694,
+          "right_active_normalized_mse": 0.6422349479463365,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.7034032543500265
+        },
+        "swapped_images": {
+          "right_joint_target_rmse_rad": 0.41083794169955784,
+          "right_active_normalized_mse": 0.14516584161255094,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.013324686015645662
+        },
+        "state_only": {
+          "right_joint_target_rmse_rad": 0.33046695590019226,
+          "right_active_normalized_mse": 0.14491345485051474,
+          "right_gripper_binary_error": 0.10416666666666667,
+          "right_joint_prediction_change_rmse_rad": 0.23472888105445439
+        }
+      },
+      "later_frame": {
+        "full": {
+          "right_joint_target_rmse_rad": 0.22562365978956223,
+          "right_active_normalized_mse": 0.026336241616970964,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.0
+        },
+        "none": {
+          "right_joint_target_rmse_rad": 0.5642608139250014,
+          "right_active_normalized_mse": 0.242470174200005,
+          "right_gripper_binary_error": 0.11805555555555555,
+          "right_joint_prediction_change_rmse_rad": 0.5106676883167691
+        },
+        "decoder_only": {
+          "right_joint_target_rmse_rad": 0.18458013816012275,
+          "right_active_normalized_mse": 0.01838856806150741,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.054049657036860786
+        },
+        "readout_only": {
+          "right_joint_target_rmse_rad": 0.6385446621312035,
+          "right_active_normalized_mse": 0.29657603469159866,
+          "right_gripper_binary_error": 0.09722222222222222,
+          "right_joint_prediction_change_rmse_rad": 0.5716270705064138
+        },
+        "swapped_images": {
+          "right_joint_target_rmse_rad": 0.24921543896198273,
+          "right_active_normalized_mse": 0.02861295800863041,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.039342682187755905
+        },
+        "state_only": {
+          "right_joint_target_rmse_rad": 0.2729513363705741,
+          "right_active_normalized_mse": 0.04027981228298611,
+          "right_gripper_binary_error": 0.0,
+          "right_joint_prediction_change_rmse_rad": 0.06441781752639347
+        }
+      },
+      "mean_expert_chunk_ee_position_error_m": 0.19715106944072266,
+      "translated_scenes_opposed_expert_response": 5,
+      "translated_scene_comparisons": 9
+    }
+  },
+  "training": [
+    {
+      "variant": "vision_only_seed42",
+      "status": "training",
+      "gpu": 0,
+      "pid": 324643,
+      "step": 567,
+      "output": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_vision_only_seed42_20261005_120419"
+    },
+    {
+      "variant": "state_only_seed42",
+      "status": "training",
+      "gpu": 1,
+      "pid": 324649,
+      "step": 575,
+      "output": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_state_only_seed42_20261005_120419"
+    },
+    {
+      "variant": "full_seed43",
+      "status": "prepared",
+      "gpu": null,
+      "pid": null,
+      "step": null,
+      "output": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_full_seed43_20261005_120419"
+    },
+    {
+      "variant": "vision_only_seed43",
+      "status": "prepared",
+      "gpu": null,
+      "pid": null,
+      "step": null,
+      "output": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_vision_only_seed43_20261005_120419"
+    },
+    {
+      "variant": "state_only_seed43",
+      "status": "prepared",
+      "gpu": null,
+      "pid": null,
+      "step": null,
+      "output": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/Checkpoints/omega512_causal_state_only_seed43_20261005_120419"
+    }
+  ]
+}

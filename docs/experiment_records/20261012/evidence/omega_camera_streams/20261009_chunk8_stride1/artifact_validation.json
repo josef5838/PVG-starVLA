@@ -1,0 +1,222 @@
+{
+  "status": "passed",
+  "streams": [
+    {
+      "task": "rotate_qrcode",
+      "camera": "head_camera",
+      "frames": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "rotate_qrcode",
+      "camera": "left_camera",
+      "frames": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "rotate_qrcode",
+      "camera": "right_camera",
+      "frames": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "adjust_bottle",
+      "camera": "head_camera",
+      "frames": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "adjust_bottle",
+      "camera": "left_camera",
+      "frames": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "adjust_bottle",
+      "camera": "right_camera",
+      "frames": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "head_camera",
+      "frames": [
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "left_camera",
+      "frames": [
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "right_camera",
+      "frames": [
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "head_camera",
+      "frames": [
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "left_camera",
+      "frames": [
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    },
+    {
+      "task": "stack_blocks_three",
+      "camera": "right_camera",
+      "frames": [
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "input_hashes_match": true,
+      "finite_depth_and_geometry": true,
+      "valid_ply_exports": true,
+      "previews_exist": true
+    }
+  ],
+  "gallery_links_valid": true
+}

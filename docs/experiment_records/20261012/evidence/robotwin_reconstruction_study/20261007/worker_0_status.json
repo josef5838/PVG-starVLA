@@ -1,0 +1,30 @@
+{
+  "status": "completed_with_failures",
+  "pid": 457929,
+  "records": [
+    {
+      "case": "rotate_qrcode_ep007_initial_f0000",
+      "exit_code": 1
+    },
+    {
+      "case": "rotate_qrcode_ep023_initial_f0000",
+      "exit_code": 0
+    },
+    {
+      "case": "adjust_bottle_ep007_initial_f0000",
+      "exit_code": 0
+    },
+    {
+      "case": "adjust_bottle_ep023_initial_f0000",
+      "exit_code": 0
+    },
+    {
+      "case": "stack_blocks_three_ep007_initial_f0000",
+      "exit_code": 1
+    },
+    {
+      "case": "stack_blocks_three_ep023_initial_f0000",
+      "exit_code": 0
+    }
+  ]
+}

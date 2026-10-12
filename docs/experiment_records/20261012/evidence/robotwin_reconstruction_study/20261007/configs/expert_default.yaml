@@ -1,0 +1,5 @@
+enabled: true
+monodepth_id: depth-anything/da3mono-large
+pred_res: 1596
+process_res_method: upper_bound_resize
+conf_threshold_for_normal_guidance: 2.0

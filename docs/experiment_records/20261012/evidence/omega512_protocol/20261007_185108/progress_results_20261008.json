@@ -1,0 +1,267 @@
+{
+  "observed_utc": "2026-10-08T05:17:48.658947+00:00",
+  "policy_status": "Completed 20000 fresh optimizer updates; 160000 observations drawn from 668 training frames across eight trajectories",
+  "summaries": [
+    {
+      "step": 10000,
+      "full_training_probe": {
+        "step": 10000,
+        "probe": "full",
+        "samples": 668,
+        "action_mse": 0.01929632113245402,
+        "right_joint_mse": 0.029152822490187868,
+        "right_gripper_mse": 0.09302375576435049,
+        "first_command_mse": 0.009147788613852976,
+        "by_phase": {
+          "approach": {
+            "action_mse": 0.024877395834132673,
+            "right_joint_mse": 0.03696460002148808,
+            "right_gripper_mse": 0.12425726206444211,
+            "first_command_mse": 0.016458275916952987
+          },
+          "grasp": {
+            "action_mse": 0.008778619709857783,
+            "right_joint_mse": 0.019886986842709297,
+            "right_gripper_mse": 0.0009603961019609851,
+            "first_command_mse": 0.001980113324529575
+          },
+          "transport": {
+            "action_mse": 0.021742411922095747,
+            "right_joint_mse": 0.03199731546838309,
+            "right_gripper_mse": 0.11003274513311313,
+            "first_command_mse": 0.007704101584716678
+          },
+          "release": {
+            "action_mse": 0.0021244560216428987,
+            "right_joint_mse": 0.0029874060143045833,
+            "right_gripper_mse": 0.010853150063425097,
+            "first_command_mse": 0.002598662191121904
+          }
+        },
+        "by_episode": {
+          "0": {
+            "action_mse": 0.021548103474064453,
+            "right_joint_mse": 0.034126807388202285,
+            "right_gripper_mse": 0.09463601574575423,
+            "first_command_mse": 0.007248264647949967
+          },
+          "1": {
+            "action_mse": 0.019406780252574488,
+            "right_joint_mse": 0.028136758690617228,
+            "right_gripper_mse": 0.10074762112010249,
+            "first_command_mse": 0.008184818939790542
+          },
+          "2": {
+            "action_mse": 0.020687253902335192,
+            "right_joint_mse": 0.03428333113829617,
+            "right_gripper_mse": 0.08133292118312993,
+            "first_command_mse": 0.010986736008423802
+          },
+          "25": {
+            "action_mse": 0.017384109349199206,
+            "right_joint_mse": 0.02460886479882704,
+            "right_gripper_mse": 0.09353885606773767,
+            "first_command_mse": 0.009562014920239587
+          },
+          "35": {
+            "action_mse": 0.01385249998644064,
+            "right_joint_mse": 0.01915127688652398,
+            "right_gripper_mse": 0.07713580172006951,
+            "first_command_mse": 0.006757513139934324
+          },
+          "46": {
+            "action_mse": 0.019948282020672975,
+            "right_joint_mse": 0.028568430355996627,
+            "right_gripper_mse": 0.10588299243994473,
+            "first_command_mse": 0.010731515070644569
+          },
+          "65": {
+            "action_mse": 0.017795285931829875,
+            "right_joint_mse": 0.026610319589531348,
+            "right_gripper_mse": 0.08749975699499843,
+            "first_command_mse": 0.010361449974298038
+          },
+          "76": {
+            "action_mse": 0.02389614386268101,
+            "right_joint_mse": 0.03799251466515449,
+            "right_gripper_mse": 0.10394564023400846,
+            "first_command_mse": 0.009274428528944684
+          }
+        },
+        "diffusion_seed": 42,
+        "num_ddim_steps": 20
+      },
+      "physical_training_error": {
+        "right_joint_first_command_rmse_rad": 0.17467080056667328,
+        "right_joint_first8_commands_rmse_rad": 0.25433143973350525,
+        "right_gripper_first_command_rmse": 0.19728699326515198
+      },
+      "automatic_rollouts": {
+        "total": 24,
+        "successes": 1,
+        "grasps": 5,
+        "lifts": 4
+      },
+      "median_ee_error_at_first_close_m": 0.09140038528714137,
+      "median_gripper_timing_error_steps": 8.0
+    },
+    {
+      "step": 20000,
+      "full_training_probe": {
+        "step": 20000,
+        "probe": "full",
+        "samples": 668,
+        "action_mse": 0.008256177031561155,
+        "right_joint_mse": 0.012360621170897274,
+        "right_gripper_mse": 0.04136484009229029,
+        "first_command_mse": 0.004133022204488919,
+        "by_phase": {
+          "approach": {
+            "action_mse": 0.009585375052366767,
+            "right_joint_mse": 0.012906189291418712,
+            "right_gripper_mse": 0.056676611638306514,
+            "first_command_mse": 0.008065891161277445
+          },
+          "grasp": {
+            "action_mse": 0.003125299210774581,
+            "right_joint_mse": 0.007279778968849723,
+            "right_gripper_mse": 4.1524808910569425e-05,
+            "first_command_mse": 0.00020461846674439007
+          },
+          "transport": {
+            "action_mse": 0.01021048712252222,
+            "right_joint_mse": 0.015615993168155722,
+            "right_gripper_mse": 0.04919869032567638,
+            "first_command_mse": 0.003487895184146174
+          },
+          "release": {
+            "action_mse": 6.110694474464479e-05,
+            "right_joint_mse": 0.00012475937196019236,
+            "right_gripper_mse": 6.43834162438338e-05,
+            "first_command_mse": 5.655268330175379e-05
+          }
+        },
+        "by_episode": {
+          "0": {
+            "action_mse": 0.009791116173004339,
+            "right_joint_mse": 0.016645417780170126,
+            "right_gripper_mse": 0.03713034980020302,
+            "first_command_mse": 0.003648263709441649
+          },
+          "1": {
+            "action_mse": 0.006634377038489462,
+            "right_joint_mse": 0.008082873272413858,
+            "right_gripper_mse": 0.044328261418966536,
+            "first_command_mse": 0.0033794216267300937
+          },
+          "2": {
+            "action_mse": 0.008758018062072576,
+            "right_joint_mse": 0.014308781748195441,
+            "right_gripper_mse": 0.03669445863364212,
+            "first_command_mse": 0.004819760446282761
+          },
+          "25": {
+            "action_mse": 0.007407479290658027,
+            "right_joint_mse": 0.00942191480047898,
+            "right_gripper_mse": 0.047125466214003556,
+            "first_command_mse": 0.004916173616321983
+          },
+          "35": {
+            "action_mse": 0.005643975687216487,
+            "right_joint_mse": 0.007628949385847951,
+            "right_gripper_mse": 0.03319413936827688,
+            "first_command_mse": 0.0031751086279992015
+          },
+          "46": {
+            "action_mse": 0.008101179199777795,
+            "right_joint_mse": 0.012508171496262196,
+            "right_gripper_mse": 0.0383227034047321,
+            "first_command_mse": 0.0034664375008998096
+          },
+          "65": {
+            "action_mse": 0.008178404825475872,
+            "right_joint_mse": 0.011695969131459344,
+            "right_gripper_mse": 0.04427187574764855,
+            "first_command_mse": 0.003945698114815953
+          },
+          "76": {
+            "action_mse": 0.011626373477596758,
+            "right_joint_mse": 0.01877347987315116,
+            "right_gripper_mse": 0.05004827193521867,
+            "first_command_mse": 0.00572246921010545
+          }
+        },
+        "diffusion_seed": 42,
+        "num_ddim_steps": 20
+      },
+      "physical_training_error": {
+        "right_joint_first_command_rmse_rad": 0.09488071501255035,
+        "right_joint_first8_commands_rmse_rad": 0.14678360521793365,
+        "right_gripper_first_command_rmse": 0.1447690725326538
+      },
+      "automatic_rollouts": {
+        "total": 24,
+        "successes": 0,
+        "grasps": 13,
+        "lifts": 1
+      },
+      "median_ee_error_at_first_close_m": 0.07048742570827747,
+      "median_gripper_timing_error_steps": -2
+    }
+  ],
+  "probe_recovery": {
+    "date_utc": "2026-10-08T05:16:09.753006+00:00",
+    "diagnostic": {
+      "training_episode": 70,
+      "initial_rgb_mae": [
+        3.063420138888889,
+        5.022365451388889,
+        6.107274305555555
+      ],
+      "state_max_error": 0.0,
+      "model_id": 0,
+      "expected_model_id": 0,
+      "object_xyz": [
+        0.14997917413711548,
+        -0.0054349456913769245,
+        0.7408434152603149
+      ],
+      "expected_object_xyz": [
+        0.14997949220429058,
+        -0.005435341186588533,
+        0.741
+      ],
+      "object_xyz_error_m": 0.00015658556218702075
+    },
+    "amendment": "Source scene 70 has exact robot state/model, object position error 0.157mm and head RGB MAE 3.06/255, but right wrist MAE 6.107/255 narrowly exceeded the old uniform 6/255 cutoff. Verify head RGB, state, model and additionally object XYZ within 2mm; retain all wrist errors as audit. This changes only initial scene verification, not synchronized RGB/pose pairing, trajectory split, phase sampling, inputs or fitting settings.",
+    "source_sha256": "5ce5e5fef9ff6d8c298147f42c8e8f0afc8ab5b59d34f16018b55655db2af018",
+    "gpu": 0,
+    "reason": "GPU 1 occupied by another user; enough free memory on GPU 0 for collection alongside evaluation",
+    "pid": 634427,
+    "log": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega512_protocol/20261007_185108/visual_probe_recovery_20261008.log"
+  },
+  "additional_evaluation": {
+    "pid": 633749,
+    "gpu": 0,
+    "directory": "/export/home/haoliang/projects/PVG-starVLA-snapshot/results/omega512_protocol/20261007_185108/additional_evaluation/20261008_051453",
+    "checkpoint_steps": [
+      10000,
+      20000
+    ],
+    "episodes": [
+      0,
+      1,
+      2
+    ],
+    "diffusion_seed": 5000,
+    "match_training_image_size": true,
+    "status": "running"
+  },
+  "limits": [
+    "All automatic rollouts are matched training scenes, not held-out scenes.",
+    "Offline action error uses ground-truth recorded observations/states and fixed seed 42; rollout diffusion seeds 4000/4001/4002.",
+    "Earlier simulator RGB is 320x240 whereas embedded training images are 640x480. Both produce the same Omega token grid, but pixel preprocessing differs. Additional evaluation explicitly matches 640x480 input size; this does not recreate converted image compression.",
+    "Contact criterion is not proof of a stable grasp. EE error is relative to the recorded first-closure reference, not exact object contact-point error.",
+    "Localization probe has no fitted result yet; no claim about unavailable geometry or state reliance can be drawn from it."
+  ]
+}
