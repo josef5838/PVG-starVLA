@@ -54,17 +54,37 @@ class OmegaActionDiT(DiT):
         self.memory_norm = nn.LayerNorm(width)
 
     def prepare_visual(self, memory):
+        if isinstance(memory, dict):
+            spatial = self.spatial_memory_norm(memory["spatial"])
+            return {
+                "registers": self.prepare_visual(memory["registers"]),
+                "spatial": [attention.prepare(spatial) for attention in self.spatial_attentions],
+            }
         memory = self.memory_norm(memory)
         return [attention.prepare(memory) for attention in self.visual_attentions]
 
+    def enable_spatial_highway(self, width, heads):
+        # Called after all baseline initialization, inside the policy's fork_rng.
+        count = len(self.visual_attentions)
+        self.spatial_norms = nn.ModuleList([nn.LayerNorm(width) for _ in range(count)])
+        self.spatial_attentions = nn.ModuleList([CachedVisualAttention(width, heads) for _ in range(count)])
+        self.spatial_memory_norm = nn.LayerNorm(width)
+        self.spatial_gates = nn.Parameter(torch.zeros(count))
+
     def forward(self, x, t, z, visual_kv):
+        spatial_kv = visual_kv["spatial"] if isinstance(visual_kv, dict) else None
+        register_kv = visual_kv["registers"] if isinstance(visual_kv, dict) else visual_kv
         condition = self.z_embedder(z, self.training) + self.t_embedder(t).unsqueeze(1)
         x = torch.cat([condition, self.x_embedder(x)], dim=1) + self.positional_embedding
         for index, block in enumerate(self.blocks):
             x = block(x)
             if (index + 1) % self.cross_attention_every == 0:
                 slot = index // self.cross_attention_every
-                x = x + self.visual_attentions[slot](self.visual_norms[slot](x), visual_kv[slot])
+                x = x + self.visual_attentions[slot](self.visual_norms[slot](x), register_kv[slot])
+                if spatial_kv is not None:
+                    x = x + self.spatial_gates[slot] * self.spatial_attentions[slot](
+                        self.spatial_norms[slot](x), spatial_kv[slot]
+                    )
         return self.final_layer(x)[:, self.num_cond_tokens :]
 
 

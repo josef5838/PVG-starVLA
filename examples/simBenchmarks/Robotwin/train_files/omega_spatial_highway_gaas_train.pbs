@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#PBS -N omega_highway_C
+#PBS -P gs_ccds_chuanxia.zheng
+#PBS -q gpu_as
+#PBS -l select=1:ncpus=12:ngpus=1:mem=128gb
+#PBS -l walltime=168:00:00
+#PBS -j oe
+
+set -euo pipefail
+source "${OMEGA_BUNDLE:?}/configured/environment.sh"
+cd "${OMEGA_STUDY:?}/source"
+export STARVLA_FRAMEWORK_MODULES=starVLA.model.framework.VLM4A.OmegaCameraStreamDiT
+export PYTHONPATH="$PWD:$OMEGA_BUNDLE/runtime_site:${PYTHONPATH:-}"
+export ACCELERATE_MIXED_PRECISION=bf16
+export WANDB_MODE=offline
+export OMP_NUM_THREADS=4
+nvidia-smi > "$OMEGA_STUDY/gpu_at_start.txt"
+exec /home/n2506021c/miniconda3/envs/surflo-dit-cu124/bin/python \
+    tools/run_omega_joint24_gaas.py --study "$OMEGA_STUDY" \
+    > "$OMEGA_STUDY/pbs_runner.log" 2>&1

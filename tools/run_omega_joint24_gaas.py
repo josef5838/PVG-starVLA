@@ -54,12 +54,20 @@ def main():
 
     try:
         update("starting", pbs_job_id=os.environ.get("PBS_JOBID"), hostname=os.uname().nodename)
-        run("batch_tuning", [sys.executable, str(ROOT / "tools/tune_omega_joint24_batch.py"),
-                             "--config", manifest["config"], "--out", str(production),
-                             "--report", str(study / "batch_tuning.json")])
-        tuning = json.loads((study / "batch_tuning.json").read_text())
-        update("preflight", production_config=str(production), batch_tuning=tuning)
-        run("preflight", [sys.executable, str(ROOT / "tools/preflight_omega_camera_streams.py"),
+        if manifest.get("fixed_batch", False):
+            shutil.copy2(manifest["config"], production)
+            cfg = OmegaConf.load(production)
+            cfg.config_yaml = str(production)
+            OmegaConf.save(cfg, production, resolve=True)
+            update("preflight", production_config=str(production), fixed_batch=True)
+        else:
+            run("batch_tuning", [sys.executable, str(ROOT / "tools/tune_omega_joint24_batch.py"),
+                                 "--config", manifest["config"], "--out", str(production),
+                                 "--report", str(study / "batch_tuning.json")])
+            tuning = json.loads((study / "batch_tuning.json").read_text())
+            update("preflight", production_config=str(production), batch_tuning=tuning)
+        preflight_tool = manifest.get("preflight_tool", "preflight_omega_camera_streams.py")
+        run("preflight", [sys.executable, str(ROOT / "tools" / preflight_tool),
                           "--config", str(production), "--out", str(study / "preflight.json"),
                           "--reference", manifest["reference_preflight"],
                           "--reference-statistics", manifest["reference_statistics"]])
@@ -83,13 +91,16 @@ def main():
             cfg = OmegaConf.load(production)
             latest = Path(cfg.trainer.training_state_root) / "latest"
             if (latest / "complete.json").is_file():
-                destination = Path(manifest["output_dir"]) / "retained_training_state"
-                shutil.copytree(latest, destination)
-                link = Path(manifest["output_dir"]) / "latest_training_state"
-                if link.is_symlink():
-                    link.unlink()
-                link.symlink_to(destination, target_is_directory=True)
-                update(manifest["status"], retained_training_state=str(destination))
+                if manifest.get("durable_state", False):
+                    update(manifest["status"], retained_training_state=str(latest))
+                else:
+                    destination = Path(manifest["output_dir"]) / "retained_training_state"
+                    shutil.copytree(latest, destination)
+                    link = Path(manifest["output_dir"]) / "latest_training_state"
+                    if link.is_symlink():
+                        link.unlink()
+                    link.symlink_to(destination, target_is_directory=True)
+                    update(manifest["status"], retained_training_state=str(destination))
 
 
 if __name__ == "__main__":

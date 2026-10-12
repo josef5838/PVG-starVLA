@@ -32,6 +32,12 @@ class OmegaCameraStreamDiT(Omega512DiT):
             raise ValueError("Expected history or current_repeat observation mode")
         width = int(cfg.width)
         decoder_width = int(self.config.framework.action_model.action_hidden_dim)
+        highway = self.config.framework.get("spatial_highway", {})
+        self.highway_active = bool(highway.get("enabled", False))
+        if self.highway_active and (
+            self.encoding != "joint24" or self.conditioning != "direct" or highway.get("selection") != "current"
+        ):
+            raise ValueError("Current-patch highway requires joint24 direct conditioning")
         # Preserve common decoder initialization and RNG across ablations.
         with torch.random.fork_rng(devices=[]):
             self.visual_proj = nn.Linear(2048, width)
@@ -43,6 +49,17 @@ class OmegaCameraStreamDiT(Omega512DiT):
             self.memory_output_norm = nn.LayerNorm(decoder_width)
             if self.conditioning == "fused":
                 self.visual_readout = OmegaStreamFusion(width, int(cfg.depth), int(cfg.heads), int(cfg.output_queries))
+        if self.highway_active:
+            with torch.random.fork_rng(devices=[]):
+                self.spatial_norm = nn.LayerNorm(2048)
+                self.spatial_proj = nn.Linear(2048, width)
+                self.spatial_position_proj = nn.Sequential(nn.Linear(2, width), nn.SiLU(), nn.Linear(width, width))
+                self.spatial_type_embedding = nn.Parameter(torch.randn(width) * 0.02)
+                self.spatial_output_proj = nn.Linear(width, decoder_width)
+                self.spatial_output_norm = nn.LayerNorm(decoder_width)
+                self.action_model.net.enable_spatial_highway(
+                    decoder_width, int(self.config.framework.action_model.num_heads)
+                )
         if not self.config.framework.visual_conditioning:
             for name in ("visual_norm", "visual_proj", "memory_proj", "memory_output_norm", "visual_readout"):
                 module = getattr(self, name)
@@ -52,6 +69,7 @@ class OmegaCameraStreamDiT(Omega512DiT):
                 getattr(self, name).requires_grad_(False)
 
     def _history_tokens(self, examples):
+        self._current_patch_tokens = None
         rows = []
         for row in examples:
             history = row.get("image_history")
@@ -83,6 +101,13 @@ class OmegaCameraStreamDiT(Omega512DiT):
                 features = layers[int(self.config.framework.omega.feature_layer)]
                 if features is None:
                     raise ValueError("Requested Omega layer is not cached")
+                if self.highway_active:
+                    self._stream_patch_grid = (images.shape[-2] // 16, images.shape[-1] // 16)
+                    count = self._stream_patch_grid[0] * self._stream_patch_grid[1]
+                    if features.shape[2:] != (17 + count, 2048):
+                        raise ValueError("Omega spatial features do not match the image patch grid")
+                    joint = features.reshape(len(examples), 8, 3, 17 + count, 2048)
+                    self._current_patch_tokens = joint[:, -1, :, 17:].detach().contiguous()
                 outputs.append(features[:, :, :17].detach().contiguous())
                 del layers, features
         self._stream_input_shape = list(images.shape)
@@ -153,12 +178,26 @@ class OmegaCameraStreamDiT(Omega512DiT):
         if self.visual_readout is not None:
             memory = self.visual_readout(memory)
         memory = self.memory_output_norm(self.memory_proj(memory))
+        spatial = None
+        if self.highway_active:
+            spatial = self.spatial_proj(self.spatial_norm(self._current_patch_tokens.to(dtype)))
+            height, width = self._stream_patch_grid
+            y, x = torch.meshgrid(
+                torch.linspace(-1, 1, height, device=device, dtype=dtype),
+                torch.linspace(-1, 1, width, device=device, dtype=dtype), indexing="ij"
+            )
+            position = self.spatial_position_proj(torch.stack([x, y], dim=-1).reshape(-1, 2))
+            spatial = (spatial + position[None, None] + self.view_embeddings[None, :, None]
+                       + self.time_embeddings[-1][None, None, None] + self.spatial_type_embedding)
+            spatial = self.spatial_output_norm(self.spatial_output_proj(spatial.flatten(1, 2)))
         if not use_visual:
             memory = memory * 0
         if apply_dropout:
             keep = (torch.rand(len(examples), device=device) >= self.config.framework.condition_dropout_prob).to(dtype)
             condition = condition * keep[:, None, None]
             memory = memory * keep[:, None, None]
+            if spatial is not None:
+                spatial = spatial * keep[:, None, None]
         self.last_visual_info = dict(
             input_shape=self._stream_input_shape,
             calls_per_batch=1 if self.encoding == "joint24" else 3,
@@ -168,9 +207,13 @@ class OmegaCameraStreamDiT(Omega512DiT):
             raw_memory_tokens=408,
             memory_tokens=int(memory.shape[1]),
             conditioning=self.conditioning,
-            patch_tokens_in_action_memory=0,
+            patch_tokens_in_action_memory=int(spatial.shape[1]) if spatial is not None else 0,
+            spatial_memory_tokens=int(spatial.shape[1]) if spatial is not None else 0,
+            spatial_patch_grid=list(self._stream_patch_grid) if spatial is not None else None,
+            spatial_gate_values=self.action_model.net.spatial_gates.detach().float().cpu().tolist()
+            if spatial is not None else None,
             temporal_embedding="learned",
             temporal_rope=False,
             observation_mode=self.observation_mode,
         )
-        return condition, memory
+        return condition, {"registers": memory, "spatial": spatial} if spatial is not None else memory

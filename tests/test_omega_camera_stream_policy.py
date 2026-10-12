@@ -46,12 +46,13 @@ def prepare_images(self, rows):
     return torch.stack([torch.stack(row) for row in pixels])[:, :, :, None, None].expand(-1, -1, -1, 2, 2)
 
 
-def policy(kind, encoding="independent"):
+def policy(kind, encoding="independent", highway=False):
     config = OmegaConf.create(
         dict(
             framework=dict(
                 omega=dict(feature_layer=1),
                 task_names=["adjust_bottle"],
+                spatial_highway=dict(enabled=highway, selection="current"),
                 streams=dict(
                     history_length=8,
                     conditioning=kind,
