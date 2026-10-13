@@ -1,0 +1,14 @@
+{
+  "status": "rollouts",
+  "variant": "C",
+  "pbs_job_id": "85452.gaas",
+  "hostname": "hpc-gaas-g04",
+  "checkpoint": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/checkpoints/steps_10000_pytorch_model.pt",
+  "checkpoint_step": 10000,
+  "completed_episodes": 0,
+  "source_commit": "cf32b3592a24da834ca35e3bb623a050e218e18d",
+  "updated_utc": "2026-10-13T04:11:41.182642+00:00",
+  "scene_preflight_passed": true,
+  "server_pid": 456278,
+  "port": 5781
+}

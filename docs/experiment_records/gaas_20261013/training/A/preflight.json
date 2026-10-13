@@ -1,0 +1,121 @@
+{
+  "status": "passed",
+  "variant": "direct",
+  "encoding": "joint24",
+  "observation_mode": "history",
+  "use_visual": true,
+  "initial_common_weights_sha256": "591f053aeb0e38ea5364a50e4801c860c431fc0c4a79b2b1cfbbd866e67f9150",
+  "batch_image_sha256": "4a0fb0f1d02ec04041b4275826970c3e0e35c8848d80571e2c25102248d86627",
+  "batch_action_sha256": "a32a1f608f4af317ad95b726967e2d30c1b262adde435fab9562c38f86cd1c23",
+  "sample_keys": [
+    {
+      "episode": 98,
+      "frame": 80
+    },
+    {
+      "episode": 83,
+      "frame": 23
+    },
+    {
+      "episode": 98,
+      "frame": 82
+    },
+    {
+      "episode": 16,
+      "frame": 11
+    }
+  ],
+  "parity_batch_size": 4,
+  "production_sample_keys": [
+    {
+      "episode": 98,
+      "frame": 80
+    },
+    {
+      "episode": 83,
+      "frame": 23
+    },
+    {
+      "episode": 98,
+      "frame": 82
+    },
+    {
+      "episode": 16,
+      "frame": 11
+    }
+  ],
+  "production_batch_size": 4,
+  "chronological_native_image_history_verified": true,
+  "calls_during_two_updates": [
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ]
+  ],
+  "losses": [
+    0.9657531380653381,
+    1.0477796792984009
+  ],
+  "gradient_norms": [
+    {
+      "view_embeddings": 0.0,
+      "time_embeddings": 0.0,
+      "token_type_embeddings": 0.0,
+      "visual_proj.weight": 0.0,
+      "memory_proj.weight": 0.0
+    },
+    {
+      "view_embeddings": 0.0008397090714424849,
+      "time_embeddings": 0.0005129737546667457,
+      "token_type_embeddings": 0.0013698197435587645,
+      "visual_proj.weight": 0.06321500986814499,
+      "memory_proj.weight": 0.030221477150917053
+    }
+  ],
+  "visual_info": {
+    "input_shape": [
+      4,
+      3,
+      8,
+      3,
+      448,
+      592
+    ],
+    "calls_per_batch": 1,
+    "images_per_call": 24,
+    "encoding": "joint24",
+    "raw_token_shape": [
+      4,
+      3,
+      8,
+      17,
+      2048
+    ],
+    "raw_memory_tokens": 408,
+    "memory_tokens": 408,
+    "conditioning": "direct",
+    "patch_tokens_in_action_memory": 0,
+    "temporal_embedding": "learned",
+    "temporal_rope": false,
+    "observation_mode": "history"
+  },
+  "frozen_backbone_no_gradients": true,
+  "reference_parity_verified": true,
+  "reference_statistics_verified": true,
+  "gpu_name": "NVIDIA H200",
+  "torch_version": "2.4.1+cu124",
+  "historical_image_change_prediction_mae": 9.809221955947578e-05,
+  "trainable_parameters": 331455502,
+  "peak_allocated_gpu_gib": 15.333273887634277,
+  "note": "Disposable two-update preflight; production jobs initialize fresh from seed 42."
+}

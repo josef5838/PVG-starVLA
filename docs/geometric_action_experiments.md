@@ -1,10 +1,33 @@
-# Geometric action experiments on this machine
+# Geometric action experiments
+
+## Current GAAS progress — 2026-10-13
+
+The [GAAS experiment record](omega_gaas_experiments.md) documents the single-call
+baseline A, implemented current-patch highway C, batch benchmark, passed CPU/GPU
+preflights, and their paired 10K milestone rollouts. Evidence observed at
+**2026-10-13 12:43 SGT** is committed under
+[gaas_20261013](experiment_records/gaas_20261013/README.md).
+
+| GAAS experiment | PBS training job | Progress / 20K updates | Best active-arm validation MSE |
+| --- | --- | ---: | ---: |
+| A: joint24 single-call direct registers | 84822.gaas, running | 15,260 | 0.0364182 at 15K |
+| C: A plus gated current-patch highway | 84945.gaas, running | 13,740 | 0.0387621 at 13.5K |
+
+Both retain effective batch 8, LR 3e-4 and a 160K observation budget with matched
+data, initialization and schedules. At a matched 13.5K updates, validation MSE
+is 0.0416403 for A and 0.0387621 for C; results fluctuate and task success is
+still being measured. Their 10K-checkpoint evaluation jobs 85451/85452.gaas are
+running on three matched test and five matched training scenes each. All eight
+scene checks passed per policy. Each has completed two test rollouts with zero
+successes; remaining test/train scenes are pending. This is partial evidence.
+
+## Original workstation snapshot — 2026-10-12
 
 This ledger records the retained evidence in `/export/home/haoliang/projects/PVG-starVLA-snapshot` as of **2026-10-12**. The machine-readable [inventory](experiment_records/20261012/inventory.json) lists every retained training directory and result family; the [training table](experiment_records/20261012/training_runs.csv) lists individual runs. The [artifact index](experiment_records/20261012/artifact_index.json) records original local paths, file sizes, and hashes for copied evidence. Registered original source archives are preserved by content hash under `original_sources/`, with original path mappings in the inventory. Large weights, videos, meshes, datasets, optimizer states, and per-step traces remain in their original local directories.
 
 Coverage includes 28 training directories, 23 artifact families, and the separate RoboTwin simulator result files. Smoke tests, failed/abandoned preparations, retries, and unlaunched configurations remain visible. This is an inventory of surviving records, not a claim to recover deleted experiments or unrelated users' jobs. Historical manifests and copied reports retain their original timestamps and may contain stale PIDs/statuses; the inventory reconciles current trainer evidence where available. An old final checkpoint does not prove that a later continuation reached its requested budget.
 
-## Current camera-stream study: rotate_qrcode
+## Original-workstation camera-stream study: rotate_qrcode
 
 Study: `results/omega_camera_stream_training/rotate_qrcode_20261010_135404`. See the [protocol](omega_rotate_qrcode_protocol_20261010.md), [registered manifest](experiment_records/20261012/evidence/omega_camera_stream_training/rotate_qrcode_20261010_135404/manifest.json), and inventory for the exact observation time and update counts.
 

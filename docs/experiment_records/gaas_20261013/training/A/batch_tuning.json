@@ -1,0 +1,53 @@
+{
+  "status": "completed",
+  "gpu": "NVIDIA H200",
+  "torch_version": "2.4.1+cu124",
+  "records": [
+    {
+      "microbatch": 4,
+      "accumulation": 2,
+      "effective_batch": 8,
+      "status": "passed",
+      "seconds_per_update": 4.6265387260355055,
+      "observations_per_second": 1.729154444332345,
+      "peak_allocated_gpu_gib": 16.56915283203125,
+      "memory_fraction": 0.1185197959393057
+    },
+    {
+      "microbatch": 8,
+      "accumulation": 1,
+      "effective_batch": 8,
+      "status": "passed",
+      "seconds_per_update": 4.575793233700097,
+      "observations_per_second": 1.748330746477154,
+      "peak_allocated_gpu_gib": 22.637694835662842,
+      "memory_fraction": 0.161928313394048
+    },
+    {
+      "microbatch": 16,
+      "accumulation": 1,
+      "effective_batch": 16,
+      "status": "passed",
+      "seconds_per_update": 9.153225098270923,
+      "observations_per_second": 1.7480177563886699,
+      "peak_allocated_gpu_gib": 37.24017333984375,
+      "memory_fraction": 0.26638041122115524
+    }
+  ],
+  "selected": {
+    "microbatch": 4,
+    "accumulation": 2,
+    "effective_batch": 8,
+    "status": "passed",
+    "seconds_per_update": 4.6265387260355055,
+    "observations_per_second": 1.729154444332345,
+    "peak_allocated_gpu_gib": 16.56915283203125,
+    "memory_fraction": 0.1185197959393057
+  },
+  "target_updates": 20000,
+  "total_training_observations": 160000,
+  "validation_batch_size": 4,
+  "learning_rate": 0.0003,
+  "schedules_aligned_by_observations": true,
+  "note": "Disposable benchmark weights are discarded; production initializes fresh from seed 42."
+}

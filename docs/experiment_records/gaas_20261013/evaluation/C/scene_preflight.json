@@ -1,0 +1,338 @@
+[
+  {
+    "episode": 2,
+    "source_episode": 38,
+    "seed": 91,
+    "length": 85,
+    "split": "test",
+    "arm": "right",
+    "model_id": 1,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.06370126456022263,
+      -0.0015428181504830718,
+      0.7417186498641968
+    ],
+    "quaternion": [
+      0.09519539773464203,
+      0.0953475832939148,
+      0.7006655335426331,
+      0.7006529569625854
+    ],
+    "initial_orientation_error_deg": 164.5134962056138,
+    "rotation_offset_deg": 15.486508798135182,
+    "orientation_bin": "15-30deg",
+    "initial_image_mae": {
+      "head_camera": 1.2610785590277778,
+      "left_camera": 0.5858441840277778,
+      "right_camera": 0.6563357204861111
+    },
+    "initial_state_max_error": 0.0,
+    "initial_grayscale_mae": {
+      "head_camera": 1.18390625,
+      "left_camera": 0.50732421875,
+      "right_camera": 0.6434733072916666
+    },
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 0.0,
+    "photometric_shift_flag": false,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 4,
+    "source_episode": 54,
+    "seed": 142,
+    "length": 83,
+    "split": "test",
+    "arm": "right",
+    "model_id": 0,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.14182208478450775,
+      -0.042892590165138245,
+      0.7408433556556702
+    ],
+    "quaternion": [
+      0.08255179971456528,
+      0.082863450050354,
+      0.702799379825592,
+      0.7017064690589905
+    ],
+    "initial_orientation_error_deg": 166.5659044565184,
+    "rotation_offset_deg": 13.434414065609863,
+    "orientation_bin": "0-15deg",
+    "initial_image_mae": {
+      "head_camera": 0.9400889756944445,
+      "left_camera": 0.6005598958333334,
+      "right_camera": 0.6384364149305556
+    },
+    "initial_state_max_error": 0.0,
+    "initial_grayscale_mae": {
+      "head_camera": 0.87841796875,
+      "left_camera": 0.503701171875,
+      "right_camera": 0.505146484375
+    },
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 2.4148365394514667e-06,
+    "photometric_shift_flag": false,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 24,
+    "source_episode": 26,
+    "seed": 62,
+    "length": 83,
+    "split": "test",
+    "arm": "right",
+    "model_id": 1,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.22672906517982483,
+      -0.07083754986524582,
+      0.7417187690734863
+    ],
+    "quaternion": [
+      -0.11594399809837341,
+      -0.11583615094423294,
+      0.6976036429405212,
+      0.6974869966506958
+    ],
+    "initial_orientation_error_deg": 161.13409791715276,
+    "rotation_offset_deg": 18.865906554704424,
+    "orientation_bin": "15-30deg",
+    "initial_image_mae": {
+      "head_camera": 1.184734157986111,
+      "left_camera": 0.5963031684027778,
+      "right_camera": 0.7317154947916666
+    },
+    "initial_grayscale_mae": {
+      "head_camera": 1.1256412760416667,
+      "left_camera": 0.5057063802083334,
+      "right_camera": 0.6949674479166666
+    },
+    "photometric_shift_flag": false,
+    "initial_state_max_error": 0.0,
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 0.0,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 0,
+    "source_episode": 51,
+    "seed": 131,
+    "length": 82,
+    "split": "train",
+    "arm": "right",
+    "model_id": 3,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.16950176656246185,
+      -0.050992451608181,
+      0.7413286566734314
+    ],
+    "quaternion": [
+      0.21744917333126068,
+      0.21756082773208618,
+      0.673008143901825,
+      0.672639012336731
+    ],
+    "initial_orientation_error_deg": 144.17086970177212,
+    "rotation_offset_deg": 35.829144855350634,
+    "orientation_bin": "30deg-plus",
+    "initial_image_mae": {
+      "head_camera": 0.9824858940972222,
+      "left_camera": 0.619404296875,
+      "right_camera": 0.667451171875
+    },
+    "initial_state_max_error": 0.0,
+    "initial_grayscale_mae": {
+      "head_camera": 0.8989518229166666,
+      "left_camera": 0.5229069010416667,
+      "right_camera": 0.5373307291666667
+    },
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 2.4148365394514667e-06,
+    "photometric_shift_flag": false,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 11,
+    "source_episode": 67,
+    "seed": 181,
+    "length": 82,
+    "split": "train",
+    "arm": "right",
+    "model_id": 1,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.10111125558614731,
+      -0.12563687562942505,
+      0.7417187690734863
+    ],
+    "quaternion": [
+      0.127598837018013,
+      0.12775367498397827,
+      0.695481538772583,
+      0.6954876780509949
+    ],
+    "initial_orientation_error_deg": 159.1950677847864,
+    "rotation_offset_deg": 20.804936088700433,
+    "orientation_bin": "15-30deg",
+    "initial_image_mae": {
+      "head_camera": 1.2704014756944444,
+      "left_camera": 0.58666015625,
+      "right_camera": 0.613623046875
+    },
+    "initial_state_max_error": 0.0,
+    "initial_grayscale_mae": {
+      "head_camera": 1.158193359375,
+      "left_camera": 0.5129654947916666,
+      "right_camera": 0.5434309895833334
+    },
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 2.4148365394514667e-06,
+    "photometric_shift_flag": false,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 22,
+    "source_episode": 5,
+    "seed": 9,
+    "length": 85,
+    "split": "train",
+    "arm": "right",
+    "model_id": 0,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.18927964568138123,
+      -0.009806056506931782,
+      0.7408434152603149
+    ],
+    "quaternion": [
+      -0.03605952113866806,
+      -0.035937268286943436,
+      0.7067404389381409,
+      0.7056389451026917
+    ],
+    "initial_orientation_error_deg": 174.16368792736762,
+    "rotation_offset_deg": 5.837004084605381,
+    "orientation_bin": "0-15deg",
+    "initial_image_mae": {
+      "head_camera": 0.9415690104166666,
+      "left_camera": 0.6025520833333333,
+      "right_camera": 0.6922634548611111
+    },
+    "initial_grayscale_mae": {
+      "head_camera": 0.875888671875,
+      "left_camera": 0.49856119791666664,
+      "right_camera": 0.5588151041666667
+    },
+    "photometric_shift_flag": false,
+    "initial_state_max_error": 0.0,
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 0.0,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 34,
+    "source_episode": 96,
+    "seed": 256,
+    "length": 83,
+    "split": "train",
+    "arm": "right",
+    "model_id": 0,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.12521278858184814,
+      -0.09112037718296051,
+      0.7408432960510254
+    ],
+    "quaternion": [
+      0.05736936256289482,
+      0.05743691697716713,
+      0.7050045728683472,
+      0.7045413255691528
+    ],
+    "initial_orientation_error_deg": 170.68717567008989,
+    "rotation_offset_deg": 9.31290192612379,
+    "orientation_bin": "0-15deg",
+    "initial_image_mae": {
+      "head_camera": 0.9112293836805555,
+      "left_camera": 0.5987467447916667,
+      "right_camera": 0.6405099826388889
+    },
+    "initial_grayscale_mae": {
+      "head_camera": 0.8383040364583333,
+      "left_camera": 0.4993359375,
+      "right_camera": 0.512216796875
+    },
+    "photometric_shift_flag": false,
+    "initial_state_max_error": 0.0,
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 2.4148365394514667e-06,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  },
+  {
+    "episode": 44,
+    "source_episode": 87,
+    "seed": 240,
+    "length": 84,
+    "split": "train",
+    "arm": "right",
+    "model_id": 2,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.16924776136875153,
+      -0.052851755172014236,
+      0.7413653135299683
+    ],
+    "quaternion": [
+      -0.09230322390794754,
+      -0.09232831001281738,
+      0.7009590268135071,
+      0.7011505961418152
+    ],
+    "initial_orientation_error_deg": 164.99676261660545,
+    "rotation_offset_deg": 15.00324564512039,
+    "orientation_bin": "15-30deg",
+    "initial_image_mae": {
+      "head_camera": 1.1907194010416666,
+      "left_camera": 0.5926161024305555,
+      "right_camera": 0.7574435763888889
+    },
+    "initial_grayscale_mae": {
+      "head_camera": 1.1560319010416666,
+      "left_camera": 0.4896744791666667,
+      "right_camera": 0.6572037760416667
+    },
+    "photometric_shift_flag": false,
+    "initial_state_max_error": 0.0,
+    "initial_position_error_m": 0.0,
+    "initial_quaternion_error_deg": 0.0,
+    "status": "passed",
+    "source_scene_verified": true,
+    "registered_scene_verified": true
+  }
+]

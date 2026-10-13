@@ -1,0 +1,178 @@
+[
+  {
+    "episode": 2,
+    "source_episode": 38,
+    "seed": 91,
+    "length": 85,
+    "split": "test",
+    "arm": "right",
+    "model_id": 1,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.06370126456022263,
+      -0.0015428181504830718,
+      0.7417186498641968
+    ],
+    "quaternion": [
+      0.09519539773464203,
+      0.0953475832939148,
+      0.7006655335426331,
+      0.7006529569625854
+    ],
+    "initial_orientation_error_deg": 164.5134962056138,
+    "rotation_offset_deg": 15.486508798135182,
+    "orientation_bin": "15-30deg",
+    "initial_image_mae": {
+      "head_camera": 1.2610785590277778,
+      "left_camera": 0.5858441840277778,
+      "right_camera": 0.6563357204861111
+    },
+    "initial_state_max_error": 0.0,
+    "variant": "A",
+    "checkpoint": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/checkpoints/steps_10000_pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "registered_scene_verified": true,
+    "initial_grayscale_mae": {
+      "head_camera": 1.18390625,
+      "left_camera": 0.50732421875,
+      "right_camera": 0.6434733072916666
+    },
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 2.3245811462402344e-06,
+    "elapsed_seconds": 783.4952998489971,
+    "video": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_91.mp4",
+    "trace": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_91.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.06370126456022263,
+      -0.0015428181504830718,
+      0.7417186498641968
+    ],
+    "initial_object_quaternion": [
+      0.09519539773464203,
+      0.0953475832939148,
+      0.7006655335426331,
+      0.7006529569625854
+    ],
+    "final_object_position": [
+      0.06370112299919128,
+      -0.001542655169032514,
+      0.7417188286781311
+    ],
+    "step_limit": 400,
+    "final_orientation_error_deg": 164.5135141492104,
+    "minimum_orientation_error_deg": 164.5134907095525,
+    "final_placement_xy_error_m": 0.20153651556465485,
+    "phase_diagnostics": {
+      "grasp": false,
+      "lift": false,
+      "rotation": false,
+      "placement": false,
+      "release": false,
+      "diagnostic_failure_phase": "grasp",
+      "rotation_threshold_deg": 15,
+      "note": "Secondary thresholds; do not replace official success or prove a stable grasp."
+    }
+  },
+  {
+    "episode": 4,
+    "source_episode": 54,
+    "seed": 142,
+    "length": 83,
+    "split": "test",
+    "arm": "right",
+    "model_id": 0,
+    "observation_matches_source_t": true,
+    "action_matches_source_t_plus_1": true,
+    "position": [
+      0.14182208478450775,
+      -0.042892590165138245,
+      0.7408433556556702
+    ],
+    "quaternion": [
+      0.08255179971456528,
+      0.082863450050354,
+      0.702799379825592,
+      0.7017064690589905
+    ],
+    "initial_orientation_error_deg": 166.5659044565184,
+    "rotation_offset_deg": 13.434414065609863,
+    "orientation_bin": "0-15deg",
+    "initial_image_mae": {
+      "head_camera": 0.9400889756944445,
+      "left_camera": 0.6005598958333334,
+      "right_camera": 0.6384364149305556
+    },
+    "initial_state_max_error": 0.0,
+    "variant": "A",
+    "checkpoint": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/checkpoints/steps_10000_pytorch_model.pt",
+    "mode": "policy",
+    "source_scene_verified": true,
+    "registered_scene_verified": true,
+    "initial_grayscale_mae": {
+      "head_camera": 0.87841796875,
+      "left_camera": 0.503701171875,
+      "right_camera": 0.505146484375
+    },
+    "success": false,
+    "steps": 400,
+    "grasp_contact": false,
+    "lift_4cm": false,
+    "max_lift_m": 0.0021535754203796387,
+    "elapsed_seconds": 698.9743242869954,
+    "video": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_142.mp4",
+    "trace": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_142.trace.json",
+    "history_length": 8,
+    "history_stride": 1,
+    "image_size": [
+      640,
+      480
+    ],
+    "num_ddim_steps": 20,
+    "execute_horizon": 8,
+    "diffusion_seed": 4000,
+    "initial_object_position": [
+      0.14182208478450775,
+      -0.042892590165138245,
+      0.7408433556556702
+    ],
+    "initial_object_quaternion": [
+      0.08255179971456528,
+      0.082863450050354,
+      0.702799379825592,
+      0.7017064690589905
+    ],
+    "final_object_position": [
+      0.12052084505558014,
+      -0.024494227021932602,
+      0.7408434152603149
+    ],
+    "step_limit": 400,
+    "final_orientation_error_deg": 177.6369040378025,
+    "minimum_orientation_error_deg": 166.56562620123256,
+    "final_placement_xy_error_m": 0.14855515851528445,
+    "phase_diagnostics": {
+      "grasp": false,
+      "lift": false,
+      "rotation": false,
+      "placement": false,
+      "release": false,
+      "diagnostic_failure_phase": "grasp",
+      "rotation_threshold_deg": 15,
+      "note": "Secondary thresholds; do not replace official success or prove a stable grasp."
+    }
+  }
+]

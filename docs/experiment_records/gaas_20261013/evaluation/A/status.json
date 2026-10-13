@@ -1,0 +1,14 @@
+{
+  "status": "rollouts",
+  "variant": "A",
+  "pbs_job_id": "85451.gaas",
+  "hostname": "hpc-gaas-g04",
+  "checkpoint": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/checkpoints/steps_10000_pytorch_model.pt",
+  "checkpoint_step": 10000,
+  "completed_episodes": 0,
+  "source_commit": "cf32b3592a24da834ca35e3bb623a050e218e18d",
+  "updated_utc": "2026-10-13T04:11:41.096147+00:00",
+  "scene_preflight_passed": true,
+  "server_pid": 456274,
+  "port": 5780
+}

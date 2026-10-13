@@ -1,0 +1,579 @@
+{
+  "observed_utc": "2026-10-13T04:43:41.858162+00:00",
+  "observed_sgt": "2026-10-13T12:43:41.858162+08:00",
+  "snapshot_type": "Dated reads of live files; not a synchronized optimizer/checkpoint transaction",
+  "training": {
+    "A": {
+      "job_id": "84822.gaas",
+      "pbs": {
+        "job_state": "R",
+        "Exit_status": null,
+        "comment": "Job run at Mon Oct 12 at 14:48 on (hpc-gaas-g09:ncpus=12:ngpus=1:mem=262144000kb)",
+        "exec_host": "hpc-gaas-g09/1*12",
+        "resources_used": {
+          "cpupercent": 206,
+          "cput": "43:13:06",
+          "gpu_usage": "hpc-gaas-g09(cuda.7.energyConsumed=48185J, cuda.7.lowUtilizationTime=0.000s, cuda.7.maxGpuMemoryUsed=58914.000MB, cuda.7.memoryClock_min=3201MHz, cuda.7.memoryClock_max=3201MHz, cuda.7.memoryClock_avg=3201MHz, cuda.7.memoryUtilization_min=0%, cuda.7.memoryUtilization_max=49%, cuda.7.memoryUtilization_avg=18%, cuda.7.overallHealth=10, cuda.7.powerViolationTime=214900.013s, cuda.7.smClock_min=345MHz, cuda.7.smClock_max=1980MHz, cuda.7.smClock_avg=1972MHz, cuda.7.smUtilization_min=0%, cuda.7.smUtilization_max=100%, cuda.7.smUtilization_avg=61%, cuda.7.thermalViolationTime=0.000s, cuda.7.wallTime=78701s, cuda.7.usagePerc=60.931%, cuda.7.memUsagePerc=40.978%)",
+          "mem": "7792988kb",
+          "ncpus": 12,
+          "ngpus": 1,
+          "vmem": "140998960kb",
+          "walltime": "21:52:51"
+        },
+        "stime": "Mon Oct 12 14:48:45 2026",
+        "estimated": {
+          "exec_vnode": "(hpc-gaas-g01:ncpus=12:ngpus=1:mem=262144000kb)",
+          "start_time": "Tue Oct 13 05:14:51 2026"
+        },
+        "job_id": "84822.gaas"
+      },
+      "status": "running",
+      "completed_updates": 15260,
+      "target_updates": 20000,
+      "consumed_observations": 122080,
+      "best_validation": {
+        "step": 15000,
+        "validation_action_mse": 0.036418180371868974,
+        "samples": 160,
+        "num_ddim_steps": 20,
+        "selection": "held-out action MSE; simulator success must be measured separately",
+        "action_indices": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13
+        ],
+        "valid_future_only": true
+      },
+      "latest_validation": {
+        "step": 15250,
+        "action_dit_loss": 0.01375233568251133,
+        "training_samples": 122000,
+        "validation_action_mse": 0.03864683466665621,
+        "validation_full_action_mse": 0.017211773695624127,
+        "validation_samples": 160,
+        "timing/data": 0.0008212821558117867,
+        "timing/model": 2.3224690668284893,
+        "learning_rate/visual_proj": 4.889302137677388e-05,
+        "learning_rate/state_proj": 4.889302137677388e-05,
+        "learning_rate/action_model": 4.889302137677388e-05,
+        "learning_rate/memory_proj": 4.889302137677388e-05,
+        "learning_rate/base": 4.889302137677388e-05,
+        "epoch": 9.14
+      },
+      "peak_allocated_gpu_gib": 16.5687255859375,
+      "source_commit": "59930247f7ae82a61dfbf4b9581ab7a86399617f",
+      "output_dir": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015"
+    },
+    "C": {
+      "job_id": "84945.gaas",
+      "pbs": {
+        "job_state": "R",
+        "Exit_status": null,
+        "comment": "Job run at Mon Oct 12 at 17:04 on (hpc-gaas-g11:ncpus=12:ngpus=1:mem=262144000kb)",
+        "exec_host": "hpc-gaas-g11/2*12",
+        "resources_used": {
+          "cpupercent": 193,
+          "cput": "38:17:45",
+          "gpu_usage": "hpc-gaas-g11(cuda.1.energyConsumed=55299J, cuda.1.lowUtilizationTime=0.000s, cuda.1.maxGpuMemoryUsed=20670.000MB, cuda.1.memoryClock_min=3201MHz, cuda.1.memoryClock_max=3201MHz, cuda.1.memoryClock_avg=3201MHz, cuda.1.memoryUtilization_min=0%, cuda.1.memoryUtilization_max=49%, cuda.1.memoryUtilization_avg=17%, cuda.1.overallHealth=10, cuda.1.powerViolationTime=390446.058s, cuda.1.smClock_min=345MHz, cuda.1.smClock_max=1980MHz, cuda.1.smClock_avg=1970MHz, cuda.1.smUtilization_min=0%, cuda.1.smUtilization_max=100%, cuda.1.smUtilization_avg=72%, cuda.1.thermalViolationTime=0.000s, cuda.1.wallTime=70569s, cuda.1.usagePerc=71.933%, cuda.1.memUsagePerc=14.377%)",
+          "mem": "7710716kb",
+          "ncpus": 12,
+          "ngpus": 1,
+          "vmem": "141361336kb",
+          "walltime": "19:36:45"
+        },
+        "stime": "Mon Oct 12 17:04:37 2026",
+        "estimated": {
+          "exec_vnode": "(hpc-gaas-g02:ncpus=12:ngpus=1:mem=262144000kb)",
+          "start_time": "Mon Oct 12 17:02:46 2026"
+        },
+        "job_id": "84945.gaas"
+      },
+      "status": "running",
+      "completed_updates": 13740,
+      "target_updates": 20000,
+      "consumed_observations": 109920,
+      "best_validation": {
+        "step": 13500,
+        "validation_action_mse": 0.0387621088063431,
+        "samples": 160,
+        "num_ddim_steps": 20,
+        "selection": "held-out action MSE; simulator success must be measured separately",
+        "action_indices": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13
+        ],
+        "valid_future_only": true
+      },
+      "latest_validation": {
+        "step": 13500,
+        "action_dit_loss": 0.004709189757704735,
+        "training_samples": 108000,
+        "validation_action_mse": 0.0387621088063431,
+        "validation_full_action_mse": 0.017297612548484703,
+        "validation_samples": 160,
+        "timing/data": 0.0007782001048326492,
+        "timing/model": 2.3179735052399337,
+        "learning_rate/visual_proj": 7.987303062707875e-05,
+        "learning_rate/state_proj": 7.987303062707875e-05,
+        "learning_rate/action_model": 7.987303062707875e-05,
+        "learning_rate/memory_proj": 7.987303062707875e-05,
+        "learning_rate/base": 7.987303062707875e-05,
+        "epoch": 8.09
+      },
+      "peak_allocated_gpu_gib": 16.979402542114258,
+      "source_commit": "a83d68f47ad4e2c39868b8d8b6f3c545ebda2994",
+      "output_dir": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101"
+    }
+  },
+  "evaluations": {
+    "A": {
+      "job_id": "85451.gaas",
+      "pbs": {
+        "job_state": "R",
+        "Exit_status": null,
+        "comment": "Job run at Tue Oct 13 at 12:08 on (hpc-gaas-g04:ncpus=12:ngpus=1:mem=262144000kb)",
+        "exec_host": "hpc-gaas-g04/4*12",
+        "resources_used": {
+          "cpupercent": 92,
+          "cput": "00:36:07",
+          "gpu_usage": "hpc-gaas-g04(cuda.3.energyConsumed=29819J, cuda.3.lowUtilizationTime=0.000s, cuda.3.maxGpuMemoryUsed=15296.867MB, cuda.3.memoryClock_min=3201MHz, cuda.3.memoryClock_max=3201MHz, cuda.3.memoryClock_avg=3201MHz, cuda.3.memoryUtilization_min=0%, cuda.3.memoryUtilization_max=29%, cuda.3.memoryUtilization_avg=4%, cuda.3.overallHealth=0, cuda.3.powerViolationTime=0.000s, cuda.3.smClock_min=345MHz, cuda.3.smClock_max=1980MHz, cuda.3.smClock_avg=1980MHz, cuda.3.smUtilization_min=0%, cuda.3.smUtilization_max=100%, cuda.3.smUtilization_avg=83%, cuda.3.thermalViolationTime=0.000s, cuda.3.wallTime=2052s, cuda.3.usagePerc=76.170%, cuda.3.memUsagePerc=10.640%)",
+          "mem": "9120732kb",
+          "ncpus": 12,
+          "ngpus": 1,
+          "vmem": "3686352kb",
+          "walltime": "00:34:50"
+        },
+        "stime": "Tue Oct 13 12:08:27 2026",
+        "estimated": {
+          "exec_vnode": "(hpc-gaas-g04:ncpus=12:ngpus=1:mem=262144000kb)",
+          "start_time": "Tue Oct 13 20:02:40 2026"
+        },
+        "job_id": "85451.gaas"
+      },
+      "phase": "rollouts",
+      "source_commit": "cf32b3592a24da834ca35e3bb623a050e218e18d",
+      "checkpoint_step": 10000,
+      "expected_episodes": 8,
+      "completed_episodes": 2,
+      "scene_preflight_passed": true,
+      "partial_outcomes": {
+        "test": {
+          "successes": 0,
+          "completed": 2,
+          "requested": 3
+        },
+        "train": {
+          "successes": 0,
+          "completed": 0,
+          "requested": 5
+        }
+      },
+      "episode_results": [
+        {
+          "episode": 2,
+          "seed": 91,
+          "split": "test",
+          "success": false,
+          "steps": 400,
+          "grasp_contact": false,
+          "lift_4cm": false,
+          "phase_diagnostics": {
+            "grasp": false,
+            "lift": false,
+            "rotation": false,
+            "placement": false,
+            "release": false,
+            "diagnostic_failure_phase": "grasp",
+            "rotation_threshold_deg": 15,
+            "note": "Secondary thresholds; do not replace official success or prove a stable grasp."
+          }
+        },
+        {
+          "episode": 4,
+          "seed": 142,
+          "split": "test",
+          "success": false,
+          "steps": 400,
+          "grasp_contact": false,
+          "lift_4cm": false,
+          "phase_diagnostics": {
+            "grasp": false,
+            "lift": false,
+            "rotation": false,
+            "placement": false,
+            "release": false,
+            "diagnostic_failure_phase": "grasp",
+            "rotation_threshold_deg": 15,
+            "note": "Secondary thresholds; do not replace official success or prove a stable grasp."
+          }
+        }
+      ],
+      "output_dir": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A"
+    },
+    "C": {
+      "job_id": "85452.gaas",
+      "pbs": {
+        "job_state": "R",
+        "Exit_status": null,
+        "comment": "Job run at Tue Oct 13 at 12:08 on (hpc-gaas-g04:ncpus=12:ngpus=1:mem=262144000kb)",
+        "exec_host": "hpc-gaas-g04/3*12",
+        "resources_used": {
+          "cpupercent": 89,
+          "cput": "00:36:15",
+          "gpu_usage": "hpc-gaas-g04(cuda.4.energyConsumed=27952J, cuda.4.lowUtilizationTime=0.000s, cuda.4.maxGpuMemoryUsed=15338.867MB, cuda.4.memoryClock_min=0MHz, cuda.4.memoryClock_max=3201MHz, cuda.4.memoryClock_avg=3201MHz, cuda.4.memoryUtilization_min=0%, cuda.4.memoryUtilization_max=28%, cuda.4.memoryUtilization_avg=4%, cuda.4.overallHealth=0, cuda.4.powerViolationTime=0.000s, cuda.4.smClock_min=345MHz, cuda.4.smClock_max=1980MHz, cuda.4.smClock_avg=1980MHz, cuda.4.smUtilization_min=0%, cuda.4.smUtilization_max=100%, cuda.4.smUtilization_avg=93%, cuda.4.thermalViolationTime=0.000s, cuda.4.wallTime=2052s, cuda.4.usagePerc=85.571%, cuda.4.memUsagePerc=10.669%)",
+          "mem": "9251900kb",
+          "ncpus": 12,
+          "ngpus": 1,
+          "vmem": "3687376kb",
+          "walltime": "00:34:49"
+        },
+        "stime": "Tue Oct 13 12:08:28 2026",
+        "estimated": {
+          "exec_vnode": "(hpc-gaas-g04:ncpus=12:ngpus=1:mem=262144000kb)",
+          "start_time": "Tue Oct 13 20:04:03 2026"
+        },
+        "job_id": "85452.gaas"
+      },
+      "phase": "rollouts",
+      "source_commit": "cf32b3592a24da834ca35e3bb623a050e218e18d",
+      "checkpoint_step": 10000,
+      "expected_episodes": 8,
+      "completed_episodes": 2,
+      "scene_preflight_passed": true,
+      "partial_outcomes": {
+        "test": {
+          "successes": 0,
+          "completed": 2,
+          "requested": 3
+        },
+        "train": {
+          "successes": 0,
+          "completed": 0,
+          "requested": 5
+        }
+      },
+      "episode_results": [
+        {
+          "episode": 2,
+          "seed": 91,
+          "split": "test",
+          "success": false,
+          "steps": 400,
+          "grasp_contact": false,
+          "lift_4cm": false,
+          "phase_diagnostics": {
+            "grasp": false,
+            "lift": false,
+            "rotation": false,
+            "placement": false,
+            "release": false,
+            "diagnostic_failure_phase": "grasp",
+            "rotation_threshold_deg": 15,
+            "note": "Secondary thresholds; do not replace official success or prove a stable grasp."
+          }
+        },
+        {
+          "episode": 4,
+          "seed": 142,
+          "split": "test",
+          "success": false,
+          "steps": 400,
+          "grasp_contact": true,
+          "lift_4cm": false,
+          "phase_diagnostics": {
+            "grasp": true,
+            "lift": false,
+            "rotation": false,
+            "placement": false,
+            "release": false,
+            "diagnostic_failure_phase": "lift",
+            "rotation_threshold_deg": 15,
+            "note": "Secondary thresholds; do not replace official success or prove a stable grasp."
+          }
+        }
+      ],
+      "output_dir": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C"
+    }
+  },
+  "matched_validation": [
+    {
+      "step": 250,
+      "A": 11.837619771952626,
+      "C": 13.14730262154303
+    },
+    {
+      "step": 500,
+      "A": 5.711449894657089,
+      "C": 5.73910784183728
+    },
+    {
+      "step": 750,
+      "A": 2.353977472212071,
+      "C": 2.6123506426841177
+    },
+    {
+      "step": 1000,
+      "A": 0.6264838926884392,
+      "C": 0.28743113470085
+    },
+    {
+      "step": 1250,
+      "A": 0.5719433678773742,
+      "C": 0.5759910730003223
+    },
+    {
+      "step": 1500,
+      "A": 0.41429345379441107,
+      "C": 0.9357875854238923
+    },
+    {
+      "step": 1750,
+      "A": 0.5219994396988422,
+      "C": 0.4647385314530578
+    },
+    {
+      "step": 2000,
+      "A": 0.30896605864527593,
+      "C": 0.3921058786553764
+    },
+    {
+      "step": 2250,
+      "A": 0.22123721470458405,
+      "C": 0.24289796479035614
+    },
+    {
+      "step": 2500,
+      "A": 0.28681438512448526,
+      "C": 0.18416963667484715
+    },
+    {
+      "step": 2750,
+      "A": 0.20320673212033782,
+      "C": 0.17098688497485137
+    },
+    {
+      "step": 3000,
+      "A": 0.161258431323561,
+      "C": 0.14756607634703228
+    },
+    {
+      "step": 3250,
+      "A": 0.15200790652357987,
+      "C": 0.11881379543069594
+    },
+    {
+      "step": 3500,
+      "A": 0.12626784411902908,
+      "C": 0.13837526175593104
+    },
+    {
+      "step": 3750,
+      "A": 0.17783303533478356,
+      "C": 0.14420897652454556
+    },
+    {
+      "step": 4000,
+      "A": 0.11633071216766788,
+      "C": 0.12114470166690743
+    },
+    {
+      "step": 4250,
+      "A": 0.25985626979618415,
+      "C": 0.24302159908183077
+    },
+    {
+      "step": 4500,
+      "A": 0.09195491835901323,
+      "C": 0.07607337791951663
+    },
+    {
+      "step": 4750,
+      "A": 0.10438761765100346,
+      "C": 0.15265999683473916
+    },
+    {
+      "step": 5000,
+      "A": 0.12329617513650609,
+      "C": 0.24328196374520497
+    },
+    {
+      "step": 5250,
+      "A": 0.12319608475186002,
+      "C": 0.10775816094826429
+    },
+    {
+      "step": 5500,
+      "A": 0.08465836970470764,
+      "C": 0.08807863266199353
+    },
+    {
+      "step": 5750,
+      "A": 0.11554477204076558,
+      "C": 0.09438456102863266
+    },
+    {
+      "step": 6000,
+      "A": 0.10027901117681308,
+      "C": 0.13586629959856214
+    },
+    {
+      "step": 6250,
+      "A": 0.08729414788421883,
+      "C": 0.07028195792497396
+    },
+    {
+      "step": 6500,
+      "A": 0.07024641509592473,
+      "C": 0.08518556781884351
+    },
+    {
+      "step": 6750,
+      "A": 0.09092068418918815,
+      "C": 0.08262111973985703
+    },
+    {
+      "step": 7000,
+      "A": 0.06411345472581644,
+      "C": 0.0606567495818034
+    },
+    {
+      "step": 7250,
+      "A": 0.07105083424479296,
+      "C": 0.08073060618580036
+    },
+    {
+      "step": 7500,
+      "A": 0.06946441877106671,
+      "C": 0.06897681426850742
+    },
+    {
+      "step": 7750,
+      "A": 0.057384705668748766,
+      "C": 0.06906417596816217
+    },
+    {
+      "step": 8000,
+      "A": 0.05908794099929017,
+      "C": 0.07061277749742258
+    },
+    {
+      "step": 8250,
+      "A": 0.05387816413541774,
+      "C": 0.0556000354552193
+    },
+    {
+      "step": 8500,
+      "A": 0.06769758140114071,
+      "C": 0.08408093383309712
+    },
+    {
+      "step": 8750,
+      "A": 0.056785034597619376,
+      "C": 0.05979481727340501
+    },
+    {
+      "step": 9000,
+      "A": 0.061246539611703364,
+      "C": 0.06649263832670793
+    },
+    {
+      "step": 9250,
+      "A": 0.05832510379615079,
+      "C": 0.058115448908128794
+    },
+    {
+      "step": 9500,
+      "A": 0.05831528407738559,
+      "C": 0.05113975847785341
+    },
+    {
+      "step": 9750,
+      "A": 0.05710511082936861,
+      "C": 0.05663887333456325
+    },
+    {
+      "step": 10000,
+      "A": 0.05969712292647813,
+      "C": 0.04945655534169513
+    },
+    {
+      "step": 10250,
+      "A": 0.05315831135472914,
+      "C": 0.0519891786661296
+    },
+    {
+      "step": 10500,
+      "A": 0.04788702463679022,
+      "C": 0.05338647616464218
+    },
+    {
+      "step": 10750,
+      "A": 0.053602190891195875,
+      "C": 0.05207052558341614
+    },
+    {
+      "step": 11000,
+      "A": 0.05220872173408382,
+      "C": 0.0424846021303522
+    },
+    {
+      "step": 11250,
+      "A": 0.05839244332166573,
+      "C": 0.04953440660760107
+    },
+    {
+      "step": 11500,
+      "A": 0.05346446750552111,
+      "C": 0.048938818316174755
+    },
+    {
+      "step": 11750,
+      "A": 0.04570261857805456,
+      "C": 0.043170879009249936
+    },
+    {
+      "step": 12000,
+      "A": 0.049773596401462804,
+      "C": 0.046155337373334264
+    },
+    {
+      "step": 12250,
+      "A": 0.04222421113679772,
+      "C": 0.04234863102266858
+    },
+    {
+      "step": 12500,
+      "A": 0.04171468948855772,
+      "C": 0.03924677691347511
+    },
+    {
+      "step": 12750,
+      "A": 0.04346634412610032,
+      "C": 0.04477681068151247
+    },
+    {
+      "step": 13000,
+      "A": 0.04281916436007775,
+      "C": 0.04159895491794513
+    },
+    {
+      "step": 13250,
+      "A": 0.042214412349105626,
+      "C": 0.039774564329956325
+    },
+    {
+      "step": 13500,
+      "A": 0.04164031755855189,
+      "C": 0.0387621088063431
+    }
+  ]
+}
