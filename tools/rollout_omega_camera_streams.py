@@ -198,7 +198,8 @@ def main():
                     raise RuntimeError(f'Registered fresh scene mismatch at seed {scene["seed"]}')
                 registered_verified = True
             if args.verify_scenes_only:
-                record = dict(**scene, **local_audit, status="passed",
+                record = dict(scene)
+                record.update(**local_audit, status="passed",
                               source_scene_verified=source_verified, registered_scene_verified=registered_verified)
                 result_path.write_text(json.dumps(record, indent=2)+"\n")
                 records.append(record)
@@ -286,8 +287,8 @@ def main():
                 )
                 if env.eval_success:
                     break
-            record = dict(
-                **scene,
+            record = dict(scene)
+            record.update(
                 variant=args.variant,
                 checkpoint=checkpoint,
                 mode=("expert_roundtrip" if expert_data is not None else "expert") if args.expert else "policy",
