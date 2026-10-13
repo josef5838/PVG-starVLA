@@ -1,4 +1,4 @@
-"""Verify scenes, serve a fixed 10K checkpoint, record and decode eight rollouts."""
+"""Verify scenes, serve a registered checkpoint, record and decode eight rollouts."""
 
 import argparse
 import datetime
@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--study", type=Path, required=True)
-    parser.add_argument("--variant", choices=["A", "C"], required=True)
+    parser.add_argument("--variant", required=True)
     args = parser.parse_args()
     manifest_path = args.study.resolve() / "manifest.json"
     manifest = json.loads(manifest_path.read_text())
@@ -28,7 +28,7 @@ def main():
     out.mkdir(exist_ok=False)
     status_path = out / "status.json"
     state = dict(status="starting", variant=args.variant, pbs_job_id=os.environ.get("PBS_JOBID"),
-                 hostname=os.uname().nodename, checkpoint=run["checkpoint"], checkpoint_step=10000,
+                 hostname=os.uname().nodename, checkpoint=run["checkpoint"], checkpoint_step=run["checkpoint_step"],
                  completed_episodes=0, source_commit=manifest["source_commit"])
     server, child = None, None
 
@@ -61,7 +61,14 @@ def main():
     env.pop("DISPLAY", None)
     # The simulator owns its native dependencies; only the policy needs runtime_site.
     sim_env = dict(env, PYTHONPATH=str(ROOT)+":"+manifest["simulator_root"])
-    port = 5780 if args.variant == "A" else 5781
+    port = run.get("port", 5780 if args.variant == "A" else 5781)
+    overrides = []
+    if "state_conditioning" in run:
+        assert run["state_conditioning"] in {"full", "none"}
+        assert isinstance(run["visual_conditioning"], bool)
+        overrides = ["--config_override", f"framework.state_conditioning={run['state_conditioning']}",
+                     "--config_override", f"framework.visual_conditioning={str(run['visual_conditioning']).lower()}"]
+        state.update(state_conditioning=run["state_conditioning"], visual_conditioning=run["visual_conditioning"])
     sim_command = [manifest["simulator_python"], str(ROOT/"tools/rollout_omega_camera_streams.py"),
                    "--manifest", str(manifest_path), "--variant", args.variant, "--port", str(port),
                    "--robotwin-root", manifest["simulator_root"]]
@@ -85,11 +92,25 @@ def main():
         simulate(sim_command+["--verify-scenes-only","--out",str(out/"scene_preflight")], "scene_preflight.log")
         preflight = json.loads((out/"scene_preflight/results.json").read_text())
         assert len(preflight) == 8 and all(row["status"] == "passed" for row in preflight)
+        if manifest.get("preflight_tool"):
+            update("conditioning_preflight", scene_preflight_passed=True)
+            with (out/"conditioning_preflight.log").open("w") as stream:
+                child = subprocess.Popen(
+                    [manifest["policy_python"], str(ROOT/"tools"/manifest["preflight_tool"]),
+                     "--study",str(args.study.resolve()),"--variant",args.variant,
+                     "--out",str(out/"conditioning_preflight.json")],
+                    cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
+                code = child.wait()
+            child = None
+            if code:
+                raise RuntimeError(f"Conditioning preflight exited {code}; see {out/'conditioning_preflight.log'}")
+            assert json.loads((out/"conditioning_preflight.json").read_text())["status"] == "passed"
+            update("loading_checkpoint", conditioning_preflight_passed=True)
         update("loading_checkpoint", scene_preflight_passed=True)
         with (out/"server.log").open("w") as stream:
             server = subprocess.Popen(
                 [manifest["policy_python"], str(ROOT/"deployment/model_server/server_policy.py"),
-                 "--ckpt_path",run["checkpoint"],"--port",str(port),"--use_bf16"],
+                 "--ckpt_path",run["checkpoint"],"--port",str(port),"--use_bf16"]+overrides,
                 cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
         deadline = time.monotonic()+600
         while time.monotonic() < deadline:
@@ -119,9 +140,13 @@ def main():
             video_frames[row["video"]] = count
         summary = {split:dict(successes=sum(r["success"] for r in results if r["split"]==split),
                              episodes=sum(r["split"]==split for r in results)) for split in ("test","train")}
-        (out/"summary.json").write_text(json.dumps(dict(variant=args.variant,checkpoint_step=10000,
+        (out/"summary.json").write_text(json.dumps(dict(variant=args.variant,checkpoint_step=run["checkpoint_step"],
+                state_conditioning=run.get("state_conditioning"),visual_conditioning=run.get("visual_conditioning"),
                 outcomes=summary,decoded_video_frames=video_frames,episodes=results),indent=2)+"\n")
         update("completed",completed_episodes=8,outcomes=summary,video_validation="passed")
+        if manifest.get("summary_tool"):
+            subprocess.run([manifest["policy_python"],str(ROOT/"tools"/manifest["summary_tool"]),
+                            "--study",str(args.study.resolve())],cwd=ROOT,env=env,check=True)
     except BaseException as error:
         update("failed",failed_phase=state["status"],error=repr(error))
         raise

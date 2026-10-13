@@ -207,6 +207,11 @@ def main():
                 print(json.dumps(record), flush=True)
                 continue
             model = adapter.ModelClient(checkpoint, port=args.port, execute_horizon=execute_horizon)
+            if "state_conditioning" in run:
+                metadata = model.client.get_server_metadata()
+                for key in ("state_conditioning", "visual_conditioning"):
+                    if metadata.get(key) != run[key]:
+                        raise RuntimeError(f"Server conditioning mismatch: {key}: {metadata.get(key)} vs {run[key]}")
             model.diffusion_seed = manifest["diffusion_seed"]
             if model.camera_history_length != 8 or model.preserve_native_images or list(model.image_size) != [640, 480]:
                 raise RuntimeError("Server/client history or image-size contract mismatch")
@@ -265,6 +270,14 @@ def main():
                     if actor.actor.name in names:
                         contacts.update(n for n in names if n in env.robot.gripper_name)
                 command = np.asarray(env.robot.get_left_arm_jointState() + env.robot.get_right_arm_jointState())
+                conditioning_geometry = {}
+                if manifest.get("record_conditioning_geometry", False):
+                    tcp = np.asarray(env.robot.get_right_tcp_pose() if arm == "right"
+                                     else env.robot.get_left_tcp_pose(), dtype=float)
+                    actual = env.robot.get_right_arm_real_jointState() if arm == "right" \
+                        else env.robot.get_left_arm_real_jointState()
+                    conditioning_geometry = dict(tcp_pose=tcp.tolist(), measured_active_joint_positions=np.asarray(actual, dtype=float).tolist(),
+                        tcp_to_object_center_m=float(np.linalg.norm(tcp[:3] - actor.get_pose().p)))
                 trace.append(
                     dict(
                         step=step,
@@ -282,6 +295,7 @@ def main():
                         object_lift_m=float(actor.get_pose().p[2] - initial[2]),
                         history_observations=len(model.camera_history),
                         policy_step_seconds=inference,
+                        **conditioning_geometry,
                         **rotation_diagnostics(env, actor, command),
                     )
                 )
@@ -291,6 +305,9 @@ def main():
             record.update(
                 variant=args.variant,
                 checkpoint=checkpoint,
+                checkpoint_step=run.get("checkpoint_step"),
+                state_conditioning=run.get("state_conditioning"),
+                visual_conditioning=run.get("visual_conditioning"),
                 mode=("expert_roundtrip" if expert_data is not None else "expert") if args.expert else "policy",
                 source_scene_verified=source_verified,
                 registered_scene_verified=registered_verified,
@@ -318,6 +335,10 @@ def main():
                 final_object_position=actor.get_pose().p.tolist(),
                 step_limit=env.step_lim,
             )
+            if manifest.get("record_conditioning_geometry", False):
+                distances = [x["tcp_to_object_center_m"] for x in trace]
+                record.update(minimum_tcp_to_object_center_m=min(distances),
+                              final_tcp_to_object_center_m=distances[-1])
             if hasattr(env, "qrcode"):
                 record.update(
                     final_orientation_error_deg=quaternion_error_degrees(actor.get_pose().q),
