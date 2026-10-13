@@ -25,6 +25,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--limit-scenes", type=int)
     parser.add_argument("--expert", action="store_true")
+    parser.add_argument("--verify-scenes-only", action="store_true")
     parser.add_argument("--execute-horizon", type=int, choices=[4, 8])
     parser.add_argument(
         "--expert-data", type=Path, help="Prepared inverse-normalized expert actions, keyed by dataset episode"
@@ -47,12 +48,19 @@ def main():
     from robotwin_omega_intervention_scenes import setup_runtime
     from rotate_qrcode_metrics import quaternion_error_degrees, rotation_diagnostics, summarize_phases, task_geometry
 
-    _, renderer, make_env, config = setup_runtime(args.robotwin_root, 0, task=manifest["task"])
+    _, renderer, make_env, config = setup_runtime(
+        args.robotwin_root, 0, task=manifest["task"],
+        native_camera_contract=manifest.get("native_camera_contract", False)
+    )
     from examples.simBenchmarks.Robotwin.eval_files import model2robotwin_interface as adapter
 
     run = next(r for r in manifest["runs"] if r["variant"] == args.variant)
+    checkpoint = run.get("checkpoint") or run["checkpoints"]["best"]
     source = Path(manifest["source"])
-    info = json.loads((source / "scene_info.json").read_text())
+    references = np.load(manifest["scene_reference_data"]) if manifest.get("scene_reference_data") else None
+    if references is not None and args.expert:
+        raise ValueError("Local RGB/state references do not contain expert action trajectories")
+    info = None if references is not None else json.loads((source / "scene_info.json").read_text())
     registration = (
         json.loads(Path(manifest["fresh_scene_registration"]).read_text())
         if manifest.get("fresh_scene_registration")
@@ -104,10 +112,7 @@ def main():
         if result_path.exists():
             records.append(json.loads(result_path.read_text()))
             continue
-        model = adapter.ModelClient(run["checkpoints"]["best"], port=args.port, execute_horizon=execute_horizon)
-        model.diffusion_seed = manifest["diffusion_seed"]
-        if model.camera_history_length != 8 or model.preserve_native_images or list(model.image_size) != [640, 480]:
-            raise RuntimeError("Server/client history or image-size contract mismatch")
+        model = None
         env = make_env(manifest["task"])
         pipe = None
         trace = []
@@ -121,7 +126,20 @@ def main():
             state_error = None
             source_verified = False
             registered_verified = False
-            if scene["source_episode"] is not None:
+            local_audit = {}
+            if references is not None:
+                from robotwin_stream_scene_reference import verify_scene
+
+                local_audit = verify_scene(
+                    scene, references, obs, env.model_id, arm, actor.get_pose().p, actor.get_pose().q,
+                    manifest["camera_order"], manifest["initial_image_validation"]["grayscale_mae_limit"]
+                )
+                state_error = local_audit["initial_state_max_error"]
+                image_errors = local_audit["initial_image_mae"]
+                gray_errors = local_audit["initial_grayscale_mae"]
+                source_verified = True
+                registered_verified = True
+            elif scene["source_episode"] is not None:
                 sid = scene["source_episode"]
                 with h5py.File(source / f"data/episode{sid}.hdf5") as file:
                     state_error = float(np.max(np.abs(obs["joint_action"]["vector"] - file["joint_action/vector"][0])))
@@ -179,6 +197,18 @@ def main():
                 ):
                     raise RuntimeError(f'Registered fresh scene mismatch at seed {scene["seed"]}')
                 registered_verified = True
+            if args.verify_scenes_only:
+                record = dict(**scene, **local_audit, status="passed",
+                              source_scene_verified=source_verified, registered_scene_verified=registered_verified)
+                result_path.write_text(json.dumps(record, indent=2)+"\n")
+                records.append(record)
+                (args.out / "results.json").write_text(json.dumps(records, indent=2)+"\n")
+                print(json.dumps(record), flush=True)
+                continue
+            model = adapter.ModelClient(checkpoint, port=args.port, execute_horizon=execute_horizon)
+            model.diffusion_seed = manifest["diffusion_seed"]
+            if model.camera_history_length != 8 or model.preserve_native_images or list(model.image_size) != [640, 480]:
+                raise RuntimeError("Server/client history or image-size contract mismatch")
             instruction = manifest["task"]
             env.set_instruction(instruction)
             model.reset(instruction)
@@ -259,7 +289,7 @@ def main():
             record = dict(
                 **scene,
                 variant=args.variant,
-                checkpoint=run["checkpoints"]["best"],
+                checkpoint=checkpoint,
                 mode=("expert_roundtrip" if expert_data is not None else "expert") if args.expert else "policy",
                 source_scene_verified=source_verified,
                 registered_scene_verified=registered_verified,
@@ -306,7 +336,8 @@ def main():
                     raise RuntimeError("Video encoding failed")
                 env.eval_video_path = None
             env.close_env(clear_cache=True)
-            model.client.close()
+            if model is not None:
+                model.client.close()
     (args.out / "results.json").write_text(json.dumps(records, indent=2) + "\n")
 
 

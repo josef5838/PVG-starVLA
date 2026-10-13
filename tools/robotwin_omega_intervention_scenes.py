@@ -13,7 +13,7 @@ import numpy as np
 from PIL import Image
 
 
-def setup_runtime(root, gpu, task="rotate_qrcode"):
+def setup_runtime(root, gpu, task="rotate_qrcode", native_camera_contract=False):
     sys.path.insert(0, str(root))
     os.chdir(root)
     import sapien.core as sapien
@@ -26,7 +26,13 @@ def setup_runtime(root, gpu, task="rotate_qrcode"):
         return sapien.Scene([sapien.physx.PhysxCpuSystem(), sapien.render.RenderSystem(f"cuda:{gpu}")])
 
     sapien.Engine.create_scene = create_scene
-    from scripts.eval_policy_xpolicylab import class_decorator, load_task_args
+    from scripts import eval_policy_xpolicylab as evaluator
+
+    if native_camera_contract:
+        from robotwin_camera_contract import install_camera_contract
+
+        install_camera_contract(evaluator)
+    class_decorator, load_task_args = evaluator.class_decorator, evaluator.load_task_args
 
     config, _ = load_task_args(
         dict(task_name=task, task_config="demo_clean", policy_name="diagnostic", ckpt_name="omega_causal")
