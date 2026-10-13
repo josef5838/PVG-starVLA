@@ -84,3 +84,38 @@ Worker: `tools/run_omega_paired_rollouts_gaas.py`.
 GPU preflight: `tools/preflight_omega_conditioning_rollouts.py`.
 Comparison: `tools/summarize_omega_conditioning_rollouts.py`.
 PBS: `examples/simBenchmarks/Robotwin/eval_files/omega_conditioning_20k_gaas_rollout.pbs`.
+## Submission record
+
+All four A workers were submitted at 20:52:46–47 SGT on 2026-10-13 and
+were running when first checked. Each worker's CPU isolation test passed.
+GPU checkpoint and scene preflights must pass before policy rollouts begin;
+no rollout outcome is claimed in this submission record.
+
+| Condition | PBS job |
+| --- | --- |
+| full | 85749.gaas |
+| vision_only | 85750.gaas |
+| state_only | 85751.gaas |
+| task_only | 85752.gaas |
+
+Immutable evaluation source: `51a466386d058c702aedb8f191f970102649cdc9`
+(1,987 tracked files copied and hashed before submission).
+Final A checkpoint SHA256:
+`cf3708fa9b6356a09c0fce7637a2700e9a9818c5be437d6472db8319084059cf`.
+See the [registered manifest](experiment_records/gaas_A20k_conditioning_20261013/manifest.json)
+and [artifact index](experiment_records/gaas_A20k_conditioning_20261013/artifact_index.json).
+
+Study and worker logs:
+`/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/`.
+Videos, traces, real-checkpoint preflights and comparison files:
+`/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_A_20000_conditioning_20261013/`.
+The comparison files are `conditioning_comparison.json` and
+`conditioning_episode_outcomes.csv`; partial results are labeled until all
+32 episodes and video validation finish.
+
+At 20:56 SGT, all four real-checkpoint GPU preflights passed: repeated-input
+sampling produced exactly identical actions; all applicable masked-state and
+masked-image perturbations produced zero action difference; visual-disabled
+runs made zero Omega calls. See the `gpu_*_preflight.json` files in the
+registration record. Scene preflights completed and workers entered rollout
+execution. These are validation checks, not policy success results.

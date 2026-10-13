@@ -234,3 +234,20 @@ python tools/snapshot_omega_gaas_experiments.py \
 
 The artifact index hashes copied source bytes and lists original paths. Exported
 validation CSVs and the summary are derived from the captured metrics/results.
+
+## A final 20K conditioning evaluation, submitted 2026-10-13 20:52 SGT
+
+A finished exactly 20,000 updates / 160,000 sampled observations. Its final
+weights are now registered for a four-condition inference intervention:
+full inputs, vision without explicit state, explicit state without vision,
+and task only. All conditions retain the task token and share weights,
+normalization, eight registered scenes and diffusion seeds. This is 32
+rollouts: three test and five train per condition. PBS jobs 85749–85752.gaas
+were running at first check; all four CPU masking preflights passed.
+GPU/scene checks and rollout results remain pending in this submission record.
+**No C conditioning evaluation was queued.**
+
+See [A 20K conditioning protocol and job registration](omega_A20k_conditioning_gaas_protocol_20261013.md).
+Inference masking tests dependence on the available routes and introduces
+inputs unseen during training; it cannot alone prove harmful overreliance.
+The previous dated 10K evidence and training snapshot above remain unchanged.

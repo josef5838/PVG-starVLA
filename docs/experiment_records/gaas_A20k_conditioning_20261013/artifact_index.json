@@ -1,0 +1,70 @@
+{
+  "captured_utc": "2026-10-13T12:57:02.168684+00:00",
+  "artifacts": [
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/manifest.json",
+      "file": "manifest.json",
+      "sha256": "04f737ba59cf97551a23e5ea917a223e3a6e670061bb884aecf17e3c73957907"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/pbs_submission_full.json",
+      "file": "pbs_submission_full.json",
+      "sha256": "5348e8cfc929c0c5145e8fb4629d059e1835e29b99ba06b2306fac15bd3fee7e"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/pbs_submission_vision_only.json",
+      "file": "pbs_submission_vision_only.json",
+      "sha256": "6b69899a13939d744eaf689fc46bd72634ff1ad19027c8d67ccb524d0ebaee8c"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/pbs_submission_state_only.json",
+      "file": "pbs_submission_state_only.json",
+      "sha256": "427f17860c4b2dbee66d38bde46530af7d59a09b385c919489e3de5d2bb0f9b3"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/pbs_submission_task_only.json",
+      "file": "pbs_submission_task_only.json",
+      "sha256": "f29c2fa254cdabbc421f1979f00a0becebc383e71a8520dcc7a834e3d719c749"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/cpu_full_preflight.log",
+      "file": "cpu_full_preflight.log",
+      "sha256": "d4adb490b040528fe3ebec45a94d914a5235a767abc43132a58f1cb8b32cb72f"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/cpu_vision_only_preflight.log",
+      "file": "cpu_vision_only_preflight.log",
+      "sha256": "d17bcf92691373d65b7e2b41ee1c67c760eb46286fe0f2251b42e2f71fb6617a"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/cpu_state_only_preflight.log",
+      "file": "cpu_state_only_preflight.log",
+      "sha256": "07a63e52982d8b9c121de77eefaa6e8056505099ad5a339c1a3feff188c10168"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_conditioning_20261013/cpu_task_only_preflight.log",
+      "file": "cpu_task_only_preflight.log",
+      "sha256": "07a63e52982d8b9c121de77eefaa6e8056505099ad5a339c1a3feff188c10168"
+    },
+    {
+      "source": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_A_20000_conditioning_20261013/full/conditioning_preflight.json",
+      "file": "gpu_full_preflight.json",
+      "sha256": "1c5aa28bc62a17944ea40685da85e1b76ea5a368338fa1afe06f8edf707cce0e"
+    },
+    {
+      "source": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_A_20000_conditioning_20261013/vision_only/conditioning_preflight.json",
+      "file": "gpu_vision_only_preflight.json",
+      "sha256": "e213d41b1c13474ee63175950a37c9d4b60471b06b2ce36aa19c66ad492a321e"
+    },
+    {
+      "source": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_A_20000_conditioning_20261013/state_only/conditioning_preflight.json",
+      "file": "gpu_state_only_preflight.json",
+      "sha256": "d3412888426cec53a954586f09d123673cddd025d42d0f529c68858cfd2b50ff"
+    },
+    {
+      "source": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_A_20000_conditioning_20261013/task_only/conditioning_preflight.json",
+      "file": "gpu_task_only_preflight.json",
+      "sha256": "1fb2f6a033c38b8b0e77e90ed7e2abd7ade9beebd5ed5cf4326767a453ad65bb"
+    }
+  ]
+}
