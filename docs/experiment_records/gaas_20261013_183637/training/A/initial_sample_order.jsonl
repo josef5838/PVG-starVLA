@@ -1,0 +1,16 @@
+{"batch": 1, "samples": [{"episode": 98, "frame": 80}, {"episode": 83, "frame": 23}, {"episode": 98, "frame": 82}, {"episode": 16, "frame": 11}]}
+{"batch": 2, "samples": [{"episode": 82, "frame": 30}, {"episode": 36, "frame": 24}, {"episode": 65, "frame": 52}, {"episode": 30, "frame": 13}]}
+{"batch": 3, "samples": [{"episode": 16, "frame": 19}, {"episode": 30, "frame": 54}, {"episode": 77, "frame": 12}, {"episode": 22, "frame": 14}]}
+{"batch": 4, "samples": [{"episode": 11, "frame": 11}, {"episode": 91, "frame": 44}, {"episode": 76, "frame": 6}, {"episode": 44, "frame": 15}]}
+{"batch": 5, "samples": [{"episode": 47, "frame": 55}, {"episode": 44, "frame": 3}, {"episode": 48, "frame": 10}, {"episode": 90, "frame": 19}]}
+{"batch": 6, "samples": [{"episode": 46, "frame": 61}, {"episode": 85, "frame": 23}, {"episode": 8, "frame": 78}, {"episode": 39, "frame": 37}]}
+{"batch": 7, "samples": [{"episode": 82, "frame": 35}, {"episode": 66, "frame": 24}, {"episode": 28, "frame": 64}, {"episode": 35, "frame": 61}]}
+{"batch": 8, "samples": [{"episode": 45, "frame": 42}, {"episode": 76, "frame": 77}, {"episode": 64, "frame": 0}, {"episode": 44, "frame": 50}]}
+{"batch": 9, "samples": [{"episode": 7, "frame": 26}, {"episode": 88, "frame": 65}, {"episode": 19, "frame": 4}, {"episode": 98, "frame": 3}]}
+{"batch": 10, "samples": [{"episode": 23, "frame": 82}, {"episode": 60, "frame": 74}, {"episode": 39, "frame": 27}, {"episode": 26, "frame": 41}]}
+{"batch": 11, "samples": [{"episode": 64, "frame": 67}, {"episode": 60, "frame": 61}, {"episode": 16, "frame": 29}, {"episode": 70, "frame": 2}]}
+{"batch": 12, "samples": [{"episode": 70, "frame": 60}, {"episode": 31, "frame": 18}, {"episode": 66, "frame": 6}, {"episode": 11, "frame": 18}]}
+{"batch": 13, "samples": [{"episode": 6, "frame": 54}, {"episode": 1, "frame": 78}, {"episode": 6, "frame": 73}, {"episode": 84, "frame": 78}]}
+{"batch": 14, "samples": [{"episode": 29, "frame": 65}, {"episode": 10, "frame": 75}, {"episode": 16, "frame": 61}, {"episode": 16, "frame": 38}]}
+{"batch": 15, "samples": [{"episode": 0, "frame": 58}, {"episode": 55, "frame": 30}, {"episode": 13, "frame": 31}, {"episode": 68, "frame": 63}]}
+{"batch": 16, "samples": [{"episode": 7, "frame": 70}, {"episode": 41, "frame": 37}, {"episode": 41, "frame": 4}, {"episode": 88, "frame": 66}]}

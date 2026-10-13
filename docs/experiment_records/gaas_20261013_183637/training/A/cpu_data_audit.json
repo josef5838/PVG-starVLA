@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "statistics_exactly_match": true,
+  "batch_image_sha256": "4a0fb0f1d02ec04041b4275826970c3e0e35c8848d80571e2c25102248d86627",
+  "batch_action_sha256": "a32a1f608f4af317ad95b726967e2d30c1b262adde435fab9562c38f86cd1c23",
+  "sample_keys": [
+    {
+      "episode": 98,
+      "frame": 80
+    },
+    {
+      "episode": 83,
+      "frame": 23
+    },
+    {
+      "episode": 98,
+      "frame": 82
+    },
+    {
+      "episode": 16,
+      "frame": 11
+    }
+  ],
+  "dataset_files_verified": 106,
+  "split_sizes": {
+    "train": 80,
+    "validation": 10,
+    "test": 10
+  }
+}

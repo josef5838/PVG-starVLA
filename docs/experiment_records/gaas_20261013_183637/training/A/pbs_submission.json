@@ -1,0 +1,20 @@
+{
+  "Job_Name": "omega_joint24",
+  "job_state": "Q",
+  "queue": "gpu_as",
+  "comment": "Not Running: would exceed project gs_ccds_chuanxia.zheng's limit on resource ngpus in complex",
+  "Resource_List": {
+    "am_job_cache": "{\"job.walltime\": 604800, \"job.ngpus\": 1.0, \"job.queue_charge_rate\": 0, \"formula_constants\": \"\", \"am_cloud_enabled\": false}",
+    "mem": "250gb",
+    "ncpus": 12,
+    "ngpus": 1,
+    "nodect": 1,
+    "place": "free",
+    "queue_charge_rate": 0,
+    "select": "1:ncpus=12:ngpus=1:mem=250GB",
+    "walltime": "168:00:00"
+  },
+  "project": "gs_ccds_chuanxia.zheng",
+  "job_id": "84822.gaas",
+  "checked_utc": "2026-10-12T06:10:41.395503+00:00"
+}

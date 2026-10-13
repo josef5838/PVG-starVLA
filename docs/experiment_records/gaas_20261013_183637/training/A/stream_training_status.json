@@ -1,0 +1,48 @@
+{
+  "status": "running",
+  "completed_updates": 19380,
+  "target_updates": 20000,
+  "consumed_batches": 38760,
+  "consumed_observations": 155040,
+  "visual_info": {
+    "input_shape": [
+      4,
+      3,
+      8,
+      3,
+      448,
+      592
+    ],
+    "calls_per_batch": 1,
+    "images_per_call": 24,
+    "encoding": "joint24",
+    "raw_token_shape": [
+      4,
+      3,
+      8,
+      17,
+      2048
+    ],
+    "raw_memory_tokens": 408,
+    "memory_tokens": 408,
+    "conditioning": "direct",
+    "patch_tokens_in_action_memory": 0,
+    "temporal_embedding": "learned",
+    "temporal_rope": false,
+    "observation_mode": "history"
+  },
+  "latest_metrics": {
+    "action_dit_loss": 0.0007757703424431384,
+    "training_samples": 155040,
+    "timing/data": 0.0006695641204714775,
+    "timing/model": 2.338856956921518,
+    "learning_rate/visual_proj": 1.0694013997105771e-05,
+    "learning_rate/state_proj": 1.0694013997105771e-05,
+    "learning_rate/action_model": 1.0694013997105771e-05,
+    "learning_rate/memory_proj": 1.0694013997105771e-05,
+    "learning_rate/base": 1.0694013997105771e-05,
+    "epoch": 11.62
+  },
+  "peak_allocated_gpu_gib": 16.5687255859375,
+  "updated_unix": 1791887765.3391504
+}

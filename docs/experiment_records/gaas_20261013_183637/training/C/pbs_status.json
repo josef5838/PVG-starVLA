@@ -1,0 +1,22 @@
+{
+  "job_state": "R",
+  "Exit_status": null,
+  "comment": "Job run at Mon Oct 12 at 17:04 on (hpc-gaas-g11:ncpus=12:ngpus=1:mem=262144000kb)",
+  "exec_host": "hpc-gaas-g11/2*12",
+  "resources_used": {
+    "cpupercent": 193,
+    "cput": "49:43:46",
+    "gpu_usage": "hpc-gaas-g11(cuda.1.energyConsumed=54692J, cuda.1.lowUtilizationTime=0.000s, cuda.1.maxGpuMemoryUsed=20670.000MB, cuda.1.memoryClock_min=3201MHz, cuda.1.memoryClock_max=3201MHz, cuda.1.memoryClock_avg=3201MHz, cuda.1.memoryUtilization_min=0%, cuda.1.memoryUtilization_max=49%, cuda.1.memoryUtilization_avg=19%, cuda.1.overallHealth=10, cuda.1.powerViolationTime=364867.468s, cuda.1.smClock_min=345MHz, cuda.1.smClock_max=1980MHz, cuda.1.smClock_avg=1969MHz, cuda.1.smUtilization_min=0%, cuda.1.smUtilization_max=100%, cuda.1.smUtilization_avg=73%, cuda.1.thermalViolationTime=0.000s, cuda.1.wallTime=91797s, cuda.1.usagePerc=72.948%, cuda.1.memUsagePerc=14.377%)",
+    "mem": "7710716kb",
+    "ncpus": 12,
+    "ngpus": 1,
+    "vmem": "141361336kb",
+    "walltime": "25:30:34"
+  },
+  "stime": "Mon Oct 12 17:04:37 2026",
+  "estimated": {
+    "exec_vnode": "(hpc-gaas-g02:ncpus=12:ngpus=1:mem=262144000kb)",
+    "start_time": "Mon Oct 12 17:02:46 2026"
+  },
+  "job_id": "84945.gaas"
+}

@@ -5,7 +5,10 @@ Revised 2026-10-12 after auditing the implemented camera-stream policy.
 Implementation and current GAAS results are recorded in
 [the GAAS experiment ledger](omega_gaas_experiments.md), observed 2026-10-13.
 C has passed its CPU/GPU checks and is training; its registered 10K milestone
-rollouts are running. B0/Bfixed, Creg and D/E remain future experiments.
+rollouts are complete: both scored 0/3 test and 0/5 train at the 10K milestone.
+Training remains in progress at the latest dated observation. B0/Bfixed, Creg
+and D/E remain future experiments; visual-grounding diagnostics are proposed
+in the GAAS record before launching further full training jobs.
 
 ## 1. Scope and verified baseline
 

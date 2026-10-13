@@ -1,0 +1,254 @@
+[
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/manifest.json",
+    "snapshot_path": "training/A/manifest.json",
+    "bytes": 22709,
+    "sha256": "085fa30479f1eeb0e7c08d5943d802e96007024e7ec7ddf8d57af1969d4bc728"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/production.yaml",
+    "snapshot_path": "training/A/production.yaml",
+    "bytes": 14682,
+    "sha256": "36194c4d2938e15e0a977832c5e99099bae0a4491ec7aa36f91ecba3d89add9f"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/preflight.json",
+    "snapshot_path": "training/A/preflight.json",
+    "bytes": 2607,
+    "sha256": "70397089ce5d78a748731c8ed9257dd5110334389afb51c6fb2a9a2de77b7038"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/preflight_dataset_statistics.json",
+    "snapshot_path": "training/A/preflight_dataset_statistics.json",
+    "bytes": 3738,
+    "sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/batch_tuning.json",
+    "snapshot_path": "training/A/batch_tuning.json",
+    "bytes": 1609,
+    "sha256": "4e509ba283d71e6b0f9bbf0ea58db9a0a2a468a928c8159b67f0999d3d682434"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/cpu_data_audit.json",
+    "snapshot_path": "training/A/cpu_data_audit.json",
+    "bytes": 588,
+    "sha256": "8d256ad715c04fa7d2fd42e8ff5a95a4b1db31aa5369c13461896bba96a2cc53"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/pbs_submission.json",
+    "snapshot_path": "training/A/pbs_submission.json",
+    "bytes": 680,
+    "sha256": "1f3488028840476a9515997cd8c4a930ed0a9ff30fd46e796a6388c0de06a7f9"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_joint24_gaas_20261012/source/source_hashes.json",
+    "snapshot_path": "training/A/source_hashes.json",
+    "bytes": 331597,
+    "sha256": "6b2921ed6e6dd8efc67b10edc385f0d2eff834483ea8a7cb2c40068f97ecf40e"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/stream_training_status.json",
+    "snapshot_path": "training/A/stream_training_status.json",
+    "bytes": 1208,
+    "sha256": "fd2b548a441bd49cf4252e5b4760b43ae7dc9e170798993d8f2a631c93d385b9"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/best_model/validation.json",
+    "snapshot_path": "training/A/best_validation.json",
+    "bytes": 301,
+    "sha256": "d15778ff299568fd388289246c538ae6c7a5cd4d70d813475871891fe8624ed0"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/dataset_statistics.json",
+    "snapshot_path": "training/A/dataset_statistics.json",
+    "bytes": 3738,
+    "sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/config.full.yaml",
+    "snapshot_path": "training/A/config.full.yaml",
+    "bytes": 14682,
+    "sha256": "36194c4d2938e15e0a977832c5e99099bae0a4491ec7aa36f91ecba3d89add9f"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/initial_sample_order.jsonl",
+    "snapshot_path": "training/A/initial_sample_order.jsonl",
+    "bytes": 2328,
+    "sha256": "b87f28289f140bebd1b6b8dcbf5d5a6fd57373ec0f8a0bdd2982ad2be117c0ab"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/Checkpoints/omega_joint24_rotate_qrcode_direct_20000steps_gaas_20261012_060015/stream_training_metrics.jsonl",
+    "snapshot_path": "training/A/stream_training_metrics.jsonl",
+    "bytes": 837079,
+    "sha256": "e1b929e89a201a086bbd7e6c45008f9499c8d7c2849449af6850eec9d73a2536"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/manifest.json",
+    "snapshot_path": "training/C/manifest.json",
+    "bytes": 20658,
+    "sha256": "b9919f6c01e2c6186a49059ee3ae1b1c750d311373d81f876714f23f7fa8a144"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/production.yaml",
+    "snapshot_path": "training/C/production.yaml",
+    "bytes": 14868,
+    "sha256": "742c3c7770ab4eb44cc1b7cc91dfb66b93adfbc88fc174830c5bf8f316c2d97c"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/preflight.json",
+    "snapshot_path": "training/C/preflight.json",
+    "bytes": 4037,
+    "sha256": "d51be4c6e2fd3838d30d8924e7fba281c60b9f120c03b26f0943c47a2f52c948"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/preflight_dataset_statistics.json",
+    "snapshot_path": "training/C/preflight_dataset_statistics.json",
+    "bytes": 3738,
+    "sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/cpu_validation.json",
+    "snapshot_path": "training/C/cpu_validation.json",
+    "bytes": 330,
+    "sha256": "aff9117f2e29d7858903a9e97ecebc4e58b897e34fda748f6d6144d8299a6b5b"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/pbs_submission.json",
+    "snapshot_path": "training/C/pbs_submission.json",
+    "bytes": 751,
+    "sha256": "cca14d45bd73b32e9644931345324307390a8001ffd08a034cbc3a390bebbcac"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/source_hashes.json",
+    "snapshot_path": "training/C/source_hashes.json",
+    "bytes": 336020,
+    "sha256": "c6764d356fe20b3173698a61455264fe2d12f2adb9c84f549f88ef2c57f633db"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/stream_training_status.json",
+    "snapshot_path": "training/C/stream_training_status.json",
+    "bytes": 1502,
+    "sha256": "6d15cdb2ad056827632e87d636f7f9080fafc2eb053533d708b1dd82c1b1c031"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/best_model/validation.json",
+    "snapshot_path": "training/C/best_validation.json",
+    "bytes": 302,
+    "sha256": "ef9b4e9edf580994979e36a5361c60b994c00edabaebc6862b88f912db61264e"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/dataset_statistics.json",
+    "snapshot_path": "training/C/dataset_statistics.json",
+    "bytes": 3738,
+    "sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/config.full.yaml",
+    "snapshot_path": "training/C/config.full.yaml",
+    "bytes": 14868,
+    "sha256": "742c3c7770ab4eb44cc1b7cc91dfb66b93adfbc88fc174830c5bf8f316c2d97c"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/initial_sample_order.jsonl",
+    "snapshot_path": "training/C/initial_sample_order.jsonl",
+    "bytes": 2328,
+    "sha256": "b87f28289f140bebd1b6b8dcbf5d5a6fd57373ec0f8a0bdd2982ad2be117c0ab"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/latest_training_state/complete.json",
+    "snapshot_path": "training/C/latest_training_state_complete.json",
+    "bytes": 105,
+    "sha256": "fa0a6f45e3bcd0551bb487770dcb3f61859a01ce91e95893b6516dd853f88581"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/stream_training_metrics.jsonl",
+    "snapshot_path": "training/C/stream_training_metrics.jsonl",
+    "bytes": 769973,
+    "sha256": "0e131a43a265b202409454d482e0023b6d3a9e2d880127adc740f57f164feaf6"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/manifest.json",
+    "snapshot_path": "evaluation/manifest.json",
+    "bytes": 16134,
+    "sha256": "e9b5f2ec1c46ba0d98b4ff5dfaa348ca299b2802a259687271c80b4b71af31d2"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/cpu_validation.json",
+    "snapshot_path": "evaluation/cpu_validation.json",
+    "bytes": 308,
+    "sha256": "c170c73da82e79e8d287b1cfa6cb4c571d3bd20a94e1d5362f128496f5dcba16"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/source_hashes.json",
+    "snapshot_path": "evaluation/source_hashes.json",
+    "bytes": 336989,
+    "sha256": "ddaed35d11c356b18251db17c2262ff6d2d365cfdba6008f31d4383b2caf5087"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/pbs_submission_A.json",
+    "snapshot_path": "evaluation/pbs_submission_A.json",
+    "bytes": 804,
+    "sha256": "f22c9f1328b53e8e24880cab7d0ae26d7536bc2741f05c5fb586a91445f608c3"
+  },
+  {
+    "original_path": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/pbs_submission_C.json",
+    "snapshot_path": "evaluation/pbs_submission_C.json",
+    "bytes": 804,
+    "sha256": "e5a47c23578aae26c65186764a910fb755c9df7c37b766b8e563c794b4d88ddb"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/status.json",
+    "snapshot_path": "evaluation/A/status.json",
+    "bytes": 722,
+    "sha256": "2259a9965e48db195bf56f55b943cb609665e1bb0cb876bb47ccdeef78246126"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/scene_preflight/results.json",
+    "snapshot_path": "evaluation/A/scene_preflight.json",
+    "bytes": 9424,
+    "sha256": "008c3ed8ae663b99667dd1e088165979ffaa2b9b29d5557688cce6e155bb9a33"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/results.json",
+    "snapshot_path": "evaluation/A/rollout_results.json",
+    "bytes": 22623,
+    "sha256": "be892195a05d66b111dbd8acad6b0334f54d6a9eac44159ef683f2bad9094f78"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/summary.json",
+    "snapshot_path": "evaluation/A/completed_summary.json",
+    "bytes": 25405,
+    "sha256": "c342e8d43cd38f44abc0ee894e508c0a213c25f485c36a5f0f9cfe4215881f6c"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/status.json",
+    "snapshot_path": "evaluation/C/status.json",
+    "bytes": 738,
+    "sha256": "5ced5184a26bca247c0b221fe062fc35fd2ebd2e2879767d6dff8b6d69675a65"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/scene_preflight/results.json",
+    "snapshot_path": "evaluation/C/scene_preflight.json",
+    "bytes": 9424,
+    "sha256": "008c3ed8ae663b99667dd1e088165979ffaa2b9b29d5557688cce6e155bb9a33"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/results.json",
+    "snapshot_path": "evaluation/C/rollout_results.json",
+    "bytes": 22742,
+    "sha256": "2a14b664dc32dc29ce18dfb8cfc42e4aab461ec5e2d74fd3a0229b0ac1d30b11"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/summary.json",
+    "snapshot_path": "evaluation/C/completed_summary.json",
+    "bytes": 25524,
+    "sha256": "8304011cde93464e9fa48cc86259c80b5335a5fa2da5f8621de0a2ce0f96d835"
+  },
+  {
+    "original_path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/diagnostics/test_rollout_contact_sheet.jpg",
+    "snapshot_path": "diagnostics/test_rollout_contact_sheet.jpg",
+    "bytes": 128498,
+    "sha256": "fb5fcf037212dbf8bae55f21707e07418adb49ca76aef38fa971ed95758db7be"
+  }
+]

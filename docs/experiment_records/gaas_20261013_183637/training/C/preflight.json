@@ -1,0 +1,181 @@
+{
+  "status": "passed",
+  "batch_image_sha256": "4a0fb0f1d02ec04041b4275826970c3e0e35c8848d80571e2c25102248d86627",
+  "batch_action_sha256": "a32a1f608f4af317ad95b726967e2d30c1b262adde435fab9562c38f86cd1c23",
+  "sample_keys": [
+    {
+      "episode": 98,
+      "frame": 80
+    },
+    {
+      "episode": 83,
+      "frame": 23
+    },
+    {
+      "episode": 98,
+      "frame": 82
+    },
+    {
+      "episode": 16,
+      "frame": 11
+    }
+  ],
+  "initial_common_weights_sha256": "591f053aeb0e38ea5364a50e4801c860c431fc0c4a79b2b1cfbbd866e67f9150",
+  "reference_parity_verified": true,
+  "reference_statistics_verified": true,
+  "zero_gate_baseline_output_exact": true,
+  "frozen_backbone_no_gradients": true,
+  "production_batch_size": 4,
+  "gradient_accumulation_steps": 2,
+  "effective_batch": 8,
+  "losses": [
+    1.0488703846931458,
+    1.0439289212226868,
+    1.0086264610290527,
+    1.0018583834171295
+  ],
+  "gradient_norms": [
+    {
+      "action_model.net.spatial_gates": 0.0,
+      "action_model.net.spatial_attentions.0.key_value.weight": 0.0,
+      "spatial_proj.weight": 0.0,
+      "spatial_position_proj.0.weight": 0.0,
+      "spatial_output_proj.weight": 0.0
+    },
+    {
+      "action_model.net.spatial_gates": 0.00046298830420710146,
+      "action_model.net.spatial_attentions.0.key_value.weight": 0.0,
+      "spatial_proj.weight": 0.0,
+      "spatial_position_proj.0.weight": 0.0,
+      "spatial_output_proj.weight": 0.0
+    },
+    {
+      "action_model.net.spatial_gates": 5.180745938559994e-05,
+      "action_model.net.spatial_attentions.0.key_value.weight": 7.254384399857372e-07,
+      "spatial_proj.weight": 1.5327723303926177e-06,
+      "spatial_position_proj.0.weight": 2.7827986581741015e-09,
+      "spatial_output_proj.weight": 8.005812333067297e-07
+    },
+    {
+      "action_model.net.spatial_gates": 7.974196341820061e-05,
+      "action_model.net.spatial_attentions.0.key_value.weight": 1.245014459527738e-06,
+      "spatial_proj.weight": 2.3921199954202166e-06,
+      "spatial_position_proj.0.weight": 4.773170747540689e-09,
+      "spatial_output_proj.weight": 1.3318776836968027e-06
+    }
+  ],
+  "calls_during_four_updates": [
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ],
+    [
+      4,
+      24,
+      3,
+      448,
+      592
+    ]
+  ],
+  "seconds_per_update": [
+    4.821032833075151,
+    4.647762886015698,
+    4.623616143129766,
+    4.61763466685079
+  ],
+  "ddim20_single_probe_seconds": {
+    "baseline_registers": 0.7221183308865875,
+    "current_patch_highway": 0.7365265421103686
+  },
+  "spatial_prediction_sensitivity_mae": 9.378791583003476e-05,
+  "trainable_parameters": 358505492,
+  "peak_allocated_gpu_gib": 16.979402542114258,
+  "gpu_name": "NVIDIA H200",
+  "torch_version": "2.4.1+cu124",
+  "visual_info": {
+    "input_shape": [
+      1,
+      3,
+      8,
+      3,
+      448,
+      592
+    ],
+    "calls_per_batch": 1,
+    "images_per_call": 24,
+    "encoding": "joint24",
+    "raw_token_shape": [
+      1,
+      3,
+      8,
+      17,
+      2048
+    ],
+    "raw_memory_tokens": 408,
+    "memory_tokens": 408,
+    "conditioning": "direct",
+    "patch_tokens_in_action_memory": 3108,
+    "spatial_memory_tokens": 3108,
+    "spatial_patch_grid": [
+      28,
+      37
+    ],
+    "spatial_gate_values": [
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612,
+      0.10000000149011612
+    ],
+    "temporal_embedding": "learned",
+    "temporal_rope": false,
+    "observation_mode": "history"
+  },
+  "note": "Four disposable updates allow the zero gate and spatial gradients to open; fresh production discards all probe weights."
+}

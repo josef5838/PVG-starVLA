@@ -1,0 +1,17 @@
+{
+  "variant": "A",
+  "job_id": "85451.gaas",
+  "submitted_utc": "2026-10-13T04:06:41.479287+00:00",
+  "command": [
+    "qsub",
+    "-N",
+    "omega_eval_A10k",
+    "-v",
+    "OMEGA_BUNDLE=/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005,OMEGA_STUDY=/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013,OMEGA_VARIANT=A",
+    "-o",
+    "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/pbs_A.log",
+    "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/source/examples/simBenchmarks/Robotwin/eval_files/omega_paired_10k_gaas_rollout.pbs"
+  ],
+  "stdout": "85451.gaas\n",
+  "stderr": ""
+}

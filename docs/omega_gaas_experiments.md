@@ -1,20 +1,22 @@
 # GAAS Omega experiments and current progress
 
-Observed **2026-10-13 12:43 SGT / 04:43 UTC**. This record covers the GAAS H200
+Observed **2026-10-13 18:36:37 SGT / 10:36:37 UTC**. This record covers the GAAS H200
 experiments; the original workstation's October 12 results remain a separate
 dated section in [the experiment ledger](geometric_action_experiments.md).
-Machine-readable evidence: [summary](experiment_records/gaas_20261013/summary.json)
-and [artifact index](experiment_records/gaas_20261013/artifact_index.json).
-These are observations of live files, not final results or a synchronized
-optimizer-state snapshot. Model weights, datasets, videos and action traces
+Machine-readable evidence: [summary](experiment_records/gaas_20261013_183637/summary.json)
+and [artifact index](experiment_records/gaas_20261013_183637/artifact_index.json).
+The 10K-checkpoint rollout results are complete; training observations are
+provisional and are not a synchronized optimizer-state snapshot. The earlier
+[12:43 SGT snapshot](experiment_records/gaas_20261013/README.md) is retained.
+Model weights, datasets, videos and action traces
 remain at the local paths recorded in the manifests.
 
 ## Training A and C
 
 | Experiment | PBS job / state | Completed updates | Sampled observations | Best active-arm validation MSE | Best update |
 | --- | --- | ---: | ---: | ---: | ---: |
-| A: single-call joint24, direct registers | 84822.gaas / running | 15,260 / 20,000 | 122,080 / 160,000 | 0.0364182 | 15,000 |
-| C: A plus current-patch highway | 84945.gaas / running | 13,740 / 20,000 | 109,920 / 160,000 | 0.0387621 | 13,500 |
+| A: single-call joint24, direct registers | 84822.gaas / running | 19,380 / 20,000 | 155,040 / 160,000 | 0.0318774 | 18,750 |
+| C: A plus current-patch highway | 84945.gaas / running | 17,840 / 20,000 | 142,720 / 160,000 | 0.0305380 | 17,500 |
 
 Both use all 24 images in one frozen Omega512 call: eight chronological
 observations from head/left/right cameras, time-major input order, independent
@@ -36,13 +38,14 @@ batch 4, DDIM20, seed 42, active right-arm indices plus right gripper, and valid
 future commands only, every 250 updates. Full state is saved every 1,000
 updates, with policy milestones at 10,000 and best/final policy weights.
 
-At the latest shared validation budget, **13,500 updates / 108,000 observations**,
-A's active-arm MSE is **0.0416403** and C's is **0.0387621**, approximately 6.9%
-lower for C. Nearby checkpoints fluctuate: C was worse at 12,750 and better at
-13,000/13,250. Neither the unmatched best values in the table nor this small
+At the latest shared validation budget, **17,750 updates / 142,000 observations**,
+A's active-arm MSE is **0.0329414** and C's is **0.0313200**, approximately 4.9%
+lower for C. C is lower at each of the five most recent shared checkpoints,
+16,750 through 17,750, but earlier checkpoints fluctuate. Neither the
+unmatched best values in the table nor this small
 single-seed difference establish a reliable architecture advantage or task
-success. Full curves are retained as [A CSV](experiment_records/gaas_20261013/training/A/validation_history.csv)
-and [C CSV](experiment_records/gaas_20261013/training/C/validation_history.csv).
+success. Full curves are retained as [A CSV](experiment_records/gaas_20261013_183637/training/A/validation_history.csv)
+and [C CSV](experiment_records/gaas_20261013_183637/training/C/validation_history.csv).
 
 A has 331,455,502 trainable parameters; C has 358,505,492, including 27,049,990
 added highway parameters. Their common initial-weight hash, initial training
@@ -92,10 +95,12 @@ and [C GPU preflight](experiment_records/gaas_20261013/training/C/preflight.json
 
 ## Matched 10,000-step rollout evaluation
 
-The exact 10,000-step milestone checkpoints (80,000 observations each) are being
-evaluated while training continues. A's evaluation is **85451.gaas** and C's is
-**85452.gaas**, on separate GPUs in `hpc-gaas-g04`. Both jobs are running.
-The [registered evaluation manifest](experiment_records/gaas_20261013/evaluation/manifest.json)
+The exact 10,000-step milestone checkpoints (80,000 observations each) have
+completed evaluation while training continues. A's evaluation is **85451.gaas**
+and C's is **85452.gaas**, on separate GPUs in `hpc-gaas-g04`. Both jobs finished
+with PBS exit status 0; worker status is completed and all videos passed full
+decoding. These outcomes describe the 10K policies, not later training weights.
+The [registered evaluation manifest](experiment_records/gaas_20261013_183637/evaluation/manifest.json)
 contains checkpoint/config/normalization/reference hashes and full paths.
 
 Both policies use the same scenes selected before observing outcomes:
@@ -117,25 +122,39 @@ eight-image histories captured every control observation and initially
 left-padded, literal `rotate_qrcode`, bf16 policy inference with float32 Omega
 weights, DDIM20, execution horizon 8, and diffusion seed 4000 + chunk index.
 Each episode resets history and diffusion sequence. Videos and action/geometry
-traces are recorded; full video decoding occurs after all eight episodes finish.
+traces are recorded; all sixteen videos have now passed full decoding.
 The rollout source snapshot is `cf32b3592a24da834ca35e3bb623a050e218e18d`.
 
-**Partial outcomes at the observation time:**
+**Completed official outcomes:**
 
-| Policy | Completed test outcomes | Completed train episodes | Total completed |
-| --- | --- | ---: | ---: |
-| A, 10K milestone | 0 successes / 2 completed; episode 24 still pending | 0 / 5 | 2 / 8 |
-| C, 10K milestone | 0 successes / 2 completed; episode 24 still pending | 0 / 5 | 2 / 8 |
+| Policy | Test successes | Train successes | Total completed | Grasp-contact flag | Lift >=4 cm flag |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A, 10K milestone | 0 / 3 | 0 / 5 | 8 / 8 | 1 / 8 | 2 / 8 |
+| C, 10K milestone | 0 / 3 | 0 / 5 | 8 / 8 | 5 / 8 | 2 / 8 |
 
-Episodes 2 and 4 reached the 400-step limit for both policies. A's secondary
-diagnostic labels both failures as grasp; C's are grasp and lift respectively.
-Contact flags are supporting diagnostics, not proof of a stable grasp. The
-remaining test/train episodes are unfinished and must not be counted as failed.
-The worker's `completed_episodes` field is only updated after the full rollout
-command returns; this snapshot counts the persisted episode results directly.
-No completed video-decoding result or completed success-rate comparison is
-claimed yet. See [A partial results](experiment_records/gaas_20261013/evaluation/A/rollout_results.json)
-and [C partial results](experiment_records/gaas_20261013/evaluation/C/rollout_results.json).
+All episodes reached the 400-control-step limit. The secondary failure-phase
+labels are:
+
+| Split | Episode / seed | A failure phase | C failure phase |
+| --- | --- | --- | --- |
+| Test | 2 / 91 | grasp | grasp |
+| Test | 4 / 142 | grasp | lift |
+| Test | 24 / 62 | grasp | rotation |
+| Train | 0 / 131 | grasp | lift |
+| Train | 11 / 181 | grasp | lift |
+| Train | 22 / 9 | lift | grasp |
+| Train | 34 / 256 | grasp | lift |
+| Train | 44 / 240 | grasp | grasp |
+
+Contact and lift flags are supporting diagnostics, not proof of a stable grasp
+or task completion. An object can rise after a collision without passing the
+grasp check. C's more frequent contact flags do not establish a reliable
+architecture advantage in this eight-scene, single-seed evaluation.
+See [A complete results](experiment_records/gaas_20261013_183637/evaluation/A/rollout_results.json),
+[C complete results](experiment_records/gaas_20261013_183637/evaluation/C/rollout_results.json),
+and the [per-episode CSV](experiment_records/gaas_20261013_183637/evaluation/episode_outcomes.csv).
+The machine-readable summary retains the historical field name
+`partial_outcomes`; its counts are final for this completed evaluation.
 
 Rollout protocol: [matched 10K train/test evaluation](omega_paired_10k_gaas_rollouts_20261013.md).
 Large rollout outputs live under
@@ -145,18 +164,65 @@ latest complete optimizer state remains node-local until its runner copies it
 to durable output on ordinary/catchable exit; its milestone/best weights are
 already durable. Complete marker provenance is recorded where locally visible.
 
+## Repeated-motion and visual-conditioning investigation
+
+Inspection of videos suggested similar motions despite different object scenes.
+The [trace analysis](experiment_records/gaas_20261013_183637/diagnostics/visual_sensitivity_trace_analysis.json)
+uses all eight completed scenes per policy. It records each trace's path and
+SHA256 and compares the six active right-arm joints, excluding grippers and the
+idle arm. Each value below is the mean pairwise joint RMSE over 28 scene pairs:
+
+| Control steps, zero-based | A, radians | C, radians |
+| --- | ---: | ---: |
+| First command: 0 | 0.033313 | 0.025540 |
+| First chunk: 0-7 | 0.045776 | 0.039411 |
+| Entire rollout: 0-399 | 0.415069 | 0.110298 |
+| Last 80 commands: 320-399 | 0.478767 | 0.107942 |
+
+Initial command states, task, diffusion seed and history padding are identical
+across scenes; the first chunk varies with the images. This is evidence
+consistent with visual sensitivity, not a proof of correct visual grounding.
+Repeated identical-input/noise-control inference has not been run. Later
+cross-scene comparisons also differ in robot state and interaction history;
+C's smaller trajectory differences do not establish less reliance on vision.
+The [contact sheet](experiment_records/gaas_20261013_183637/diagnostics/test_rollout_contact_sheet.jpg)
+shows video frames 0/80/160/320 for three test scenes per policy. Video-frame
+indices are not control-step indices, and these are early excerpts, not final
+rollout poses.
+
+Potential causes remain hypotheses: command-state shortcuts with zero state
+dropout, distribution shift after a missed grasp, incorrect mapping from frozen
+visual features to robot motion, and executing eight commands before replanning.
+RoboTwin state contains joint drive targets rather than measured physical qpos.
+The input path inspected updates history at every control step, resets per
+episode and re-encodes images for each predicted chunk; no permanently cached
+image bug was found in that inspection.
+
+C's six gates at the **17,840-step training snapshot** are approximately
+[-0.001076, 0.000110, 0.000180, -0.000598, -0.000268, -0.002634]. This is not a
+measurement of the evaluated 10K gates. Nonzero gates show an available spatial
+route but gate magnitude alone cannot establish its actual residual contribution
+or useful object-dependent control. No image intervention, highway-disabled
+ablation, execution-horizon comparison or new state-dropout training has been
+launched in this update.
+
 ## Next work
 
-1. Finish the registered 3-test/5-train milestone rollouts and decode all videos.
-   Report official success and grasp/lift/rotation/placement/release diagnostics
-   separately for test and training scenes; inspect traces/videos for failures.
-2. Finish both 20K training runs, confirm their complete full-state markers, and
+1. Hold robot state and diffusion noise fixed while changing object position in
+   matched images. Measure whether predicted gripper motion responds correctly
+   to object displacement, not just whether action vectors change. Repeat
+   identical inputs to establish inference reproducibility.
+2. Measure C with its highway disabled on matched expert observations; compare
+   action error and spatial-branch residual magnitudes. On a small matched
+   scene set, compare execution horizons 1 and 8 with a specified noise pairing.
+3. Finish both 20K training runs, confirm their complete full-state markers, and
    compare validation at matched observation counts. Decide final/best-checkpoint
    rollouts from the registered protocol, preserving the same scene/input/noise
    contract. No additional suite has been launched in this documentation update.
-3. Before attributing an advantage to spatial information, measure trained C
-   with its highway disabled and consider the registered register-capacity
-   control Creg. Temporal B0/Bfixed and larger-history D/E remain unlaunched.
+4. Use those diagnostics to choose state-dropout training, explicit spatial
+   supervision or recovery-data collection. Consider the registered
+   register-capacity control Creg before attributing an advantage to spatial
+   information. Temporal B0/Bfixed and larger-history D/E remain unlaunched.
    Refresh the original machine's three-call results separately when available.
 
 Capture a future dated observation without overwriting this one:

@@ -1,0 +1,14 @@
+{
+  "job_id": "84945.gaas",
+  "submitted_utc": "2026-10-12T08:54:26.986070+00:00",
+  "command": [
+    "qsub",
+    "-v",
+    "OMEGA_BUNDLE=/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005,OMEGA_STUDY=/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012",
+    "-o",
+    "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/pbs.log",
+    "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012/source/examples/simBenchmarks/Robotwin/train_files/omega_spatial_highway_gaas_train.pbs"
+  ],
+  "stdout": "84945.gaas\n",
+  "stderr": ""
+}

@@ -1,0 +1,362 @@
+{
+  "analysis_utc": "2026-10-13T10:38:01.361532+00:00",
+  "checkpoint_step": 10000,
+  "method": {
+    "joint_indices_simulator_order": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "units": "radians",
+    "aggregation": "For each of 28 unordered pairs of eight scenes, RMSE over the stated control steps and six right-arm joints; report mean/min/max over pairs. Excludes grippers and idle arm.",
+    "initial_comparison": "Same initial command state, task, diffusion seed 4000, history length and padding across eight scenes. First eight commands come from one prediction before feedback.",
+    "limits": "No repeated-input reproducibility/noise control or useful-grounding intervention has been run. Later comparisons do not hold robot state fixed. Smaller cross-scene RMSE does not establish less reliance on vision."
+  },
+  "variants": {
+    "A": {
+      "episodes": 8,
+      "successes": 0,
+      "identical_initial_state": true,
+      "first_joint_commands": [
+        {
+          "seed": 91,
+          "joints_rad": [
+            0.1643567830324173,
+            0.48283955454826355,
+            0.366575688123703,
+            -0.4584544897079468,
+            0.06458467245101929,
+            -0.3758425712585449
+          ]
+        },
+        {
+          "seed": 142,
+          "joints_rad": [
+            0.13603553175926208,
+            0.40745362639427185,
+            0.28809234499931335,
+            -0.3772292137145996,
+            0.05552172660827637,
+            -0.30807018280029297
+          ]
+        },
+        {
+          "seed": 62,
+          "joints_rad": [
+            0.15245594084262848,
+            0.4550836682319641,
+            0.3337620794773102,
+            -0.41482865810394287,
+            0.05770021677017212,
+            -0.30994367599487305
+          ]
+        },
+        {
+          "seed": 131,
+          "joints_rad": [
+            0.16792483627796173,
+            0.48290595412254333,
+            0.35512465238571167,
+            -0.43762707710266113,
+            0.06514310836791992,
+            -0.3512716293334961
+          ]
+        },
+        {
+          "seed": 181,
+          "joints_rad": [
+            0.15128444135189056,
+            0.4590734541416168,
+            0.3432615399360657,
+            -0.43748795986175537,
+            0.06039547920227051,
+            -0.35131072998046875
+          ]
+        },
+        {
+          "seed": 9,
+          "joints_rad": [
+            0.13319823145866394,
+            0.40355929732322693,
+            0.2850693166255951,
+            -0.36388087272644043,
+            0.05137908458709717,
+            -0.299807071685791
+          ]
+        },
+        {
+          "seed": 256,
+          "joints_rad": [
+            0.1359757035970688,
+            0.4020543396472931,
+            0.2874608337879181,
+            -0.3861362934112549,
+            0.05541810393333435,
+            -0.33295297622680664
+          ]
+        },
+        {
+          "seed": 240,
+          "joints_rad": [
+            0.15232861042022705,
+            0.44739237427711487,
+            0.33009234070777893,
+            -0.4154019355773926,
+            0.059800565242767334,
+            -0.34802913665771484
+          ]
+        }
+      ],
+      "pairwise": {
+        "0:1": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.033313082368598514,
+          "min_rmse_rad": 0.007023454370892828,
+          "max_rmse_rad": 0.06928137904192401
+        },
+        "0:8": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.04577593724666913,
+          "min_rmse_rad": 0.01577725881966679,
+          "max_rmse_rad": 0.0880416666693363
+        },
+        "0:400": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.4150687927495427,
+          "min_rmse_rad": 0.1344427306228789,
+          "max_rmse_rad": 0.7137938685321169
+        },
+        "320:400": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.47876729953588126,
+          "min_rmse_rad": 0.07774993871276493,
+          "max_rmse_rad": 0.9245419511703539
+        }
+      },
+      "trace_sources": [
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_91.trace.json",
+          "sha256": "f74b35154040c2e3a79d1fc432f3acee078a76fdc76f718697caf38b1ffbbddb",
+          "steps": 400,
+          "seed": 91
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_142.trace.json",
+          "sha256": "c8c51a761945e0eef74b834247cc8e3099c65a8e5b966277b05b9acfce839b06",
+          "steps": 400,
+          "seed": 142
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/test_seed_62.trace.json",
+          "sha256": "064ee1f93929a09d0abb2aa98f3e69b057dd9e235503d05711067c33f8611bfa",
+          "steps": 400,
+          "seed": 62
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/train_seed_131.trace.json",
+          "sha256": "3c0e126b5f147eebe4fda984577d07d7dea9eb0fecac1fd635e2295d6cce2418",
+          "steps": 400,
+          "seed": 131
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/train_seed_181.trace.json",
+          "sha256": "f4437cae7b1617ea7a47dc93c41a8407db5d893cde7c285a475a7897f13dfedc",
+          "steps": 400,
+          "seed": 181
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/train_seed_9.trace.json",
+          "sha256": "53c00cc1bc30ec0a63b0480e8a46aa61c679b8b1686e22c7d85475cd775ffce8",
+          "steps": 400,
+          "seed": 9
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/train_seed_256.trace.json",
+          "sha256": "97f928fcacf6eadfd12fba40b69e07ba3b087669afa15a14602a049740a5ab4b",
+          "steps": 400,
+          "seed": 256
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/A/rollouts/train_seed_240.trace.json",
+          "sha256": "c7ee28910e61ef37978d6f00dc585505155bd621c149a079aa85039aa2d1b562",
+          "steps": 400,
+          "seed": 240
+        }
+      ]
+    },
+    "C": {
+      "episodes": 8,
+      "successes": 0,
+      "identical_initial_state": true,
+      "first_joint_commands": [
+        {
+          "seed": 91,
+          "joints_rad": [
+            -0.006881949491798878,
+            0.03156566247344017,
+            0.0708654522895813,
+            -0.17629456520080566,
+            0.012357890605926514,
+            0.05894660949707031
+          ]
+        },
+        {
+          "seed": 142,
+          "joints_rad": [
+            -0.013091922737658024,
+            0.0009469264768995345,
+            0.04876554757356644,
+            -0.16677868366241455,
+            0.011630773544311523,
+            0.0855550765991211
+          ]
+        },
+        {
+          "seed": 62,
+          "joints_rad": [
+            -0.0018163938075304031,
+            0.03209808096289635,
+            0.08363868296146393,
+            -0.19678819179534912,
+            0.013954311609268188,
+            0.05819368362426758
+          ]
+        },
+        {
+          "seed": 131,
+          "joints_rad": [
+            0.00347153446637094,
+            0.053075436502695084,
+            0.08329223096370697,
+            -0.179007887840271,
+            0.017044097185134888,
+            0.059814453125
+          ]
+        },
+        {
+          "seed": 181,
+          "joints_rad": [
+            0.003072207560762763,
+            0.043304692953825,
+            0.08609044551849365,
+            -0.19881117343902588,
+            0.017624765634536743,
+            0.028713703155517578
+          ]
+        },
+        {
+          "seed": 9,
+          "joints_rad": [
+            -0.010715678334236145,
+            0.007545309606939554,
+            0.05157002806663513,
+            -0.16569781303405762,
+            0.011219322681427002,
+            0.080718994140625
+          ]
+        },
+        {
+          "seed": 256,
+          "joints_rad": [
+            -0.0062248595058918,
+            0.003600112162530422,
+            0.06543660908937454,
+            -0.1910785436630249,
+            0.012007832527160645,
+            0.07154178619384766
+          ]
+        },
+        {
+          "seed": 240,
+          "joints_rad": [
+            0.013226351700723171,
+            0.08847630023956299,
+            0.12897513806819916,
+            -0.2273627519607544,
+            0.01704731583595276,
+            0.01497650146484375
+          ]
+        }
+      ],
+      "pairwise": {
+        "0:1": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.025540215219008785,
+          "min_rmse_rad": 0.003691783103614027,
+          "max_rmse_rad": 0.0625416191800502
+        },
+        "0:8": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.03941132786584285,
+          "min_rmse_rad": 0.011023542017082595,
+          "max_rmse_rad": 0.07600436108989468
+        },
+        "0:400": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.11029776366743242,
+          "min_rmse_rad": 0.05294327152127279,
+          "max_rmse_rad": 0.1729962605092565
+        },
+        "320:400": {
+          "scene_pairs": 28,
+          "mean_rmse_rad": 0.10794153767802885,
+          "min_rmse_rad": 0.023134239518174744,
+          "max_rmse_rad": 0.19616060643348662
+        }
+      },
+      "trace_sources": [
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/test_seed_91.trace.json",
+          "sha256": "1e89cb41352306e3f617f1f2bbfc0cd1ec6e3aa3465ef1fdabe28662c2f71c82",
+          "steps": 400,
+          "seed": 91
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/test_seed_142.trace.json",
+          "sha256": "b35cf7d444a53e3a8f3a1440263e371b8d59fdadc2964cc252b7178c1fb0dd23",
+          "steps": 400,
+          "seed": 142
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/test_seed_62.trace.json",
+          "sha256": "08135d76a6f48584c3013dcbfde7f79a7a4df30128de94f4e4e72cabb03b30e8",
+          "steps": 400,
+          "seed": 62
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/train_seed_131.trace.json",
+          "sha256": "c72f242861f512b7cbbba7ad8de7658233079d1ad07b552b323b90ad71a4e66f",
+          "steps": 400,
+          "seed": 131
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/train_seed_181.trace.json",
+          "sha256": "2f98cecc4852168fcc153a77ba045e7224b49003a3feec97b83a15d0c6fd29d3",
+          "steps": 400,
+          "seed": 181
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/train_seed_9.trace.json",
+          "sha256": "04bf48c02e70aba2e58095bde4722792b6146826a073a64f9d6f64497292405c",
+          "steps": 400,
+          "seed": 9
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/train_seed_256.trace.json",
+          "sha256": "e3b5930d003880fbeb7e80d7eee3b92f78f661322343e6593abede1d19c8e736",
+          "steps": 400,
+          "seed": 256
+        },
+        {
+          "path": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_AC_10000_20261013/C/rollouts/train_seed_240.trace.json",
+          "sha256": "39d082067d45343b84f0b9893f0ac295274e82f7d081cfa78d7d7db41305c754",
+          "steps": 400,
+          "seed": 240
+        }
+      ]
+    }
+  }
+}

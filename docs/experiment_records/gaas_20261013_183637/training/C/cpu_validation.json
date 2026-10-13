@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "targeted_tests": 24,
+  "groups": {
+    "camera_stream_and_spatial_highway": 10,
+    "budget_base_policy_and_deployment_history": 14
+  },
+  "syntax_and_whitespace_checks": "passed",
+  "config_diff": "only spatial highway and output/storage paths",
+  "completed_utc": "2026-10-12T08:53:49.517071+00:00"
+}

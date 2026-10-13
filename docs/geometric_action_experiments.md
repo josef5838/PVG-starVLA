@@ -4,22 +4,36 @@
 
 The [GAAS experiment record](omega_gaas_experiments.md) documents the single-call
 baseline A, implemented current-patch highway C, batch benchmark, passed CPU/GPU
-preflights, and their paired 10K milestone rollouts. Evidence observed at
-**2026-10-13 12:43 SGT** is committed under
-[gaas_20261013](experiment_records/gaas_20261013/README.md).
+preflights, and their completed paired 10K milestone rollouts. Latest evidence
+observed at **2026-10-13 18:36:37 SGT** is committed under
+[gaas_20261013_183637](experiment_records/gaas_20261013_183637/README.md).
+The earlier [12:43 SGT partial snapshot](experiment_records/gaas_20261013/README.md)
+remains available.
 
 | GAAS experiment | PBS training job | Progress / 20K updates | Best active-arm validation MSE |
 | --- | --- | ---: | ---: |
-| A: joint24 single-call direct registers | 84822.gaas, running | 15,260 | 0.0364182 at 15K |
-| C: A plus gated current-patch highway | 84945.gaas, running | 13,740 | 0.0387621 at 13.5K |
+| A: joint24 single-call direct registers | 84822.gaas, running | 19,380 | 0.0318774 at 18.75K |
+| C: A plus gated current-patch highway | 84945.gaas, running | 17,840 | 0.0305380 at 17.5K |
 
 Both retain effective batch 8, LR 3e-4 and a 160K observation budget with matched
-data, initialization and schedules. At a matched 13.5K updates, validation MSE
-is 0.0416403 for A and 0.0387621 for C; results fluctuate and task success is
-still being measured. Their 10K-checkpoint evaluation jobs 85451/85452.gaas are
-running on three matched test and five matched training scenes each. All eight
-scene checks passed per policy. Each has completed two test rollouts with zero
-successes; remaining test/train scenes are pending. This is partial evidence.
+data, initialization and schedules. At a matched 17.75K updates, validation MSE
+is 0.0329414 for A and 0.0313200 for C, about 4.9% lower for C. Training remains
+in progress; offline MSE is not task success.
+
+Their 10K-checkpoint evaluation jobs 85451/85452.gaas both completed with exit
+status 0 and all videos decoded. Both policies scored **0/3 test and 0/5 train**
+on the eight preregistered, verified scenes. A/C grasp-contact flags were 1/8
+and 5/8; lift >=4 cm flags were 2/8 for both. These secondary flags do not prove
+stable grasps or successful completion. Later training checkpoints have not
+been evaluated.
+
+Full eight-scene trace comparisons show different initial predictions despite
+matched initial state/noise, consistent with visual sensitivity. C's later
+trajectories are more similar across scenes, but that does not measure useful
+visual grounding or establish a state shortcut. The GAAS record documents
+the measurements, unresolved hypotheses and proposed image/geometry,
+highway-disabled and execution-horizon diagnostics. No new diagnostic suite
+or training variant was launched in this documentation update.
 
 ## Original workstation snapshot — 2026-10-12
 

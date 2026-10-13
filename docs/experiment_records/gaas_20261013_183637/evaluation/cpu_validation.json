@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "tests": 13,
+  "coverage": [
+    "scene identity and camera order",
+    "native cameras and preserved field of view",
+    "stride-one deployment history"
+  ],
+  "checkpoint_and_normalization_hashes_verified": true,
+  "split_membership_verified": true,
+  "syntax_checks": "passed"
+}

@@ -1,0 +1,17 @@
+variant,split,episode,seed,success,steps,grasp_contact,lift_4cm,max_lift_m,failure_phase
+A,test,2,91,False,400,False,False,2.3245811462402344e-06,grasp
+A,test,4,142,False,400,False,False,0.0021535754203796387,grasp
+A,test,24,62,False,400,False,True,0.04711103439331055,grasp
+A,train,0,131,False,400,False,True,0.06407040357589722,grasp
+A,train,11,181,False,400,False,False,0.028686463832855225,grasp
+A,train,22,9,False,400,True,False,0.0027240514755249023,lift
+A,train,34,256,False,400,False,False,4.231929779052734e-06,grasp
+A,train,44,240,False,400,False,False,0.02333962917327881,grasp
+C,test,2,91,False,400,False,False,0.0002530813217163086,grasp
+C,test,4,142,False,400,True,False,0.0034633874893188477,lift
+C,test,24,62,False,400,True,True,0.06403827667236328,rotation
+C,train,0,131,False,400,True,False,0.00451129674911499,lift
+C,train,11,181,False,400,True,False,0.0010811090469360352,lift
+C,train,22,9,False,400,False,False,1.1920928955078125e-07,grasp
+C,train,34,256,False,400,True,False,4.172325134277344e-07,lift
+C,train,44,240,False,400,False,True,0.08707034587860107,grasp
