@@ -1,0 +1,25 @@
+{
+  "captured_utc": "2026-10-14T04:26:45.332059+00:00",
+  "artifacts": [
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_object_position_20261014/manifest.json",
+      "file": "manifest.json",
+      "sha256": "934251e349d124fff1fc1d486c0078d823ccdce36af81b293fc890e46bf69c66"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_object_position_20261014/pbs_submission.json",
+      "file": "pbs_submission.json",
+      "sha256": "31d12a2a4b0fa5f845c12f090c4ea558160d9ad4b0be9c31eb6b1cd911cfa9b5"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_A_20000_object_position_20261014/source_hashes.json",
+      "file": "source_hashes.json",
+      "sha256": "8ae771b77d96a117bebef257c0998d387d22e32462fbdc2360d38ae0c8f82841"
+    },
+    {
+      "source": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_A_20000_conditioning_20261013/conditioning_comparison.json",
+      "file": "prior_four_condition_comparison.json",
+      "sha256": "652d21a69a28153dfa1a526539a2f5bcfb4cb91be413c68b189121f6942b3848"
+    }
+  ]
+}

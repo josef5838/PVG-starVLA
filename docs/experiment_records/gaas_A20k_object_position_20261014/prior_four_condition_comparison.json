@@ -1,0 +1,259 @@
+{
+  "observed_utc": "2026-10-13T16:33:50.999632+00:00",
+  "checkpoint_step": 20000,
+  "model": "A",
+  "variants": {
+    "full": {
+      "status": "completed",
+      "completed_episodes": 8,
+      "state_conditioning": "full",
+      "visual_conditioning": true,
+      "splits": {
+        "test": {
+          "completed": 3,
+          "successes": 0,
+          "grasp_contacts": 0,
+          "lifts_4cm": 1
+        },
+        "train": {
+          "completed": 5,
+          "successes": 0,
+          "grasp_contacts": 1,
+          "lifts_4cm": 1
+        }
+      }
+    },
+    "vision_only": {
+      "status": "completed",
+      "completed_episodes": 8,
+      "state_conditioning": "none",
+      "visual_conditioning": true,
+      "splits": {
+        "test": {
+          "completed": 3,
+          "successes": 0,
+          "grasp_contacts": 3,
+          "lifts_4cm": 1
+        },
+        "train": {
+          "completed": 5,
+          "successes": 0,
+          "grasp_contacts": 1,
+          "lifts_4cm": 2
+        }
+      }
+    },
+    "state_only": {
+      "status": "completed",
+      "completed_episodes": 8,
+      "state_conditioning": "full",
+      "visual_conditioning": false,
+      "splits": {
+        "test": {
+          "completed": 3,
+          "successes": 0,
+          "grasp_contacts": 0,
+          "lifts_4cm": 0
+        },
+        "train": {
+          "completed": 5,
+          "successes": 0,
+          "grasp_contacts": 0,
+          "lifts_4cm": 0
+        }
+      }
+    },
+    "task_only": {
+      "status": "completed",
+      "completed_episodes": 8,
+      "state_conditioning": "none",
+      "visual_conditioning": false,
+      "splits": {
+        "test": {
+          "completed": 3,
+          "successes": 0,
+          "grasp_contacts": 2,
+          "lifts_4cm": 0
+        },
+        "train": {
+          "completed": 5,
+          "successes": 0,
+          "grasp_contacts": 2,
+          "lifts_4cm": 0
+        }
+      }
+    }
+  },
+  "paired_with_full": [
+    {
+      "variant": "vision_only",
+      "episode": 0,
+      "seed": 131,
+      "first_chunk_rmse_rad": 1.0502865331891933,
+      "whole_rollout_rmse_rad": 1.2412792480280486
+    },
+    {
+      "variant": "vision_only",
+      "episode": 2,
+      "seed": 91,
+      "first_chunk_rmse_rad": 0.8666712605915067,
+      "whole_rollout_rmse_rad": 1.0717015984709657
+    },
+    {
+      "variant": "vision_only",
+      "episode": 4,
+      "seed": 142,
+      "first_chunk_rmse_rad": 0.834982608569186,
+      "whole_rollout_rmse_rad": 1.1521867298008932
+    },
+    {
+      "variant": "vision_only",
+      "episode": 11,
+      "seed": 181,
+      "first_chunk_rmse_rad": 0.8514838869301086,
+      "whole_rollout_rmse_rad": 1.0897317475665107
+    },
+    {
+      "variant": "vision_only",
+      "episode": 22,
+      "seed": 9,
+      "first_chunk_rmse_rad": 0.8158696728518031,
+      "whole_rollout_rmse_rad": 1.0962694744530015
+    },
+    {
+      "variant": "vision_only",
+      "episode": 24,
+      "seed": 62,
+      "first_chunk_rmse_rad": 0.887900328341419,
+      "whole_rollout_rmse_rad": 1.112877072570458
+    },
+    {
+      "variant": "vision_only",
+      "episode": 34,
+      "seed": 256,
+      "first_chunk_rmse_rad": 0.830975060369299,
+      "whole_rollout_rmse_rad": 1.2264070843105586
+    },
+    {
+      "variant": "vision_only",
+      "episode": 44,
+      "seed": 240,
+      "first_chunk_rmse_rad": 0.9511268588512362,
+      "whole_rollout_rmse_rad": 1.0882532243962693
+    },
+    {
+      "variant": "state_only",
+      "episode": 0,
+      "seed": 131,
+      "first_chunk_rmse_rad": 0.2857470878390894,
+      "whole_rollout_rmse_rad": 0.8684263920012181
+    },
+    {
+      "variant": "state_only",
+      "episode": 2,
+      "seed": 91,
+      "first_chunk_rmse_rad": 0.19113899881693297,
+      "whole_rollout_rmse_rad": 0.5106808657532245
+    },
+    {
+      "variant": "state_only",
+      "episode": 4,
+      "seed": 142,
+      "first_chunk_rmse_rad": 0.16093560108090182,
+      "whole_rollout_rmse_rad": 0.697393729418055
+    },
+    {
+      "variant": "state_only",
+      "episode": 11,
+      "seed": 181,
+      "first_chunk_rmse_rad": 0.16637844569854163,
+      "whole_rollout_rmse_rad": 0.6976871306587353
+    },
+    {
+      "variant": "state_only",
+      "episode": 22,
+      "seed": 9,
+      "first_chunk_rmse_rad": 0.19262113794521082,
+      "whole_rollout_rmse_rad": 0.6483693577224319
+    },
+    {
+      "variant": "state_only",
+      "episode": 24,
+      "seed": 62,
+      "first_chunk_rmse_rad": 0.1993725519448357,
+      "whole_rollout_rmse_rad": 0.5159652905441509
+    },
+    {
+      "variant": "state_only",
+      "episode": 34,
+      "seed": 256,
+      "first_chunk_rmse_rad": 0.14665168649507523,
+      "whole_rollout_rmse_rad": 0.59789751921555
+    },
+    {
+      "variant": "state_only",
+      "episode": 44,
+      "seed": 240,
+      "first_chunk_rmse_rad": 0.23162793508880872,
+      "whole_rollout_rmse_rad": 0.5845580520748207
+    },
+    {
+      "variant": "task_only",
+      "episode": 0,
+      "seed": 131,
+      "first_chunk_rmse_rad": 0.5083352017656972,
+      "whole_rollout_rmse_rad": 1.158606121410067
+    },
+    {
+      "variant": "task_only",
+      "episode": 2,
+      "seed": 91,
+      "first_chunk_rmse_rad": 0.5865899332705903,
+      "whole_rollout_rmse_rad": 1.0062806007566252
+    },
+    {
+      "variant": "task_only",
+      "episode": 4,
+      "seed": 142,
+      "first_chunk_rmse_rad": 0.5824499425022645,
+      "whole_rollout_rmse_rad": 1.0815946345998917
+    },
+    {
+      "variant": "task_only",
+      "episode": 11,
+      "seed": 181,
+      "first_chunk_rmse_rad": 0.6297758526685959,
+      "whole_rollout_rmse_rad": 0.9942560570282704
+    },
+    {
+      "variant": "task_only",
+      "episode": 22,
+      "seed": 9,
+      "first_chunk_rmse_rad": 0.5679760876224231,
+      "whole_rollout_rmse_rad": 1.039358993602958
+    },
+    {
+      "variant": "task_only",
+      "episode": 24,
+      "seed": 62,
+      "first_chunk_rmse_rad": 0.5679854492401474,
+      "whole_rollout_rmse_rad": 0.9814823306712439
+    },
+    {
+      "variant": "task_only",
+      "episode": 34,
+      "seed": 256,
+      "first_chunk_rmse_rad": 0.5730811856837527,
+      "whole_rollout_rmse_rad": 1.0306823415452275
+    },
+    {
+      "variant": "task_only",
+      "episode": 44,
+      "seed": 240,
+      "first_chunk_rmse_rad": 0.5693025751122888,
+      "whole_rollout_rmse_rad": 1.0250693635605452
+    }
+  ],
+  "limitations": "Inference masking is out of training distribution. Later trajectories differ in feedback states; action RMSE does not prove useful conditioning. TCP-to-center distance ignores object shape and is not grasp success.",
+  "status": "completed"
+}

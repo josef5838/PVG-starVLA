@@ -251,3 +251,24 @@ See [A 20K conditioning protocol and job registration](omega_A20k_conditioning_g
 Inference masking tests dependence on the available routes and introduces
 inputs unseen during training; it cannot alone prove harmful overreliance.
 The previous dated 10K evidence and training snapshot above remain unchanged.
+
+## A 20K diagnostics update, 2026-10-14
+
+All four conditioning workers 85749–85752.gaas finished with PBS exit 0,
+eight rollouts each and full video validation. All conditions scored 0/3 test
+and 0/5 train. Full/vision-only/state-only/task-only recorded grasp contact
+in 1/4/0/4 of eight scenes and lift >=4 cm in 2/3/0/0. These secondary flags
+can result from collisions and are not stable-grasp or task success evidence.
+Mean first-chunk active-joint RMSE versus full was 0.886162 rad without explicit
+state, 0.196809 rad without vision, and 0.573187 rad with task only. This
+supports stronger explicit-state dependence and a nonzero visual effect,
+without proving harmful overreliance under inference masking.
+
+A controlled object-position diagnostic was submitted as **86207.gaas** at
+12:25 SGT. It uses the same final A weights, eight registered scenes, fixed
+state/task/noise, 40 rerendered scenes, 360 action predictions and 72 repeat
+checks, with successful expert-pair response summaries and a state-only
+negative control. It was queued at first check; results are pending.
+**No C evaluation or new training run was queued.**
+See [controlled object-position protocol](omega_A20k_object_position_gaas_protocol_20261014.md)
+and its archived prior four-condition comparison for complete evidence.

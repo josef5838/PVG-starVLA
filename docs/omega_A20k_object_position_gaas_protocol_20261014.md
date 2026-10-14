@@ -74,3 +74,16 @@ Implementation: `tools/run_omega_object_position_gaas.py`,
 `tools/robotwin_omega_object_position.py`, `tools/probe_omega_object_position.py`,
 `tools/omega_object_position_metrics.py`.
 PBS: `examples/simBenchmarks/Robotwin/eval_files/omega_object_position_20k_gaas.pbs`.
+
+## Job registration
+
+Submitted **86207.gaas** at **2026-10-14 12:25:28 SGT**. The first PBS check
+showed queued, waiting for resources. Local compilation, PBS shell syntax and
+directional-scoring checks passed. Worker CPU route tests, capture, prediction
+and FK scoring are pending; no intervention outcome is claimed here.
+Source commit: `26a60581e4d5ea6bd5580fa6a1debc19f52a3c9c`, with 2,008 tracked
+files copied and hashed before submission.
+
+See [registered manifest](experiment_records/gaas_A20k_object_position_20261014/manifest.json),
+[submission receipt](experiment_records/gaas_A20k_object_position_20261014/pbs_submission.json),
+and [prior completed four-condition comparison](experiment_records/gaas_A20k_object_position_20261014/prior_four_condition_comparison.json).
