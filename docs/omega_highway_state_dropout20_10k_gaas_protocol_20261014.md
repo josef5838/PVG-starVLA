@@ -61,3 +61,29 @@ Preparation: `tools/prepare_omega_highway_dropout_gaas.py`.
 Worker: `tools/run_omega_joint24_gaas.py`.
 GPU preflight: `tools/preflight_omega_spatial_highway.py`.
 PBS: `examples/simBenchmarks/Robotwin/train_files/omega_highway_dropout20_10k_gaas_train.pbs`.
+
+## Job registration
+
+Submitted **86363.gaas** at **2026-10-14 18:25:59 SGT**. The first check found
+it running on hpc-gaas-g04. All five CPU tests passed on that worker, all
+registered dataset checksums matched, and the GPU preflight was in progress.
+Training results are pending in this submission record.
+Immutable source: `fd53980caccea42a120ef92823b964df4a4147aa`
+(2,018 tracked files copied and hashed).
+
+See [manifest](experiment_records/gaas_C_dropout20_10k_20261014/manifest.json),
+[configuration](experiment_records/gaas_C_dropout20_10k_20261014/C_dropout20.yaml),
+and [submission receipt](experiment_records/gaas_C_dropout20_10k_20261014/pbs_submission.json).
+
+Checkpoint/output directory:
+`/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_highway_state_dropout20_10000steps_gaas_20261014_102247/`.
+
+The real-batch GPU preflight subsequently **passed** on NVIDIA H200, including
+p=.2 dropout-route checks, original common initialization and data/statistics
+parity, zero-gate baseline equivalence, frozen-backbone checks and working
+spatial/gate gradients. Four disposable probe updates took 4.62–4.76 seconds
+each, with 16.98 GiB peak allocation. Production initialized fresh and entered
+training; early updates in the production log were finite. The preflight's
+artificial gate=.1 sensitivity check is discarded and does not warm-start
+production. See [GPU preflight](experiment_records/gaas_C_dropout20_10k_20261014/preflight.json)
+and [actual production config](experiment_records/gaas_C_dropout20_10k_20261014/production.yaml).

@@ -272,3 +272,25 @@ negative control. It was queued at first check; results are pending.
 **No C evaluation or new training run was queued.**
 See [controlled object-position protocol](omega_A20k_object_position_gaas_protocol_20261014.md)
 and its archived prior four-condition comparison for complete evidence.
+
+## Fresh highway C state-dropout training, 2026-10-14 18:25 SGT
+
+At the user's request, submitted **86363.gaas** for a fresh seed-42 highway C
+training run with 20% complete explicit-state-token dropout, 10,000 updates
+and 80,000 sampled observations. The existing highway, frozen Omega, dataset,
+split, normalization, effective batch8, optimizer and validation settings are
+preserved. The original 20K cosine LR horizon is retained while optimization
+stops at 10K, matching the LR trajectory of C's original 10K milestone.
+Validation/deployment uses full state. No trained checkpoint is resumed.
+
+The job was running at first check, with five CPU tests and all dataset checksum
+verification passed; real-batch GPU preflight was in progress. Production
+starts only after initialization/data/statistics, mask semantics and highway
+gradient checks pass. No new evaluation was submitted with this training run.
+See [registered protocol/config/job](omega_highway_state_dropout20_10k_gaas_protocol_20261014.md).
+
+The C dropout worker's GPU preflight subsequently passed on H200: p=.2 route
+semantics, original initialization/data/normalization parity, zero-gate
+baseline equivalence, frozen Omega and useful spatial gradients were verified.
+Fresh production training has started. The archived submission record includes
+the real-batch preflight and actual production configuration.

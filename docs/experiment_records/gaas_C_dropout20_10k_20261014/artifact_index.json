@@ -1,0 +1,45 @@
+{
+  "captured_utc": "2026-10-14T10:29:02.126603+00:00",
+  "artifacts": [
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/manifest.json",
+      "file": "manifest.json",
+      "sha256": "8a8d469db34f83eb2737a4422319667f41691e76d9e4a4534dbc7cf8acdab4e1"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/C_dropout20.yaml",
+      "file": "C_dropout20.yaml",
+      "sha256": "035e38a7b6388d6442ff13c3388efce1f78953a7cc2bcdd62e55333ee9a16706"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/pbs_submission.json",
+      "file": "pbs_submission.json",
+      "sha256": "c1383b47afc61c3dc4fcd9f5fa07035176d075f78a9332ca43d570292d9d81d2"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/cpu_preflight.log",
+      "file": "cpu_preflight.log",
+      "sha256": "1c62dc3b179724321d99948b5b859ed3b3c676e29a3033aa9ce04a5d5295926b"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/source_hashes.json",
+      "file": "source_hashes.json",
+      "sha256": "dd9707d8e7ddb676b1ae6425f38134437c744b97b564a606b927721e5f81798d"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/production.yaml",
+      "file": "production.yaml",
+      "sha256": "035e38a7b6388d6442ff13c3388efce1f78953a7cc2bcdd62e55333ee9a16706"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/preflight.json",
+      "file": "preflight.json",
+      "sha256": "05fa44cb098aec7746bac5231a9db2cf8cdd70686ceba79a8b8825bf392703d3"
+    },
+    {
+      "source": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014/preflight_dataset_statistics.json",
+      "file": "preflight_dataset_statistics.json",
+      "sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a"
+    }
+  ]
+}
