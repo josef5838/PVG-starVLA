@@ -54,6 +54,17 @@ def normalize_dotlist_args(args):
     return normalized
 
 
+def scheduler_training_steps(cfg):
+    """Allow a shorter run to preserve a reference run's LR trajectory."""
+    requested = cfg.trainer.get("lr_schedule_steps")
+    if requested is None:
+        return cfg.trainer.max_train_steps
+    steps = int(requested)
+    if steps < int(cfg.trainer.max_train_steps) or steps <= int(cfg.trainer.num_warmup_steps):
+        raise ValueError("LR schedule must cover training and extend beyond warmup")
+    return steps
+
+
 def setup_optimizer_and_scheduler(model, cfg) -> Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler._LRScheduler]:
     """Build AdamW optimizer + LR scheduler from cfg.trainer.
 
@@ -82,7 +93,7 @@ def setup_optimizer_and_scheduler(model, cfg) -> Tuple[torch.optim.Optimizer, to
         name=cfg.trainer.lr_scheduler_type,
         optimizer=optimizer,
         num_warmup_steps=cfg.trainer.num_warmup_steps,
-        num_training_steps=cfg.trainer.max_train_steps,
+        num_training_steps=scheduler_training_steps(cfg),
         scheduler_specific_kwargs=sched_kwargs,
     )
 

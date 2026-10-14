@@ -63,6 +63,26 @@ def main():
     for key, value in parity.items():
         assert value == reference[key], f"Reference mismatch: {key}"
 
+    state_dropout = float(cfg.framework.state_dropout_prob)
+    dropout_verified = False
+    if state_dropout > 0:
+        # Check real state tokens, retained task and both visual routes. The four
+        # disposable optimizer updates below then use the requested probability.
+        model.eval()
+        with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
+            full, full_memory = model._condition(batch)
+            model.config.framework.state_dropout_prob = 1.0
+            masked, masked_memory = model._condition(batch, apply_dropout=True)
+            assert torch.count_nonzero(masked[:, :4]) == 0
+            torch.testing.assert_close(masked[:, 4:], full[:, 4:], rtol=0, atol=0)
+            for route in ("registers", "spatial"):
+                torch.testing.assert_close(masked_memory[route], full_memory[route], rtol=0, atol=0)
+            model.config.framework.state_dropout_prob = state_dropout
+            evaluated, _ = model._condition(batch, apply_dropout=False)
+            torch.testing.assert_close(evaluated, full, rtol=0, atol=0)
+        del full, full_memory, masked, masked_memory, evaluated
+        dropout_verified = True
+
     # Probe a nonzero common output head so initial parity is not vacuous.
     head = model.action_model.net.final_layer.linear
     saved_head = head.weight.detach().clone()
@@ -140,6 +160,7 @@ def main():
         inference_seconds[label] = time.perf_counter()-started
         assert sampled.shape == (1,16,14) and np.isfinite(sampled).all()
     result = dict(status="passed",**parity,reference_parity_verified=True,reference_statistics_verified=True,
+                  state_dropout_prob=state_dropout,state_dropout_routes_verified=dropout_verified,
                   zero_gate_baseline_output_exact=True,frozen_backbone_no_gradients=True,
                   production_batch_size=4,gradient_accumulation_steps=2,effective_batch=8,
                   losses=losses,gradient_norms=gradients,calls_during_four_updates=calls,

@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 from omegaconf import OmegaConf
+from prepare_omega_joint24_gaas import digest
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -54,6 +55,13 @@ def main():
 
     try:
         update("starting", pbs_job_id=os.environ.get("PBS_JOBID"), hostname=os.uname().nodename)
+        if manifest.get("verify_dataset_checksums"):
+            update("verifying_inputs")
+            assert digest(manifest["config"]) == manifest["config_sha256"]
+            root = Path(manifest["dataset_bundle_root"])
+            for relative, expected in manifest["dataset_checksums"].items():
+                assert digest(root / relative) == expected, f"Dataset changed: {relative}"
+            update("starting", dataset_checksums_verified=True)
         if manifest.get("fixed_batch", False):
             shutil.copy2(manifest["config"], production)
             cfg = OmegaConf.load(production)

@@ -49,6 +49,7 @@ from starVLA.training.trainer_utils.trainer_tools import (
     TrainerUtils,
     build_param_lr_groups,
     normalize_dotlist_args,
+    scheduler_training_steps,
 )
 
 if os.environ.get("STARVLA_DISABLE_DEEPSPEED", "").lower() in {"1", "true", "yes"}:
@@ -122,7 +123,7 @@ def setup_optimizer_and_scheduler(model, cfg) -> Tuple[torch.optim.Optimizer, to
         name=cfg.trainer.lr_scheduler_type,
         optimizer=optimizer,
         num_warmup_steps=cfg.trainer.num_warmup_steps,
-        num_training_steps=cfg.trainer.max_train_steps,
+        num_training_steps=scheduler_training_steps(cfg),
         scheduler_specific_kwargs=sched_kwargs,
     )
 
