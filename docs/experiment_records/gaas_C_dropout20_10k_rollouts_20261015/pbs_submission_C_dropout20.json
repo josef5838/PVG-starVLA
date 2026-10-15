@@ -1,0 +1,17 @@
+{
+  "variant": "C_dropout20",
+  "job_id": "86685.gaas",
+  "submitted_utc": "2026-10-15T03:54:06.533196+00:00",
+  "command": [
+    "/opt/pbs/bin/qsub",
+    "-N",
+    "omega_eval_Cdrop10k",
+    "-v",
+    "OMEGA_BUNDLE=/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005,OMEGA_STUDY=/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015,OMEGA_VARIANT=C_dropout20",
+    "-o",
+    "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/pbs_C_dropout20.log",
+    "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/source/examples/simBenchmarks/Robotwin/eval_files/omega_paired_10k_gaas_rollout.pbs"
+  ],
+  "stdout": "86685.gaas\n",
+  "stderr": ""
+}

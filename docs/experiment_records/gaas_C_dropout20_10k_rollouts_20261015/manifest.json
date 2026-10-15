@@ -1,0 +1,431 @@
+{
+  "status": "queued",
+  "task": "rotate_qrcode",
+  "checkpoint_step": 10000,
+  "result_root": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/evaluations/rotate_qrcode_C_dropout20_10000_20261015",
+  "rollout_scenes": [
+    {
+      "episode": 2,
+      "source_episode": 38,
+      "seed": 91,
+      "length": 85,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.06370126456022263,
+        -0.0015428181504830718,
+        0.7417186498641968
+      ],
+      "quaternion": [
+        0.09519539773464203,
+        0.0953475832939148,
+        0.7006655335426331,
+        0.7006529569625854
+      ],
+      "initial_orientation_error_deg": 164.5134962056138,
+      "rotation_offset_deg": 15.486508798135182,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.5464105902777776,
+        "left_camera": 4.9422439236111115,
+        "right_camera": 4.979874131944444
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 4,
+      "source_episode": 54,
+      "seed": 142,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.14182208478450775,
+        -0.042892590165138245,
+        0.7408433556556702
+      ],
+      "quaternion": [
+        0.08255179971456528,
+        0.082863450050354,
+        0.702799379825592,
+        0.7017064690589905
+      ],
+      "initial_orientation_error_deg": 166.5659044565184,
+      "rotation_offset_deg": 13.434414065609863,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1927039930555554,
+        "left_camera": 5.027894965277778,
+        "right_camera": 5.185915798611111
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 24,
+      "source_episode": 26,
+      "seed": 62,
+      "length": 83,
+      "split": "test",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.22672906517982483,
+        -0.07083754986524582,
+        0.7417187690734863
+      ],
+      "quaternion": [
+        -0.11594399809837341,
+        -0.11583615094423294,
+        0.6976036429405212,
+        0.6974869966506958
+      ],
+      "initial_orientation_error_deg": 161.13409791715276,
+      "rotation_offset_deg": 18.865906554704424,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.384314236111111,
+        "left_camera": 4.949453125,
+        "right_camera": 5.035303819444445
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.7105598958333333,
+        "left_camera": 1.4805598958333333,
+        "right_camera": 1.4649479166666666
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 0,
+      "source_episode": 51,
+      "seed": 131,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 3,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16950176656246185,
+        -0.050992451608181,
+        0.7413286566734314
+      ],
+      "quaternion": [
+        0.21744917333126068,
+        0.21756082773208618,
+        0.673008143901825,
+        0.672639012336731
+      ],
+      "initial_orientation_error_deg": 144.17086970177212,
+      "rotation_offset_deg": 35.829144855350634,
+      "orientation_bin": "30deg-plus",
+      "initial_image_mae": {
+        "head_camera": 2.483203125,
+        "left_camera": 5.005052083333333,
+        "right_camera": 5.199826388888889
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 11,
+      "source_episode": 67,
+      "seed": 181,
+      "length": 82,
+      "split": "train",
+      "arm": "right",
+      "model_id": 1,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.10111125558614731,
+        -0.12563687562942505,
+        0.7417187690734863
+      ],
+      "quaternion": [
+        0.127598837018013,
+        0.12775367498397827,
+        0.695481538772583,
+        0.6954876780509949
+      ],
+      "initial_orientation_error_deg": 159.1950677847864,
+      "rotation_offset_deg": 20.804936088700433,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.2858680555555555,
+        "left_camera": 4.959314236111111,
+        "right_camera": 4.977374131944444
+      },
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 22,
+      "source_episode": 5,
+      "seed": 9,
+      "length": 85,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.18927964568138123,
+        -0.009806056506931782,
+        0.7408434152603149
+      ],
+      "quaternion": [
+        -0.03605952113866806,
+        -0.035937268286943436,
+        0.7067404389381409,
+        0.7056389451026917
+      ],
+      "initial_orientation_error_deg": 174.16368792736762,
+      "rotation_offset_deg": 5.837004084605381,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1996006944444444,
+        "left_camera": 5.006805555555555,
+        "right_camera": 6.027013888888889
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.912734375,
+        "left_camera": 1.5048307291666667,
+        "right_camera": 1.7370182291666667
+      },
+      "photometric_shift_flag": true,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 34,
+      "source_episode": 96,
+      "seed": 256,
+      "length": 83,
+      "split": "train",
+      "arm": "right",
+      "model_id": 0,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.12521278858184814,
+        -0.09112037718296051,
+        0.7408432960510254
+      ],
+      "quaternion": [
+        0.05736936256289482,
+        0.05743691697716713,
+        0.7050045728683472,
+        0.7045413255691528
+      ],
+      "initial_orientation_error_deg": 170.68717567008989,
+      "rotation_offset_deg": 9.31290192612379,
+      "orientation_bin": "0-15deg",
+      "initial_image_mae": {
+        "head_camera": 3.1713802083333333,
+        "left_camera": 5.026380208333333,
+        "right_camera": 5.177330729166667
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.9452083333333333,
+        "left_camera": 1.4945703125,
+        "right_camera": 1.5071875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    },
+    {
+      "episode": 44,
+      "source_episode": 87,
+      "seed": 240,
+      "length": 84,
+      "split": "train",
+      "arm": "right",
+      "model_id": 2,
+      "observation_matches_source_t": true,
+      "action_matches_source_t_plus_1": true,
+      "position": [
+        0.16924776136875153,
+        -0.052851755172014236,
+        0.7413653135299683
+      ],
+      "quaternion": [
+        -0.09230322390794754,
+        -0.09232831001281738,
+        0.7009590268135071,
+        0.7011505961418152
+      ],
+      "initial_orientation_error_deg": 164.99676261660545,
+      "rotation_offset_deg": 15.00324564512039,
+      "orientation_bin": "15-30deg",
+      "initial_image_mae": {
+        "head_camera": 2.6502560763888887,
+        "left_camera": 5.034578993055556,
+        "right_camera": 5.494644097222222
+      },
+      "initial_grayscale_mae": {
+        "head_camera": 0.8457291666666666,
+        "left_camera": 1.5023958333333334,
+        "right_camera": 1.6113671875
+      },
+      "photometric_shift_flag": false,
+      "initial_state_max_error": 0.0
+    }
+  ],
+  "scene_reference_data": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/scene_references.npz",
+  "scene_reference_sha256": "9d15184950ed2f1dc2634a2f583277eb0b03ed3b34f175adf31ca3993740c159",
+  "source": "/export/home/haoliang/projects/RoboTwin/data/rotate_qrcode/demo_clean",
+  "source_registry": "/home/n2506021c/PVG-starVLA-geometric-review/docs/experiment_records/20261012/evidence/omega_camera_stream_training/rotate_qrcode_20261010_135404/manifest.json",
+  "source_registry_sha256": "c48b8942d11731c7150987cf4bc6ae7d085d71defb50b72175e7341d0d65ddcb",
+  "selected_dataset_checksums": {
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000002.parquet": "90e55c323aa7fcccefcbdd04725d8124a8c4a9a9d13e5a07c88d30977e4d2cb3",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000004.parquet": "cfac6b8186af96430c89e236bf7e5d33c1e38b7414a9d393dd8d6408f57ac9f1",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000024.parquet": "4e93c726b143f060d29f4514807f14202683577f73dfc698753f20f0944669e3",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000000.parquet": "0e9ab7cf30db705b0f65521b55c8b85ffd139e77b1b5b439411ee9bf7248bcac",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000011.parquet": "fbcc76832c97b858ab418f558567cb0b7ec7f609e5d59eea14d49fd82be5c96a",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000022.parquet": "a9f8c1a4b5036fe84c92fa47ad8afe35dd8b7cb01686091d15992ba42a624155",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000034.parquet": "5157744c543b0affbc5fb107db6e0fb1eb1809a77da95e9430dc2813f238f7e2",
+    "/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005/data/rotate_qrcode/data/chunk-000/episode_000044.parquet": "61b71c6cb17d60e68ea057db2773dc7fd86c05c611c34ad116e3aec80c38812c"
+  },
+  "native_camera_contract": true,
+  "initial_image_validation": {
+    "grayscale_mae_limit": 6,
+    "rgb_mae_soft_limit": 6,
+    "note": "Source recordings have a blue tint relative to the current renderer. Fresh seed9 reproduces the same geometry/state/model with RGB MAE 6.027; RGB errors are reported, grayscale MAE checks spatial agreement. No policy outcomes used."
+  },
+  "camera_order": [
+    "head_camera",
+    "left_camera",
+    "right_camera"
+  ],
+  "diffusion_seed": 4000,
+  "num_ddim_steps": 20,
+  "execute_horizon": 8,
+  "history_length": 8,
+  "history_stride": 1,
+  "image_size": [
+    640,
+    480
+  ],
+  "selection_policy": "First three test and first five registered train scenes by episode ID, before policy evaluation",
+  "total_policy_rollouts": 8,
+  "expert_controls": false,
+  "simulator_root": "/home/n2506021c/RoboTwin_PVG",
+  "simulator_python": "/home/n2506021c/miniconda3/envs/robotwin-gaas/bin/python",
+  "policy_python": "/home/n2506021c/miniconda3/envs/surflo-dit-cu124/bin/python",
+  "runtime_note": "GAAS simulator differs from source workstation; verify every initial state, object model/arm/pose and grayscale image against registry/local data before rollout",
+  "created_utc": "2026-10-15T03:53:00.953519+00:00",
+  "experiment": "C dropout20 matched 10K rollouts",
+  "runs": [
+    {
+      "variant": "C_dropout20",
+      "model": "C",
+      "training_study": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_state_dropout20_10k_gaas_20261014",
+      "checkpoint": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_highway_state_dropout20_10000steps_gaas_20261014_102247/checkpoints/steps_10000_pytorch_model.pt",
+      "checkpoint_step": 10000,
+      "checkpoint_sha256": "7ccd9518ddecde8688d607b3ad4cf043e4139a59cdf520eda2d2dcf3b6b49ba0",
+      "config": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_highway_state_dropout20_10000steps_gaas_20261014_102247/config.full.yaml",
+      "config_sha256": "035e38a7b6388d6442ff13c3388efce1f78953a7cc2bcdd62e55333ee9a16706",
+      "normalization": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_highway_state_dropout20_10000steps_gaas_20261014_102247/dataset_statistics.json",
+      "normalization_sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a",
+      "state_conditioning": "full",
+      "visual_conditioning": true,
+      "port": 5794
+    }
+  ],
+  "reference_study": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_AC_10000_20261013/manifest.json",
+  "reference_manifest_sha256": "e9b5f2ec1c46ba0d98b4ff5dfaa348ca299b2802a259687271c80b4b71af31d2",
+  "control_run": {
+    "variant": "C",
+    "training_study": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_training/rotate_qrcode_highway_C_gaas_20261012",
+    "checkpoint": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/checkpoints/steps_10000_pytorch_model.pt",
+    "checkpoint_step": 10000,
+    "checkpoint_sha256": "2fb2e9208acb2d5c497dfecce57691d2c20dfc6109580ab8d996d633b0fd4693",
+    "config": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/config.full.yaml",
+    "config_sha256": "742c3c7770ab4eb44cc1b7cc91dfb66b93adfbc88fc174830c5bf8f316c2d97c",
+    "normalization": "/projects_vol/gp_chuanxia.zheng/n2506021c/PVG-starVLA/checkpoints/omega_joint24_rotate_qrcode_current_patch_highway_20000steps_gaas_20261012_085101/dataset_statistics.json",
+    "normalization_sha256": "4e47808c99a7880ee762e9ee0ba781d5ed741f841216a87d2990e22f5618f65a"
+  },
+  "training_completion": {
+    "status": "completed",
+    "completed_updates": 10000,
+    "target_updates": 10000,
+    "consumed_batches": 20000,
+    "consumed_observations": 80000,
+    "visual_info": {
+      "input_shape": [
+        4,
+        3,
+        8,
+        3,
+        448,
+        592
+      ],
+      "calls_per_batch": 1,
+      "images_per_call": 24,
+      "encoding": "joint24",
+      "raw_token_shape": [
+        4,
+        3,
+        8,
+        17,
+        2048
+      ],
+      "raw_memory_tokens": 408,
+      "memory_tokens": 408,
+      "conditioning": "direct",
+      "patch_tokens_in_action_memory": 3108,
+      "spatial_memory_tokens": 3108,
+      "spatial_patch_grid": [
+        28,
+        37
+      ],
+      "spatial_gate_values": [
+        0.0006991215632297099,
+        0.0011865124106407166,
+        -0.001232060370966792,
+        -0.00034211156889796257,
+        -0.0013215885264798999,
+        0.0017497148364782333
+      ],
+      "temporal_embedding": "learned",
+      "temporal_rope": false,
+      "observation_mode": "history"
+    },
+    "latest_metrics": null,
+    "peak_allocated_gpu_gib": 16.979402542114258,
+    "updated_unix": 1792025219.9955378
+  },
+  "preflight_tool": "preflight_omega_conditioning_rollouts.py",
+  "record_conditioning_geometry": true,
+  "evaluation_note": "Same eight scenes, resets, cameras, history, DDIM seeds and execution horizon as prior A/C 10K. Full state and vision; training dropout disabled during inference. Use the 10K milestone, not best-validation selection.",
+  "source_commit": "a12c0c3f750a9aac83f67516088022ebce3e2edf",
+  "source_snapshot": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/source",
+  "source_hashes": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/source_hashes.json",
+  "source_file_count": 2029,
+  "pbs_script": "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/source/examples/simBenchmarks/Robotwin/eval_files/omega_paired_10k_gaas_rollout.pbs",
+  "pbs_jobs": [
+    {
+      "variant": "C_dropout20",
+      "job_id": "86685.gaas",
+      "submitted_utc": "2026-10-15T03:54:06.533196+00:00",
+      "command": [
+        "/opt/pbs/bin/qsub",
+        "-N",
+        "omega_eval_Cdrop10k",
+        "-v",
+        "OMEGA_BUNDLE=/home/n2506021c/PVG-starVLA/results/TransferBundles/omega512_20261005,OMEGA_STUDY=/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015,OMEGA_VARIANT=C_dropout20",
+        "-o",
+        "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/pbs_C_dropout20.log",
+        "/home/n2506021c/PVG-starVLA-geometric-review/results/omega_camera_stream_evaluation/rotate_qrcode_C_dropout20_10000_20261015/source/examples/simBenchmarks/Robotwin/eval_files/omega_paired_10k_gaas_rollout.pbs"
+      ],
+      "stdout": "86685.gaas\n",
+      "stderr": ""
+    }
+  ]
+}

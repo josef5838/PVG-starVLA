@@ -40,3 +40,17 @@ Large outputs:
 Preparation: `tools/prepare_omega_highway_dropout_rollouts_gaas.py`.
 Worker: `tools/run_omega_paired_rollouts_gaas.py`.
 PBS: `examples/simBenchmarks/Robotwin/eval_files/omega_paired_10k_gaas_rollout.pbs`.
+
+## Submission
+
+Submitted **86685.gaas** at **2026-10-15 11:54 SGT**. The first scheduler
+check found it running on **hpc-gaas-g10**. Scene and GPU preflights and
+rollout outcomes are pending in this submission record. No additional
+checkpoint or conditioning variants were queued.
+
+Immutable source: `a12c0c3f750a9aac83f67516088022ebce3e2edf`
+(2,029 tracked files copied and hashed).
+
+See [manifest](experiment_records/gaas_C_dropout20_10k_rollouts_20261015/manifest.json),
+[submission receipt](experiment_records/gaas_C_dropout20_10k_rollouts_20261015/pbs_submission_C_dropout20.json),
+and [training validation summary](experiment_records/gaas_C_dropout20_10k_rollouts_20261015/training_validation_summary.json).

@@ -87,3 +87,16 @@ training; early updates in the production log were finite. The preflight's
 artificial gate=.1 sensitivity check is discarded and does not warm-start
 production. See [GPU preflight](experiment_records/gaas_C_dropout20_10k_20261014/preflight.json)
 and [actual production config](experiment_records/gaas_C_dropout20_10k_20261014/production.yaml).
+
+## Completed training, 2026-10-15
+
+PBS 86363.gaas completed with exit 0 at 08:47 SGT after 14h21m. It finished
+10,000 updates and 80,000 sampled observations, retaining best/final/10K
+weights and latest optimizer/RNG/cursor state. Final validation active-action
+MSE was 0.067631; best was 0.055829 at step 8,250. Original C at the same
+10K budget had 0.049457. These metrics measure expert-action fit and do not
+establish visual grounding or closed-loop success.
+
+The user subsequently requested [matched 10K rollout evaluation](omega_C_dropout20_10k_gaas_rollouts_20261015.md),
+submitted as 86685.gaas at 11:54 SGT, using the same three test and five train
+scenes and full state at inference. Rollout results remain pending.

@@ -294,3 +294,18 @@ semantics, original initialization/data/normalization parity, zero-gate
 baseline equivalence, frozen Omega and useful spatial gradients were verified.
 Fresh production training has started. The archived submission record includes
 the real-batch preflight and actual production configuration.
+
+## C state-dropout training completed; matched evaluation, 2026-10-15
+
+Training 86363.gaas completed successfully at 08:47 SGT: 10,000 updates,
+80,000 observations, final validation active-action MSE 0.067631 and best
+0.055829 at 8,250 (original C at 10K: 0.049457). Checkpoints and full latest
+training state are saved. Validation fit worsened; rollout and grounding
+behavior still require direct evaluation.
+
+At the user's request, submitted **86685.gaas** at 11:54 SGT for the same
+three test and five train scenes used for A/C at 10K. Use the dropout model's
+10K milestone, full state and vision, DDIM20, identical seeds, native cameras,
+history8 and execute8. First scheduler check: running on hpc-gaas-g10.
+Scene/GPU preflights and eight video/action-trace outcomes remain pending.
+See [matched evaluation protocol and receipt](omega_C_dropout20_10k_gaas_rollouts_20261015.md).
