@@ -42,6 +42,8 @@ def main():
     assert condition.shape == (1, 5, 1024) and torch.isfinite(condition).all()
     if run["state_conditioning"] == "none":
         assert torch.count_nonzero(condition[:, :4]) == 0
+    else:
+        assert torch.count_nonzero(condition[:, :4]) > 0, "Full-state inference masked every state token"
     assert torch.count_nonzero(condition[:, 4:]) > 0
     if not run["visual_conditioning"]:
         assert isinstance(memory, torch.Tensor) and torch.count_nonzero(memory) == 0
@@ -74,7 +76,7 @@ def main():
         np.testing.assert_allclose(original, altered, rtol=0, atol=1e-6)
         assert not calls, "Vision-disabled sampling called Omega"
     hook.remove()
-    report = dict(status="passed", variant=args.variant, checkpoint=run["checkpoint"], checkpoint_step=20000,
+    report = dict(status="passed", variant=args.variant, checkpoint=run["checkpoint"], checkpoint_step=run["checkpoint_step"],
                   state_conditioning=run["state_conditioning"], visual_conditioning=run["visual_conditioning"],
                   diffusion_seed=4000, num_ddim_steps=20, input_episode=manifest["rollout_scenes"][0]["episode"],
                   repeat_max_action_difference=float(np.max(np.abs(original - repeated))),
